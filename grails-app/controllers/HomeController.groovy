@@ -2,7 +2,6 @@ import grails.converters.*
 
 class HomeController {
 	def feedService
-	def summaryService
 	def quickStartService
 	def findingService
 	
@@ -17,11 +16,7 @@ class HomeController {
 		//get LCCC feed
 		def feedMap = feedService.getFeed()
 		
-		//session.patientSummary = summaryService.patientSummary()
-		//session.studySummary = summaryService.studySummary()
-		
 		//get patient counts for each study
-		session.studyCounts = summaryService.patientCounts()
 		def studies = StudyDataSource.list();
 		def findings = findingService.getAllFindings()
 		def da = quickStartService.getMyDataAvailability(studies)
@@ -82,13 +77,6 @@ class HomeController {
 		diseaseBreakdown['<i>TOTAL</i>']['availableData'] = totalData
 		log.debug diseaseBreakdown
 		log.debug dataBreakdown
-		
-		//get anatomic sources
-		def sampleSummary = summaryService.sampleSummary()
-		if(sampleSummary instanceof Map){
-			session.sampleSummary = sampleSummary
-			session.anatomicSourceValues = summaryService.anatomicSources(sampleSummary)
-		}
 		
 		[diseaseBreakdown:diseaseBreakdown, dataBreakdown:dataBreakdown, feedMap:feedMap, findings:findings]
 	}

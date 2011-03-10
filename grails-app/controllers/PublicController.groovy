@@ -4,7 +4,6 @@ class PublicController {
 	
 	def quickStartService
 	def findingService
-	def summaryService
 	
     def findings = { 
 	    log.debug "accessing findings"
@@ -89,13 +88,6 @@ class PublicController {
 		diseaseBreakdown['<i>TOTAL</i>']['availableData'] = totalData
 		log.debug diseaseBreakdown
 		log.debug dataBreakdown
-		
-		//get anatomic sources
-		def sampleSummary = summaryService.sampleSummary()
-		if(sampleSummary instanceof Map){
-			session.sampleSummary = sampleSummary
-			session.anatomicSourceValues = summaryService.anatomicSources(sampleSummary)
-		}
 		
 		render diseaseBreakdown as JSON
 	}
