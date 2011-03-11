@@ -1,6 +1,8 @@
 import org.apache.commons.lang.StringUtils
 
 class GdocTagLib {
+	def extensionService
+	
 	def navigationLink = { attrs, body ->
 		if (attrs.controller == params.controller && !attrs.id){
 			out << "<h3>${attrs.name}</h3>"
@@ -46,6 +48,15 @@ class GdocTagLib {
 
 	// close the tag, with no body 
 			out << ' />' 
+	}
+	
+	def analysisLinks = { attrs ->
+		def links = extensionService.getAnalysisLinks()
+		links.each { key, value ->
+			out << link([controller: key]){value}
+			out << '<br/>'
+		}
+		
 	}
 	
 }
