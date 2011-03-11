@@ -56,7 +56,6 @@ class GdocTagLib {
 			out << "No analysis extensions installed"
 		links.each { key, value ->
 			out << link([controller: key]){value}
-			out << '<br/><br/>'
 		}
 		
 	}
@@ -67,7 +66,6 @@ class GdocTagLib {
 			out << "No search extensions installed"
 		links.each { key, value ->
 			out << link([controller: key]){value}
-			out << '<br/><br/>'
 		}
 		
 	}

@@ -150,13 +150,7 @@
 									<td>
 										
 											<p style="font-size:.8em;margin-top:20px">
-											<g:link controller="clinical" style="color:#336699;">Clinical Data</g:link><br /><br />
-											<g:link controller="genomeBrowser" style="color:#336699;">Browse Genome</g:link><br /><br />
-											<g:link controller="moleculeTarget" style="color:#336699;">Compounds/Drug Targets</g:link> <br /><br />
-											<g:link controller="geneExpression" style="color:#336699;">Gene Expression</g:link><br /><br />
-											<g:link controller="studyDataSource" style="color:#336699;">Studies</g:link> <br /><br />
-											<g:link controller="finding" style="color:#336699;">Findings</g:link> <br />
-											<!--span style="color:gray;text-decoration:underline">Biospecimens (future feature)</span><br /-->
+											<g:searchLinks/>
 											</p><br />
 									</td>
 								</tr>
@@ -167,14 +161,7 @@
 									</td>
 									<td style="padding-bottom:5px">
 											<p style="font-size:.8em;margin-top:10px">
-											<g:link controller="analysis" style="color:#336699;">Group Comparison</g:link><br /><br />
-											<g:link controller="km" style="color:#336699;">KM Plots</g:link><br /><br />
-											<g:link controller="heatMap" style="color:#336699;">HeatMap Viewer</g:link><br /><br />
-											<g:link controller="pca" style="color:#336699;">Classification</g:link><br /><br />
-											<g:link controller="cin" style="color:#336699;">Chromosomal Instability Index</g:link><br />
-											<!--span style="color:gray;text-decoration:underline">Correlations/Multi-Omics (future feature)</span><br /><br />
-											<span style="color:gray;text-decoration:underline">Pathways/Networks (future feature)</span><br /-->
-											
+											<g:analysisLinks/>
 											</p>
 									</td>
 								</tr>
