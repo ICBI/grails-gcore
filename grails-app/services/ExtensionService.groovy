@@ -16,9 +16,17 @@ class ExtensionService implements InitializingBean {
 	}
 	
 	def getAnalysisLinks() {
+		return buildLinks(ExtensionType.ANALYSIS)
+	}
+	
+	def getSearchLinks() {
+		return buildLinks(ExtensionType.SEARCH)
+	}
+	
+	private def buildLinks(type) {
 		def links = [:]
 		extensionMap.each { key, value ->
-			if(value.type() == ExtensionType.ANALYSIS) {
+			if(value.type() == type) {
 				links[key.logicalPropertyName] = value.menu()
 			}
 		}

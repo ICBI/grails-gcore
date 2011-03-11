@@ -52,9 +52,22 @@ class GdocTagLib {
 	
 	def analysisLinks = { attrs ->
 		def links = extensionService.getAnalysisLinks()
+		if(!links)
+			out << "No analysis extensions installed"
 		links.each { key, value ->
 			out << link([controller: key]){value}
-			out << '<br/>'
+			out << '<br/><br/>'
+		}
+		
+	}
+	
+	def searchLinks = { attrs ->
+		def links = extensionService.getSearchLinks()
+		if(!links)
+			out << "No search extensions installed"
+		links.each { key, value ->
+			out << link([controller: key]){value}
+			out << '<br/><br/>'
 		}
 		
 	}
