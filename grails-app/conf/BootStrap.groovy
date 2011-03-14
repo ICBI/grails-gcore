@@ -5,14 +5,10 @@ import grails.util.GrailsUtil
 import org.apache.commons.lang.StringUtils
 
 class BootStrap {
-	def quickStartService
-	
      def init = { servletContext ->
 		
 		switch (GrailsUtil.environment) {
 	       case ["development","sandbox"]:
-				def da = quickStartService.getDataAvailability()
-				servletContext.setAttribute("dataAvailability", da)
 				
 				//load the properties file and put props into system properties
 		     	//Load the the application properties and set them as system properties
@@ -36,12 +32,6 @@ class BootStrap {
 		  		  System.setProperty(key, val);
 		  		}
 	           break;
-			case "test":
-				break;	
-			default:
-				def da = quickStartService.getDataAvailability()
-				servletContext.setAttribute("dataAvailability", da)
-				break;
 	   	}
 		
 		// Setup metaclass methods for string 
@@ -51,8 +41,6 @@ class BootStrap {
 			return displayValue
 		}
 		
-		// Domain class fix
-		UserList.get(-1)
      }
      def destroy = {
      }

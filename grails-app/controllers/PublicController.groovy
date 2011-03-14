@@ -2,7 +2,7 @@ import grails.converters.*
 
 class PublicController {
 	
-	def quickStartService
+	def dataAvailableService
 	def findingService
 	
     def findings = { 
@@ -35,7 +35,7 @@ class PublicController {
 		def totalStudies = 0
 		def totalData = new HashSet()
 		def studies = StudyDataSource.list();
-		def da = quickStartService.getMyDataAvailability(studies)
+		def da = dataAvailableService.getMyDataAvailability(studies)
 		if(da["dataAvailability"]){
 			totalStudies = da["dataAvailability"].size()
 		da["dataAvailability"].each{ study ->

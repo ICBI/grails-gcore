@@ -7,7 +7,7 @@ class CollaborationGroupsController {
 	def securityService
 	def invitationService
 	def userListService
-	def quickStartService
+	def dataAvailableService
 	def savedAnalysisService
 	def searchResults
 	def mailService
@@ -33,7 +33,7 @@ class CollaborationGroupsController {
 			def sharedAnalysisIds = []
 			sharedAnalysisIds = savedAnalysisService.getSharedAnalysisIds(session.userId,true)
 			session.sharedAnalysisIds = sharedAnalysisIds
-			session.dataAvailability = quickStartService.getMyDataAvailability(session.myStudies)
+			session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
 			session.myCollaborationGroups = myCollaborationGroups
 			log.debug "reloaded all membership data"
 	}

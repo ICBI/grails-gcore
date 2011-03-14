@@ -1,7 +1,7 @@
 import grails.converters.*
 
 class AdminController {
-	def quickStartService
+	def dataAvailableService
 	def cleanupService
 	def securityService
 	def searchResults
@@ -24,10 +24,10 @@ class AdminController {
 	
 	def reload = {
 		log.debug("reload available data")
-	    quickStartService.loadDataAvailability()
-		def da = quickStartService.getDataAvailability()
+	    dataAvailableService.loadDataAvailability()
+		def da = dataAvailableService.getDataAvailability()
 		servletContext.setAttribute("dataAvailability", da)
-		session.dataAvailability = quickStartService.getMyDataAvailability(session.myStudies)
+		session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
 		log.debug("finished reloading data")
 		redirect(action:index)
 		return 

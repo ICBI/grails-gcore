@@ -2,7 +2,7 @@ import grails.converters.*
 
 class HomeController {
 	def feedService
-	def quickStartService
+	def dataAvailableService
 	def findingService
 	
     def index = { 
@@ -19,7 +19,7 @@ class HomeController {
 		//get patient counts for each study
 		def studies = StudyDataSource.list();
 		def findings = findingService.getAllFindings()
-		def da = quickStartService.getMyDataAvailability(studies)
+		def da = dataAvailableService.getMyDataAvailability(studies)
 		def diseaseBreakdown = [:]
 		def dataBreakdown = [:]
 		def totalPatient = 0

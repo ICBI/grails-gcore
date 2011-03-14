@@ -3,7 +3,7 @@ class WorkflowsController {
 	def savedAnalysisService
 	def userListService
 	def middlewareService
-	def quickStartService
+	def dataAvailableService
 	def cleanupService
 	def invitationService
 	
@@ -67,11 +67,10 @@ class WorkflowsController {
 			def sharedAnalysisIds = []
 			sharedAnalysisIds = savedAnalysisService.getSharedAnalysisIds(session.userId,true)
 			session.sharedAnalysisIds = sharedAnalysisIds
-			session.dataAvailability = quickStartService.getMyDataAvailability(session.myStudies)
+			session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
 
 			
 			session.myCollaborationGroups = myCollaborationGroups
-			loadRemoteSources()
 			session.profileLoaded = true
 			log.debug session.myCollaborationGroups
 			
@@ -110,24 +109,6 @@ class WorkflowsController {
 			}
 		}
 		return artifactsTBD
-	}
-	
-	def loadRemoteSources() {
-		def middlewareSources = middlewareService.loadResource("Datasource", null, session.userId)
-		def dataSourceMap = [:]
-		log.debug middlewareSources
-		if(middlewareSources instanceof Map) {
-			middlewareSources.each { key, value ->
-				value.resources.each {
-					if(!dataSourceMap[it]) {
-						dataSourceMap[it] = []
-					}
-					dataSourceMap[it] << key
-				}
-			}
-		}
-		log.debug dataSourceMap
-		session.dataSourceMap = dataSourceMap
 	}
 	
 }
