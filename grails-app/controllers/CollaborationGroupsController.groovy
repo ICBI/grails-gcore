@@ -13,11 +13,11 @@ class CollaborationGroupsController {
 	def mailService
 	
 	def reloadMembershipAndStudyData(){
-			def studyNames = securityService.getSharedItemIds(session.userId, StudyDataSource.class.name,true)
+			def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,true)
 			def myStudies = []
 		
 			studyNames.each{
-				def foundStudy = StudyDataSource.findByShortName(it)
+				def foundStudy = Study.findByShortName(it)
 				if(foundStudy){
 					myStudies << foundStudy
 				}

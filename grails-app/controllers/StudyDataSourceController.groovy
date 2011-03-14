@@ -13,17 +13,17 @@ class StudyDataSourceController {
 	def htDataService
 	
     def index = { 
-		def studyNames = securityService.getSharedItemIds(session.userId, StudyDataSource.class.name,false)
+		def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,false)
 		log.debug studyNames
 		myStudies = []
 		studyNames.each{
-			def foundStudy = StudyDataSource.findByShortName(it)
+			def foundStudy = Study.findByShortName(it)
 			if(foundStudy){
 				myStudies << foundStudy
 			}
 		}
 		myStudies = myStudies.sort{ it.shortName }
-		otherStudies = StudyDataSource.findAll()
+		otherStudies = Study.findAll()
 		otherStudies.sort { it.shortName }
 		log.debug myStudies
 		if(myStudies.metaClass.respondsTo(myStudies, "size")) {
@@ -40,7 +40,7 @@ class StudyDataSourceController {
 			def allowedStudyAccess = session.myStudies.find{it.id == studyid}
 			if(allowedStudyAccess){
 				log.debug "set study to $params.study"
-				def currStudy = StudyDataSource.get(params.study)
+				def currStudy = Study.get(params.study)
 				session.study = currStudy
 				StudyContext.setStudy(session.study.schemaName)
 				session.dataTypes = AttributeType.findAll().sort { it.longName }
@@ -88,7 +88,7 @@ class StudyDataSourceController {
 	}
 	
 	def show = {
-		def currStudy = StudyDataSource.get(params.id)
+		def currStudy = Study.get(params.id)
 		def allowAccess = false
 		if(currStudy?.hasClinicalData()){
 			StudyContext.setStudy(currStudy.schemaName)

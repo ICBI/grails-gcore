@@ -22,7 +22,7 @@ class Contact {
 				//studies component: true
 		}
 	}
-	//static hasMany = [studies: StudyDataSource]
+	//static hasMany = [studies: Study]
 	//static fetchMode = [studies: "eager"]
 	
 	String firstName

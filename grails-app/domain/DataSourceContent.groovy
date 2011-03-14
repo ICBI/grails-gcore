@@ -12,7 +12,7 @@ class DataSourceContent {
     static constraints = {
     }
 
-	StudyDataSource studyDataSource
+	Study studyDataSource
 	String type
 	Integer showInGui
 }

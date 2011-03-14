@@ -34,7 +34,7 @@ class PublicController {
 		def totalPatient = 0
 		def totalStudies = 0
 		def totalData = new HashSet()
-		def studies = StudyDataSource.list();
+		def studies = Study.list();
 		def da = dataAvailableService.getMyDataAvailability(studies)
 		if(da["dataAvailability"]){
 			totalStudies = da["dataAvailability"].size()

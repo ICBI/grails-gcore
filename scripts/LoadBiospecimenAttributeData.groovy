@@ -22,7 +22,7 @@ target(main: "Load biospecimen data into the DB") {
 		println "Cannot find biospecimen attribute data file at dataImport/${projectName}/${projectName}_biospecimen_table.txt.  Please check the study name and try again."
 		return
 	}
-	def dataSourceClass = classLoader.loadClass('StudyDataSource')
+	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
 	while(!study) {
 		println "Project with name: $projectName does not exist.  Unable to load biospecimen data."

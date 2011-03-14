@@ -622,7 +622,7 @@ def createList(userName, listName, listItems, studies, tags) {
 		}
 		studies.each {
 			if(it){
-				def ds = StudyDataSource.findBySchemaName(it)
+				def ds = Study.findBySchemaName(it)
 				userListInstance.addToStudies(ds)
 			}
 		}
@@ -655,7 +655,7 @@ def createList(userName, listName, listItems, studies, tags) {
 			}
 			studies.each {
 				if(it){
-					def ds = StudyDataSource.findBySchemaName(it)
+					def ds = Study.findBySchemaName(it)
 					userListInstance.addToStudies(ds)
 				}
 			}

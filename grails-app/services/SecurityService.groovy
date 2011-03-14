@@ -544,7 +544,7 @@ class SecurityService {
 			artifacts = ProtectedArtifact.executeQuery(artifactHQL, [type: itemType, groups: groups])
 			artifacts.flatten()
 			def ids = []
-			if(itemType == StudyDataSource.class.name){
+			if(itemType == Study.class.name){
 				artifacts.each {
 					ids << it.objectId
 				}
@@ -569,12 +569,12 @@ class SecurityService {
 
 		private getAccessibleIds(user, type,ids) {
 				def accessibleIds = []
-				def studyNames = this.getSharedItemIds(user.username, StudyDataSource.class.name,null)
+				def studyNames = this.getSharedItemIds(user.username, Study.class.name,null)
 				println "my shared studies are $studyNames"
-				def studyHQL = "SELECT distinct study FROM StudyDataSource study " + 
+				def studyHQL = "SELECT distinct study FROM Study study " + 
 				"WHERE study.shortName IN (:studyNames) "
 				def studies = []
-				studies = StudyDataSource.executeQuery(studyHQL, [studyNames: studyNames])
+				studies = Study.executeQuery(studyHQL, [studyNames: studyNames])
 				if(type == UserList.class.name){
 					def artifactHQL = "SELECT distinct list.id FROM UserList list JOIN list.studies studies " + 
 					"WHERE studies IN (:studies) "

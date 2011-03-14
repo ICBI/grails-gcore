@@ -63,7 +63,7 @@ class BiospecimenService {
 	}
 	
 	def createBiospecimensForStudy(studyName, biospecimens,biospecimenAndData,auditInfo) {
-		def studyDataSource = StudyDataSource.findByShortName(studyName)
+		def studyDataSource = Study.findByShortName(studyName)
 		if(!studyDataSource)
 			return
 		StudyContext.setStudy(studyDataSource.schemaName)
@@ -76,7 +76,7 @@ class BiospecimenService {
 	}
 	
 	def addDataValuesToBiospecimen(projectName, biospecimenName, values, auditInfo) {
-		def studyDataSource = StudyDataSource.findByShortName(projectName)
+		def studyDataSource = Study.findByShortName(projectName)
 		if(!studyDataSource)
 			return
 		StudyContext.setStudy(studyDataSource.schemaName)

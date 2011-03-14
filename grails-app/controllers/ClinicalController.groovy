@@ -168,7 +168,7 @@ class ClinicalController {
 		if(request.JSON['study']){
 			def shortName = request.JSON['study']
 			log.debug "set study to $shortName"
-			def study = StudyDataSource.findByShortName(shortName)
+			def study = Study.findByShortName(shortName)
 			StudyContext.setStudy(study.schemaName)
 		}
 		log.debug "PATIENT IDS: $patientIds"
@@ -196,7 +196,7 @@ class ClinicalController {
 		if(request.JSON['study']){
 			def shortName = request.JSON['study']
 			log.debug "set study to $shortName"
-			def study = StudyDataSource.findByShortName(shortName)
+			def study = Study.findByShortName(shortName)
 			session.study = study
 			StudyContext.setStudy(study.schemaName)
 		}

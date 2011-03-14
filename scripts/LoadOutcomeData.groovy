@@ -21,7 +21,7 @@ target(main: "Load outcome relpase data into the DB") {
 	println "Please specify a project name:"
 	def projectName = new InputStreamReader(System.in).readLine().toUpperCase()
 	def successful = false;
-	def dataSourceClass = classLoader.loadClass('StudyDataSource')
+	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
 	while(!study) {
 		println "Project with name: $projectName doesn't exist. This script should be run when all data is loaded."

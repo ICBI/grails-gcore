@@ -69,7 +69,7 @@ class SavedAnalysisService {
 		params.keySet().removeAll( ['errors', 'class', 'metaClass', 'annotationService', 'requestType', 'idService', 'userListService', 'constraints'] as Set )
 		def json = params as JSON
 		def newAnalysis = new SavedAnalysis(type: command.requestType, query: params,  analysis: notification , author:user, status: notification.status, taskId: notification.item.taskId)
-		def study = StudyDataSource.findBySchemaName(command.study)
+		def study = Study.findBySchemaName(command.study)
 		newAnalysis.addToStudies(study)
 		newAnalysis.save(flush:true)
 		if(tags){
@@ -93,7 +93,7 @@ class SavedAnalysisService {
 		params.keySet().removeAll( ['errors', 'class', 'metaClass', 'requestType', 'annotationService', 'userListService', 'constraints'] as Set )
 		log.debug "going to send: " + command.requestType + ", " + params + ", " + result + ", " + user
 		def newAnalysis = new SavedAnalysis(type: command.requestType, query: params,  analysisData: result , author:user, status: "Complete")
-		def study = StudyDataSource.findBySchemaName(command.study)
+		def study = Study.findBySchemaName(command.study)
 		newAnalysis.addToStudies(study)
 		newAnalysis.save(flush:true)
 		if(newAnalysis.type == AnalysisType.KM_GENE_EXPRESSION){

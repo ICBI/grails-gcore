@@ -25,7 +25,7 @@ target(main: "Load data into the DB") {
 		println "Cannot find study metadata file at dataImport/${projectName}/${projectName}_study_table.txt.  Please check the study name and try again."
 		return
 	}
-	def dataSourceClass = classLoader.loadClass('StudyDataSource')
+	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
 	while(study) {
 		println "Project with name: $projectName already exists.  Unable to overwrite data in this schema."
@@ -326,13 +326,13 @@ def addPublicStudy(projectName) {
 	def authManager = SecurityServiceProvider.getAuthorizationManager("gdoc")
 	
 	// Create protection element
-	ProtectionElement pe = authManager.getProtectionElement(projectName, 'StudyDataSource')
+	ProtectionElement pe = authManager.getProtectionElement(projectName, 'Study')
 	if(!pe) {
 		pe = new ProtectionElement()
 		pe.protectionElementName = projectName + '_DATA'
 		
 		pe.objectId = projectName
-		pe.attribute = 'StudyDataSource'
+		pe.attribute = 'Study'
 		authManager.createProtectionElement(pe)
 		//attach to protection group
 		authManager.assignProtectionElement('PUBLIC', pe.objectId, pe.attribute)

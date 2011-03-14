@@ -12,7 +12,7 @@ class WorkflowsController {
 		//last login
 		Date lastLogin = thisUser.lastLogin
 		if(!session.profileLoaded){
-			def studyNames = securityService.getSharedItemIds(session.userId, StudyDataSource.class.name,false)
+			def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,false)
 			log.debug studyNames
 			def myStudies = []
 		
@@ -21,7 +21,7 @@ class WorkflowsController {
 			session.tempLists = new HashSet()
 			session.tempAnalyses = new HashSet()
 			studyNames.each{
-				def foundStudy = StudyDataSource.findByShortName(it)
+				def foundStudy = Study.findByShortName(it)
 				if(foundStudy){
 					myStudies << foundStudy
 				}

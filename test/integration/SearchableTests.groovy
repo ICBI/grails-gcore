@@ -43,7 +43,7 @@ class SearchableTests extends GroovyTestCase {
 					println "$it.molecule.name is a target of: $it.protein.accession"
 					
 				}
-				if(resultClass == "StudyDataSource"){
+				if(resultClass == "Study"){
 					println "$it.longName was found with id $it.id"
 				}
 				
@@ -61,7 +61,7 @@ class SearchableTests extends GroovyTestCase {
 			//terms << searchableService.termFreqs("shortName")
 			//terms << searchableService.termFreqs("cancerSite")
 			//terms << Finding.termFreqs("title")
-			//terms << StudyDataSource.termFreqs("abstractText")
+			//terms << Study.termFreqs("abstractText")
 			//terms << searchableService.termFreqs("name")
 			terms << searchableService.termFreqs("symbol",size:30000)
 			terms.flatten().each{

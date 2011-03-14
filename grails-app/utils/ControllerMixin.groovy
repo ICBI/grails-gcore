@@ -70,7 +70,7 @@ class ControllerMixin {
 	}
 	
 	static loadCurrentStudy(self) {
-		def currStudy = StudyDataSource.findBySchemaName(StudyContext.getStudy())
+		def currStudy = Study.findBySchemaName(StudyContext.getStudy())
 		if(!self.session.study || (currStudy.schemaName != self.session.study.schemaName)){
 			self.session.study = currStudy
 			self.session.dataTypes = AttributeType.findAll().sort { it.longName }

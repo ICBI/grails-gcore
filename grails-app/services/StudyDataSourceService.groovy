@@ -5,7 +5,7 @@ class StudyDataSourceService {
     boolean transactional = true
 
     def create(data) {
-		def dataSource = new StudyDataSource(data)
+		def dataSource = new Study(data)
 		if (!dataSource.save(flush: true)) 
 			log.error dataSource.errors
 		return dataSource
@@ -24,7 +24,7 @@ class StudyDataSourceService {
 	}
 	
 	def addPi(dataSourceId, contactData) {
-		def criteria = StudyDataSource.createCriteria()
+		def criteria = Study.createCriteria()
 		def dataSource = criteria.list{
 			eq("id", dataSourceId)
 		    fetchMode('patients', FM.EAGER)
@@ -36,7 +36,7 @@ class StudyDataSourceService {
 	}
 	
 	def addPoc(dataSourceId, contactData) {
-		def criteria = StudyDataSource.createCriteria()
+		def criteria = Study.createCriteria()
 		def dataSource = criteria.list{
 			eq("id", dataSourceId)
 		    fetchMode('patients', FM.EAGER)

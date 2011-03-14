@@ -12,7 +12,7 @@ class DataAvailableService implements InitializingBean {
 	def getDataAvailability(){
 		log.debug "get all study data availability"
 		def studies = []
-		studies = StudyDataSource.list();
+		studies = Study.list();
 		if(studies){
 			studies.sort{it.shortName}
 		}
@@ -56,7 +56,7 @@ class DataAvailableService implements InitializingBean {
 	def loadDataAvailability(){
 		log.debug "load all study availability"
 		def studies = []
-		studies = StudyDataSource.list();
+		studies = Study.list();
 		if(studies){
 			studies.sort{it.shortName}
 		}

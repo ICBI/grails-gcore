@@ -62,7 +62,7 @@
         <g:each var="result" in="${searchResult.results}" status="index">
           <div class="result">
             <g:set var="className" value="${ClassUtils.getShortName(result.getClass())}" />
-				<g:if test="${className == 'StudyDataSource'}">
+				<g:if test="${className == 'Study'}">
 					<div>
 						<g:link style="color:blue;font-size:1.2em" action="show" controller="studyDataSource" id="${result.id}">
 							${result.shortName}

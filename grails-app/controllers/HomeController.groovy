@@ -17,7 +17,7 @@ class HomeController {
 		def feedMap = feedService.getFeed()
 		
 		//get patient counts for each study
-		def studies = StudyDataSource.list();
+		def studies = Study.list();
 		def findings = findingService.getAllFindings()
 		def da = dataAvailableService.getMyDataAvailability(studies)
 		def diseaseBreakdown = [:]

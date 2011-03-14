@@ -11,7 +11,7 @@ class CommonPatient {
 	
 	Long id
 	StudyPatient patient
-	StudyDataSource studyDataSource
+	Study studyDataSource
 	String insertUser
 	String insertMethod
 	Date insertDate

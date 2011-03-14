@@ -11,7 +11,7 @@ class Outcome {
 	static fetchMode = [studyDataSource:"eager"]
 	
 	Long patientId
-	StudyDataSource studyDataSource
+	Study studyDataSource
 	String outcomeType
 	String outcomeDescription
 	

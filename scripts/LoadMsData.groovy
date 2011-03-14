@@ -23,7 +23,7 @@ target(main: "Load Mass Spec Data") {
 		println "Cannot find peak file at dataImport/${projectName}/${projectName}_ms_peak_list.txt.  Please check the study name and try again."
 		return
 	}
-	def dataSourceClass = classLoader.loadClass('StudyDataSource')
+	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
 	while(!study) {
 		println "Project with name: $projectName does not exist.  Unable to load mass spec data."

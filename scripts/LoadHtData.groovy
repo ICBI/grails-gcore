@@ -38,7 +38,7 @@ target(main: "Load High Throughput Data") {
 		println "Cannot find high throughput metadata file at ${mappingFile.absoluteFile}.  Please check the study name and try again."
 		return
 	}
-	def dataSourceClass = classLoader.loadClass('StudyDataSource')
+	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
 	while(!study) {
 		println "Project with name: $projectName does not exist.  Unable to load high throughput data."

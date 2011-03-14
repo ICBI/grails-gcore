@@ -47,7 +47,7 @@ class PatientService {
 	}
 	
 	def createPatientsForStudy(studyName, patients, values) {
-		def studyDataSource = StudyDataSource.findByShortName(studyName)
+		def studyDataSource = Study.findByShortName(studyName)
 		if(!studyDataSource)
 			return
 		StudyContext.setStudy(studyDataSource.schemaName)
@@ -64,7 +64,7 @@ class PatientService {
 	}
 	
 	def addClinicalValuesToPatient(projectName, originalDataSourceId, values, auditInfo) {
-		def studyDataSource = StudyDataSource.findByShortName(projectName)
+		def studyDataSource = Study.findByShortName(projectName)
 		if(!studyDataSource)
 			return
 		StudyContext.setStudy(studyDataSource.schemaName)

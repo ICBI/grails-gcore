@@ -16,7 +16,7 @@ class UserList implements Taggable{
 	    listItems component: true
 	}
 	static belongsTo = [author:GDOCUser]
-	static hasMany = [listItems:UserListItem,listComments:Comments, studies:StudyDataSource, evidence:Evidence]
+	static hasMany = [listItems:UserListItem,listComments:Comments, studies:Study, evidence:Evidence]
 	static fetchMode = [listItems: 'eager',tags:'eager', studies: 'eager']
 	static constraints = {
 		name(blank:false)
