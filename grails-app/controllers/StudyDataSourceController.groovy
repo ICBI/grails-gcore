@@ -1,6 +1,7 @@
 import grails.converters.*
 
 @Mixin(ControllerMixin)
+@Extension(type=ExtensionType.SEARCH, menu="Studies")
 class StudyDataSourceController {
 
 	def myStudies

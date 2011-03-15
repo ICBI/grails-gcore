@@ -16,15 +16,15 @@ class GdocTagLib {
 	}
 	
 	def panel = { attrs, body ->
-		out << render(template: '/common/panel', bean: [body: body, attrs: attrs])
+		out << render(template: '/common/panel', bean: [body: body, attrs: attrs], plugin: 'gcore')
 	}
 	
 	def validationInput = { attrs, body ->
-		out << render(template: '/common/validation_input', bean: [body: body, attrs: attrs])
+		out << render(template: '/common/validation_input', bean: [body: body, attrs: attrs], plugin: 'gcore')
 	}
 	
 	def flex = { attrs, body ->
-		out << render(template: '/common/flex_content', bean: [body: body, attrs: attrs])
+		out << render(template: '/common/flex_content', bean: [body: body, attrs: attrs], plugin: 'gcore')
 	}
 	
 	def managedCheckBox = { attrs ->
@@ -56,6 +56,8 @@ class GdocTagLib {
 			out << "No analysis extensions installed"
 		links.each { key, value ->
 			out << link([controller: key]){value}
+			if(!attrs.menu)
+				out << '<br/><br/>'
 		}
 		
 	}
@@ -66,6 +68,8 @@ class GdocTagLib {
 			out << "No search extensions installed"
 		links.each { key, value ->
 			out << link([controller: key]){value}
+			if(!attrs.menu)
+				out << '<br/><br/>'
 		}
 		
 	}

@@ -19,7 +19,7 @@ jQuery(document).ready(function()
 			<a class="sf-with-ul" href="#">Search<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:searchLinks/>
+					<g:searchLinks menu="true"/>
 				</li>		
 			</ul>
 		</li>
@@ -27,7 +27,7 @@ jQuery(document).ready(function()
 			<a class="sf-with-ul" href="#">Analyze<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 					<li>
-						<g:analysisLinks/>
+						<g:analysisLinks menu="true"/>
 					</li>
 			</ul>
 		</li>
