@@ -70,4 +70,8 @@ class GdocTagLib {
 		
 	}
 	
+	def appName = {
+		out << grailsApplication.metadata['app.name']
+	}
+	
 }

@@ -15,7 +15,7 @@
 				});
 			});
 		function queryForDisease() {
-			jQuery.getJSON("/gdoc/studyDataSource/findStudiesForDisease", { disease: $("#disease").val() },
+			jQuery.getJSON("/${appName()}/studyDataSource/findStudiesForDisease", { disease: $("#disease").val() },
 				function(j) {
 				     // erase all OPTIONs from existing select menu on the page
 				    $("#study options").remove();
@@ -42,7 +42,7 @@
 		}
 		function reload(){
 			if(${remote ?: false}) {
-				$("#searchDiv").load('/gdoc/${controllerName}/_studyForm.gsp',{limit: 25}, function(){
+				$("#searchDiv").load("/${appName()}/${controllerName}/_studyForm.gsp",{limit: 25}, function(){
 					if(typeof bindBehaviour == 'function')
 						bindBehaviour();
 					});
@@ -50,7 +50,7 @@
 				$("#studyPageSpinner").css("visibility","hidden");
 			} else {
 				//location.reload(true);
-				location.replace('/gdoc/${controllerName}');
+				location.replace("/${appName()}/${controllerName}");
 			}
 			
 		}
@@ -109,7 +109,7 @@
 			<br /><span style="float:right">
 		    <g:submitButton name="update" value="set study" disabled="true"/>
 			</span>
-			<span id="studyPageSpinner" style="visibility:hidden;display:inline-table"><img src='/gdoc/images/spinner.gif' alt='Wait'/></span>
+			<span id="studyPageSpinner" style="visibility:hidden;display:inline-table"><img src="/${appName()}/images/spinner.gif" alt='Wait'/></span>
 		</g:formRemote>
 		
 		</fieldset>
