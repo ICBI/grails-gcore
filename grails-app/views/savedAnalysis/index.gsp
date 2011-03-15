@@ -6,7 +6,6 @@
 	<g:javascript library="jquery"/>
 	<jq:plugin name="ui"/>
 	<jq:plugin name="styledButton"/>
-	<jq:plugin name="tagbox"/>
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox-compressed.js')}"></script>
 	<script type="text/javascript">
 		function toggle(element){

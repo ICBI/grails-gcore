@@ -5,7 +5,7 @@
 
 
   jQuery(document).ready(function(){
-   	jQuery("#q").autocomplete("/gdoc/search/relevantTerms",{
+   	jQuery("#q").autocomplete("/${appName()}/search/relevantTerms",{
 			max: 130,
 			scroll: true,
 			multiple:false,
@@ -44,7 +44,7 @@
 
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-<a href="/gdoc"><img src="${createLinkTo(dir:'images',file:'gdocHeader.png')}" border="0" alt="G-DOC logo" /></a>
+<a href="/${appName()}"><img src="${createLinkTo(dir:'images',file:'gdocHeader.png')}" border="0" alt="G-DOC logo" /></a>
 </td><td valign="bottom" style="text-align:right;padding:7px">
 <span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 

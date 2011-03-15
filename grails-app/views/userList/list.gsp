@@ -7,7 +7,6 @@
 	<g:javascript library="jquery"/>
 	<jq:plugin name="ui"/>
 	<jq:plugin name="styledButton"/>
-	<jq:plugin name="tagbox"/>
 	<jq:plugin name="tooltip"/>
 	<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'dialog.css')}"/>
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox-compressed.js')}"></script>
@@ -77,7 +76,7 @@
 				         // For example, you could place an AJAX call here:
 				        $.ajax({
 				          type: "POST",
-				          url: "/gdoc/userList/renameList",
+				          url: "/${appName()}/userList/renameList",
 				          data:{ newNameValue:newValue, id:id },//data: "newNameValue=" + newValue + "&id=" + id,
 				          success: function(msg){
 				            $('.message').html(msg);

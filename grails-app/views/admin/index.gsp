@@ -24,7 +24,7 @@
 		<jq:plugin name="autocomplete"/>
 		<g:javascript>
 		$(document).ready(function(){
-		   	$("#q").autocomplete("/gdoc/search/userAutocomplete",{
+		   	$("#q").autocomplete("/${appName()}/search/userAutocomplete",{
 					max: 130,
 					scroll: true,
 					multiple:false,
@@ -71,7 +71,7 @@
 							<g:if test="${loadedStudies}">${loadedStudies.size()} studies loaded</g:if>
 							<g:else> there are no studies loaded at this time</g:else>
 						</span>
-						<span id="spinner" style="visibility:hidden;display:inline-table"><img src='/gdoc/images/spinner.gif' alt='Wait'/></span>
+						<span id="spinner" style="visibility:hidden;display:inline-table"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
 						</div>
 						
 								<div style="padding:5px;background-color:#f2f2f2;">

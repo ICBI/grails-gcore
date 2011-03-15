@@ -18,8 +18,8 @@
 	/*background: url("/gdoc/images/collapse.gif");*/
 }
 .editableToolbar .save {
-    background: url("/gdoc/images/accept.png") -16px 0;
+    background: url("../images/accept.png") -16px 0;
 }
 .editableToolbar .cancel {
-    background: url("/gdoc/images/cancel.png") 16px 0;
+    background: url("../images/cancel.png") 16px 0;
 }

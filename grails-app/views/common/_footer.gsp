@@ -1,5 +1,5 @@
 
-<div style="background: #f2f2f2 url(/gdoc/images/border_bottom.gif) top repeat-x;height:100%;" align="center"><br />
+<div style="background: #f2f2f2 url(/${appName()}/images/border_bottom.gif) top repeat-x;height:100%;" align="center"><br />
 
 <span style="border:0px solid black">	
 		<a href="http://lombardi.georgetown.edu/" target="_blank">

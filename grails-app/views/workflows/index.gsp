@@ -27,7 +27,7 @@
 
 				  $(document).ready(function(){
 					$('.info').tooltip({showURL: false});
-				   	$("#q").autocomplete("/gdoc/search/relevantTerms",{
+				   	$("#q").autocomplete("/${appName()}/search/relevantTerms",{
 							max: 130,
 							scroll: true,
 							multiple:false,

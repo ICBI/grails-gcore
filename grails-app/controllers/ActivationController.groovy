@@ -55,7 +55,7 @@ class ActivationController {
     			log.debug cmd.errors
     			def baseUrl = CH.config.grails.serverURL
     			def token = cmd.userId + "||" + System.currentTimeMillis()
-    			def resetUrl = baseUrl+"/gdoc/activation/reset?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+    			def resetUrl = baseUrl+"/${g.appName()}/activation/reset?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
     			redirect(url:resetUrl)
     			return
     		}
@@ -92,7 +92,7 @@ class ActivationController {
     			log.debug cmd.errors
     			def baseUrl = CH.config.grails.serverURL
     			def token = cmd.userId + "||" + System.currentTimeMillis()
-    			def activateUrl = baseUrl+"/gdoc/activation/newAccount?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+    			def activateUrl = baseUrl+"/${g.appName}/activation/newAccount?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
     			redirect(url:activateUrl)
     			return
     		}

@@ -20,7 +20,7 @@
 		         // For example, you could place an AJAX call here:
 		        $.ajax({
 		          type: "POST",
-		          url: "/gdoc/userList/renameList",
+		          url: "/${appName()}/userList/renameList",
 		          data: "newNameValue=" + newValue + "&id=" + id,
 		          success: function(msg){
 		            $('.message').html(msg);
@@ -109,7 +109,7 @@
 				         // For example, you could place an AJAX call here:
 				        $.ajax({
 				          type: "POST",
-				          url: "/gdoc/userList/renameList",
+				          url: "/${appName()}/userList/renameList",
 				          data: "newNameValue=" + newValue + "&id=" + id,
 				          success: function(msg){
 				            $('.message').html(msg);

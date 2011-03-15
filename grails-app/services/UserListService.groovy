@@ -685,7 +685,7 @@ def decorateListItems(userList){
 			metadata[item.id] = [:]
 			if(targetData){
 				targetData.each{ target ->
-					def link = "<a href='/gdoc/moleculeTarget/show/"+target.id+"'>"+target+"</a>"
+					def link = "<a href='/${appName()}/moleculeTarget/show/"+target.id+"'>"+target+"</a>"
 					targetLinks << link
 				}
 				metadata[item.id]["Target Data (proteins)"] = targetLinks

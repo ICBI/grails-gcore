@@ -96,7 +96,7 @@
 						<img class="${userListInstance.id}_toggle" src="${createLinkTo(dir: 'images', file: 'collapse.gif')}"
 						width="13"
 						height="14" border="0" alt="Show/Hide" title="Show/Hide" style="display:none" />
-						<span id="${userListInstance.id}_toggle_pageSpinner" style="visibility:hidden;display:inline"><img src='/gdoc/images/spinner.gif' alt='Wait'/></span>
+						<span id="${userListInstance.id}_toggle_pageSpinner" style="visibility:hidden;display:inline"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
 						</div>
 					</div>
 					</g:if>

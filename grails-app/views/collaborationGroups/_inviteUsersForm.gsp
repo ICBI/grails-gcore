@@ -5,7 +5,7 @@
 <jq:plugin name="autocomplete"/>
 <g:javascript>
 $(document).ready(function(){
-   	$("#q").autocomplete("/gdoc/search/userAutocomplete",{
+   	$("#q").autocomplete("/${appName()}/search/userAutocomplete",{
 			max: 130,
 			scroll: true,
 			multiple:false,

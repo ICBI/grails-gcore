@@ -424,7 +424,7 @@ class CollaborationGroupsController {
 	def sendEmail(sendTo,subjectText){
 		def baseUrl = CH.config.grails.serverURL
 		def token = sendTo.username + "||" + System.currentTimeMillis()
-		def collabUrl = baseUrl+"/gdoc/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+		def collabUrl = baseUrl+"/${g.appName}/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
 		mailService.sendMail{
 			to sendTo.email
 			from "gdoc-help@georgetown.edu"
