@@ -45,13 +45,7 @@ class WorkflowsController {
 			if(lastLogin){
 				def formattedDate = lastLogin.format('EEE MMM d, yyyy')
 				log.debug "users last login was $formattedDate"
-				flash.message =  "Welcome back, your last login was $formattedDate. You can check if you have been granted access to new <a href='/gdoc/userList?listFilter=all'>lists</a> or <a href='/gdoc/savedAnalysis?analysisFilter=all'>analyses</a> since your last login"
-				//def count = userListService.newListsAvailable(sharedListIds,lastLogin,session.userId)
-				//if(count > 0){
-				//	log.debug "user has new lists available"
-				//	session.listFilter = "all"
-				//	flash.message = "You have new <a href='/gdoc/userList'>lists</a> available"
-				//}
+				flash.message =  "Welcome back, your last login was $formattedDate. You can check if you have been granted access to new <a href='/${appName()}/userList?listFilter=all'>lists</a> or <a href='/${appName()}/savedAnalysis?analysisFilter=all'>analyses</a> since your last login"
 				
 			}
 			if(params.firstLogin){

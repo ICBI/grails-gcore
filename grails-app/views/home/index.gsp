@@ -59,7 +59,7 @@
 						<!-- For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. --> 
 			            var swfVersionStr = "10.0.45";
 			            <!-- To use express install, set to playerProductInstall.swf, otherwise the empty string. -->
-			            var xiSwfUrlStr = "/gdoc/visualizations/playerProductInstall.swf";
+			            var xiSwfUrlStr = "/${appName()}/visualizations/playerProductInstall.swf";
 			            var flashvars = {};
 			            var params = {};
 			            params.quality = "high";
@@ -71,7 +71,7 @@
 			            attributes.name = "Main";
 			            attributes.align = "middle";
 			            swfobject.embedSWF(
-			                "/gdoc/visualizations/Main.swf", "flashContent", 
+			                "/${appName()}/visualizations/Main.swf", "flashContent", 
 			                "900", "350", 
 			                swfVersionStr, xiSwfUrlStr, 
 			                flashvars, params, attributes);
@@ -93,7 +93,7 @@
 		            <!-- For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. --> 
 		            var swfVersionStr = "10.0.45";
 		            <!-- To use express install, set to playerProductInstall.swf, otherwise the empty string. -->
-		            var xiSwfUrlStr = "/gdoc/visualizations/playerProductInstall.swf";
+		            var xiSwfUrlStr = "/${appName()}/visualizations/playerProductInstall.swf";
 		            var flashvars = {};
 		            var params = {};
 		            params.quality = "high";
@@ -105,7 +105,7 @@
 		            attributes.name = "Main";
 		            attributes.align = "middle";
 		            swfobject.embedSWF(
-		                "/gdoc/visualizations/Main.swf", "flashContent", 
+		                "/${appName()}/visualizations/Main.swf", "flashContent", 
 		                "900", "350", 
 		                swfVersionStr, xiSwfUrlStr, 
 		                flashvars, params, attributes);
@@ -195,7 +195,7 @@
 											<td>
 												<g:each in="${item.value.availableData}" var="nameAndImage">
 													<g:each in="${nameAndImage}" var="n">
-														<img src="/gdoc/images/${n.value}" alt="${n.key}" class="info" title="${n.key}" />
+														<img src="/${appName()}/images/${n.value}" alt="${n.key}" class="info" title="${n.key}" />
 													</g:each>
 												</g:each>
 											</td>
@@ -267,7 +267,7 @@
 									<g:if test="${dataBreakdown}">
 									<g:each in="${dataBreakdown}" var="data">
 											<tr>
-											<td><div valign="top" style="text-align:top">${data.key} &nbsp;&nbsp;<img src="/gdoc/images/${data.key.replace(" ","_")}_icon.gif" alt="${data.key}" style="margin-bottom:-5px" class="info" title="${data.key}"></div></td>
+											<td><div valign="top" style="text-align:top">${data.key} &nbsp;&nbsp;<img src="/${appName()}/images/${data.key.replace(" ","_")}_icon.gif" alt="${data.key}" style="margin-bottom:-5px" class="info" title="${data.key}"></div></td>
 											<td>${data.value}</td>
 											</tr>
 									</g:each>
