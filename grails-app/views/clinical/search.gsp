@@ -170,7 +170,7 @@
 				<span class="bla" id="listAdd">Save Selected
 					</span><br />
 				<span id="message" style="display:none"></span>
-				<span id="saveSpinner" style="visibility:hidden"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
+				<span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
 				</div>
 				</div>
 				</g:if>

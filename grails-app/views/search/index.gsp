@@ -7,9 +7,9 @@
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta name="layout" content="main" />
-	<script type="text/javascript" src="/${appName()}/js/jquery/jquery-1.3.2.js"></script>
+	<script type="text/javascript" src="${resource(dir: 'js/jquery', file: 'jquery-1.3.2.js')}"></script>
 
-		<script type="text/javascript" src="/${appName()}/js/jquery/jquery.ui.js"></script>
+		<script type="text/javascript" src="${resource(dir: 'js/jquery', file: 'jquery.ui.js')}"></script>
 	
     <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>G-DOC Search</title>
     

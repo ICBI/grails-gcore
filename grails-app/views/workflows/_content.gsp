@@ -1,6 +1,6 @@
 						<table border="0" width="100%">
 							<tr>
-								<td colspan="4" style="height:29px;background: url('/${appName()}/images/bgTitles.png') repeat;">
+								<td colspan="4" class="titleBar">
 									<p style="margin-top:4px;color:#336699">Features</p>
 								</td>
 							</tr>

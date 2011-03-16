@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 function loadDataSets(dataType) {
 	$.ajax({
-		url: "../studyDataSource/selectDataType",
+		url: "studyDataSource/selectDataType",
 		data: "dataType=" + dataType,
 		cache: false,
 		success: function(html) {

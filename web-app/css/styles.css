@@ -463,3 +463,8 @@ z-index:21;
 	text-align: center;
 	width: 60%;
 }
+
+.titleBar {
+	height:29px;
+	background: url('../images/bgTitles.png') repeat;
+}

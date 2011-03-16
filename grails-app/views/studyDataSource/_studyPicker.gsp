@@ -1,7 +1,7 @@
 
-		<g:javascript library="jquery" />
-		<jq:plugin name="tooltip"/>
-		<jq:plugin name="ui"/>
+		<g:javascript library="jquery" plugin="gcore" />
+		<g:javascript dir="js/jquery" file="jquery.tooltip.js" plugin="gcore"/>
+		<g:javascript dir="js/jquery" file="jquery.ui.js" plugin="gcore"/>
 		<g:javascript>
 			$(document).ready(function (){
 				$("#disease").change(function() {
@@ -109,7 +109,7 @@
 			<br /><span style="float:right">
 		    <g:submitButton name="update" value="set study" disabled="true"/>
 			</span>
-			<span id="studyPageSpinner" style="visibility:hidden;display:inline-table"><img src="/${appName()}/images/spinner.gif" alt='Wait'/></span>
+			<span id="studyPageSpinner" style="visibility:hidden;display:inline-table"><img src="${resource(dir: 'images', file: 'spinner.gif', plugin: 'gcore')}" alt='Wait'/></span>
 		</g:formRemote>
 		
 		</fieldset>

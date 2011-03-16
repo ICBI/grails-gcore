@@ -50,7 +50,7 @@
 		<g:actionSubmit value="Submit"  action="tools" onclick="return validate()"/>
 
 		</g:form>
-		<span id="toolSpinner" style="visibility:hidden"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
+		<span id="toolSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
 	 </div>
 	</g:if>
 	<g:else>
