@@ -12,7 +12,7 @@ class NotificationController {
 	
 	def check = {
 		checkNotifications()
-		render(template:"/notification/notificationTable")
+		render(template:"/notification/notificationTable", plugin: "gcore")
 	}
 	
 	def checkNotifications = {

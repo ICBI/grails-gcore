@@ -277,7 +277,7 @@ class UserListController {
 				list.listItems.remove(userListItemInstance);
 				userListItemInstance.delete(flush:true)	
 	            list.save();
-				render(template:"/userList/userListDiv",model:[ userListInstance: list, listItems:list.listItems ])
+				render(template:"/userList/userListDiv",model:[ userListInstance: list, listItems:list.listItems ], plugin: "gcore")
 			}
 			else {
 	            flash.message = "UserList item not found with id ${params.id} or you are not the author"
@@ -294,7 +294,7 @@ class UserListController {
        	if(userListInstance) {
 			def listItems = userListInstance.listItems
 			listItems = listItems.sort{it.value}
-			render(template:"/userList/userListDiv",model:[ userListInstance: userListInstance, listItems:listItems, metadata:metadata])
+			render(template:"/userList/userListDiv",model:[ userListInstance: userListInstance, listItems:listItems, metadata:metadata], plugin: "gcore")
         }
         else {
             flash.message = "UserList not found with id ${params.id}"
