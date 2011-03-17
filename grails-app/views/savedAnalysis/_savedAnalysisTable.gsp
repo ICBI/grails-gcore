@@ -26,34 +26,13 @@
 				<div class="status" style="float: right;text-decoration:underline;cursor:pointer" title='${analysis.analysis.item.errorMessage}'>${analysis.status.toUpperCase()}</div>
 			</g:if>
 			<g:else>
-			<g:if test="${analysis.type == AnalysisType.CLASS_COMPARISON}">
-				<g:link controller="analysis" action="view"  id="${analysis.id}">${analysis.type}</g:link>
-			</g:if>
-			<g:elseif test="${analysis.type == AnalysisType.GENE_EXPRESSION}">
-				<g:link controller="geneExpression" action="view" id="${analysis.id}">${analysis.type}</g:link> 
-			</g:elseif>
-			<g:elseif test="${analysis.type == AnalysisType.KM_PLOT}">
-				<g:link controller="km" action="repopulateKM" id="${analysis.id}">${analysis.type}</g:link> 
-			</g:elseif>
-			<g:elseif test="${analysis.type == AnalysisType.KM_GENE_EXPRESSION}">
-				<g:if test="${analysis.query.geAnalysisId.toString() != 'null'}">
-					<g:link controller="km" action="repopulateKM" id="${analysis.id}">${analysis.type}</g:link> 
+				<g:if test="${g.analysisView(type: analysis.type)}">
+					<g:link controller="${g.analysisView(type: analysis.type)}" action="view"  id="${analysis.id}">${analysis.type}</g:link>
 				</g:if>
 				<g:else>
-					** GENE EXPRESSION supporting KM_GENE_EXPRESSION plot. <br />
+					${analysis.type}
 				</g:else>
-			</g:elseif>
-			<g:elseif test="${analysis.type == AnalysisType.PCA}">
-					<g:link controller="pca" action="view" id="${analysis.id}">${analysis.type}</g:link> 
-			</g:elseif>
-			<g:elseif test="${analysis.type == AnalysisType.CIN}">
-					<g:link controller="cin" action="view" id="${analysis.id}">${analysis.type}</g:link> 
-			</g:elseif>			
-			<g:elseif test="${analysis.type == AnalysisType.HEATMAP}">
-				<g:link controller="heatMap" action="view" id="${analysis.id}">${analysis.type}</g:link> 
-			</g:elseif>
 				&nbsp;&nbsp;<span><g:formatDate date="${analysis.dateCreated}" format="h:mm M/dd/yyyy"/></span>
-			
 			</div>
 				<g:if test="${session.userId.equals(analysis.author.username)}">
 				<div style="border:0px solid black;width:20%;float:right">	
