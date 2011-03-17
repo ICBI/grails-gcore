@@ -11,7 +11,7 @@ class GcoreGrailsPlugin {
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [recaptcha:'0.5.0',searchable:'0.5.5', taggable:'0.6.1', jquery:'1.3.2.4', jms:'1.1', mail:'0.9',quartz:'0.4.1', seleniumRc:'0.1.1']
+    def dependsOn = [recaptcha:'0.5.0',searchable:'0.5.5', taggable:'0.6.1', jquery:'1.3.2.4', jms:'1.1', mail:'0.9',quartz:'0.4.1', seleniumRc:'0.1.1',springSecurityCore:'1.1.2',springSecurityLdap:'1.0.3']
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/views/error.gsp"
