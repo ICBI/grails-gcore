@@ -54,7 +54,7 @@ var jquerycontextmenu={
 			$subul.data('$parentliref', $li) //cache parent LI of each sub UL
 			$li.data('$subulref', $subul) //cache sub UL of each parent LI
 			$li.children("a:eq(0)").append( //add arrow images
-				'<img src="'+jquerycontextmenu.arrowpath+'" class="rightarrowclass" style="border:0;" />'
+				'<span style="background-position: -10px 0; margin-top: -4px;" class="sf-sub-indicator" />'
 			)
 			$li.bind('mouseenter', function(e){ //show sub UL when mouse moves over parent LI
 				var $targetul=$(this).data('$subulref')

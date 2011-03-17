@@ -78,4 +78,28 @@ class GdocTagLib {
 		out << grailsApplication.metadata['app.name']
 	}
 	
+	def analysisView = { attrs ->
+		out << extensionService.getAnalysisView(attrs.type)
+	}
+	
+	def jqgrid = {
+		out << javascript(src: "jquery/jqGrid/grid.locale-en.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.base.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.common.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.formedit.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.inlinedit.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.celledit.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.subgrid.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.treegrid.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.custom.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.postext.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.tbltogrid.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.setcolumns.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.import.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/jquery.fmatter.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/json2.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/JsonXml.js", plugin: "gcore")
+		
+	}
+	
 }

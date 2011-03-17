@@ -3,23 +3,7 @@
 <div class="notificationContainer" style="height: 10px">
 <g:if test="${notification.status == 'Complete'}">
 	<div style="float: left;">
-		<g:if test="${notification.type == AnalysisType.CLASS_COMPARISON}">
-			<g:link controller="analysis" action="view" id="${notification.id}">${notification.type}</g:link> (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
-		</g:if>
-		<g:elseif test="${notification.type == AnalysisType.PCA}">
-			<g:link controller="pca" action="view" id="${notification.id}">${notification.type}</g:link> (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
-		</g:elseif>		
-		<g:elseif test="${notification.type == AnalysisType.HEATMAP}">
-			<g:link controller="heatMap" action="view" id="${notification.id}">${notification.type}</g:link>
-			 (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
-		</g:elseif>	
-		<g:elseif test="${notification.type == AnalysisType.CIN}">
-			<g:link controller="cin" action="view" id="${notification.id}">${notification.type}</g:link>
-			 (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
-		</g:elseif>	
-		<g:else>
-			<g:link controller="geneExpression" action="view" id="${notification.id}">${notification.type}</g:link> (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
-		</g:else>
+		<g:link controller="${g.analysisView(type: notification.type)}" action="view" id="${notification.id}">${notification.type}</g:link> (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
 	</div>
 	<div class="status" style="float: right; ">
 		${notification.status}

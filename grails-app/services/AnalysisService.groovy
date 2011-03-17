@@ -1,4 +1,3 @@
-import gov.nih.nci.caintegrator.analysis.messaging.ClassComparisonRequest
 import gov.nih.nci.caintegrator.analysis.messaging.ExpressionLookupRequest
 import gov.nih.nci.caintegrator.analysis.messaging.PrincipalComponentAnalysisRequest
 import gov.nih.nci.caintegrator.analysis.messaging.ChromosomalInstabilityIndexRequest
@@ -17,32 +16,11 @@ class AnalysisService {
 	def savedAnalysisService
 	def annotationService
 	def idService
+	def extensionService
 	 
 	def strategies = [
 		(AnalysisType.CLASS_COMPARISON): { sess, cmd ->
-			def request = new ClassComparisonRequest(sess, "ClassComparison_" + System.currentTimeMillis())
-			request.dataFileName = cmd.dataFile
-			def group1 = new SampleGroup()
-			def samples = idService.samplesForListName(cmd.groups)
-			def allIds = idService.sampleIdsForFile(cmd.dataFile)
-			samples = allIds.intersect(samples)
-			group1.addAll(samples)
-			log.debug "group 1: " + samples
-			def baseline = new SampleGroup()
-			log.debug "my baselineGroup is $cmd.baselineGroup"
-			def baselineSamples = idService.samplesForListName(cmd.baselineGroup)
-			//def baselineSamples = idService.samplesForListName(cmd.groups[1])
-			baselineSamples = allIds.intersect(baselineSamples)
-			log.debug "baseline samples: $baselineSamples"
-			baseline.addAll(baselineSamples)
-			request.pValueThreshold = cmd.pvalue.toDouble()
-			request.foldChangeThreshold = cmd.foldChange.toDouble()
-			
-			request.multiGrpComparisonAdjType = MultiGroupComparisonAdjustmentType.valueOf(cmd.adjustment)
-			request.statisticalMethod = StatisticalMethodType.valueOf(cmd.statisticalMethod)
-			request.group1 = group1
-			request.baselineGroup = baseline
-			return request
+			return null
 		},
 		(AnalysisType.GENE_EXPRESSION): { sess, cmd ->
 			def request = new ExpressionLookupRequest(sess, "ExpressionLookup_" + System.currentTimeMillis())
@@ -186,10 +164,7 @@ class AnalysisService {
 		try {
 			def userId = RCH.currentRequestAttributes().session.userId
 			log.debug "sending message: $userId"
-			strategies.each { key, value ->
-				log.debug "KEY: $key ${command.requestType}"
-			}
-			request = strategies[command.requestType].call(userId, command)
+			request = extensionService.buildRequest(userId, command)
 			log.debug request
 			def item = ["status": "Running", "item": request]
 			def newAnalysis = savedAnalysisService.addSavedAnalysis(userId, item, command, tags)

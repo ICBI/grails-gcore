@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.tooltip.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styledButton.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="gcore"/>
 		<g:layoutHead/>
 		
 </head>
