@@ -1,8 +1,12 @@
 import java.net.URLEncoder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder as SCH
+import org.springframework.security.authentication.BadCredentialsException
 
 class ActivationController {
 	def securityService
+	def daoAuthenticationProvider
 	
     def newAccount = {
     		log.debug "preparing to create a new account"
@@ -107,41 +111,36 @@ class ActivationController {
     			}
     			log.debug "now add the user to system with public access"
     			try{
-					
-    				newUser = securityService.populateNewUserAttributes(cmd.userId,cmd.password,cmd.firstName,cmd.lastName,cmd.userId,cmd.organization, cmd.title)
+					newUser = securityService.createNewUser(cmd.userId,cmd.password,cmd.firstName,cmd.lastName,cmd.userId,cmd.organization, cmd.title,null)
+	    			if(newUser){
+						//add to PUBLIC collab group
+	    				def managerPublic = securityService.findCollaborationManager("PUBLIC")
+	    				securityService.addUserToCollaborationGroup(managerPublic.username, newUser.getUsername(), "PUBLIC")
+						saveUserOptions(cmd)
+						try{
+							def auth = new UsernamePasswordAuthenticationToken(cmd.userId, cmd.password) 
+							def authToken = daoAuthenticationProvider.authenticate(auth) 
+					 		SCH.context.authentication = authToken
+							redirect(controller:'workflows',params:[firstLogin:true])
+							return
+						}catch(BadCredentialsException bce){
+							log.debug bce
+							flash.error = "There was an error adding the user. Please verify credentials"
+							redirect(controller:'registration',action:'index')
+							return
+						}
+						redirect(controller:'workflows',params:[firstLogin:true])
+	    			}
 
     			}catch (SecurityException se){
     				log.debug "user not added " + se
-    				flash.message = "There was a problem adding user to the system. Please contact G-DOC help desk."
-    				redirect(controller:'home',action:"index")
+    				flash.error = "There was a problem adding user to the system. Please contact G-DOC help desk."
+    				redirect(controller:'registration',action:"index")
     			}
-    			if(securityService.createUser(newUser)){
-    				//add to PUBLIC collab group
-    				def managerPublic = securityService.findCollaborationManager("PUBLIC")
-    				securityService.addUserToCollaborationGroup(managerPublic.username, newUser.getUsername(), "PUBLIC")
-					saveUserOptions(cmd)
-    			}
-    			try{
-    				def params = [:]
-    				params["username"] = cmd.userId
-    				params["password"] = cmd.password
-    				def user = securityService.login(params)
-    				if (user) {
-    					session.profileLoaded = false
-    					session.userId = cmd.userId
-    					redirect(controller:'workflows',params:[firstLogin:true])
-    					return
-    				}
-    				else {
-    					flash['message'] = 'Please enter a valid user ID and password'
-    					redirect(controller:'home')
-    					return
-    				}
-    			}catch(LoginException le){
-    				log.debug "login invalid in activation controller"
-    				flash['message'] = 'Please enter a valid user ID and password'
-    				redirect(controller:'home')
-    				return
+				catch (Exception se){
+    				log.debug "user not added " + se
+    				flash.error = "There was a problem adding user to the system. Please contact G-DOC help desk."
+    				redirect(controller:'registration',action:"index")
     			}
     		}
     	}

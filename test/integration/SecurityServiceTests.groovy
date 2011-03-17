@@ -7,7 +7,7 @@ import javax.naming.ldap.*
 import javax.net.ssl.*
 import org.springframework.jndi.*
 import javax.naming.spi.*
-import gov.nih.nci.security.authorization.domainobjects.User
+
 
 class SecurityServiceTests extends BaseSecurityTest {
 
@@ -40,18 +40,26 @@ def invitationService
 			println "user " + user.lastName
 		}
 	}
-	
+	**/
 	//grabs group for user...do a 'refresh' on user object to possibly get more current view of this
 	void testFindCollaborationManager(){
-		def groupName = "DEVELOPERS"
+		def groupName = "PUBLIC"
 		def manager = securityService.findCollaborationManager(groupName)
 		if(manager){
-			assertTrue(manager.username == "acs224")
-		}else{
-			println "manager not found for group $groupName"
+			println "manager found for group $groupName, " + manager.username
+			assertTrue(manager.username == "mah253")
+		}
+		else{
+			println "manager not found"
+		}
+		if(securityService.isUserGroupManager(manager.username, groupName)){
+			println "is group manager verifiued this"
+		}
+		else{
+			println "manager not verified"
 		}
 	}
-	**/
+	/**
 	
 	void testCreateAndDeleteCollaborationGroup() {
 		def testFailed = false
@@ -138,23 +146,33 @@ def invitationService
 		println "all memberships " + user.memberships
 		securityService.createMembership("kmr75","DEVELOPERS",SecurityService.GROUP_MANAGER)
 		
-	}**/
+	}
 	
-	/**
+	
 	
 	void testCreateDeleteUser(){
-		def user = new User()
-		user.setUsername("test75")
-		user.setFirstName("fn")
-		user.setLastName("ln")
-		user.setEmailId("test75@georgetown.edu")
-		user.setDepartment("LOMBARDI COMPREHENSIVE CANCER CENTER")
-		assertTrue(securityService.createUser(user))
-		def newUser = GDOCUser.findByUsername("test75")
+		def username = "test75"
+		def password = "test"
+		def firstName = "fn"
+		def lastName = "ln"
+		def email = "test75@georgetown.edu"
+		def organization = "Georgetown University"
+		def department = "LOMBARDI COMPREHENSIVE CANCER CENTER"
+		def title = "title"
+		def newUser = securityService.createNewUser(username, password, firstName,lastName,email,organization, title,department)
 		assertNotNull(newUser)
 		println "attempt to delete gdoc user " + newUser.id
 		assertTrue(securityService.removeUser(newUser.id.toString()))
-	}***/
+	}
 	
+	void testCreateDeleteGUUser(){
+		def username = "ncstest2"
+		def department = "LOMBARDI COMPREHENSIVE CANCER CENTER"
+		def newUser = securityService.validateNetId(username,department)
+		assertNotNull(newUser)
+		println "attempt to delete gdoc user " + newUser.id
+		assertTrue(securityService.removeUser(newUser.id.toString()))
+	}
+	**/
 	
 }

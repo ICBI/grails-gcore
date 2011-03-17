@@ -2,11 +2,15 @@ import grails.converters.*
 import com.megatome.grails.RecaptchaService
 import java.net.URLEncoder
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder as SCH
+import org.springframework.security.authentication.BadCredentialsException
 
 class RegistrationController {
 
 	def securityService
 	def mailService
+	def ldapAuthProvider
 	RecaptchaService recaptchaService
 	
     def index = {
@@ -90,7 +94,7 @@ class RegistrationController {
 			if(cmd.hasErrors()) {
 				flash['cmd'] = cmd
 				log.debug cmd.errors
-				redirect(action:'publicRegistration')
+				redirect(action:'index')
 				return
 			}else{
 				flash['cmd'] = cmd
@@ -99,7 +103,7 @@ class RegistrationController {
 				    recaptchaOK = false
 					flash.error = "incorrect code verification"
 					log.debug "incorrect code verification"
-					redirect(action:'publicRegistration')
+					redirect(action:'index')
 					return
 				}
 				recaptchaService.cleanUp(session)
@@ -107,7 +111,7 @@ class RegistrationController {
 				if(existingUser){
 					log.debug cmd.userId + " already exists as a user in the G-DOC system."
 					flash.error = cmd.userId + " already exists as a user in the G-DOC system."
-					redirect(action:'publicRegistration')
+					redirect(action:'index')
 					return
 				}else{
 					log.debug cmd.userId + " passed registration validation"
@@ -146,8 +150,8 @@ class RegistrationController {
 			//check if user already exists
 			def existingUser = GDOCUser.findByUsername(cmd.netId)
 			if(existingUser){
-				log.debug cmd.netId + " already exists as a user in the G-DOC system. Use Net-Id credentials to login above"
-				flash.message = cmd.netId + " already exists as a user in the G-DOC system. Use Net-Id credentials to login above"
+				log.debug cmd.netId + " already exists as a user in the system. Use Net-Id credentials to login above"
+				flash.error = cmd.netId + " already exists as a user in the system. Use Net-Id credentials to login above"
 				redirect(action:'index')
 				return
 			}else{
@@ -155,31 +159,35 @@ class RegistrationController {
 				def newUser = securityService.validateNetId(cmd.netId.trim(), cmd.department)
 				if(newUser){
 					//check to make sure user has required fields
-					if(newUser.getUsername() && newUser.getFirstName() && newUser.getLastName()){
+					if(newUser.username && newUser.firstName && newUser.lastName){
 						//if user's netId is valid, add user to G-DOC system
-						if(securityService.createUser(newUser)){
 							//add to PUBLIC collab group
 							def managerPublic = securityService.findCollaborationManager("PUBLIC")
-							securityService.addUserToCollaborationGroup(managerPublic.username, newUser.getUsername(), "PUBLIC")
+							securityService.addUserToCollaborationGroup(managerPublic.username, newUser.username, "PUBLIC")
 							session.profileLoaded = false
 							session.userId = cmd.netId
-							redirect(controller:'workflows',params:[firstLogin:true])
-							return
-						}else{
-							log.debug "system error adding the user to G-DOC"
-							flash.message = "We're sorry, there was a system error adding the user to G-DOC. Please try again."
-							redirect(action:'index')
-							return
-						}
+							try{
+								def auth = new UsernamePasswordAuthenticationToken(cmd.netId, cmd.password) 
+								def authToken = ldapAuthProvider.authenticate(auth) 
+						 		SCH.context.authentication = authToken
+								redirect(controller:'workflows',params:[firstLogin:true])
+								return
+							}catch(BadCredentialsException bce){
+								log.debug bce
+								flash.error = "There was an error adding the user to G-DOC. Please verify your Net-ID credential with the Georgetown University Administration"
+								redirect(action:'index')
+								return
+							}
+							
 					}else{
 						log.debug "user has NET ID, but missing a required field (username, firstName or lastName)"
-						flash.message = "There was a system error adding the user to G-DOC. The user may be missing a first and/or last name in the system."
+						flash.error = "There was a system error adding the user to G-DOC. The user may be missing a first and/or last name in the system."
 						redirect(action:'index')
 						return
 					}
 				}else{
 					log.debug cmd.netId + " is an invalid Net-Id. Contact Georgetown University Administration to obtain Net-Id."
-					flash.message = cmd.netId + " is an invalid Net-Id. Contact Georgetown University Administration to obtain Net-Id."
+					flash.error = cmd.netId + " is an invalid Net-Id. Contact Georgetown University Administration to obtain Net-Id."
 					redirect(action:'index')
 					return
 				}

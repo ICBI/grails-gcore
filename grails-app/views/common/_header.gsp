@@ -49,16 +49,25 @@
 <span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 
 <g:if test="${!session.userId}">
-
-<g:if test="${flash.cmd instanceof LoginCommand && flash.message}">
-<div align="right" id="success" style="color:white">${flash.message}</div>
+<g:if test='${flash.message}'>
+<div class='login_message' style="color:white">${flash.message}</div>
 </g:if>
-<g:form name="loginForm" url="[controller:'login',action:'login']" update="[success:'message',failure:'error']">
+
+<form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
+<input type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="net-Id or email" />
+<input type='password' name='j_password' id='password' size="15" />
+<g:hiddenField name="desiredPage" value="${params.desiredPage}" />
+<input type='submit' value='login' />
+</form>
+<%--g:if test="${flash.cmd instanceof LoginCommand && flash.message}">
+<div align="right" id="success" style="color:white">${flash.message}</div>
+</g:if--%>
+<%--g:form name="loginForm" url="[controller:'login',action:'login']" update="[success:'message',failure:'error']">
        <input name="username" id="username" type="text" style="color:gray" size="20" onclick="clear()" value="net-Id"></input>
 		<g:hiddenField name="desiredPage" value="${params.desiredPage}" />
        <input name="password" id="password" type="password" size="15"></input>
        <input type="submit" value="login" />
-</g:form >
+</g:form --%>
 <span style="color:white;padding-top:8px;font-size:.9em">
 	<g:link controller="registration" style="color:white">register now</g:link>&nbsp;|&nbsp;
 	<g:link controller="registration" action="passwordReset" style="color:white">forgot password</g:link>
@@ -84,7 +93,7 @@
 		</g:if>
 			<%--g:link controller="registration" action="passwordReset" style="color:#f2f2f2">change password</g:link>
 			<span style="font-weight:bold;color:#fff;padding-left:5px;padding-right:5px">|</span--%>
-			<g:link style="color:#f2f2f2" action="logout" controller="login" update="success">Logout</g:link>
+			<g:link style="color:#f2f2f2" action="index" controller="logout" update="success">Logout</g:link>
 	
 	</div>
 </div>

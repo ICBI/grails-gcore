@@ -48,7 +48,7 @@ class DataAvailableService implements InitializingBean {
 			}
 			vocabList["dataAvailability"] = results
 		}
-		println "data available " + vocabList
+		log.debug "data available " + vocabList
 		
 		return vocabList
 	}
@@ -89,12 +89,12 @@ class DataAvailableService implements InitializingBean {
 												if(!exists){
 													def da = new DataAvailable(studyName:result["STUDY"],diseaseType:result["CANCER"],dataType:key,count:value)
 													if(da.save(flush:true)){
-														println "saved $key data for " + result["STUDY"]
+														log.debug "saved $key data for " + result["STUDY"]
 													}
 												}else{
 													exists.count = value
 													if(exists.save(flush:true)){
-														println "updated $key data for " + result["STUDY"]
+														log.debug "updated $key data for " + result["STUDY"]
 													}
 												}
 											}

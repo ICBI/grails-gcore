@@ -6,9 +6,17 @@ class WorkflowsController {
 	def dataAvailableService
 	def cleanupService
 	def invitationService
+	def springSecurityService
 	
     def index = { 
-		def thisUser = GDOCUser.findByUsername(session.userId)
+		if(springSecurityService.isLoggedIn()){
+			def currentUser = springSecurityService.getPrincipal() 
+			log.debug "Authenticated user: ${currentUser.username}"
+			
+			
+			def thisUser = GDOCUser.findByUsername(currentUser.username)
+			session.userId = currentUser.username
+		
 		//last login
 		Date lastLogin = thisUser.lastLogin
 		if(!session.profileLoaded){
@@ -29,6 +37,7 @@ class WorkflowsController {
 			log.debug "sort studies"
 			
 			securityService.setLastLogin(session.userId)
+			
 			if(myStudies){
 				myStudies.sort{it.shortName}
 			}
@@ -74,8 +83,8 @@ class WorkflowsController {
 			log.debug "done with profile loading, user has requested another view"
 			redirect(controller:params.desiredPage)
 		}
-		println "User has " + session.myCollaborationGroups.size() + " collab groups, " + session.sharedListIds.size() + " lists " + session.sharedAnalysisIds.size() + " analyses and " + pendingInvites + " invites"
 		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"]]
+	}
 	}
 	
 	

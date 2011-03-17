@@ -1,14 +1,36 @@
 import grails.converters.*
 
+import javax.servlet.http.HttpServletResponse
+
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
+import org.springframework.security.authentication.AccountExpiredException
+import org.springframework.security.authentication.CredentialsExpiredException
+import org.springframework.security.authentication.DisabledException
+import org.springframework.security.authentication.LockedException
+import org.springframework.security.core.context.SecurityContextHolder as SCH
+import org.springframework.security.web.WebAttributes
+
 class HomeController {
 	def feedService
 	def dataAvailableService
 	def findingService
 	
+	/**
+	 * Dependency injection for the springSecurityService.
+	 */
+	def springSecurityService
+	
     def index = { 
 	    if(params.register){
 		
 	     }
+		def config = SpringSecurityUtils.securityConfig
+
+		if (springSecurityService.isLoggedIn()) {
+				redirect uri: config.successHandler.defaultTargetUrl
+				return
+		}
 		if(session.userId){
 			redirect(controller:'workflows')
 			return
@@ -78,7 +100,11 @@ class HomeController {
 		log.debug diseaseBreakdown
 		log.debug dataBreakdown
 		
-		[diseaseBreakdown:diseaseBreakdown, dataBreakdown:dataBreakdown, feedMap:feedMap, findings:findings]
+	
+
+		String postUrl = "${request.contextPath}${config.apf.filterProcessesUrl}"
+		
+		[postUrl: postUrl,diseaseBreakdown:diseaseBreakdown, dataBreakdown:dataBreakdown, feedMap:feedMap, findings:findings]
 	}
 	
 	def workflows = {

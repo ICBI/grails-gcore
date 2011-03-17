@@ -221,7 +221,6 @@ class InvitationService {
 		def removeable = []
 		invitations.each{ i ->
 			if(today.minus(i.dateCreated) > 90){
-				//println "remove " + n
 				removeable << i
 			}
 		}

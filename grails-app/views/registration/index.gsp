@@ -22,32 +22,29 @@
 <g:select id="userCat" from="${categoryList}" noSelection="${['null':'Select One...']}" />
 </div>
 
-
-<g:if test="${flash.cmd instanceof RegistrationCommand && flash.message}">
-	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.message}</div>
-</g:if>
-<g:if test="${flash.cmd instanceof RegistrationCommand && flash.error}">
-	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.message}</div>
-</g:if>
-<g:if test="${flash.cmd instanceof RegistrationPublicCommand && flash.message}">
-	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.message}</div>
-</g:if>
-<g:if test="${flash.cmd instanceof RegistrationPublicCommand && flash.error}">
-	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.message}</div>
+<g:if test="${flash.error}">
+	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.error}</div>
 </g:if>
 
 
 
 <div class="clinicalSearch" id="netIdReg" style="width:85%;margin:0 auto;display:none">
-	
+	<g:if test="${flash.cmd instanceof RegistrationCommand}">
+	<g:javascript>
+		$('#netIdReg').css('display','block');
+	</g:javascript>
+	</g:if>
 <fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
     <legend style="padding:7px">Georgetown NET ID required:</legend>
 	<div style="padding:10px">
 		<g:form name="registrationForm" action="register">
-		<div class="errorDetail">
-			<g:renderErrors bean="${flash.cmd?.errors}" />
-		</div>
+		<g:if test="${flash.cmd instanceof RegistrationCommand}">
+			<div class="errorDetail">
+				<g:renderErrors bean="${flash.cmd?.errors}" />
+			</div>
+		</g:if>
 		Enter a valid Georgetown Net-Id: <g:textField name="netId" /><br /><br />
+		Enter password: <g:passwordField name="password" id="passwordField" /><br /><br />
 		Select a department (optional): 
 		<g:select name="department"
 		          from="${departmentList}" 
@@ -60,11 +57,19 @@
 </div>
 
 <div class="clinicalSearch" id="publicReg" style="width:85%;margin:0 auto;display:none">
-
-
+	<g:if test="${flash.cmd instanceof RegistrationPublicCommand}">
+	<g:javascript>
+	$('#publicReg').css('display','block');
+	</g:javascript>
+	</g:if>
 	<fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
 	    <legend style="padding:7px">Request access to G-DOC:</legend>
 		<div style="padding:10px;float:left">
+			<g:if test="${flash.cmd instanceof RegistrationPublicCommand}">
+				<div class="errorDetail">
+					<g:renderErrors bean="${flash.cmd?.errors}" />
+				</div>
+			</g:if>
 			<g:form name="registrationPublicForm" action="registerPublic">
 			Enter a valid email address (userId): <g:textField name="userId" /><br /><br />
 

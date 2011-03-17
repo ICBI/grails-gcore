@@ -12,6 +12,5 @@ class BaseSecurityTest extends BaseIntegrationTest {
 			SimpleNamingContextBuilder.emptyActivatedContextBuilder()
 
 		builder.bind("java:/gdoc", testDataSource);
-		securityService.jdbcTemplate = jdbcTemplate
 	}
 }

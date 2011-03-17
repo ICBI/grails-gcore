@@ -18,10 +18,23 @@ class GDOCUser {
 	String email
 	String department
 	String organization
+	boolean enabled
+	boolean accountExpired
+	boolean accountLocked
+	boolean passwordExpired
 	Date lastLogin
+	Date dateCreated
+	Date lastUpdated
 	
 	static constraints = {
-	        department(nullable: true)
+		username(blank:false)
+		firstName(blank:false)
+		lastName(blank:false)
+		password(blank:false)
+		email(blank:false)
+		organization(blank:false)
+		department(nullable:true)
+		lastLogin(nullable:true)
 	}
 	
 	static mappedBy = [invitations:'invitee',requestorInvites:'requestor']	

@@ -12,7 +12,10 @@ class UserListController {
 	def searchableService
 	def tagService
 	def htDataService
-    def index = { redirect(action:list,params:params) }
+    def index = { 
+		log.debug params
+		redirect(action:list,params:params) 
+	}
 
     def list = {
 		log.debug params

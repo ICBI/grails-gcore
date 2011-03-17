@@ -8,7 +8,6 @@ class CollaborationGroupService{
 	def getUserMemberships(loginId){
 		def allMemberships = []
 		allMemberships = Membership.getAll()
-		//println allMemberships.size()
 		def managedMemberships =  []
 		def otherMemberships =  []
 		def user = GDOCUser.findByUsername(loginId)
@@ -29,7 +28,6 @@ class CollaborationGroupService{
 				allMemberships.removeAll(dontShow)
 			}
 		}
-		//println allMemberships.size()
 		userMemberships.each{ cg ->
 			if(securityService.isUserCollaborationManager(cg)){
 				managedMemberships << cg

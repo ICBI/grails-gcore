@@ -1,12 +1,4 @@
-import gov.nih.nci.security.SecurityServiceProvider;
-import gov.nih.nci.security.AuthenticationManager;
-import gov.nih.nci.security.AuthorizationManager;
-import gov.nih.nci.security.exceptions.CSException
-import gov.nih.nci.security.exceptions.CSTransactionException
-import gov.nih.nci.security.exceptions.CSObjectNotFoundException
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement
-import gov.nih.nci.security.authorization.domainobjects.ProtectionGroup
-import gov.nih.nci.security.authorization.domainobjects.User
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import javax.security.auth.login.Configuration
 import javax.security.auth.login.AppConfigurationEntry
 import javax.naming.*
@@ -16,54 +8,36 @@ import javax.net.ssl.*
 
 import LoginException
 
-class SecurityService {
+class SecurityService{
 	static scope = "session"
 	public static String GROUP_MANAGER = 'COLLABORATION_GROUP_MANAGER'
 	public static String GDOC_ADMIN = 'GDOC_ADMIN'
 	public static String USER = 'USER'
+	def springSecurityService
 	
-	def jdbcTemplate
-	//List studies
 	def sharedItems = [:]
-	
-	AuthenticationManager authenticationManager
-	AuthorizationManager authorizationManager
-	
-	def login(params) throws LoginException{
-		
-		def user = GDOCUser.findByUsername(params.username)
-		try{
-			//print authenticationManager.getApplicationContextName();
-			boolean loginOK = this.getAuthenticationManager().login(params.username, params.password);
-			if (loginOK){
-				log.debug("SUCESSFUL LOGIN");
-			}
-			else {
-				log.error("ERROR IN LOGIN");
-				throw new LoginException("error in authentication");
-			}
-			}catch (CSException cse){
-				log.error("ERROR IN LOGIN -- CS Exception", cse);
-				throw new LoginException("error in authentication");
-		}
-		
-		return user
-		
-	}
-	
+
 	def setLastLogin(userId){
-		def authManager = this.getAuthorizationManager()
-		def csmUser = authManager.getUser(userId)
-		if(csmUser){
-			csmUser.setEndDate(new Date())
-			authManager.modifyUser(csmUser)
-			log.debug("set user's last login");
+		log.debug "find user, $userId"
+		def user = GDOCUser.findByUsername(userId)
+		if(user){
+			log.debug "found $user"
+			user.lastLogin = new Date()
+			try{
+				if(user.save(flush:true)){
+					log.debug "set user's last login"
+				}
+				else{
+					log.debug "did NOT set last login"
+				}
+			}
+			catch(Exception e){
+				e.printStackTrace() 
+			}
+				
 		}
 	}
 	
-	def logout(session){
-		session.invalidate()
-	}
 	
 	def validateToken(token){
 		log.debug "prepare to decrypt token $token"
@@ -84,69 +58,97 @@ class SecurityService {
 		}
 	}
 	
+	def isNetId(username){
+			log.debug 'do LDAP search'
+			Hashtable env = new Hashtable();
+			env.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
+			env.put(Context.SECURITY_PROTOCOL, "ssl");
+			env.put(Context.PROVIDER_URL, CH.config.grails.plugins.springsecurity.ldap.context.server);
+			env.put(Context.SECURITY_AUTHENTICATION,"simple");
+			env.put("java.naming.ldap.factory.socket",SSLSocketFactory.class.getName());
+			env.put(Context.SECURITY_PRINCIPAL,CH.config.grails.plugins.springsecurity.ldap.context.managerDn); 
+			env.put(Context.SECURITY_CREDENTIALS,CH.config.grails.plugins.springsecurity.ldap.context.managerPassword); 
+			DirContext ctx = new InitialDirContext(env);
+			SearchControls ctls = new SearchControls();
+			ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			String filter = "(&(uid="+username+"))";
+			NamingEnumeration list = ctx.search(CH.config.grails.plugins.springsecurity.ldap.authorities.groupSearchBase, filter, ctls);
+			if(list){
+				log.debug "$username user found"
+				return true
+			}
+			else{
+				return false
+			}
+	}
+	
 	
 	def validateNetId(netId, department){
-		Configuration config = Configuration.getConfiguration();
-	    AppConfigurationEntry[] entries = config.getAppConfigurationEntry("gdoc");
-		log.debug entries
-	    AppConfigurationEntry entry = entries[0];
-		def options = entry.getOptions();
-		options.each {
-		    log.debug it.getKey() + " " + it.getValue()
-		 }
 		Hashtable env = new Hashtable();
+		
 		env.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
 		env.put(Context.SECURITY_PROTOCOL, "ssl");
-		env.put(Context.PROVIDER_URL, options.get("ldapHost"));
+		env.put(Context.PROVIDER_URL, CH.config.grails.plugins.springsecurity.ldap.context.server);
 		env.put(Context.SECURITY_AUTHENTICATION,"simple");
 		env.put("java.naming.ldap.factory.socket",SSLSocketFactory.class.getName());
-		env.put(Context.SECURITY_PRINCIPAL,options.get("ldapAdminUserName")); 
-		env.put(Context.SECURITY_CREDENTIALS,options.get("ldapAdminPassword")); 
+		env.put(Context.SECURITY_PRINCIPAL,CH.config.grails.plugins.springsecurity.ldap.context.managerDn); 
+		env.put(Context.SECURITY_CREDENTIALS,CH.config.grails.plugins.springsecurity.ldap.context.managerPassword); 
 		DirContext ctx = new InitialDirContext(env);
 		SearchControls ctls = new SearchControls();
 		ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
 		String filter = "(&(uid="+netId+"))";
-		NamingEnumeration list = ctx.search(options.get("ldapSearchableBase"), filter, ctls);
+		NamingEnumeration list = ctx.search(CH.config.grails.plugins.springsecurity.ldap.authorities.groupSearchBase, filter, ctls);
+		
 		if(list){
 			log.debug "$netId user found, let's retrieve retrieve needed attributes to create a G-DOC account"
-			BasicAttributes attr =  ctx.getAttributes("uid="+netId+","+options.get("ldapSearchableBase"))
+			BasicAttributes attr =  ctx.getAttributes("uid="+netId+","+CH.config.grails.plugins.springsecurity.ldap.authorities.groupSearchBase)
 				if(attr){
-					def user = new User()
+					def username
+					def password
+					def firstName
+					def lastName
+					def email
+					def organization
+					def title = ""
 					if(attr.get("uid")){
 						log.debug "found user id " + attr.get("uid").get()
-						user.setUsername(attr.get("uid").get())
+						username = attr.get("uid").get()
 					}
 					if(attr.get("givenname")){
 						log.debug "found givenname " + attr.get("givenname").get()
-						user.setFirstName(attr.get("givenname").get())
+						firstName = attr.get("givenname").get()
 					}
 					else{
 						log.debug "didn't find first name, set to netid "
-						user.setFirstName(attr.get("uid").get())
+						firstName = attr.get("uid").get()
 					}
 					if(attr.get("sn")){
 						log.debug "found sn " + attr.get("sn").get()
-						user.setLastName(attr.get("sn").get())
+						lastName = attr.get("sn").get()
 					}else{
-						log.debug "didn't find lasr name, set to netid "
-						user.setLastName(attr.get("uid").get())
+						log.debug "didn't find last name, set to netid "
+						lastName = attr.get("uid").get()
 					}
 					if(attr.get("ou")){
 						log.debug "found ou " + attr.get("ou").get()
-						user.setOrganization(attr.get("ou").get())
+						organization = attr.get("ou").get()
 					}else{
 						log.debug "didn't find ou, set to GU or affiliate "
-						user.setOrganization("Georgetown_University")
+						organization = "Georgetown University"
 					}
 					if(attr.get("mail")){
 						log.debug "found mail " + attr.get("mail").get()
-						user.setEmailId(attr.get("mail").get())
+						email = attr.get("mail").get()
 					}
 					if(department){
-						user.setDepartment(department)
+						department = department
 					}
-					user.setPassword("gdocLCCC")
-					return user
+					if(title){
+						title = title
+					}
+					
+					password = "gdocLCCC"
+					return createNewUser(username, password, firstName,lastName,email,organization, title,department)
 				}
 				else{
 					log.debug "no attributes found for $netId"
@@ -159,30 +161,33 @@ class SecurityService {
 		}
 		
 	}
+
 	
-	def createUser(user){
-		def authManager = this.getAuthorizationManager()
-		try{
-			authManager.createUser(user)
-		}catch(CSTransactionException cste){
-			log.debug cste
-			return false
-		}
-		log.debug "added user " + user.getUsername()
-		return true
-	}
-	
-	def populateNewUserAttributes(username, password, firstName,lastName,emailId,organization, title){
-		def newUser = new User()
+	def createNewUser(username, password, firstName,lastName,emailId,organization, title, department){
+		def newUser = new GDOCUser()
 		if(username && firstName &&
 			lastName && organization && emailId){
-			newUser.setUsername(username)
-			newUser.setPassword(password)
-			newUser.setFirstName(firstName)
-			newUser.setLastName(lastName)
-			newUser.setOrganization(organization)
-			newUser.setEmailId(emailId)
-			newUser.setTitle(title)
+			newUser.username = username
+			def encodedPassword = springSecurityService.encodePassword(password)
+			newUser.password = encodedPassword
+			newUser.firstName = firstName
+			newUser.lastName = lastName
+			newUser.organization = organization
+			newUser.email = emailId
+			newUser.department = department
+			newUser.enabled = true
+			newUser.accountExpired = false
+			newUser.accountLocked = false
+			newUser.passwordExpired = false
+			if(!newUser.save(flush:true)){
+				/**newUser.errors.each{
+					log.debug it
+				}**/
+				log.debug "errors creating user"
+			return false
+			}else{
+				log.debug "new user,  " + newUser.username + " created"
+			}
 		}
 		else {
 			throw new SecurityException("one or more required user attributes were not included");
@@ -192,19 +197,17 @@ class SecurityService {
 	
 	def changeUserPassword(userId, newPassword){
 		if(userId && newPassword){
-			def authManager = this.getAuthorizationManager()
-			try{
-				log.debug "enable encryption"
-				authManager.setEncryptionEnabled(true)
-				def user = authManager.getUser(userId)
-				user.setPassword(newPassword)
-				authManager.modifyUser(user)
-				log.debug "successfully changed password for $userId"
-				return true
-			}catch(CSTransactionException cste){
-				log.debug cste
-				return false
+			log.debug "change user password "
+			def encodedPassword = springSecurityService.encodePassword(newPassword)
+			def user = GDOCUser.findByUsername(userId)
+			user.password = encodedPassword
+			if(!user.save(flush:true)){
+				user.errors.each{
+					log.debug it
+				}
 			}
+			log.debug "change user password complete"
+			return true
 			
 		}else{
 			return false
@@ -255,21 +258,17 @@ class SecurityService {
 	def share(item, groups) {
 		ProtectedArtifact protectedArtifact = ProtectedArtifact.findByObjectId(item.id)
 		if(!protectedArtifact){
-			println "create protected artifact"
 			def name =  item.class.name + '_' + item.id.toString()
 			def objectId = item.id.toString()
 			def type = item.class.name
 			protectedArtifact = createProtectedArtifact(name,objectId,type)
 		}
 		if(protectedArtifact){
-			println "completed creating protected artifact, $protectedArtifact.name"
+			log.debug "completed creating protected artifact, $protectedArtifact.name"
 			groups.each{
-				println "group, $it"
 				def group = CollaborationGroup.findByName(it.toUpperCase())
-				println "found group, $group"
 				if(group){
 					protectedArtifact.addToGroups(group)
-					println "groups now" + protectedArtifact.groups
 				}
 			}
 		}
@@ -300,13 +299,13 @@ class SecurityService {
 				if(protectedArtifact){
 					def groups = protectedArtifact.groups
 					if(groups){
-						println "item $item hs already been shared to "
+						log.debug "item $item hs already been shared to "
 							groups.each{
 								groupNames << it.name
 							}
 					}
 				}
-		}catch(CSObjectNotFoundException csoe){
+		}catch(Exception csoe){
 			log.error("object not found", csoe)
 			throw new SecurityException("object not found");
 		}
@@ -338,35 +337,10 @@ class SecurityService {
 	def deleteCollaborationGroup(username, groupName) {
 		def invites = []
 		def cg = CollaborationGroup.findByName(groupName.toUpperCase())
-		
-			def sinvites= Invitation.count()
-			println "invites? $sinvites"
-			invites= cg.invitations
-			println "invites $invites"
-			/**def ids = []
-			invites.each{
-				ids << new Long(it.id)
-				cg.invitations.remove(it)
-			}
-			println "removed invitations from group, now delete actual objects"
-			Invitation.executeUpdate("delete Invitation i WHERE i.id IN (:ids)", [ids: ids])
-			if(invites){
-				def ids = []
-				ids = invites.collect{it.id}
-				
-				ids.each{
-					def i = Invitation.get(it)
-					i.delete(flush:true)
-				}
-			}**/
+		invites= cg.invitations
 			if(isUserGroupManager(username, cg.name)) {
-				println "delete user from group then delete group"
 				removeUserFromCollaborationGroup(username,username,cg.name)
-				println "trying to delete the group"
 				cg.delete(flush:true)
-				println "deleted group, still invites?"
-				def oinvites= Invitation.count()
-				println "invites? $oinvites"
 				return true
 			} else {
 				throw new Exception("User $username does not have permission to delete this group")
@@ -382,12 +356,12 @@ class SecurityService {
 			throw new Exception("Collaboration group does not exist.")
 		def user = GDOCUser.findByUsername(username)
 		def memberships = user.memberships
-		def desiredMemberships = memberships.find {
-			println "${it.collaborationGroup.name} and ${it.role.name}"
+		def desiredMemberships = memberships.findAll {
+			//log.debug "${it.collaborationGroup.name} and ${it.role.name}"
 			it.collaborationGroup.name == groupName
 		}
 		if(!desiredMemberships){
-			 println "user, $username does is not member of $groupName"
+			 log.debug "user, $username does is not member of $groupName"
 			return false
 		}
 		else{
@@ -395,11 +369,11 @@ class SecurityService {
 				it.role.name == GROUP_MANAGER
 			}
 			if(isCollaborationManager){
-				println "user, $username is THE manager of $groupName"
+				log.debug "user, $username is THE manager of $groupName"
 				return true
 			}
 			else{
-				println "user, $username is not manager of $groupName"
+				log.debug "user, $username is not manager of $groupName"
 				return false
 			}
 		}	
@@ -410,11 +384,10 @@ class SecurityService {
 		def collabGroup = CollaborationGroup.findByName(groupName.toUpperCase())
 		def role = Role.findByName(roleName)
 		def user = GDOCUser.findByUsername(username)
-		println "$username, $groupName, $roleName"
 		if(user && collabGroup && role){
 			def membership = new Membership(user:user,collaborationGroup:collabGroup,role:role)
 			if(membership.save(flush:true)){
-				println "membership created $membership"
+				log.debug "membership created $membership"
 			}
 		}
 	}
@@ -441,7 +414,6 @@ class SecurityService {
 			def user =  GDOCUser.findByUsername(targetUser)
 			def collabGroup = CollaborationGroup.findByName(groupName.toUpperCase())
 			def memberships = Membership.findAllByUserAndCollaborationGroup(user,collabGroup)
-			println "delete all memberships $memberships"
 			if(memberships){
 				def ids = []
 				memberships.each{
@@ -450,9 +422,7 @@ class SecurityService {
 				}
 				Membership.executeUpdate("delete Membership m WHERE m.id IN (:ids)", [ids: ids])
 			}
-			println "deleted membership, can it still be found?"
 			def membershipf = Membership.findAllByUserAndCollaborationGroup(user,collabGroup)
-			println "found? " + membershipf
 		} else {
 			throw new Exception("User $username is not a Collaboration Group Manager.")
 		}
@@ -521,7 +491,7 @@ class SecurityService {
 	}
 	
 	def getSharedItemIds(username, itemType,refresh) {
-			println "find all artifacts for type $itemType"
+			log.debug "find all artifacts for type $itemType"
 			if(sharedItems[itemType] != null && !refresh) {
 				return sharedItems[itemType]
 			}
@@ -537,7 +507,6 @@ class SecurityService {
 				}
 			}
 			def artifacts = []
-			println "look for collab groups $groupIds"
 			def artifactHQL = "SELECT distinct artifact FROM ProtectedArtifact artifact JOIN artifact.groups groups " + 
 			"WHERE artifact.type = :type " + 
 			"AND groups IN (:groups) "
@@ -555,7 +524,6 @@ class SecurityService {
 				if(artifacts){
 					aIds = artifacts.collect{it.objectId}.unique()
 				}
-				println "found unique $itemType artifacts numbering "+ aIds.size()
 				ids = getAccessibleIds(user,itemType,aIds)
 			}
 
@@ -570,7 +538,6 @@ class SecurityService {
 		private getAccessibleIds(user, type,ids) {
 				def accessibleIds = []
 				def studyNames = this.getSharedItemIds(user.username, Study.class.name,null)
-				println "my shared studies are $studyNames"
 				def studyHQL = "SELECT distinct study FROM Study study " + 
 				"WHERE study.shortName IN (:studyNames) "
 				def studies = []
@@ -581,55 +548,11 @@ class SecurityService {
 					accessibleIds = UserList.executeQuery(artifactHQL, [studies: studies])
 				}
 				if(type == SavedAnalysis.class.name){
-					println "sa " + ids
 					def artifactHQL = "SELECT distinct analysis.id FROM SavedAnalysis analysis JOIN analysis.studies studies " + 
 					"WHERE studies IN (:studies) "
 					accessibleIds = SavedAnalysis.executeQuery(artifactHQL, [studies: studies])
 				}
-				println "found $type accessibleIds " + accessibleIds.size()
-				println "retain"
-				println accessibleIds.retainAll(ids)
-				println "ids " + ids.size()
 				return ids
 			}
 	
-	
-	private getProtectionGroupsForUser(username){
-		def authManager = this.getAuthorizationManager()
-		def user = authManager.getUser(username)
-		def groups = []
-		groups = authManager.getProtectionGroupRoleContextForUser(user.userId.toString()).collect { it.protectionGroup }
-		return groups
-	}
-	
-	private getRoleIdForName(roleName) {
-		return jdbcTemplate.queryForLong("select ROLE_ID from CSM.CSM_ROLE where ROLE_NAME = '$roleName'")
-	}
-	
-	
-	private getUsersForProtectionGroup(protectionGroup){
-		def pgId = protectionGroup.getProtectionGroupId()
-		def userIds = []
-		def users = jdbcTemplate.queryForList("select USER_ID from CSM.CSM_USER_GROUP_ROLE_PG where PROTECTION_GROUP_ID = '$pgId'")
-		users.each{
-			userIds << it.get("USER_ID")
-		}
-		def protGroupUsers = []
-		protGroupUsers = GDOCUser.getAll(userIds)
-		return protGroupUsers
-	}
-	
-	public AuthenticationManager getAuthenticationManager() {
-		if(!this.@authenticationManager) {
-			this.@authenticationManager = SecurityServiceProvider.getAuthenticationManager("gdoc")
-		} 
-		return this.@authenticationManager 
-	}
-	
-	public AuthorizationManager getAuthorizationManager() {
-		if(!this.@authorizationManager) {
-			this.@authorizationManager = SecurityServiceProvider.getAuthorizationManager("gdoc");
-		} 
-		return this.@authorizationManager 
-	}
 }

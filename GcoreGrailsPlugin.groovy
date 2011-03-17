@@ -33,6 +33,14 @@ Brief description of the plugin.
     }
 
     def doWithSpring = {
+		userDetailsService(CustomUserDetailsService){
+			securityService = ref("securityService")
+		}
+
+		ldapUserDetailsMapper(CustomLdapUserDetailsMapper) {
+			springSecurityService = ref("springSecurityService")
+		}
+	
         entityInterceptor(StudyContextInterceptor)
 
 		jndiTemplate(org.springframework.jndi.JndiTemplate) {
@@ -64,7 +72,6 @@ Brief description of the plugin.
 		}	
 		securityServiceProxy(SecurityService) {bean ->
 		  	bean.scope = 'session'
-			jdbcTemplate = ref('jdbcTemplate')
 		}
 		securityService(org.springframework.aop.scope.ScopedProxyFactoryBean){
 			targetBeanName="securityServiceProxy"

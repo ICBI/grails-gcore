@@ -7,33 +7,6 @@ import org.apache.commons.lang.StringUtils
 class BootStrap {
      def init = { servletContext ->
 		
-		switch (GrailsUtil.environment) {
-	       case ["development","sandbox"]:
-				
-				//load the properties file and put props into system properties
-		     	//Load the the application properties and set them as system properties
-		  		def config = ConfigurationHolder.config
-				Properties gdocProperties = new Properties();
-
-				FileInputStream inputStream
-
-		  		inputStream = new FileInputStream(config.gdoc.appPropertiesFile);
-		  		gdocProperties.load(inputStream);
-
-		  		if (gdocProperties.isEmpty()) {
-		  		   log.error("Error: no properties found when loading properties file: " + config.gdoc.appPropertiesFile);
-		  		}
-
-		  		String key = null;
-		  		String val = null;
-		  		for (Iterator i = gdocProperties.keySet().iterator(); i.hasNext(); ) {
-		  		  key = (String) i.next();
-		  		  val = gdocProperties.getProperty(key);
-		  		  System.setProperty(key, val);
-		  		}
-	           break;
-	   	}
-		
 		// Setup metaclass methods for string 
 		String.metaClass.decamelize = {
 			def displayValue = StringUtils.capitalize(delegate)
