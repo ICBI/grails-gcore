@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="gcore"/>
 <jq:plugin name="autocomplete"/>
 <g:javascript>
 

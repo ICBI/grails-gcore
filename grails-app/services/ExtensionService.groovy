@@ -6,11 +6,13 @@ import org.springframework.context.ApplicationContextAware
 class ExtensionService implements InitializingBean, ApplicationContextAware {
 	def grailsApplication
 	def extensionMap
+	def dataExtensionMap
 	def analysisTypeMap
 	ApplicationContext applicationContext
 	
 	void afterPropertiesSet() {
 		extensionMap = [:]
+		dataExtensionMap = [:]
 		analysisTypeMap = [:]
 		// Find all extension annotations on the controllers
 		grailsApplication.controllerClasses.each{ controller ->
@@ -25,6 +27,16 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 				}
 			}
 		}
+		println "In extension service"
+		// Find all extension annotations on the services
+		grailsApplication.serviceClasses.each{ service ->
+			println "Scanning ${service} for annotations"
+			if(service.clazz.getAnnotation(DataExtension.class)) {
+				println "found DataExtension for ${service}"
+				def annotation = service.clazz.getAnnotation(DataExtension.class)
+				dataExtensionMap[annotation.label()] = applicationContext.getBean(service.logicalPropertyName + 'Service')
+			}
+		}
 	}
 	
 	def getAnalysisLinks() {
@@ -33,6 +45,14 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	
 	def getSearchLinks() {
 		return buildLinks(ExtensionType.SEARCH)
+	}
+	
+	def getDataExtensionLabels() {
+		return dataExtensionMap.collect {key, value -> return key}
+	}
+	
+	def createLinkForLabel(label, item) {
+		return dataExtensionMap[label].createLink(item)
 	}
 	
 	def buildRequest(userId, cmd) {
