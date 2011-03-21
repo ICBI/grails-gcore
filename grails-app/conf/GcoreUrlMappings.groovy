@@ -1,8 +1,8 @@
 class GcoreUrlMappings {
     static mappings = {
-	  "/genomeBrowser/$action?/$chromosome?/$dataType?/$id?**" {
+	  /*"/genomeBrowser/$action?/$chromosome?/$dataType?/$id?**" {
 		controller = "genomeBrowser"
-	  }
+	  }*/
 	  "/"(controller:'home',action:'index') 
       "/$controller/$action?/$id?"{
 	      constraints {
