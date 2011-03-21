@@ -9,8 +9,9 @@ $(document).ready(function() {
 });
 
 function loadDataSets(dataType) {
+	var appName =  window.location.pathname.split("\/")[1];
 	$.ajax({
-		url: "studyDataSource/selectDataType",
+		url: "/" + appName + "/studyDataSource/selectDataType",
 		data: "dataType=" + dataType,
 		cache: false,
 		success: function(html) {
