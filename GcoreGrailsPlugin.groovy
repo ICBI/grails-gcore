@@ -4,8 +4,12 @@ import org.codehaus.groovy.grails.commons.GrailsApplication
 import org.apache.commons.dbcp.BasicDataSource
 import javax.jms.Queue
 import javax.jms.QueueConnectionFactory
+import org.springframework.context.ApplicationContext
+import org.apache.commons.logging.LogFactory
 
 class GcoreGrailsPlugin {
+	
+	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
@@ -16,6 +20,8 @@ class GcoreGrailsPlugin {
     def pluginExcludes = [
             "grails-app/views/error.gsp"
     ]
+
+	def loadBefore = ['springSecurityCore', 'springSecurityLdap']
 
     // TODO Fill in these fields
     def author = "Your name"
@@ -28,11 +34,16 @@ Brief description of the plugin.
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/gcore"
 
+	def config
+
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before 
     }
 
     def doWithSpring = {
+	
+		config = getConfiguration(parentCtx, application)
+		
 		userDetailsService(CustomUserDetailsService){
 			securityService = ref("securityService")
 		}
@@ -97,4 +108,26 @@ Brief description of the plugin.
         // TODO Implement code that is executed when the project configuration changes.
         // The event is the same as for 'onChange'.
     }
+
+	// Get a configuration instance
+    private getConfiguration(ApplicationContext applicationContext, GrailsApplication application) {
+	
+        def config = application.config
+
+        // load it from class file and merge in to GrailsApplication#config
+        try {
+            Class gcoreConfigClass = application.getClassLoader().loadClass("GcoreConfig")
+            ConfigSlurper configSlurper = new ConfigSlurper(GrailsUtil.getEnvironment())
+            /*Map binding = new HashMap()
+            binding.userHome = System.properties['user.home']
+            binding.grailsEnv = application.metadata["grails.env"]
+            binding.appName = application.metadata["app.name"]
+            binding.appVersion = application.metadata["app.version"]
+            configSlurper.binding = binding*/
+            config.merge(configSlurper.parse(gcoreConfigClass))
+            return config
+        } catch (ClassNotFoundException e) {
+            LOG.debug("Not found: ${e.message}")
+        }
+	}
 }
