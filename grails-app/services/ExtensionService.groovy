@@ -27,12 +27,9 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 				}
 			}
 		}
-		println "In extension service"
 		// Find all extension annotations on the services
 		grailsApplication.serviceClasses.each{ service ->
-			println "Scanning ${service} for annotations"
 			if(service.clazz.getAnnotation(DataExtension.class)) {
-				println "found DataExtension for ${service}"
 				def annotation = service.clazz.getAnnotation(DataExtension.class)
 				dataExtensionMap[annotation.label()] = applicationContext.getBean(service.logicalPropertyName + 'Service')
 			}
