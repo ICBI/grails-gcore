@@ -8,17 +8,7 @@
 </td><td valign="bottom" style="text-align:right;padding:7px">
 <span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 
-<g:if test="${!session.userId}">
-<g:if test="${flash.cmd instanceof LoginCommand && flash.message}">
-<div align="right" id="success" style="color:white">${flash.message}</div>
-</g:if>
-<g:form name="loginForm" url="[controller:'login',action:'login']" update="[success:'message',failure:'error']">
-       <input name="username" type="text" size="10"></input>
-       <input name="password" type="password" size="10"></input>
-       <input type="submit" value="login" />
-</g:form >
-</g:if>
-<g:else>
+<sec:ifLoggedIn>
 
 <div style="float:right;color:#f2f2f2">
 	<div>Logged in as: ${session.userId}</div>
@@ -32,7 +22,7 @@
 		<g:link style="color:#f2f2f2" action="index" controller="logout" update="success">Logout</g:link>
 	</div>
 </div>
-</g:else>
+</sec:ifLoggedIn>
 
 
 

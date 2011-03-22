@@ -48,9 +48,10 @@
 </td><td valign="bottom" style="text-align:right;padding:7px">
 <span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 
-<g:if test="${!session.userId}">
-<g:if test='${flash.message}'>
-<div class='login_message' style="color:white">${flash.message}</div>
+<sec:ifNotLoggedIn>
+
+<g:if test='${flash.loginError}'>
+<div class='login_message' style="color:white">${flash.loginError}</div>
 </g:if>
 
 <form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
@@ -72,8 +73,8 @@
 	<g:link controller="registration" style="color:white">register now</g:link>&nbsp;|&nbsp;
 	<g:link controller="registration" action="passwordReset" style="color:white">forgot password</g:link>
 </span>
-</g:if>
-<g:else>
+</sec:ifNotLoggedIn>
+<sec:ifLoggedIn>
 <div style="padding:10px;">
 	<g:form autocomplete="off" controller="search" action="index">
 	
@@ -97,7 +98,7 @@
 	
 	</div>
 </div>
-</g:else>
+</sec:ifLoggedIn>
 
 
 
