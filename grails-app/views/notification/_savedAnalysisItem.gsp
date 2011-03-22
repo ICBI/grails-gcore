@@ -3,7 +3,12 @@
 <div class="notificationContainer" style="height: 10px">
 <g:if test="${notification.status == 'Complete'}">
 	<div style="float: left;">
-		<g:link controller="${g.analysisView(type: notification.type)}" action="view" id="${notification.id}">${notification.type}</g:link> (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> ) 
+		<g:if test="${g.analysisView(type: notification.type)}">
+			<g:link controller="${g.analysisView(type: notification.type)}" action="view" id="${notification.id}">${notification.type}</g:link> (<g:formatDate date="${notification.dateCreated}" format="h:mm M/dd/yyyy"/> )  
+		</g:if>
+		<g:else>
+			${notification.type}
+		</g:else>
 	</div>
 	<div class="status" style="float: right; ">
 		${notification.status}
