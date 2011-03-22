@@ -5,9 +5,9 @@
 <g:javascript library="jquery"/>   
     </head>
     <body>
-	<jq:plugin name="ui"/>
-	<jq:plugin name="jqgrid"/>
-	<jq:plugin name="styledButton"/>
+		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
+		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+		<g:jqgrid />
 	<g:javascript>
 	$(document).ready( function () {
 		 // this is unfortunately needed due to a race condition in safari
