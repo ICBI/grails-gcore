@@ -21,7 +21,7 @@ class GcoreGrailsPlugin {
             "grails-app/views/error.gsp"
     ]
 
-	def loadBefore = ['springSecurityCore', 'springSecurityLdap']
+	def loadBefore = ['springSecurityCore', 'springSecurityLdap','jms']
 
     // TODO Fill in these fields
     def author = "Your name"
