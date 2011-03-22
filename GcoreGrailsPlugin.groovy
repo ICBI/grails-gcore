@@ -6,6 +6,7 @@ import javax.jms.Queue
 import javax.jms.QueueConnectionFactory
 import org.springframework.context.ApplicationContext
 import org.apache.commons.logging.LogFactory
+import org.apache.commons.lang.StringUtils
 
 class GcoreGrailsPlugin {
 	
