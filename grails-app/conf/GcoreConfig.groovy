@@ -51,6 +51,7 @@ grails.plugins.springsecurity.ldap.search.base = 'dc=georgetown,dc=edu'
 // Jquery configuration
 jquery.sources="jquery" 
 jquery.version="1.3.2"
+grails.views.javascript.library="jquery"
 
 // set per-environment serverURL stem for creating absolute links
 environments {
