@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory
 
 class GcoreGrailsPlugin {
 	
-	//static LOG = LogFactory.getLog("GcoreGrailsPlugin")
+	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
@@ -119,8 +119,7 @@ Brief description of the plugin.
             config.merge(configSlurper.parse(gcoreConfigClass))
             return config
         } catch (ClassNotFoundException e) {
-            //LOG.debug("Not found: ${e.message}")
-			println "not found"
+            LOG.debug("Not found: ${e.message}")
         }
 	}
 }
