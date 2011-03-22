@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory
 
 class GcoreGrailsPlugin {
 	
-	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
+	//static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
@@ -33,8 +33,6 @@ Brief description of the plugin.
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/gcore"
-
-	def config
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before 
@@ -118,16 +116,11 @@ Brief description of the plugin.
         try {
             Class gcoreConfigClass = application.getClassLoader().loadClass("GcoreConfig")
             ConfigSlurper configSlurper = new ConfigSlurper(GrailsUtil.getEnvironment())
-            /*Map binding = new HashMap()
-            binding.userHome = System.properties['user.home']
-            binding.grailsEnv = application.metadata["grails.env"]
-            binding.appName = application.metadata["app.name"]
-            binding.appVersion = application.metadata["app.version"]
-            configSlurper.binding = binding*/
             config.merge(configSlurper.parse(gcoreConfigClass))
             return config
         } catch (ClassNotFoundException e) {
-            LOG.debug("Not found: ${e.message}")
+            //LOG.debug("Not found: ${e.message}")
+			println "not found"
         }
 	}
 }
