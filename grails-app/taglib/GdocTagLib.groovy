@@ -1,6 +1,9 @@
 import org.apache.commons.lang.StringUtils
 
 class GdocTagLib {
+	
+	static returnObjectForTags = ['workflows']
+	
 	def extensionService
 	
 	def navigationLink = { attrs, body ->
@@ -100,6 +103,12 @@ class GdocTagLib {
 		out << javascript(src: "jquery/jqGrid/json2.js", plugin: "gcore")
 		out << javascript(src: "jquery/jqGrid/JsonXml.js", plugin: "gcore")
 		
+	}
+	
+	def workflows = { attrs ->
+		def items = extensionService.getWorkflowsForType(attrs.type)
+		println items
+		return items
 	}
 	
 }

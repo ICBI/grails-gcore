@@ -8,12 +8,14 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	def extensionMap
 	def dataExtensionMap
 	def analysisTypeMap
+	def workflowExtensionMap
 	ApplicationContext applicationContext
 	
 	void afterPropertiesSet() {
 		extensionMap = [:]
 		dataExtensionMap = [:]
 		analysisTypeMap = [:]
+		workflowExtensionMap = [:]
 		// Find all extension annotations on the controllers
 		grailsApplication.controllerClasses.each{ controller ->
 			if(controller.clazz.getAnnotation(Extension.class)) {
@@ -24,6 +26,16 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 				if(annotation.type() == ExtensionType.ANALYSIS) {
 					def commandClass = Thread.currentThread().contextClassLoader.loadClass(controller.name + 'Command')
 					analysisTypeMap[commandClass.requestType] = controller.logicalPropertyName
+				}
+				
+				// Look at all methods and look for WorkflowExtensions
+				controller.clazz.declaredFields.each { field ->
+					def workflowAnnotation = field.getAnnotation(WorkflowExtension.class)
+					if(workflowAnnotation) {
+						if(!workflowExtensionMap[workflowAnnotation.type()])
+							workflowExtensionMap[workflowAnnotation.type()] = []
+						workflowExtensionMap[workflowAnnotation.type()] << [label: workflowAnnotation.label(), controller: controller.logicalPropertyName, action: field.name]
+					}
 				}
 			}
 		}
@@ -60,6 +72,12 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	
 	def getAnalysisView(analysisType) {
 		return analysisTypeMap[analysisType]
+	}
+	
+	def getWorkflowsForType(workflowType) {
+		if(!workflowExtensionMap[workflowType])
+			return []
+		return workflowExtensionMap[workflowType]
 	}
 	
 	private def buildLinks(type) {

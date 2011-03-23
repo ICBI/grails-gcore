@@ -83,56 +83,7 @@ class AnalysisService {
 			return request
 		},
 		(AnalysisType.HEATMAP): { sess, cmd ->
-			def request = new HeatMapRequest(sess, "HEATMAP_" + System.currentTimeMillis())
-			log.debug "COMMAND: ${cmd}"
-			log.debug "reporterIds: ${cmd.reporterIds}"
-			log.debug "from comparison: ${cmd.fromComparison}"
-			log.debug "datafile: ${cmd.dataFile}"
-			log.debug "request: ${request == null}"
-			log.debug "idService: $idService"
-			request.dataFileName = cmd.dataFile
-			def group1 = new SampleGroup()
-			if(cmd.patientList == 'ALL') {
-				def allIds = idService.sampleIdsForFile(cmd.dataFile)
-				group1.addAll(allIds)
-			} else {
-				if(cmd.groups.length > 0) {
-					group1.addAll(idService.samplesForListName(cmd.groups[0]))
-				}
-				if(cmd.groups.length > 1) {
-					def group2 = new SampleGroup()
-					group2.addAll(idService.samplesForListName(cmd.groups[1]))
-					request.comparisonGroup = group2
-				}
-			}
-			request.sampleGroup = group1
-			if(cmd.geneList) {
-				def reporterGroup = new ReporterGroup()
-				//reporterGroup.addAll(annotationService.findReportersForGeneList(cmd.geneList))
-				reporterGroup.addAll(annotationService.findReportersForGeneListAndFile(cmd.geneList,cmd.dataFile))
-				log.debug "REPORTERS genes: $reporterGroup"
-				request.reporterGroup = reporterGroup
-			} else if(cmd.reporterList) {
-				def reporterGroup = new ReporterGroup()
-				//reporterGroup.addAll(idService.reportersForListName(cmd.reporterList))
-				def reporters = idService.reportersForListName(cmd.reporterList)
-				if (cmd.dataSetType == DataType.GENE_EXPRESSION) {
-					def platformReporters = annotationService.findReportersForFile(cmd.dataFile)
-					platformReporters.retainAll(reporters)
-					reporters = platformReporters
-				}	
-				reporterGroup.addAll(reporters)
-				log.debug "REPORTERS replist: $reporterGroup"
-				request.reporterGroup = reporterGroup
-			}
-			if(cmd.fromComparison) {
-				def reporterGroup = new ReporterGroup()
-				log.debug "cmd reporters ${cmd.reporterIds}"
-				reporterGroup.addAll(cmd.reporterIds.replace("[", "").replace("]", "").split(",").toList())
-				request.reporterGroup = reporterGroup
-				log.debug "REPORTERS: $reporterGroup"
-			}
-			return request
+
 		},
 		(AnalysisType.CIN): { sess, cmd ->
 			def request = new ChromosomalInstabilityIndexRequest(sess, "CIN_" + System.currentTimeMillis())
