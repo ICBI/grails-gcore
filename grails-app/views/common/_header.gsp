@@ -1,5 +1,5 @@
 <g:javascript library="jquery" plugin="gcore"/>
-<jq:plugin name="autocomplete"/>
+<g:javascript src="jquery/jquery.autocomplete.js" plugin="gcore"/>
 <g:javascript>
 
 
@@ -44,7 +44,7 @@
 
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-<a href="/${appName()}"><img src="${createLinkTo(dir:'images',file:'gdocHeader.png')}" border="0" alt="G-DOC logo" /></a>
+<a href="/${appName()}"><img src="${resource(dir:'images',file:'gdocHeader.png', plugin: 'gcore')}" border="0" alt="G-DOC logo" /></a>
 </td><td valign="bottom" style="text-align:right;padding:7px">
 <span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 

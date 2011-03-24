@@ -7,8 +7,8 @@ jQuery(document).ready(function()
 	});
 });
 </g:javascript>
-<jq:plugin name="hoverIntent"/>
-<jq:plugin name="superfish"/>
+<g:javascript src="jquery/jquery.hoverIntent.js" plugin="gcore"/>
+<g:javascript src="jquery/jquery.superfish.js" plugin="gcore"/>
 
 <div id="top-navigation-block" width="100%" style="position: absolute; z-index: 100;">
 	<ul id="gdocNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
