@@ -22,7 +22,8 @@ class GcoreGrailsPlugin {
             "grails-app/views/error.gsp"
     ]
 
-	def loadBefore = ['springSecurityCore', 'springSecurityLdap','jms']
+	def loadBefore = ['jms']
+	def loadAfter = ['springSecurityCore', 'springSecurityLdap']
 
     // TODO Fill in these fields
     def author = "Your name"
@@ -43,12 +44,10 @@ Brief description of the plugin.
 	
 		config = getConfiguration(parentCtx, application)
 		
+		ldapUserDetailsMapper(CustomLdapUserDetailsMapper) {}
+		
 		userDetailsService(CustomUserDetailsService){
 			securityService = ref("securityService")
-		}
-
-		ldapUserDetailsMapper(CustomLdapUserDetailsMapper) {
-			springSecurityService = ref("springSecurityService")
 		}
 	
         entityInterceptor(StudyContextInterceptor)

@@ -3,7 +3,7 @@ import grails.converters.*
 import javax.servlet.http.HttpServletResponse
 
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import org.springframework.security.authentication.AccountExpiredException
 import org.springframework.security.authentication.CredentialsExpiredException
 import org.springframework.security.authentication.DisabledException
@@ -11,7 +11,9 @@ import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.WebAttributes
 
-class HomeController {
+import org.springframework.context.*
+class HomeController implements ApplicationContextAware{
+	ApplicationContext applicationContext 
 	def feedService
 	def dataAvailableService
 	def findingService
@@ -22,22 +24,22 @@ class HomeController {
 	def springSecurityService
 	
     def index = { 
-	    if(params.register){
+		log.info("The application context is : " + applicationContext) 
+		/**def beans = applicationContext.getBeanDefinitionNames()
+		beans.each{
+			println it
+		}**/
 		
-	     }
-		def config = SpringSecurityUtils.securityConfig
+		def sconfig = SpringSecurityUtils.securityConfig
 
 		if (springSecurityService.isLoggedIn()) {
-				redirect uri: config.successHandler.defaultTargetUrl
+				redirect uri: sconfig.successHandler.defaultTargetUrl
 				return
 		}
-		if(session.userId){
-			redirect(controller:'workflows')
-			return
-		}
+		
 		//get LCCC feed
 		def feedMap = feedService.getFeed()
-		
+		println "does this bean exist?"
 		//get patient counts for each study
 		def studies = Study.list();
 		def findings = findingService.getAllFindings()
@@ -102,7 +104,7 @@ class HomeController {
 		
 	
 
-		String postUrl = "${request.contextPath}${config.apf.filterProcessesUrl}"
+		String postUrl = "${request.contextPath}${sconfig.apf.filterProcessesUrl}"
 		
 		[postUrl: postUrl,diseaseBreakdown:diseaseBreakdown, dataBreakdown:dataBreakdown, feedMap:feedMap, findings:findings]
 	}

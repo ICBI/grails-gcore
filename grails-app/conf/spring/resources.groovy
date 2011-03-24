@@ -7,5 +7,9 @@ import javax.jms.Queue
 import javax.jms.QueueConnectionFactory
 
 beans = {
-	
+	userDetailsService(CustomUserDetailsService){
+		securityService = ref("securityService")
+	}
+
+	ldapUserDetailsMapper(CustomLdapUserDetailsMapper) {}
 }

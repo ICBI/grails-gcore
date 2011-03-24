@@ -45,7 +45,8 @@ class SecurityFilters {
 				  redirect(controller:'home', action:'index')
                   return false
               }
-			else if(springSecurityService.isLoggedIn() && controllerName.equals('admin')){
+			else if(springSecurityService.isLoggedIn() && 
+				(controllerName.equals('admin') || controllerName.equals('protectedArtifact'))){
 				if(!session.isGdocAdmin){
 					redirect(controller:'home', action:'index')
 					log.debug "$session.userId tried to access the admin panel but is not a GDOC Administrator" 

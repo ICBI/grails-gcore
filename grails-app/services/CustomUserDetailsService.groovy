@@ -19,6 +19,7 @@ class CustomUserDetailsService implements GrailsUserDetailsService{
 
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         GDOCUser.withTransaction { status ->
+			log.debug "inside customeUserDetailService"
 			def guUser = securityService.isNetId(username)
 			if(guUser){
 				log.debug "user has netId, fail for common authentication"
