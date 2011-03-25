@@ -17,7 +17,6 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
 		<g:javascript library="jquery"/>
-		<g:javascript src="gdoc.js"/>
 		<g:layoutHead/>
 		
 </head>

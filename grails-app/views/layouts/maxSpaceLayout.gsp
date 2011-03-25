@@ -17,7 +17,6 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
 		<g:javascript library="jquery"/>
-		<g:javascript src="gdoc.js"/>
 		<g:layoutHead/>
 		
 </head>
