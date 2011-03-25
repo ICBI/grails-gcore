@@ -15,13 +15,13 @@ $(document).ready(function() {
 	      $("#consentSpan").text("Please agree to Legal Term of Use").show().fadeOut(5000);
 	      return false;
 	 });
-	$("#agreement").hide();
+	<%--$("#agreement").hide();
 	  //toggle the componenet with class msg_body
 	  $("#showAg").click(function()
 	  {
 	    $("#agreement").slideToggle(500);
 		return false;
-	  });
+	  });--%>
 });	
 
 </g:javascript>
@@ -29,7 +29,7 @@ $(document).ready(function() {
 <div class="clinicalSearch" style="width:85%;margin:0 auto">
 
 <fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-    <legend style="padding:7px">Activate G-DOC account:</legend>
+    <legend style="padding:7px">Activate account:</legend>
 	<div class="c" style="border:1px solid silver;padding:10px;margin-right:10px;font-size:.8em">
 		<span style="font-size:1.05em">Your password must meet the following requirements:</span><br />
 		 * It must be between 8 and 15 characters long.<br />
@@ -66,7 +66,7 @@ $(document).ready(function() {
 		<div style="font-style:italic;"><span style="font-weight:bold">*</span> Required field</div>
 		<br/>
 		
-		<div id="agreement" style="display:none;width:85%;border:1px solid black;height: 200px;overflow: auto;">
+		<div id="agreement" style="display:block;width:85%;border:1px solid black;height: 200px;overflow: auto;">
 			<div>
 			    <p align="center">
 			        <b>
@@ -866,7 +866,7 @@ $(document).ready(function() {
 			
 		</div>
 		<span id="consentSpan" style="color:red;"></span><br />
-		<g:checkBox name="consent" id="consent" class="consent" value="${false}" />&nbsp;&nbsp;&nbsp;I accept <a href="#" id="showAg" >use</a><br />
+		<g:checkBox name="consent" id="consent" class="consent" value="${false}" />&nbsp;&nbsp;&nbsp;I accept use<br />
 		<br />
 		<g:submitButton name="activateAccount" value="Activate account" />
 		</g:form>
