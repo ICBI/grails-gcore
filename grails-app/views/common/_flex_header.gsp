@@ -1,13 +1,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <!--  BEGIN Browser History required section -->
-<link rel="stylesheet" href="${createLinkTo(dir: 'js/history',  file: 'history.css')}"/>
+<link rel="stylesheet" href="${createLinkTo(dir: 'js/history',  file: 'history.css', plugin:'gcore')}"/>
 <!--  END Browser History required section -->
 
-<script src="${createLinkTo(dir:'js',file:'AC_OETags.js')}" language="javascript"></script>
+<script src="${createLinkTo(dir:'js',file:'AC_OETags.js', plugin:'gcore')}" language="javascript"></script>
 
 <!--  BEGIN Browser History required section -->
-<script src="${createLinkTo(dir:'js/history',file:'history.js')}" language="javascript"></script>
+<script src="${createLinkTo(dir:'js/history',file:'history.js', plugin:'gcore')}" language="javascript"></script>
 <!--  END Browser History required section -->
 
 <script language="JavaScript" type="text/javascript">

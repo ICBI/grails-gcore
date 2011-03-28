@@ -53,34 +53,7 @@ class AnalysisService {
 			return request
 		},
 		(AnalysisType.PCA): { sess, cmd ->
-			def request = new PrincipalComponentAnalysisRequest(sess, "PCA_" + System.currentTimeMillis())
-			request.dataFileName = cmd.dataFile
-			def group1 = new SampleGroup()
-			if(cmd.patientCriteria == 'ALL') {
-				def allIds = idService.sampleIdsForFile(cmd.dataFile)
-				group1.addAll(allIds)
-			} else {
-				def ids = []
-				cmd.groups.each {
-					ids.addAll(idService.samplesForListName(it))
-				}
-				group1.addAll(ids)
-			}
-			request.sampleGroup = group1
-			if(cmd.reporterList) {
-				def reporterGroup = new ReporterGroup()
-				//reporterGroup.addAll(idService.reportersForListName(cmd.reporterList))
-				def reporters = idService.reportersForListName(cmd.reporterList)
-				if (cmd.dataSetType == DataType.GENE_EXPRESSION) {
-					def platformReporters = annotationService.findReportersForFile(cmd.dataFile)
-					platformReporters.retainAll(reporters)
-					reporters = platformReporters
-				}	
-				reporterGroup.addAll(reporters)
-				log.debug "REPORTERS: $reporterGroup"
-				request.reporterGroup = reporterGroup
-			}
-			return request
+			return null
 		},
 		(AnalysisType.HEATMAP): { sess, cmd ->
 
