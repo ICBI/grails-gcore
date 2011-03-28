@@ -51,10 +51,10 @@
 			<g:link controller="geneExpression" action="view" id="${evidence.savedAnalysis.id}">${evidence.savedAnalysis.type}</g:link> 
 		</g:elseif>
 		<g:elseif test="${evidence.savedAnalysis.type == AnalysisType.KM_PLOT}">
-			<g:link controller="km" action="repopulateKM" id="${evidence.savedAnalysis.id}">${evidence.savedAnalysis.type}</g:link> 
+			<g:link controller="km" action="view" id="${evidence.savedAnalysis.id}">${evidence.savedAnalysis.type}</g:link> 
 		</g:elseif>
 		<g:elseif test="${evidence.savedAnalysis.type == AnalysisType.KM_GENE_EXPRESSION}">
-				<g:link controller="km" action="repopulateKM" id="${evidence.savedAnalysis.id}">${evidence.savedAnalysis.type}</g:link> 
+				<g:link controller="km" action="view" id="${evidence.savedAnalysis.id}">${evidence.savedAnalysis.type}</g:link> 
 		</g:elseif>
 		<g:elseif test="${evidence.savedAnalysis.type == AnalysisType.PCA}">
 				<g:link controller="pca" action="view" id="${evidence.savedAnalysis.id}">${evidence.savedAnalysis.type}</g:link> 

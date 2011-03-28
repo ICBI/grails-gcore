@@ -34,23 +34,8 @@ class AnalysisService {
 			return request
 		},
 		(AnalysisType.KM_GENE_EXPRESSION): { sess, cmd ->
-			def request = new ExpressionLookupRequest(sess, "ExpressionLookup_" + System.currentTimeMillis())
-			request.dataFileName = cmd.dataFile
-			def sampleGroup = new SampleGroup()
-			def allIds = idService.sampleIdsForFile(cmd.dataFile)
-			log.debug "group sent in = $cmd.groups"
-			if(cmd.groups != 'ALL') {
-				def sampleIds = idService.samplesForListName(cmd.groups)
-				log.debug "SAMPLEIDS: $sampleIds"
-				allIds = allIds.intersect(sampleIds)
-				log.debug "ALLIDS: $allIds"
-			}
-			sampleGroup.addAll(allIds)
-			def reporterGroup = new ReporterGroup()
-			reporterGroup.addAll(annotationService.findReportersForGeneAndFile(cmd.geneName, cmd.dataFile))
-			request.reporters = reporterGroup
-			request.samples = sampleGroup
-			return request
+			
+			return null
 		},
 		(AnalysisType.PCA): { sess, cmd ->
 			return null
