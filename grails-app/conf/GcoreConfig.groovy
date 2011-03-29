@@ -75,7 +75,6 @@ environments {
 		grails.serverURL = "http://localhost:8080"
 	//	jmsserver = "jnp://141.161.30.205:1099"
 		jmsserver = "jnp://localhost:1099"
- 		responseQueue = "AnalysisResponseKevin"
 		genePatternUrl = "https://devcomp.gdoc.georgetown.edu"
 		tempDir = "/local/content/gdoc"
 		middlewareUrl = "http://localhost:9090/gdoc-middleware"

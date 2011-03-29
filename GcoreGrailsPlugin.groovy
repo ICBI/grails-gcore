@@ -22,7 +22,6 @@ class GcoreGrailsPlugin {
             "grails-app/views/error.gsp"
     ]
 
-	def loadBefore = ['jms']
 	def loadAfter = ['springSecurityCore', 'springSecurityLdap']
 
     // TODO Fill in these fields
