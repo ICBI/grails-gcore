@@ -59,7 +59,7 @@
 	$(document).ready( function () {
 			$('.example8DOMWindow').click(function(){ 
 			    $.openDOMWindow({ 
-				    height:400,
+				    height:450,
 			        loader:1, 
 			        loaderImagePath:'animationProcessing.gif', 
 			        loaderHeight:16,
@@ -78,10 +78,7 @@
   <body onload="showVenn()">
 	<br />
     <h1 style="font-size:1.2em">Venn Diagram</h1><br />
-	<span id="label" style="display:block">
-		
-		${session.study?.shortName}</span>
-	</span>
+	${session.study?.shortName}
 	<a href="#" class="example8DOMWindow" style="display:none">-</a>
 	
 	<div id="example8Content" align="left" style="display:none;text-align:left;"> 

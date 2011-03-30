@@ -620,6 +620,7 @@ def createList(userName, listName, listItems, studies, tags) {
 				userListInstance.addToListItems(new UserListItem(value:it));
 			}
 		}
+		log.debug "associate with these studies $studies"
 		studies.each {
 			if(it){
 				def ds = Study.findBySchemaName(it)

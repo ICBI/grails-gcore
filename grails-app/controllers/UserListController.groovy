@@ -116,6 +116,8 @@ class UserListController {
 			}
 		}
 		else{
+			log.debug "this is not a patient list, set study context to null"
+			StudyContext.setStudy(null)
 			session.study = null
 		}
 		def results
