@@ -13,8 +13,7 @@ class BootStrap {
 			displayValue = displayValue.replaceAll(/([^A-Z])([A-Z])/, '$1 $2').trim()
 			return displayValue
 		}
-		// Initialize custom json converter
-		grails.converters.JSON.registerObjectMarshaller(new ExpressionLookupResultMarshaller())
+		
      }
      def destroy = {
      }
