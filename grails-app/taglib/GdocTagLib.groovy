@@ -77,6 +77,17 @@ class GdocTagLib {
 		
 	}
 	
+	def cytoscapeLink = { attrs ->
+		def links = extensionService.getCytoscapeLinks()
+		if(!links)
+			out << '<br/><br/>'
+		links.each { key, value ->
+			def img = '<img alt="'+ attrs.title + '" title="' + attrs.title + '" src="' + attrs.src + '" border="0" />'
+			out << link([controller: key, id: attrs.id]){img}
+		}
+		
+	}
+	
 	def appName = {
 		out << grailsApplication.metadata['app.name']
 	}

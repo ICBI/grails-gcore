@@ -620,19 +620,4 @@ class UserListController {
 		}
 	}
 	
-	def exportToCytoscape = {
-		if(isListAccessible(params.id)){
-			log.debug "BUILDING AND EXPORTING TO CYTOSCAPE ${params.id}"
-			def cytoscapeFiles = exportService.buildCytoscapeFiles(params.id)
-			redirect(controller:"cytoscape",action:"index",params:[sifFile:cytoscapeFiles['sifFile'],edgeAttributeFile:cytoscapeFiles['edgeAttributeFile'],nodeAttributeFile:cytoscapeFiles['nodeAttributeFile'],geneAttributeFile:cytoscapeFiles['geneAttributeFile']])
-			return
-		}
-		else{
-			log.debug "user is NOT permitted to export list"
-			redirect(controller:'policies',action:'deniedAccess')
-			return
-		}
-	}
-
-	
 }

@@ -56,6 +56,10 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 		return buildLinks(ExtensionType.SEARCH)
 	}
 	
+	def getCytoscapeLinks() {
+		return buildLinks(ExtensionType.CYTOSCAPE)
+	}
+	
 	def getDataExtensionLabels() {
 		return dataExtensionMap.collect {key, value -> return key}
 	}

@@ -122,9 +122,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 						</g:link>
 						
 						<g:if test="${userListInstance.tags.contains('gene')}">
-						<g:link action="exportToCytoscape" style="padding-right:5px;" id="${userListInstance.id}">
-							<img alt="View Cancer-Gene Index network" title="View Cancer-Gene Index network" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" border="0" />
-						</g:link>
+						<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
 						</g:if>
 		<%--a href="javascript:void(0)" onclick="if(confirm('Are you sure?')){var classn ='${userListInstance.id}_toggle';${remoteFunction(action:'deleteList',onLoading:'showPageSpinner(true,classn)',onComplete:'showPageSpinner(false,classn)', id:userListInstance.id,update:'allLists',onSuccess:'finishDelete(\''+userListInstance.id+'\')')}return false;}">
 						<img alt="delete list" title="Delete list" src="${createLinkTo(dir: 'images', file: 'cross.png')}"/></a--%>
@@ -137,9 +135,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 						<img alt="export list" border="0" title="Export list" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
 						</g:link>
 						<g:if test="${userListInstance.tags.contains('gene')}">
-						<g:link action="exportToCytoscape" style="padding-right:5px;" id="${userListInstance.id}">
-							<img border="0" alt="View Cancer-Gene Index network" title="View Cancer-Gene Index network" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" />
-						</g:link>
+						<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
 						</g:if>
 					</div>
 					</g:else>
