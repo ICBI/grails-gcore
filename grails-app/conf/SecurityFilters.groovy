@@ -64,6 +64,11 @@ class SecurityFilters {
 					//StudyContext.setStudy("EDIN")
 				}
 			}
+			after = {
+				// Clear out the ThreadLocal context variable before the thread
+				// gets returned to the pool
+				StudyContext.clear()
+			}
 		}
 		// Added mapping to override searchable controller
 		searchableCheck(controller: 'searchable', action:'*') {
