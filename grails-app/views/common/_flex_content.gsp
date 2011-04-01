@@ -13,11 +13,11 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 	var MMredirectURL = window.location;
     document.title = document.title.slice(0, 47) + " - Flash Player Installation";
     var MMdoctitle = document.title;
-    var appName = it.attrs.appName
-
+    var appName = it.attrs.appName;
+    var analysisId = it.attrs.analysisId
 	AC_FL_RunContent(
 		"src", "${createLinkTo(dir:'visualizations',file:'playerProductInstall')}",
-		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+'&appName='+appName+"",
+		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+'&appName='+appName+'&analysisId='+analysisId+"",
 		"width", "100%",
 		"height", "100%",
 		"wmode","transparent",
@@ -44,7 +44,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			"bgcolor", "#869ca7",
 			"name", "${it.attrs.component}",
 			"allowScriptAccess","always",
-			"flashvars", "appName=${it.attrs.appName}",
+			"flashvars", "appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}",
 			"type", "application/x-shockwave-flash",
 			"pluginspage", "http://www.adobe.com/go/getflashplayer"
 	);
@@ -65,7 +65,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			<param name="bgcolor" value="#869ca7" />
 			<param name="allowScriptAccess" value="sameDomain" />
 			<param name="wmode" value="transparent" >
-			<param name='flashVars' value='appName=${it.attrs.appName}'/>
+			<param name='flashVars' value='appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}'/>
 			<embed src="${it.attrs.component}.swf" 
 				wmode="transparent"
 				quality="high" 
