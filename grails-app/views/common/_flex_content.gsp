@@ -14,10 +14,11 @@ if ( hasProductInstall && !hasRequestedVersion ) {
     document.title = document.title.slice(0, 47) + " - Flash Player Installation";
     var MMdoctitle = document.title;
     var appName = it.attrs.appName;
+	var plotType = it.attrs.plotType;
     var analysisId = it.attrs.analysisId
 	AC_FL_RunContent(
 		"src", "${createLinkTo(dir:'visualizations',file:'playerProductInstall')}",
-		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+'&appName='+appName+'&analysisId='+analysisId+"",
+		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+'&appName='+appName+'&plotType='+plotType+'&analysisId='+analysisId+"",
 		"width", "100%",
 		"height", "100%",
 		"wmode","transparent",
@@ -44,7 +45,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			"bgcolor", "#869ca7",
 			"name", "${it.attrs.component}",
 			"allowScriptAccess","always",
-			"flashvars", "appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}",
+			"flashvars", "appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}&plotType=${it.attrs.plotType}",
 			"type", "application/x-shockwave-flash",
 			"pluginspage", "http://www.adobe.com/go/getflashplayer"
 	);
@@ -65,7 +66,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			<param name="bgcolor" value="#869ca7" />
 			<param name="allowScriptAccess" value="sameDomain" />
 			<param name="wmode" value="transparent" >
-			<param name='flashVars' value='appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}'/>
+			<param name='flashVars' value='appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}&plotType=${it.attrs.plotType}'/>
 			<embed src="${it.attrs.component}.swf" 
 				wmode="transparent"
 				quality="high" 

@@ -27,7 +27,12 @@
 			</g:if>
 			<g:else>
 				<g:if test="${g.analysisView(type: analysis.type)}">
+					<g:if test="${(analysis.query?.geAnalysisId?.toString() == 'null')}">
+						<span style="font-style:italic">${analysis.type} **REFERENCED ANALYSIS (not viewable)**</span>
+					</g:if>
+					<g:else>
 					<g:link controller="${g.analysisView(type: analysis.type)}" action="view"  id="${analysis.id}">${analysis.type}</g:link>
+					</g:else>
 				</g:if>
 				<g:else>
 					${analysis.type}
