@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>GDOC - Administration</title>
-		<meta name="layout" content="workflowsLayout" />
+		<meta name="layout" content="adminLayout" />
 		<g:javascript library="jquery"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'scrollable-navig.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'dialog.css')}"/>

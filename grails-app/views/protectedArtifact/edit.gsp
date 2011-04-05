@@ -3,17 +3,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminLayout" />
         <title>Edit ProtectedArtifact</title>
     </head>
     <body>
-        <div class="nav">
+        <!--div class="nav">
             <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list">ProtectedArtifact List</g:link></span>
             <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span>
-        </div>
-        <div class="body">
-            <h1>Edit ProtectedArtifact</h1>
+        </div-->
+        <div class="adminForm">
+            <p style="font-size:14pt;padding-bottom:15px">Edit ProtectedArtifact</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -28,15 +28,6 @@
                 <div class="dialog">
                     <table>
                         <tbody>
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="groups">Groups:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:protectedArtifactInstance,field:'groups','errors')}">
-                                    
-                                </td>
-                            </tr> 
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -64,15 +55,28 @@
                                     <input type="text" id="type" name="type" value="${fieldValue(bean:protectedArtifactInstance,field:'type')}"/>
                                 </td>
                             </tr> 
+
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="groups">Groups:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:protectedArtifactInstance,field:'groups','errors')}">
+                                    <g:select name="group"
+									          from="${CollaborationGroup.list(sort:'name')}"
+									          value="${protectedArtifactInstance?.groups.id}"
+									          optionKey="id"
+											  optionValue="name" />
+                                </td>
+                            </tr>
                         
                         </tbody>
                     </table>
-                </div>
+                </div><br />
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" value="Update" /></span>
                     <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
                 </div>
             </g:form>
-        </div>
+        </div><br /><br />
     </body>
 </html>

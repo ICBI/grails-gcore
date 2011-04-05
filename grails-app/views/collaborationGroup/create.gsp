@@ -3,16 +3,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminLayout" />
         <title>Create CollaborationGroup</title>         
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
+            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
+            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span-->
         </div>
-        <div class="body">
-            <h1>Create CollaborationGroup</h1>
+        <div class="adminForm">
+            <p style="font-size:14pt;padding:15px">Create CollaborationGroup</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -55,7 +55,7 @@
                         
                         </tbody>
                     </table>
-                </div>
+                </div><br />
                 <div class="buttons">
                     <span class="button"><input class="save" type="submit" value="Create" /></span>
                 </div>

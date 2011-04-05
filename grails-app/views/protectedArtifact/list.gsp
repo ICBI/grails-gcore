@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminReport" />
         <title>ProtectedArtifact List</title>
     </head>
     <body>
@@ -12,12 +12,12 @@
             <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span>
         </div>
         <div class="body">
-            <h1>ProtectedArtifact List</h1>
+            <p style="font-size:14pt;padding:15px">ProtectedArtifact List</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table>
+                <table class="sumTable">
                     <thead>
                         <tr>
                         

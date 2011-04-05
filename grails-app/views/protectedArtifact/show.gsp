@@ -3,17 +3,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminLayout" />
         <title>Show ProtectedArtifact</title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
+            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list">ProtectedArtifact List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span>
+            <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span-->
         </div>
-        <div class="body">
-            <h1>Show ProtectedArtifact</h1>
+        <div class="adminForm">
+            <p style="font-size:14pt;padding-bottom:15px">Show ProtectedArtifact</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -35,7 +35,7 @@
                             <td  valign="top" style="text-align:left;" class="value">
                                 <ul>
                                 <g:each var="g" in="${protectedArtifactInstance.groups}">
-                                    <li><g:link controller="collaborationGroup" action="show" id="${g.id}">${g?.encodeAsHTML()}</g:link></li>
+                                    <g:link controller="collaborationGroup" action="show" id="${g.id}">${g?.name?.encodeAsHTML()}</g:link>
                                 </g:each>
                                 </ul>
                             </td>
@@ -65,7 +65,7 @@
                     
                     </tbody>
                 </table>
-            </div>
+            </div><br />
             <div class="buttons">
                 <g:form>
                     <input type="hidden" name="id" value="${protectedArtifactInstance?.id}" />
@@ -73,6 +73,6 @@
                     <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
                 </g:form>
             </div>
-        </div>
+        </div><br /><br />
     </body>
 </html>

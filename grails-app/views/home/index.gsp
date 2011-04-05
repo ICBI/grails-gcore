@@ -179,7 +179,7 @@
 					<table border="0" style="width:900px;margin:auto">
 						<tr>
 							<td valign="top" style="width:45%">
-							<table class="listTable" border="1" style="font-size:.9em" id="patientsTable">
+							<table class="sumTable" border="1" style="font-size:.9em" id="patientsTable">
 								<th colspan="4" style="padding:8px 8px 8px 8px;background-color:#EBF1FF">Cancer/Study Overview</th>
 								<tr style="padding:4px 4px 4px 4px;background-color:#f2f2f2">
 									<td>Disease</td>
@@ -259,7 +259,7 @@
 						</tr>
 						<tr>
 							<td valign="top" style="padding-top:15px">
-							<table class="listTable" border="1" style="font-size:.9em" id="patientsTable">
+							<table class="sumTable" border="1" style="font-size:.9em" id="patientsTable">
 								<th colspan="4" style="padding:8px 8px 8px 8px;background-color:#EBF1FF">Data-Type Overview</th>
 								<tr style="padding:4px 4px 4px 4px;background-color:#f2f2f2">
 									<td>Data Type</td>

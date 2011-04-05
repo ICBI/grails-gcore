@@ -28,7 +28,7 @@ class RegistrationController {
 		log.debug "preparing to send account change request"
 		if(session.userId){
 			log.debug "$session.userId is logged in, requesting password change"
-			def netId = securityService.validateNetId(session.userId.trim(), null)
+			def netId = securityService.isNetId(session.userId.trim())
 			if(netId){
 				[netId:true]
 			}

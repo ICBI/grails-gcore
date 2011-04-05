@@ -3,21 +3,21 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminReport" />
         <title>CollaborationGroup List</title>
     </head>
     <body>
-        <div class="nav">
+        <!--div class="nav">
             <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span>
+            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span-->
         </div>
         <div class="body">
-            <h1>CollaborationGroup List</h1>
+            <p style="font-size:14pt;padding:15px">CollaborationGroup List</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table>
+                <table class="sumTable">
                     <thead>
                         <tr>
                         

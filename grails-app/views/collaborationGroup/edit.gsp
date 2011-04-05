@@ -3,17 +3,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminLayout" />
         <title>Edit CollaborationGroup</title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
+            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span>
+            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span-->
         </div>
-        <div class="body">
-            <h1>Edit CollaborationGroup</h1>
+        <div class="adminForm">
+            <p style="font-size:14pt;padding:15px">Edit CollaborationGroup</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -103,7 +103,7 @@ value="${collaborationGroupInstance?.artifacts}" />
                         
                         </tbody>
                     </table>
-                </div>
+                </div><br />
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" value="Update" /></span>
                     <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>

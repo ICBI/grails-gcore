@@ -43,7 +43,6 @@ class ProtectedArtifactController {
 
     def edit = {
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
-
         if(!protectedArtifactInstance) {
             flash.message = "ProtectedArtifact not found with id ${params.id}"
             redirect(action:list)
@@ -53,6 +52,7 @@ class ProtectedArtifactController {
         }
     }
 
+	//TODO: add association to collaboration group
     def update = {
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
         if(protectedArtifactInstance) {

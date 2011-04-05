@@ -33,7 +33,7 @@ class CollaborationGroup {
  	}
 	
 	public String getName(){
-		return name.toUpperCase() 
+		return name?.toUpperCase() 
 	}
 	
 }
