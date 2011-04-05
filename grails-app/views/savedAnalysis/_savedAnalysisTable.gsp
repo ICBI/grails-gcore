@@ -45,10 +45,13 @@
 					<g:link class="thickbox" name="Share &nbsp; analysis &nbsp; with collaboration groups?" action="share" controller="share" 
 params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB_iframe:'true',height:'250',width:'400',title:'someTitle']"><img alt="share list" style="height: 18px;padding-right:20px" src="${createLinkTo(dir: 'images', file: 'share.png')}" border="0"/></a></g:link>
 					</g:if>	
+				<g:if test="${(analysis.query?.geAnalysisId?.toString() == 'null')}">
+					&nbsp;
+				</g:if>
+				<g:else>
 				<g:link onclick="return confirm('Are you sure?');" action="delete" id="${analysis.id}">
-				
-				
 				<img alt="Delete Analysis" border="0" title="Delete Analysis" style="vertical-align: bottom;" src="${createLinkTo(dir: 'images', file: 'cross.png')}"/></g:link>
+				</g:else>
 				
 				</div>
 				</g:if>
