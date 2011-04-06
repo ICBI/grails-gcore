@@ -61,4 +61,10 @@ class GDOCUser {
 			return groups as Set
 		}
 	}
+	
+	public String toString(){
+		if(this.@username){
+			return this.@username
+		}
+	}
 }

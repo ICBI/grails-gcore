@@ -14,7 +14,10 @@ jQuery(document).ready(function()
 <div id="navigation-block">
 	<ul id="adminNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
-			<g:navigationLink name="${appName} Home" controller="workflows" />
+			<g:navigationLink name="${g.appName()} Home" controller="workflows" />
+		</li>
+		<li>
+			<g:navigationLink name="Admin Home" controller="admin" />
 		</li>
 		<li>
 			<a class="sf-with-ul" href="#">Users<span class="sf-sub-indicator"> »</span></a>

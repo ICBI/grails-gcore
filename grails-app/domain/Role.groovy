@@ -7,4 +7,10 @@ class Role {
 	}
 	
 	String name
+	
+	public String toString(){
+		if(this.@name){
+			return this.@name
+		}
+	}
 }

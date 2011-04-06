@@ -1,7 +1,7 @@
 
 
 class GDOCUserController {
-    
+    def GDOCUserService
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -19,7 +19,12 @@ class GDOCUserController {
             flash.message = "GDOCUser not found with id ${params.id}"
             redirect(action:list)
         }
-        else { return [ GDOCUserInstance : GDOCUserInstance ] }
+        else { 
+			def userMap = GDOCUserService.getOwnedObjects(GDOCUserInstance)
+			def userLists = userMap["lists"]
+			def userAnalyses = userMap["analyses"]
+			return [ GDOCUserInstance : GDOCUserInstance, userLists: userLists, userAnalyses: userAnalyses] 
+		}
     }
 
     def delete = {
@@ -54,6 +59,7 @@ class GDOCUserController {
     }
 
     def update = {
+		log.debug params
         def GDOCUserInstance = GDOCUser.get( params.id )
         if(GDOCUserInstance) {
             if(params.version) {

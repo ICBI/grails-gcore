@@ -72,15 +72,6 @@ ul#mygdocNavigation li h3
 	-moz-border-radius-bottomright:3px;
 }
 
-ul#gdocNavigation li h3
-{
-	background: #99C2FF;
-	border: 1px solid #CCCCCC;
-	font-weight: normal;
-	padding: 0.75em 1em;
-	-moz-border-radius-topright:3px;
-	-moz-border-radius-bottomright:3px;
-}
 
 ul#adminNavigation {
 	color:#000000;
@@ -98,11 +89,11 @@ ul#adminNavigation li a {
 	color:#000000;
 }
 ul#adminNavigation li a:hover { 
-	background-color: #DFE3F1; 
+	background-color: #F1F3F9; 
 }
 ul#adminNavigation li h3
 {
-	background: #FFD28F;
+	background: #F1F3F9;
 	border: 1px solid #CCCCCC;
 	font-weight: normal;
 	padding: 0.75em 1em;

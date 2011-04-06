@@ -16,6 +16,9 @@ jQuery(document).ready(function()
 			<g:navigationLink name="${appName} Home" controller="workflows" />
 		</li>
 		<li>
+			<g:navigationLink name="Admin Home" controller="admin" />
+		</li>
+		<li>
 			<a class="sf-with-ul" href="#">Users<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>

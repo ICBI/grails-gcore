@@ -14,12 +14,26 @@ class ProtectedArtifactController {
 
     def show = {
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
-
+		
         if(!protectedArtifactInstance) {
             flash.message = "ProtectedArtifact not found with id ${params.id}"
             redirect(action:list)
         }
-        else { return [ protectedArtifactInstance : protectedArtifactInstance ] }
+        else { 
+			def artifactDesc = "unknown description of artifact"
+			if(protectedArtifactInstance.type == 'UserList'){
+				def list = UserList.get(protectedArtifactInstance.objectId)
+				if(list)
+					artifactDesc = list.name
+			}else if(protectedArtifactInstance.type == 'SavedAnalysis'){
+				def sa = SavedAnalysis.get(protectedArtifactInstance.objectId)
+				if(sa)
+					artifactDesc = sa.type
+			}else if(protectedArtifactInstance.type == 'Study'){
+				artifactDesc = protectedArtifactInstance.objectId
+			}	
+			return [ protectedArtifactInstance:protectedArtifactInstance, description:artifactDesc ] 
+		}
     }
 
     def delete = {
@@ -54,6 +68,7 @@ class ProtectedArtifactController {
 
 	//TODO: add association to collaboration group
     def update = {
+		log.debug params
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
         if(protectedArtifactInstance) {
             if(params.version) {

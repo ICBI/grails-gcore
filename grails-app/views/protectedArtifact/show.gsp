@@ -62,6 +62,13 @@
                             <td valign="top" class="value">${fieldValue(bean:protectedArtifactInstance, field:'type')}</td>
                             
                         </tr>
+						
+						<tr class="prop">
+                            <td valign="top" class="name">Referenced Artifact Description:</td>
+                            
+                            <td valign="top" class="value">${description}</td>
+                            
+                        </tr>
                     
                     </tbody>
                 </table>

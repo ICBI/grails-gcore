@@ -56,14 +56,7 @@
                                 </td>
                             </tr> 
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="password">Password:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'password','errors')}">
-                                    <input type="text" id="password" name="password" value="${fieldValue(bean:GDOCUserInstance,field:'password')}"/>
-                                </td>
-                            </tr> 
+                        
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -82,6 +75,22 @@
                                     <input type="text" id="organization" name="organization" value="${fieldValue(bean:GDOCUserInstance,field:'organization')}"/>
                                 </td>
                             </tr> 
+							
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="options">Options:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'options','errors')}">
+                                    
+<ul>
+<g:each var="o" in="${GDOCUserInstance?.options?}">
+    <li><g:link controller="userOption" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></li>
+</g:each>
+</ul>
+<g:link controller="userOption" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add UserOption</g:link>
+
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -91,6 +100,116 @@
                                     <input type="text" id="department" name="department" value="${fieldValue(bean:GDOCUserInstance,field:'department')}"/>
                                 </td>
                             </tr> 
+
+							
+							<tr class="prop">
+                                <td valign="top" class="name" colSpan="2">Memberships<br />
+                                    <table class="sumTable">
+					                    <thead>
+					                        <tr>
+												<g:sortableColumn property="id" title="Id" />
+		   										<g:sortableColumn property="collaborationGroup" title="Group" />
+
+					                   	        <g:sortableColumn property="role" title="Role" />
+
+					                        </tr>
+					                    </thead>
+					                    <tbody>
+					                    <g:each in="${GDOCUserInstance.memberships}" status="i" var="membership">
+					                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+												<td><g:link controller="membership" action="show" id="${membership.id}">${membership.id.encodeAsHTML()}</g:link></td>
+												
+												<td>${fieldValue(bean:membership, field:'collaborationGroup')}</td>
+
+					                            <td>${fieldValue(bean:membership, field:'role')}</td>
+
+					                        </tr>
+					                    </g:each>
+					                    </tbody>
+					                </table>
+								
+                                
+<g:link controller="membership" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Membership</g:link>
+
+                                </td>
+                            </tr>
+
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="requestorInvites">Requestor Invites:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'requestorInvites','errors')}">
+                                    
+<ul>
+<g:each var="r" in="${GDOCUserInstance?.requestorInvites?}">
+    <li><g:link controller="invitation" action="show" id="${r.id}">${r?.group?.encodeAsHTML()}</g:link></li>
+</g:each>
+</ul>
+<g:link controller="invitation" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Invitation</g:link>
+
+                                </td>
+                            </tr>
+
+							<tr class="prop">
+		                            <td valign="top" class="name" colspan="2">Invitations<br />
+										<table class="sumTable">
+						                    <thead>
+						                        <tr>
+
+						                   	        <g:sortableColumn property="id" title="Id" />
+
+						                   	        <g:sortableColumn property="dateCreated" title="Date Created" />
+
+						                   	        <th>Group</th>
+
+						                   	        <th>Invitee</th>
+
+						                   	        <g:sortableColumn property="lastUpdated" title="Last Updated" />
+
+						                   	        <th>Requestor</th>
+
+													<g:sortableColumn property="status" title="Status" />
+
+						                        </tr>
+						                    </thead>
+						                    <tbody>
+						                    <g:each in="${GDOCUserInstance.invitations}" status="i" var="invitationInstance">
+						                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+
+						                            <td><g:link action="show" id="${invitationInstance.id}">${fieldValue(bean:invitationInstance, field:'id')}</g:link></td>
+
+						                            <td>${fieldValue(bean:invitationInstance, field:'dateCreated')}</td>
+
+						                            <td>${fieldValue(bean:invitationInstance, field:'group')}</td>
+
+						                            <td>${fieldValue(bean:invitationInstance, field:'invitee')}</td>
+
+						                            <td>${fieldValue(bean:invitationInstance, field:'lastUpdated')}</td>
+
+						                            <td>${fieldValue(bean:invitationInstance, field:'requestor')}</td>
+
+													<td>${fieldValue(bean:invitationInstance, field:'status')}</td>
+
+						                        </tr>
+						                    </g:each>
+						                    </tbody>
+						                </table>
+		                            
+
+		                       
+<g:link controller="invitation" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Invitation</g:link>
+
+                                </td>
+                            </tr>
+							
+							 <tr class="prop">
+	                                <td valign="top" class="name">
+	                                    <label for="dateCreated">Date Created:</label>
+	                                </td>
+	                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'dateCreated','errors')}">
+	                                    <g:datePicker name="dateCreated" value="${GDOCUserInstance?.dateCreated}" precision="minute" ></g:datePicker>
+	                                </td>
+	                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -100,6 +219,19 @@
                                     <g:datePicker name="lastLogin" value="${GDOCUserInstance?.lastLogin}" precision="minute" noSelection="['':'']"></g:datePicker>
                                 </td>
                             </tr> 
+
+							
+                        
+                           
+                        
+                            <tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="enabled">Enabled:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'enabled','errors')}">
+                                    <g:checkBox name="enabled" value="${GDOCUserInstance?.enabled}" ></g:checkBox>
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -119,71 +251,18 @@
                                 </td>
                             </tr> 
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="analysis">Analysis:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'analysis','errors')}">
-                                    
-<ul>
-<g:each var="a" in="${GDOCUserInstance?.analysis?}">
-    <li><g:link controller="savedAnalysis" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="savedAnalysis" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add SavedAnalysis</g:link>
+                            
 
-                                </td>
-                            </tr> 
+	                            <tr class="prop">
+	                                <td valign="top" class="name">
+	                                    <label for="passwordExpired">Password Expired:</label>
+	                                </td>
+	                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'passwordExpired','errors')}">
+	                                    <g:checkBox name="passwordExpired" value="${GDOCUserInstance?.passwordExpired}" ></g:checkBox>
+	                                </td>
+	                            </tr>
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="comments">Comments:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'comments','errors')}">
-                                    
-<ul>
-<g:each var="c" in="${GDOCUserInstance?.comments?}">
-    <li><g:link controller="comments" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="comments" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Comments</g:link>
-
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="dateCreated">Date Created:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'dateCreated','errors')}">
-                                    <g:datePicker name="dateCreated" value="${GDOCUserInstance?.dateCreated}" precision="minute" ></g:datePicker>
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="enabled">Enabled:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'enabled','errors')}">
-                                    <g:checkBox name="enabled" value="${GDOCUserInstance?.enabled}" ></g:checkBox>
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="invitations">Invitations:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'invitations','errors')}">
-                                    
-<ul>
-<g:each var="i" in="${GDOCUserInstance?.invitations?}">
-    <li><g:link controller="invitation" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="invitation" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Invitation</g:link>
-
-                                </td>
-                            </tr> 
+                           	
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -194,80 +273,8 @@
                                 </td>
                             </tr> 
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="lists">Lists:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'lists','errors')}">
-                                    
-<ul>
-<g:each var="l" in="${GDOCUserInstance?.lists?}">
-    <li><g:link controller="userList" action="show" id="${l.id}">${l?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="userList" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add UserList</g:link>
-
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="memberships">Memberships:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'memberships','errors')}">
-                                    
-<ul>
-<g:each var="m" in="${GDOCUserInstance?.memberships?}">
-    <li><g:link controller="membership" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="membership" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Membership</g:link>
-
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="options">Options:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'options','errors')}">
-                                    
-<ul>
-<g:each var="o" in="${GDOCUserInstance?.options?}">
-    <li><g:link controller="userOption" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="userOption" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add UserOption</g:link>
-
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="passwordExpired">Password Expired:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'passwordExpired','errors')}">
-                                    <g:checkBox name="passwordExpired" value="${GDOCUserInstance?.passwordExpired}" ></g:checkBox>
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="requestorInvites">Requestor Invites:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'requestorInvites','errors')}">
-                                    
-<ul>
-<g:each var="r" in="${GDOCUserInstance?.requestorInvites?}">
-    <li><g:link controller="invitation" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="invitation" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Invitation</g:link>
-
-                                </td>
-                            </tr> 
-                        
-                            <tr class="prop">
+                           
+                            <%--tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="groupNames">Group Names:</label>
                                 </td>
@@ -283,7 +290,7 @@
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'groups','errors')}">
                                     
                                 </td>
-                            </tr> 
+                            </tr--%> 
                         
                         </tbody>
                     </table>

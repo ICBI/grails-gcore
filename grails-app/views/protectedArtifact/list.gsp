@@ -8,8 +8,8 @@
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span>
+            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
+            <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span-->
         </div>
         <div class="body">
             <p style="font-size:14pt;padding:15px">ProtectedArtifact List</p>

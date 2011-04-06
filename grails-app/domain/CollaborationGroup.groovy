@@ -36,4 +36,10 @@ class CollaborationGroup {
 		return name?.toUpperCase() 
 	}
 	
+	public String toString(){
+		if(this.@name){
+			return this.@name.toUpperCase()
+		}
+	}
+	
 }

@@ -27,7 +27,7 @@
                         
                    	        <g:sortableColumn property="description" title="Description" />
                         
-                   	        <g:sortableColumn property="users" title="Users" />
+                   	        <td>Users</td>
                         
                         </tr>
                     </thead>
