@@ -8,11 +8,10 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span-->
+            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Create CollaborationGroup</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Create CollaborationGroup</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -23,7 +22,7 @@
             </g:hasErrors>
             <g:form action="save" method="post" >
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">
@@ -46,10 +45,10 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="users">Users:</label>
+                                    <label for="owner">Owner:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'users','errors')}">
-                                    
+                                    <g:select optionKey="username" from="${GDOCUser.list(sort:'username')}" name="owner"  value="${params?.GDOCUser?.username}" optionValue="username"></g:select>
                                 </td>
                             </tr> 
                         

@@ -8,16 +8,15 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span-->
+            <!--span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span-->
         </div>
         <div class="body">
-            <p style="font-size:14pt;padding:15px">ProtectedArtifact List</p>
+            <p style="font-size:14pt;padding:10px">ProtectedArtifact List</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table class="sumTable">
+                <table class="admin">
                     <thead>
                         <tr>
                         

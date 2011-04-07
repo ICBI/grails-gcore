@@ -8,11 +8,10 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">Membership List</g:link></span-->
+            <span class="menuButton"><g:link class="list" action="list">Membership List</g:link></span>
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Create Membership</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Create Membership</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -23,7 +22,7 @@
             </g:hasErrors>
             <g:form action="save" method="post" >
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">
@@ -31,7 +30,7 @@
                                     <label for="collaborationGroup">Collaboration Group:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'collaborationGroup','errors')}">
-                                    <g:select optionKey="id" from="${CollaborationGroup.list()}" name="collaborationGroup.id" value="${membershipInstance?.collaborationGroup?.id}" optionValue="name"></g:select>
+                                    <g:select optionKey="name" from="${CollaborationGroup.list()}" name="groupName" value="${membershipInstance?.collaborationGroup?.name}" optionValue="name"></g:select>
                                 </td>
                             </tr> 
                         
@@ -40,7 +39,7 @@
                                     <label for="role">Role:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'role','errors')}">
-                                    <g:select optionKey="id" from="${Role.list()}" name="role.id" optionValue="name" value="${membershipInstance?.role?.id}" ></g:select>
+                                    <g:select optionKey="name" from="${Role.list()}" name="role" optionValue="name" value="${membershipInstance?.role?.name}" ></g:select>
                                 </td>
                             </tr> 
                         
@@ -49,7 +48,7 @@
                                     <label for="user">User:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'user','errors')}">
-                                    <g:select optionKey="id" from="${GDOCUser.list()}" name="user.id"  value="${membershipInstance?.user?.id}" optionValue="username"></g:select>
+                                    <g:select optionKey="username" from="${GDOCUser.list(sort:'username')}" name="username"  value="${params?.GDOCUser?.username}" optionValue="username"></g:select>
                                 </td>
                             </tr> 
                         

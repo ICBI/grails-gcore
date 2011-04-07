@@ -8,11 +8,10 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">GDOCUser List</g:link></span-->
+            <span class="menuButton"><g:link class="list" action="list">User List</g:link></span>
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Create User</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Create User</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -23,7 +22,7 @@
             </g:hasErrors>
             <g:form action="save" method="post" >
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">
@@ -79,6 +78,15 @@
                                     <input type="text" id="organization" name="organization" value="${fieldValue(bean:GDOCUserInstance,field:'organization')}"/>
                                 </td>
                             </tr> 
+							
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="title">Title:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'title','errors')}">
+                                    <input type="text" id="title" name="title" value="${fieldValue(bean:GDOCUserInstance,field:'title')}"/>
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -89,14 +97,14 @@
                                 </td>
                             </tr> 
                         
-                            <tr class="prop">
+                            <%--tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="lastLogin">Last Login:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'lastLogin','errors')}">
                                     <g:datePicker name="lastLogin" value="${GDOCUserInstance?.lastLogin}" precision="minute" noSelection="['':'']"></g:datePicker>
                                 </td>
-                            </tr> 
+                            </tr--%> 
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
@@ -130,7 +138,7 @@
                                     <label for="enabled">Enabled:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'enabled','errors')}">
-                                    <g:checkBox name="enabled" value="${GDOCUserInstance?.enabled}" ></g:checkBox>
+                                    <g:checkBox name="enabled" value="true" ></g:checkBox>
                                 </td>
                             </tr> 
                         
@@ -152,7 +160,7 @@
                                 </td>
                             </tr> 
                         
-                            <tr class="prop">
+                            <%--tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="groupNames">Group Names:</label>
                                 </td>
@@ -168,7 +176,7 @@
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'groups','errors')}">
                                     
                                 </td>
-                            </tr> 
+                            </tr--%> 
                         
                         </tbody>
                     </table>

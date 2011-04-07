@@ -9,6 +9,7 @@ class ProtectedArtifactController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 20,  100)
+		params.sort = "name"
         [ protectedArtifactInstanceList: ProtectedArtifact.list( params ), protectedArtifactInstanceTotal: ProtectedArtifact.count() ]
     }
 
@@ -68,7 +69,10 @@ class ProtectedArtifactController {
 
 	//TODO: add association to collaboration group
     def update = {
-		log.debug params
+		if(params.groups){
+			log.debug "looks like the update includes groups, should I add the associated groups, $params.groups, ot do they exist?"
+		}
+		
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
         if(protectedArtifactInstance) {
             if(params.version) {

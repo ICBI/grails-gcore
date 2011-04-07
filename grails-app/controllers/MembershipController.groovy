@@ -1,7 +1,7 @@
 
 
 class MembershipController {
-    
+    def securityService
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -9,6 +9,7 @@ class MembershipController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
+		params.sort = "collaborationGroup.name"
         [ membershipInstanceList: Membership.list( params ), membershipInstanceTotal: Membership.count() ]
     }
 
@@ -87,11 +88,17 @@ class MembershipController {
     }
 
     def save = {
-        def membershipInstance = new Membership(params)
+        /**def membershipInstance = new Membership(params)
         if(!membershipInstance.hasErrors() && membershipInstance.save()) {
             flash.message = "Membership ${membershipInstance.id} created"
             redirect(action:show,id:membershipInstance.id)
-        }
+        }**/
+		if(params.username && params.role && params.groupName){
+			if(securityService.createMembership(params.username, params.role, params.groupName)){
+				flash.message = "Membership ${membershipInstance.id} created"
+	            redirect(action:show,id:membershipInstance.id)
+			}
+		}
         else {
             render(view:'create',model:[membershipInstance:membershipInstance])
         }

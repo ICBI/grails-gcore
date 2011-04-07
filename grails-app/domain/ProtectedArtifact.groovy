@@ -11,6 +11,16 @@ class ProtectedArtifact {
 	String objectId
 	String type
 	
+	static constraints = {
+		name(blank:false)
+		objectId(blank:false)
+		type(blank:false)
+	}
 	
+	public String toString(){
+		if(this.@name){
+			return this.@name
+		}
+	}
 
 }

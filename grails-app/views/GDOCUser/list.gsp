@@ -8,18 +8,17 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New GDOCUser</g:link></span-->
+            <!--span class="menuButton"><g:link class="create" action="create">New User</g:link></span-->
         </div>
         <div class="body">
-            <p style="font-size:14pt;padding:15px">User List</p>
+            <p style="font-size:14pt;padding:10px">User List <span style="font-size:11pt;">(total users: ${GDOCUserInstanceTotal})</span></p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table class="sumTable">
+                <table class="admin">
                     <thead>
-                        <tr>
+                        <tr class="admin">
                         
                    	        <g:sortableColumn property="id" title="Id" />
                         
@@ -32,6 +31,8 @@
                    	        <g:sortableColumn property="password" title="Password" />
                         
                    	        <g:sortableColumn property="email" title="Email" />
+							
+							 <g:sortableColumn property="organization" title="Organization" />
                         
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                         
                             <td>${fieldValue(bean:GDOCUserInstance, field:'email')}</td>
                         
+							<td>${fieldValue(bean:GDOCUserInstance, field:'organization')}</td>
                         </tr>
                     </g:each>
                     </tbody>

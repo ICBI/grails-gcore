@@ -6,18 +6,18 @@
         <meta name="layout" content="adminReport" />
         <title>Invitation List</title>
     </head>
-    <body><br /><br /><br />
+    <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New Invitation</g:link></span>
+            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
+            <span class="menuButton"><g:link class="create" action="create">New Invitation</g:link></span-->
         </div>
-        <div class="adminForm">
+        <div>
             <p style="font-size:14pt;padding:15px">Invitation List</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table class="sumTable">
+                <table class="admin">
                     <thead>
                         <tr>
                         

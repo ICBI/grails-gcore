@@ -8,17 +8,17 @@
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
+            
             <span class="menuButton"><g:link class="list" action="list">Invitation List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New Invitation</g:link></span>
+            <!--span class="menuButton"><g:link class="create" action="create">New Invitation</g:link></span-->
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Show Invitation</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Show Invitation</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
+                <table class="admin">
                     <tbody>
 
                     

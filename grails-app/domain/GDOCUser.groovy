@@ -18,6 +18,7 @@ class GDOCUser {
 	String email
 	String department
 	String organization
+	String title
 	boolean enabled
 	boolean accountExpired
 	boolean accountLocked
@@ -27,11 +28,12 @@ class GDOCUser {
 	Date lastUpdated
 	
 	static constraints = {
-		username(blank:false)
+		username(blank:false,unique:true)
 		firstName(blank:false)
 		lastName(blank:false)
 		password(blank:false)
 		email(blank:false)
+		title(blank:false)
 		organization(blank:false)
 		department(nullable:true)
 		lastLogin(nullable:true)

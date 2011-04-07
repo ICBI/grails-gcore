@@ -8,17 +8,16 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span-->
+            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span>
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Show CollaborationGroup</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Show CollaborationGroup</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
+                <table class="admin">
                     <tbody>
 
                     
@@ -70,15 +69,38 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Memberships:</td>
+                            <td valign="top" class="name" colspan="2">Memberships:<br />
                             
-                            <td  valign="top" style="text-align:left;" class="value">
+								<table class="admin">
+				                    <thead>
+				                        <tr>
+											<th>Id</th>
+	   										<th>User</th>
+											<th>Role</th>
+
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                    <g:each in="${collaborationGroupInstance.memberships}" status="i" var="membership">
+				                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+											<td><g:link controller="membership" action="show" id="${membership.id}">${membership.id.encodeAsHTML()}</g:link></td>
+											
+											<td>${fieldValue(bean:membership, field:'user')}</td>
+
+				                            <td>${fieldValue(bean:membership, field:'role')}</td>
+
+				                        </tr>
+				                    </g:each>
+				                    </tbody>
+				                </table>
+							</td>
+                            <%--td  valign="top" style="text-align:left;" class="value">
                                 <ul>
                                 <g:each var="m" in="${collaborationGroupInstance.memberships}">
                                     <li><g:link controller="membership" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
-                            </td>
+                            </td--%>
                             
                         </tr>
                     

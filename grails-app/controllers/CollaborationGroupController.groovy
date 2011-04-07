@@ -1,7 +1,7 @@
 
 
 class CollaborationGroupController {
-    
+    def securityService
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -9,6 +9,7 @@ class CollaborationGroupController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
+		params.sort = "name"
         [ collaborationGroupInstanceList: CollaborationGroup.list( params ), collaborationGroupInstanceTotal: CollaborationGroup.count() ]
     }
 
@@ -54,6 +55,9 @@ class CollaborationGroupController {
     }
 
     def update = {
+		if(params.artifacts){
+			log.debug "looks like the update includes artifacts, should I add the associated artifacts, $params.artifacts, or do they exist?"
+		}
         def collaborationGroupInstance = CollaborationGroup.get( params.id )
         if(collaborationGroupInstance) {
             if(params.version) {
@@ -87,10 +91,16 @@ class CollaborationGroupController {
     }
 
     def save = {
+		log.debug params
         def collaborationGroupInstance = new CollaborationGroup(params)
-        if(!collaborationGroupInstance.hasErrors() && collaborationGroupInstance.save()) {
-            flash.message = "CollaborationGroup ${collaborationGroupInstance.id} created"
-            redirect(action:show,id:collaborationGroupInstance.id)
+		collaborationGroupInstance.validate()
+		log.debug collaborationGroupInstance.validate()
+        if(!collaborationGroupInstance.hasErrors()) {
+			if(securityService.createCollaborationGroup(params.owner, params.name, params.description)){
+				flash.message = "CollaborationGroup ${collaborationGroupInstance.id} created"
+	            redirect(action:show,id:collaborationGroupInstance.id)
+			}
+            
         }
         else {
             render(view:'create',model:[collaborationGroupInstance:collaborationGroupInstance])

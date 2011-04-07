@@ -13,7 +13,7 @@ jQuery(document).ready(function()
 <div id="top-navigation-block" width="100%" style="position: absolute; z-index: 100;">
 	<ul id="adminNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
-			<g:navigationLink name="${appName} Home" controller="workflows" />
+			<g:navigationLink name="${g.appName()} Home" controller="workflows" />
 		</li>
 		<li>
 			<g:navigationLink name="Admin Home" controller="admin" />
@@ -26,6 +26,9 @@ jQuery(document).ready(function()
 				</li>
 				<li>
 					<g:link controller="GDOCUser" action="create">Create new user</g:link>
+				</li>
+				<li>
+					<g:link controller="membership" action="list">Manage All Memberships</g:link>
 				</li>	
 			</ul>
 		</li>
@@ -51,6 +54,17 @@ jQuery(document).ready(function()
 				</li>
 				<li>
 					<g:link controller="protectedArtifact" action="create">Create artifacts</g:link>
+				</li>	
+			</ul>
+		</li>
+		<li>
+			<a class="sf-with-ul" href="#">Roles<span class="sf-sub-indicator"> »</span></a>
+			<ul style="display: none; visibility: hidden;">
+				<li>
+					<g:link controller="role">View all Roles</g:link>
+				</li>
+				<li>
+					<g:link controller="role" action="create">Create Role</g:link>
 				</li>	
 			</ul>
 		</li>

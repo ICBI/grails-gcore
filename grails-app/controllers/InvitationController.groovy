@@ -80,7 +80,7 @@ class InvitationController {
         }
     }
 
-    def create = {
+    /**def create = {
         def invitationInstance = new Invitation()
         invitationInstance.properties = params
         return ['invitationInstance':invitationInstance]
@@ -95,5 +95,5 @@ class InvitationController {
         else {
             render(view:'create',model:[invitationInstance:invitationInstance])
         }
-    }
+    }**/
 }

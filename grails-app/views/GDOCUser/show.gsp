@@ -8,17 +8,16 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">GDOCUser List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New GDOCUser</g:link></span-->
+            <span class="menuButton"><g:link class="list" action="list">User List</g:link></span>
+            <span class="menuButton"><g:link class="create" action="create">New User</g:link></span>
         </div>
-        <div class="adminForm">
+        <div>
             <p style="font-size:14pt;padding:15px">Show User: ${fieldValue(bean:GDOCUserInstance, field:'username')}</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="dialog">
-                <table>
+            <div>
+                <table class="admin" style="width:75%">
                     <tbody>
 
                     
@@ -68,6 +67,13 @@
                             <td valign="top" class="name">Organization:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'organization')}</td>
+                            
+                        </tr>
+						
+						<tr class="prop">
+                            <td valign="top" class="name">Title:</td>
+                            
+                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'title')}</td>
                             
                         </tr>
 
@@ -121,26 +127,29 @@
 						<tr class="prop">
                             <td valign="top" class="name" colSpan="2">Memberships<br />
 							
-                            <table class="sumTable">
-			                    <thead>
-			                        <tr>
-   										<g:sortableColumn property="collaborationGroup" title="Group" />
+                           		<table class="admin">
+				                    <thead>
+				                        <tr>
+											<g:sortableColumn property="id" title="Id" />
+	   										<g:sortableColumn property="collaborationGroup" title="Group" />
 
-			                   	        <g:sortableColumn property="role" title="Role" />
+				                   	        <g:sortableColumn property="role" title="Role" />
 
-			                        </tr>
-			                    </thead>
-			                    <tbody>
-			                    <g:each in="${GDOCUserInstance.memberships}" status="i" var="membership">
-			                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-										<td>${fieldValue(bean:membership, field:'collaborationGroup')}</td>
+				                        </tr>
+				                    </thead>
+				                    <tbody>
+				                    <g:each in="${GDOCUserInstance.memberships}" status="i" var="membership">
+				                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+											<td><g:link controller="membership" action="show" id="${membership.id}">${membership.id.encodeAsHTML()}</g:link></td>
+											
+											<td>${fieldValue(bean:membership, field:'collaborationGroup')}</td>
 
-			                            <td>${fieldValue(bean:membership, field:'role')}</td>
+				                            <td>${fieldValue(bean:membership, field:'role')}</td>
 
-			                        </tr>
-			                    </g:each>
-			                    </tbody>
-			                </table>
+				                        </tr>
+				                    </g:each>
+				                    </tbody>
+				                </table>
 							</td>
                             <!--td  valign="top" style="text-align:left;" class="value">
                                 <ul>
@@ -152,7 +161,7 @@
                             
                         </tr>
 						
-						<tr class="prop">
+						<%--tr class="prop">
                             <td valign="top" class="name">Requestor Invites:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">
@@ -163,11 +172,11 @@
                                 </ul>
                             </td>
                             
-                        </tr>
+                        </tr--%>
 						
 						<tr class="prop">
 	                            <td valign="top" class="name" colspan="2">Invitations<br />
-									<table class="sumTable">
+									<table class="admin">
 					                    <thead>
 					                        <tr>
 

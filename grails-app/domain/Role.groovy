@@ -8,6 +8,10 @@ class Role {
 	
 	String name
 	
+	static constraints = {
+		name(blank:false,unique:true)
+	}
+	
 	public String toString(){
 		if(this.@name){
 			return this.@name

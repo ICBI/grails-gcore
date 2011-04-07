@@ -8,10 +8,9 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">ProtectedArtifact List</g:link></span-->
+            <span class="menuButton"><g:link class="list" action="list">ProtectedArtifact List</g:link></span>
         </div>
-        <div class="adminForm">
+        <div>
             <p style="font-size:14pt;padding:15px">Create ProtectedArtifact</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
@@ -23,7 +22,7 @@
             </g:hasErrors>
             <g:form action="save" method="post" >
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">

@@ -8,12 +8,11 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span-->
+            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span>
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Edit CollaborationGroup</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Edit CollaborationGroup</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -26,7 +25,7 @@
                 <input type="hidden" name="id" value="${collaborationGroupInstance?.id}" />
                 <input type="hidden" name="version" value="${collaborationGroupInstance?.version}" />
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">
@@ -71,35 +70,48 @@ value="${collaborationGroupInstance?.artifacts}" />
     <li><g:link controller="invitation" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
-<g:link controller="invitation" params="['collaborationGroup.id':collaborationGroupInstance?.id]" action="create">Add Invitation</g:link>
+
 
                                 </td>
                             </tr> 
                         
                             <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="memberships">Memberships:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'memberships','errors')}">
-                                    
-<ul>
-<g:each var="m" in="${collaborationGroupInstance?.memberships?}">
-    <li><g:link controller="membership" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
-</g:each>
-</ul>
-<g:link controller="membership" params="['collaborationGroup.id':collaborationGroupInstance?.id]" action="create">Add Membership</g:link>
+                                
+                                <td valign="top" class="name" colspan="2">Memberships:&nbsp; &nbsp;| &nbsp; &nbsp;
+										<g:link controller="membership" params="['groupName':collaborationGroupInstance?.name]" action="create">Add Membership?</g:link><br />
+									<table class="admin">
+					                    <thead>
+					                        <tr>
+												<th>Id</th>
+		   										<th>User</th>
+												<th>Role</th>
 
-                                </td>
+					                        </tr>
+					                    </thead>
+					                    <tbody>
+					                    <g:each in="${collaborationGroupInstance.memberships}" status="i" var="membership">
+					                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+												<td><g:link controller="membership" action="show" id="${membership.id}">${membership.id.encodeAsHTML()}</g:link></td>
+
+												<td>${fieldValue(bean:membership, field:'user')}</td>
+
+					                            <td>${fieldValue(bean:membership, field:'role')}</td>
+
+					                        </tr>
+					                    </g:each>
+					                    </tbody>
+					                </table>
+								</td>
                             </tr> 
                         
-                            <tr class="prop">
+                            <!--tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="users">Users:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'users','errors')}">
                                     
                                 </td>
-                            </tr> 
+                            </tr--> 
                         
                         </tbody>
                     </table>
@@ -107,7 +119,8 @@ value="${collaborationGroupInstance?.artifacts}" />
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" value="Update" /></span>
                     <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
-                </div>
+                	<span class="button"><g:link action="show" id="${collaborationGroupInstance?.id}" class="cancel">Cancel</g:link></span>
+				</div>
             </g:form>
         </div>
     </body>

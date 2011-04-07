@@ -2,6 +2,7 @@
 
 class GDOCUserController {
     def GDOCUserService
+	def securityService
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -9,8 +10,51 @@ class GDOCUserController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
+		params.sort = "username"
         [ GDOCUserInstanceList: GDOCUser.list( params ), GDOCUserInstanceTotal: GDOCUser.count() ]
     }
+
+	//future feature
+	def searchForUser = {
+		def users
+		if(params.userId){
+			 users = GDOCUser.createCriteria().list()
+				{
+					projections{
+						property('id')
+						property('username')
+						property('firstName')
+						property('lastName')
+						property('email')
+						property('organization')
+					}
+					and{
+						'order'("username", "asc")
+						ne("username","CSM")
+					}
+					or {
+						eq("username", params.userId)
+					}
+				}
+		}else{
+			users = GDOCUser.createCriteria().list()
+				{
+					projections{
+						property('id')
+						property('username')
+						property('firstName')
+						property('lastName')
+						property('email')
+						property('organization')
+					}
+					and{
+						'order'("username", "asc")
+						ne("username","CSM")
+					}
+				}
+		}
+		return users
+	}
 
     def show = {
         def GDOCUserInstance = GDOCUser.get( params.id )
@@ -31,9 +75,15 @@ class GDOCUserController {
         def GDOCUserInstance = GDOCUser.get( params.id )
         if(GDOCUserInstance) {
             try {
-                GDOCUserInstance.delete(flush:true)
-                flash.message = "GDOCUser ${params.id} deleted"
-                redirect(action:list)
+				if(securityService.removeUser(params.id)){
+                	//GDOCUserInstance.delete(flush:true)
+	                flash.message = "GDOCUser ${params.id} deleted"
+	                redirect(action:list)
+				}
+				else{
+					flash.message = "GDOCUser ${params.id} could not be deleted"
+	                redirect(action:show,id:params.id)
+				}
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "GDOCUser ${params.id} could not be deleted"
@@ -94,9 +144,17 @@ class GDOCUserController {
 
     def save = {
         def GDOCUserInstance = new GDOCUser(params)
-        if(!GDOCUserInstance.hasErrors() && GDOCUserInstance.save()) {
-            flash.message = "GDOCUser ${GDOCUserInstance.id} created"
-            redirect(action:show,id:GDOCUserInstance.id)
+		GDOCUserInstance.validate()
+        if(!GDOCUserInstance.hasErrors()) {
+			if(securityService.createNewUser(params.username, params.password, params.firstName,params.lastName,params.email,params.organization, params.title, params.department)){
+				flash.message = "GDOCUser ${GDOCUserInstance.id} created"
+				redirect(action:show,id:GDOCUserInstance.id)
+			}
+			else{
+				flash.message = "GDOCUser not created"
+	            redirect(action:create)
+			}
+            
         }
         else {
             render(view:'create',model:[GDOCUserInstance:GDOCUserInstance])

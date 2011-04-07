@@ -8,12 +8,12 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span-->
+            
             <span class="menuButton"><g:link class="list" action="list">Membership List</g:link></span>
             <span class="menuButton"><g:link class="create" action="create">New Membership</g:link></span>
         </div>
         <div class="body">
-            <p style="font-size:14pt;padding:15px">Edit Membership</p>
+            <p style="font-size:14pt;padding:10px">Edit Membership</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -26,7 +26,7 @@
                 <input type="hidden" name="id" value="${membershipInstance?.id}" />
                 <input type="hidden" name="version" value="${membershipInstance?.version}" />
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">
@@ -52,7 +52,9 @@
                                     <label for="user">User:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'user','errors')}">
-                                    <g:select optionKey="id" from="${GDOCUser.list()}" name="user.id" value="${membershipInstance?.user?.id}" optionValue="username" ></g:select>
+								${membershipInstance?.user?.username}
+								 <input type="hidden" name="user.id" value="${membershipInstance?.user?.id}" />
+                                    <%--g:select optionKey="id" from="${GDOCUser.list()}" name="user.id" value="${membershipInstance?.user?.id}" optionValue="username" ></g:select--%>
                                 </td>
                             </tr> 
                         
@@ -62,7 +64,8 @@
                 <div class="buttons"><br />
                     <span class="button"><g:actionSubmit class="save" value="Update" /></span>
                     <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
-                </div>
+                	<span class="button"><g:link action="show" id="${membershipInstance?.id}" class="cancel">Cancel</g:link></span>
+				</div>
             </g:form>
         </div>
     </body>

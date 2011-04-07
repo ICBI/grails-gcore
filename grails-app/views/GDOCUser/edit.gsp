@@ -8,12 +8,11 @@
     </head>
     <body>
         <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="list" action="list">GDOCUser List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New GDOCUser</g:link></span-->
+            <span class="menuButton"><g:link class="list" action="list">User List</g:link></span>
+            <span class="menuButton"><g:link class="create" action="create">New User</g:link></span>
         </div>
-        <div class="adminForm">
-            <p style="font-size:14pt;padding:15px">Edit User</p>
+        <div>
+            <p style="font-size:14pt;padding:10px">Edit User: ${fieldValue(bean:GDOCUserInstance, field:'username')}</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -26,7 +25,7 @@
                 <input type="hidden" name="id" value="${GDOCUserInstance?.id}" />
                 <input type="hidden" name="version" value="${GDOCUserInstance?.version}" />
                 <div class="dialog">
-                    <table>
+                    <table class="admin" style="width:75%">
                         <tbody>
                         
                             <tr class="prop">
@@ -55,7 +54,15 @@
                                     <input type="text" id="lastName" name="lastName" value="${fieldValue(bean:GDOCUserInstance,field:'lastName')}"/>
                                 </td>
                             </tr> 
-                        
+                        	
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="password">Password:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'password','errors')}">
+                                    <input type="password" id="password" name="password" value="${fieldValue(bean:GDOCUserInstance,field:'password')}"/>
+                                </td>
+                            </tr>
                         
                         
                             <tr class="prop">
@@ -75,6 +82,15 @@
                                     <input type="text" id="organization" name="organization" value="${fieldValue(bean:GDOCUserInstance,field:'organization')}"/>
                                 </td>
                             </tr> 
+							
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="title">Title:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'title','errors')}">
+                                    <input type="text" id="title" name="title" value="${fieldValue(bean:GDOCUserInstance,field:'title')}"/>
+                                </td>
+                            </tr>
 							
 							<tr class="prop">
                                 <td valign="top" class="name">
@@ -103,8 +119,9 @@
 
 							
 							<tr class="prop">
-                                <td valign="top" class="name" colSpan="2">Memberships<br />
-                                    <table class="sumTable">
+                                <td valign="top" class="name" colSpan="2">Memberships &nbsp; &nbsp;| &nbsp; &nbsp;
+										<g:link controller="membership" params="['GDOCUser.username':GDOCUserInstance?.username]" action="create">Add Membership?</g:link><br />
+                                    <table class="admin">
 					                    <thead>
 					                        <tr>
 												<g:sortableColumn property="id" title="Id" />
@@ -127,14 +144,11 @@
 					                    </g:each>
 					                    </tbody>
 					                </table>
-								
-                                
-<g:link controller="membership" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Membership</g:link>
 
                                 </td>
                             </tr>
 
-							<tr class="prop">
+							<%--tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="requestorInvites">Requestor Invites:</label>
                                 </td>
@@ -145,14 +159,14 @@
     <li><g:link controller="invitation" action="show" id="${r.id}">${r?.group?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
-<g:link controller="invitation" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Invitation</g:link>
 
                                 </td>
-                            </tr>
+                            </tr--%>
 
 							<tr class="prop">
-		                            <td valign="top" class="name" colspan="2">Invitations<br />
-										<table class="sumTable">
+		                            <td valign="top" class="name" colspan="2">Invitations&nbsp; &nbsp;| &nbsp; &nbsp;
+			
+										<table class="admin">
 						                    <thead>
 						                        <tr>
 
@@ -176,7 +190,7 @@
 						                    <g:each in="${GDOCUserInstance.invitations}" status="i" var="invitationInstance">
 						                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-						                            <td><g:link action="show" id="${invitationInstance.id}">${fieldValue(bean:invitationInstance, field:'id')}</g:link></td>
+						                            <td><g:link action="show" controller="invitation" id="${invitationInstance.id}">${fieldValue(bean:invitationInstance, field:'id')}</g:link></td>
 
 						                            <td>${fieldValue(bean:invitationInstance, field:'dateCreated')}</td>
 
@@ -195,12 +209,8 @@
 						                    </tbody>
 						                </table>
 		                            
-
-		                       
-<g:link controller="invitation" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add Invitation</g:link>
-
                                 </td>
-                            </tr>
+                            </tr><br />
 							
 							 <tr class="prop">
 	                                <td valign="top" class="name">
@@ -298,7 +308,8 @@
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" value="Update" /></span>
                     <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
-                </div>
+               		<span class="button"><g:link action="show" id="${GDOCUserInstance?.id}" class="cancel">Cancel</g:link></span>
+ 				</div>
             </g:form>
         </div>
     </body>
