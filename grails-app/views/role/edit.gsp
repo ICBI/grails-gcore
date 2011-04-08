@@ -25,7 +25,7 @@
                 <input type="hidden" name="id" value="${roleInstance?.id}" />
                 <input type="hidden" name="version" value="${roleInstance?.version}" />
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">

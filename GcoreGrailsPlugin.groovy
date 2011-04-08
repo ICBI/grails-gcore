@@ -79,6 +79,7 @@ Brief description of the plugin.
 			jndiTemplate = ref('jndiTemplate')
 		}	
 		securityServiceProxy(SecurityService) {bean ->
+			jdbcTemplate = ref('jdbcTemplate')
 		  	bean.scope = 'session'
 		}
 		securityService(org.springframework.aop.scope.ScopedProxyFactoryBean){

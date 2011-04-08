@@ -10,7 +10,7 @@ class GDOCUserController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
-		params.sort = "username"
+		//params.sort = "username"
         [ GDOCUserInstanceList: GDOCUser.list( params ), GDOCUserInstanceTotal: GDOCUser.count() ]
     }
 

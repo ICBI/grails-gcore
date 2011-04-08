@@ -9,7 +9,7 @@ class CollaborationGroupController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
-		params.sort = "name"
+		//params.sort = "name"
         [ collaborationGroupInstanceList: CollaborationGroup.list( params ), collaborationGroupInstanceTotal: CollaborationGroup.count() ]
     }
 
@@ -55,20 +55,35 @@ class CollaborationGroupController {
     }
 
     def update = {
-		if(params.artifacts){
-			log.debug "looks like the update includes artifacts, should I add the associated artifacts, $params.artifacts, or do they exist?"
-		}
+		log.debug params
+		/**
+		-Report adds/deletes to user
+		**/
+		def deletionNames = []
+		def additionNames = []
         def collaborationGroupInstance = CollaborationGroup.get( params.id )
         if(collaborationGroupInstance) {
-            if(params.version) {
-                def version = params.version.toLong()
-                if(collaborationGroupInstance.version > version) {
-                    
-                    collaborationGroupInstance.errors.rejectValue("version", "collaborationGroup.optimistic.locking.failure", "Another user has updated this CollaborationGroup while you were editing.")
-                    render(view:'edit',model:[collaborationGroupInstance:collaborationGroupInstance])
-                    return
-                }
-            }
+            if(collaborationGroupInstance.artifacts){
+				log.debug "associations exist with $collaborationGroupInstance.artifacts"
+				def additions = []
+				def deletions = []
+				if(params.artifacts){
+					
+				}else{
+					log.debug "this currently has associations, but the update includes none, so deletions need to be made"
+					securityService.deleteAllGroupArtifacts(collaborationGroupInstance.id, CollaborationGroup.class.name)		
+				}
+			}
+			else{
+				if(params.artifacts){
+					log.debug "this group doesn't currently have associations, but the update includes them, so additions need to be made"
+					
+				}
+				else{
+					log.debug "no existing associations and no associations have been added"
+				}
+			}
+			
             collaborationGroupInstance.properties = params
             if(!collaborationGroupInstance.hasErrors() && collaborationGroupInstance.save()) {
                 flash.message = "CollaborationGroup ${params.id} updated"

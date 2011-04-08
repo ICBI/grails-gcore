@@ -9,7 +9,7 @@ class MembershipController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
-		params.sort = "collaborationGroup.name"
+		//params.sort = "collaborationGroup.name"
         [ membershipInstanceList: Membership.list( params ), membershipInstanceTotal: Membership.count() ]
     }
 

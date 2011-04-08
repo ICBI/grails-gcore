@@ -14,7 +14,7 @@ class SecurityService{
 	public static String GDOC_ADMIN = 'GDOC_ADMIN'
 	public static String USER = 'USER'
 	def springSecurityService
-	
+	def jdbcTemplate
 	def sharedItems = [:]
 
 	def setLastLogin(userId){
@@ -488,6 +488,15 @@ class SecurityService{
 			}
 		}
 		return groupNames
+	}
+	
+	def deleteAllGroupArtifacts(id, type){
+		if(type == "CollaborationGroup"){
+			def update = jdbcTemplate.update("delete from GROUP_ARTIFACT where COLLABORATION_GROUP_ID = $id")
+		}else if (type == "ProtectedArtifact"){
+			def update = jdbcTemplate.update("delete from GROUP_ARTIFACT where PROTECTED_ARTIFACT_ID = $id")
+		}
+		
 	}
 	
 	def getSharedItemIds(username, itemType,refresh) {
