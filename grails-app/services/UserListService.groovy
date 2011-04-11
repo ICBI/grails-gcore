@@ -101,8 +101,8 @@ def drugDiscoveryService
 	def deleteList(listId){
         def userListInstance = UserList.get(listId)
         if(userListInstance) {
-			/**ProtectedArtifact.executeUpdate("delete ProtectedArtifact pa where pa.type = 'UserList' and pa.objectId = :listId", [listId:listId])
-			log.debug "deleted all protected artifacts for list $listId"**/
+			ProtectedArtifact.executeUpdate("delete ProtectedArtifact pa where pa.type = 'UserList' and pa.objectId = :listId", [listId:listId.toString()])
+			log.debug "deleted all protected artifacts for list $listId"
 			
             userListInstance.delete(flush:true)
 			log.debug "deleted " + userListInstance

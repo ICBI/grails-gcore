@@ -40,7 +40,7 @@ def invitationService
 			println "user " + user.lastName
 		}
 	}
-	**/
+	
 	//grabs group for user...do a 'refresh' on user object to possibly get more current view of this
 	void testFindCollaborationManager(){
 		def groupName = "PUBLIC"
@@ -59,8 +59,14 @@ def invitationService
 			println "manager not verified"
 		}
 	}
-	/**
+	**/
 	
+	void testGetSharedItems() {
+		println "find all items"
+		securityService.getSharedItemIds("rossokr@gmail.com","UserList",true)
+	}
+	
+	/**
 	void testCreateAndDeleteCollaborationGroup() {
 		def testFailed = false
 		try {

@@ -80,6 +80,7 @@ Brief description of the plugin.
 		}	
 		securityServiceProxy(SecurityService) {bean ->
 			jdbcTemplate = ref('jdbcTemplate')
+			springSecurityService = ref('springSecurityService')
 		  	bean.scope = 'session'
 		}
 		securityService(org.springframework.aop.scope.ScopedProxyFactoryBean){

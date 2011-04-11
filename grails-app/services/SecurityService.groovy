@@ -166,7 +166,7 @@ class SecurityService{
 	def createNewUser(username, password, firstName,lastName,emailId,organization, title, department){
 		def newUser = new GDOCUser()
 		if(username && firstName &&
-			lastName && organization && emailId){
+			lastName && organization && emailId && title){
 			newUser.username = username
 			def encodedPassword = springSecurityService.encodePassword(password)
 			newUser.password = encodedPassword
@@ -175,14 +175,15 @@ class SecurityService{
 			newUser.organization = organization
 			newUser.email = emailId
 			newUser.department = department
+			newUser.title = title
 			newUser.enabled = true
 			newUser.accountExpired = false
 			newUser.accountLocked = false
 			newUser.passwordExpired = false
 			if(!newUser.save(flush:true)){
-				/**newUser.errors.each{
+				newUser.errors.each{
 					log.debug it
-				}**/
+				}
 				log.debug "errors creating user"
 			return false
 			}else{
@@ -531,9 +532,12 @@ class SecurityService{
 			else{
 				def aIds
 				if(artifacts){
-					aIds = artifacts.collect{it.objectId}.unique()
+					aIds = artifacts.collect{new Long(it.objectId)}.unique()
 				}
-				ids = getAccessibleIds(user,itemType,aIds)
+				def publicGroup = groups.findAll{
+					it.name == 'PUBLIC'
+				}
+				ids = getAccessibleIds(user,itemType,aIds,publicGroup)
 			}
 
 			if(sharedItems[itemType] == null) {
@@ -544,7 +548,7 @@ class SecurityService{
 			return ids
 		}
 
-		private getAccessibleIds(user, type,ids) {
+		private getAccessibleIds(user, type,ids,groups) {
 				def accessibleIds = []
 				def studyNames = this.getSharedItemIds(user.username, Study.class.name,null)
 				def studyHQL = "SELECT distinct study FROM Study study " + 
@@ -561,7 +565,20 @@ class SecurityService{
 					"WHERE studies IN (:studies) "
 					accessibleIds = SavedAnalysis.executeQuery(artifactHQL, [studies: studies])
 				}
-				return ids
+				log.debug "grab all public ids of type $type"
+				def publicHQL = "SELECT distinct artifact.objectId FROM ProtectedArtifact artifact JOIN artifact.groups groups " + 
+				"WHERE artifact.type = :type AND groups IN (:groups) "
+				def publicIds = ProtectedArtifact.executeQuery(publicHQL, [type: type, groups: groups])
+				if(publicIds){
+					publicIds.each{ pId->
+						accessibleIds << new Long(pId)
+					}
+					
+				}
+				log.debug "retain only accesible ids and public ids"
+				println accessibleIds.retainAll(ids)
+				println "now accessibleIds = $accessibleIds"
+				return accessibleIds
 			}
 	
 }

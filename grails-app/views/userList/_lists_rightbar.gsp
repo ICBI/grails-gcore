@@ -31,7 +31,7 @@
 </g:javascript>
 
 <g:panel id="myPanel" title="List Tools" styleClass="prefs" panelColor="userLogPanelTitle" contentClass="myPanelContent">
-	<g:if test="${toolsLists.size()>0}">
+	<g:if test="${toolsLists}">
 		<div>
  		<g:form name="listToolForm" update="allLists" onLoading="showToolsSpinner(true)"
 		    onComplete="showToolsSpinner(false)" action="tools" url="${[action:'tools']}" method="post">

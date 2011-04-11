@@ -140,8 +140,8 @@ class SavedAnalysisService {
 	def deleteAnalysis(analysisId) {
 		def analysis = SavedAnalysis.get(analysisId)
 		if(analysis) {
-			/**ProtectedArtifact.executeUpdate("delete ProtectedArtifact pa where pa.type = 'SavedAnalysis' and pa.objectId = :analysisId", [analysisId:analysisId])
-			log.debug "deleted all protected artifacts for saved analysis $analysisId"**/
+			ProtectedArtifact.executeUpdate("delete ProtectedArtifact pa where pa.type = 'SavedAnalysis' and pa.objectId = :analysisId", [analysisId:analysisId.toString()])
+			log.debug "deleted all protected artifacts for saved analysis $analysisId"
 			if(analysis.type == AnalysisType.KM_GENE_EXPRESSION){
 				if(analysis.query.geAnalysisId.toString() != 'null'){
 					log.debug "deleting the related analysis: " + analysis.query.geAnalysisId

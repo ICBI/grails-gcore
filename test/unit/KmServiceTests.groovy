@@ -2,7 +2,7 @@ import grails.test.*
 
 class KmServiceTests extends GroovyTestCase {
 	
-	def kmService
+	/**def kmService
 	
     protected void setUp() {
         super.setUp()
@@ -48,5 +48,5 @@ class KmServiceTests extends GroovyTestCase {
 		}
 		def pvalue = kmService.getLogRankPValue(samples, samples2)
 		println pvalue
-	}
+	}**/
 }

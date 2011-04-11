@@ -2,7 +2,7 @@ import org.springframework.mock.web.MockServletContext
 
 
 class QuickStartControllerTests extends grails.test.ControllerUnitTestCase {
-	def clinicalService
+	/**def clinicalService
 	def biospecimenService
 	def quickStartService
 	def htDataService
@@ -29,13 +29,13 @@ class QuickStartControllerTests extends grails.test.ControllerUnitTestCase {
 		def currStudy6 = StudyDataSource.findByShortName("WANG")
 		def currStudy7 = StudyDataSource.findByShortName("ZHOU")*/
 		//session.study = currStudy
-		session.myStudies = []
+		//session.myStudies = []
 		//session.myStudies << currStudy
-	    session.myStudies << currStudy2
-		/*session.myStudies << currStudy3
+	    //session.myStudies << currStudy2
+		/**session.myStudies << currStudy3
 	   	session.myStudies << currStudy5
 		session.myStudies << currStudy6
-		session.myStudies << currStudy7*/
+		session.myStudies << currStudy7
 		
 		params = ['molProfilingType':'ALL','action':'quickSearch','controller':'quickStart']
 		QuickStartController controller = new QuickStartController()
@@ -73,7 +73,7 @@ class QuickStartControllerTests extends grails.test.ControllerUnitTestCase {
 		controller.biospecimenService = biospecimenService
 		controller.quickStartService = quickStartService
 		def results = controller.quickSearch(params);
-		println results**/
-	}
+		println results*
+	}*/
 		
 }

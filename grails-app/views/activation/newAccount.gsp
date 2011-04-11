@@ -52,11 +52,12 @@ $(document).ready(function() {
 		<g:form name="activateAccountForm" id="activateAccountForm" action="activateAccount">
 		<span style="font-weight:bold">User ID</span>: ${userId}
 		<g:hiddenField name="userId" value="${userId}"/><br /><br />
-		<span style="font-weight:bold">*First Name:</span> <g:textField name="firstName" id="firstNameField" /><br /><br />
-		<span style="font-weight:bold">*Last Name:</span> <g:textField name="lastName" id="lastNameField" /><br /><br />
-		<span style="font-weight:bold">*Title:</span> <g:textField name="title" id="titleField" /><br /><br />
-		<span style="font-weight:bold">*Organization/Affiliation:</span> <g:textField name="organization" id="organizationField" /><br /><br />
-		<span style="font-weight:bold">*Why do you want access to G-DOC?</span><br/><g:textArea name="reason" id="reasonField" rows="10" cols="50"/><br /><br />
+		<span style="font-weight:bold">*First Name:</span> <g:textField name="firstName" id="firstNameField" value="${flash.cmd?.firstName}"/><br /><br />
+		<span style="font-weight:bold">*Last Name:</span> <g:textField name="lastName" id="lastNameField" 
+value="${flash.cmd?.lastName}"/><br /><br />
+		<span style="font-weight:bold">*Title:</span> <g:textField name="title" id="titleField" value="${flash.cmd?.title}"/><br /><br />
+		<span style="font-weight:bold">*Organization/Affiliation:</span> <g:textField name="organization" id="organizationField" value="${flash.cmd?.organization}" /><br /><br />
+		<span style="font-weight:bold">*Why do you want access to G-DOC?</span><br/><g:textArea name="reason" id="reasonField" rows="10" cols="50" value="${flash.cmd?.reason}"/><br /><br />
 		
 		<span style="font-weight:bold">*Enter password:</span> <g:passwordField name="password" id="passwordField" /><br /><br />
 		<span style="font-weight:bold">*Confirm password:</span> <g:passwordField name="passwordConfirm" id="passwordConfirm" /><br /><br />

@@ -41,7 +41,14 @@ class UserListController {
 			}
 		def listSnapShots = []
 		listSnapShots = pagedLists["snapshot"]//userListService.getAllListsNoPagination(session.userId,session.sharedListIds)
-       [ userListInstanceList: pagedLists["results"], allLists: pagedLists["count"][0], timePeriods: timePeriods, toolsLists:listSnapShots]
+		def allLists
+		if(pagedLists["count"] && pagedLists["count"][0]){
+			allLists = pagedLists["count"][0]
+		}
+		else{
+			allLists = 0;
+		}
+       [ userListInstanceList: pagedLists["results"], allLists: allLists, timePeriods: timePeriods, toolsLists:listSnapShots]
     }
 
 	def checkName(name){
@@ -238,7 +245,7 @@ class UserListController {
 							message += "did not delete $userListInstance.id , you are not the author."
 						}
 						else{
-			            	userListInstance.delete(flush:true)
+			            	userListService.deleteList(userListInstance.id)
 							log.debug "deleted " + userListInstance
 							message += " $userListInstance.name has been deleted."
 						}
@@ -256,7 +263,7 @@ class UserListController {
 						message += "did not delete $userListInstance.id , you are not the author."
 					}
 					else{
-		            	userListInstance.delete(flush:true)
+		            	userListService.deleteList(userListInstance.id)
 						log.debug "deleted " + userListInstance
 						message = "$userListInstance.name has been deleted."
 					}
