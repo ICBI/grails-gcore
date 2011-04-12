@@ -24,11 +24,14 @@ class SecurityService{
 			log.debug "found $user"
 			user.lastLogin = new Date()
 			try{
-				if(user.save(flush:true)){
-					log.debug "set user's last login"
+				if(user.hasErrors() || !user.save(flush:true)){
+					log.debug "did NOT set last login"
+					user.errors.each{
+						log.debug it
+					}
 				}
 				else{
-					log.debug "did NOT set last login"
+					log.debug "user last login has been updated"
 				}
 			}
 			catch(Exception e){
@@ -381,16 +384,18 @@ class SecurityService{
 			
 	}
 	
-	private createMembership(username, groupName, roleName){
+	def createMembership(username, groupName, roleName){
+		def membership
 		def collabGroup = CollaborationGroup.findByName(groupName.toUpperCase())
 		def role = Role.findByName(roleName)
 		def user = GDOCUser.findByUsername(username)
 		if(user && collabGroup && role){
-			def membership = new Membership(user:user,collaborationGroup:collabGroup,role:role)
+			membership = new Membership(user:user,collaborationGroup:collabGroup,role:role)
 			if(membership.save(flush:true)){
 				log.debug "membership created $membership"
 			}
 		}
+		return membership
 	}
 	
 	/**
@@ -576,8 +581,6 @@ class SecurityService{
 					
 				}
 				log.debug "retain only accesible ids and public ids"
-				println accessibleIds.retainAll(ids)
-				println "now accessibleIds = $accessibleIds"
 				return accessibleIds
 			}
 	

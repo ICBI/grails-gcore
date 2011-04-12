@@ -16,8 +16,7 @@ class CustomLdapUserDetailsMapper implements UserDetailsContextMapper {
     UserDetails mapUserFromContext(DirContextOperations ctx, String username, Collection<GrantedAuthority> authority) {
 
 		GDOCUser.withTransaction { status ->
-			println "inside CustomLdapUserDetailsMapper"
-	            // Try and match the authenticated LDAP user to an existing database User.
+			    // Try and match the authenticated LDAP user to an existing database User.
 		    def user = GDOCUser.findByUsername(username)
 			if (!user) {
 				log.debug "user may have passed LDAP authentication, but was not found in databse"

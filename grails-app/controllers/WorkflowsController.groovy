@@ -10,46 +10,59 @@ class WorkflowsController {
 	
     def index = { 
 		if(springSecurityService.isLoggedIn()){
-			def currentUser = springSecurityService.getPrincipal() 
-			log.debug "Authenticated user: ${currentUser.username}"
-			
-			
-			def thisUser = GDOCUser.findByUsername(currentUser.username)
-			session.userId = currentUser.username
+		 def currentUser = springSecurityService.getPrincipal() 
+		 def thisUser = GDOCUser.findByUsername(currentUser.username)
+		 session.userId = currentUser.username
 		
 		//last login
 		Date lastLogin = thisUser.lastLogin
 		if(!session.profileLoaded){
-			def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,false)
-			log.debug studyNames
+			//set last login
+			securityService.setLastLogin(session.userId)
+			
+			//set admin options
+			def isGdocAdmin = securityService.isUserGDOCAdmin(session.userId)
+			session.isGdocAdmin = isGdocAdmin
+			log.debug "show $session.userId admin options? $session.isGdocAdmin"
+			
+			//set studies
+			def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,true)
 			def myStudies = []
-		
-		    //cleanup any temporary artifacts left from last session
-			cleanup(session.userId)
-			session.tempLists = new HashSet()
-			session.tempAnalyses = new HashSet()
 			studyNames.each{
 				def foundStudy = Study.findByShortName(it)
 				if(foundStudy){
 					myStudies << foundStudy
 				}
 			}
-			log.debug "sort studies"
-			
-			securityService.setLastLogin(session.userId)
 			
 			if(myStudies){
 				myStudies.sort{it.shortName}
 			}
-			def isGdocAdmin = securityService.isUserGDOCAdmin(session.userId)
-			session.isGdocAdmin = isGdocAdmin
-			log.debug "show $session.userId admin options? $session.isGdocAdmin"
 			session.myStudies = myStudies
+		
+		    //cleanup any temporary artifacts left from last session
+			cleanup(session.userId)
+			session.tempLists = new HashSet()
+			session.tempAnalyses = new HashSet()
+			
+			//set groups
 			def myCollaborationGroups = []
 			myCollaborationGroups = securityService.getCollaborationGroups(session.userId)
+			session.myCollaborationGroups = myCollaborationGroups
+			
+			//set lists
 			def sharedListIds = []
 			sharedListIds = userListService.getSharedListIds(session.userId,true)
 			session.sharedListIds = sharedListIds
+			
+			//set shared anaylysis 
+			def sharedAnalysisIds = []
+			sharedAnalysisIds = savedAnalysisService.getSharedAnalysisIds(session.userId,true)
+			session.sharedAnalysisIds = sharedAnalysisIds
+			
+			//set data available
+			session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
+
 			
 			if(lastLogin){
 				def formattedDate = lastLogin.format('EEE MMM d, yyyy')
@@ -65,17 +78,7 @@ class WorkflowsController {
 				"access to the study group via the 'Collaboration Groups' page."
 			}
 			
-			
-			//get shared anaylysis and places them in session scope
-			def sharedAnalysisIds = []
-			sharedAnalysisIds = savedAnalysisService.getSharedAnalysisIds(session.userId,true)
-			session.sharedAnalysisIds = sharedAnalysisIds
-			session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
-
-			
-			session.myCollaborationGroups = myCollaborationGroups
 			session.profileLoaded = true
-			log.debug session.myCollaborationGroups
 			
 		}
 		def pendingInvites = invitationService.getInvitesThatRequireAction(session.userId,lastLogin)

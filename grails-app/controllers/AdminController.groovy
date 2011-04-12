@@ -35,7 +35,7 @@ class AdminController {
 	
 	
 	
-	def searchUsers = {
+	/**def searchUsers = {
 		def users
 		if(params.userId){
 			 users = GDOCUser.createCriteria().list()
@@ -161,7 +161,7 @@ class AdminController {
 			rows:results
 		]
 		render jsonObject as JSON
-	}
+	}**/
 	
 	def searchGroups = {
 		def groups

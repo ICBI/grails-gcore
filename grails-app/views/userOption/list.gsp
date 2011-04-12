@@ -3,21 +3,20 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminLayout" />
         <title>UserOption List</title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="create" action="create">New UserOption</g:link></span>
         </div>
         <div class="body">
-            <h1>UserOption List</h1>
+            <p style="font-size:14pt;padding:10px">UserOption List</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="list">
-                <table>
+                <table class="admin">
                     <thead>
                         <tr>
                         

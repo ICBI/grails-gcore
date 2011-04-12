@@ -88,15 +88,20 @@ class MembershipController {
     }
 
     def save = {
-        /**def membershipInstance = new Membership(params)
-        if(!membershipInstance.hasErrors() && membershipInstance.save()) {
-            flash.message = "Membership ${membershipInstance.id} created"
-            redirect(action:show,id:membershipInstance.id)
-        }**/
-		if(params.username && params.role && params.groupName){
-			if(securityService.createMembership(params.username, params.role, params.groupName)){
-				flash.message = "Membership ${membershipInstance.id} created"
-	            redirect(action:show,id:membershipInstance.id)
+		log.debug params
+        def membershipInstance = new Membership(params)
+		/**membershipInstance.validate()
+		def collabGroup = CollaborationGroup.findByName(params.groupName.toUpperCase())
+		def role = Role.findByName(params.role)
+		def user = GDOCUser.findByUsername(params.username)**/
+        if(membershipInstance) {
+         	def newMembershipInstance = securityService.createMembership(params.username,params.groupName.toUpperCase(),params.role)
+			if(newMembershipInstance){
+				flash.message = "Membership ${newMembershipInstance.id} created"
+	            redirect(action:show,id:newMembershipInstance.id)
+			}else{
+				flash.message = "Membership not created"
+	            redirect(action:create)
 			}
 		}
         else {

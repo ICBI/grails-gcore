@@ -4,6 +4,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
+		<g:javascript library="jquery"/>
+		<g:javascript>
+			$(document).ready(function(){
+				$("#username").blur(function() {
+				  if($("#username").val() != ""){
+					$("#email").val($("#username").val());
+					return false;
+				   }
+				});
+			});
+		</g:javascript>  
         <title>Create User</title>         
     </head>
     <body>
@@ -57,7 +68,7 @@
                                     <label for="password">Password:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'password','errors')}">
-                                    <input type="text" id="password" name="password" value="${fieldValue(bean:GDOCUserInstance,field:'password')}"/>
+                                    <input type="password" id="password" name="password" value="${fieldValue(bean:GDOCUserInstance,field:'password')}"/>
                                 </td>
                             </tr> 
                         

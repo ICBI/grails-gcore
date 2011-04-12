@@ -25,10 +25,6 @@ class HomeController implements ApplicationContextAware{
 	
     def index = { 
 		log.info("The application context is : " + applicationContext) 
-		/**def beans = applicationContext.getBeanDefinitionNames()
-		beans.each{
-			println it
-		}**/
 		
 		def sconfig = SpringSecurityUtils.securityConfig
 

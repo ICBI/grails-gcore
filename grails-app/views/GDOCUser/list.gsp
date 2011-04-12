@@ -1,66 +1,105 @@
-
-
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="adminReport" />
-        <title>User List</title>
+        <title>GDOC - Administration</title>
+		<meta name="layout" content="adminReport" />
+		<g:javascript library="jquery"/>   
+		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
+		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+		<g:jqgrid />
+		<g:javascript>
+			var selectedIds = [];
+			var selectAll = false;
+			var currPage = 1;
+			$(document).ready(function(){
+				$("#selectuserButton").click(function() {
+				  if($("#userField").val() == ""){
+					alert("Please select a user below to view details");
+					return false;
+				   }
+				});
+				$("#searchResults").jqGrid({ 
+					url:'viewUsers', 
+					datatype: "json", 
+					colNames:${session.ucolumnNames}, 
+					colModel:${session.ucolumnJson}, 
+					height: 350, 
+					rowNum:25, 
+					rowList:[25,50], 
+					//imgpath: gridimgpath, 
+					pager: $('#pager'), 
+					sortname: 'id', 
+					viewrecords: true, 
+					sortorder: "desc", 
+					//multiselect: true, 
+					caption: "User Search Results",
+					onSelectAll: function(all, checked) {
+						selectAll = checked;
+						selectedIds = [];
+					},
+					onPaging: function(direction) {
+						if($("#searchResults").getGridParam('selarrrow')) {
+								selectedIds[currPage] = $("#searchResults").getGridParam('selarrrow');
+						}
+
+
+					},
+					onSelectRow: function(rowid) {
+							$("#userField").val(rowid);
+					},
+					gridComplete: function() {
+						currPage = $("#searchResults").getGridParam("page");
+						var ids = selectedIds[currPage];
+						if(selectAll) {
+							selectAllItems();
+						} else if(ids) {
+							for(var i = 0; i < ids.length; i++) {
+								$("#searchResults").setSelection(ids[i]);
+							}
+
+							if(ids.length == $("#searchResults").getGridParam("rowNum")) {
+								$("#cb_jqg").attr('checked', true);
+							}
+						}
+
+					},
+					onSortCol: function() {
+						selectAll = false;
+						selectedIds = [];
+					}
+				});
+			});
+			</g:javascript>
     </head>
     <body>
-        <div class="nav">
-            <!--span class="menuButton"><g:link class="create" action="create">New User</g:link></span-->
-        </div>
-        <div class="body">
-            <p style="font-size:14pt;padding:10px">User List <span style="font-size:11pt;">(total users: ${GDOCUserInstanceTotal})</span></p>
-            <g:if test="${flash.message}">
+		
+		<div id="centerContent">
+			<p style="font-size:14pt;padding:10px">GDOC - User Search</p><br />
+			<g:if test="${!session.uresults}">
+				No results found.
+			</g:if>
+			<g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="list">
-                <table class="admin">
-                    <thead>
-                        <tr class="admin">
-                        
-                   	        <g:sortableColumn property="id" title="Id" />
-                        
-                   	        <g:sortableColumn property="username" title="Username" />
-                        
-                   	        <g:sortableColumn property="firstName" title="First Name" />
-                        
-                   	        <g:sortableColumn property="lastName" title="Last Name" />
-                        
-                   	        <g:sortableColumn property="password" title="Password" />
-                        
-                   	        <g:sortableColumn property="email" title="Email" />
-							
-							 <g:sortableColumn property="organization" title="Organization" />
-                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <g:each in="${GDOCUserInstanceList}" status="i" var="GDOCUserInstance">
-                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                        
-                            <td><g:link action="show" id="${GDOCUserInstance.id}">${fieldValue(bean:GDOCUserInstance, field:'id')}</g:link></td>
-                        
-                            <td>${fieldValue(bean:GDOCUserInstance, field:'username')}</td>
-                        
-                            <td>${fieldValue(bean:GDOCUserInstance, field:'firstName')}</td>
-                        
-                            <td>${fieldValue(bean:GDOCUserInstance, field:'lastName')}</td>
-                        
-                            <td>${fieldValue(bean:GDOCUserInstance, field:'password')}</td>
-                        
-                            <td>${fieldValue(bean:GDOCUserInstance, field:'email')}</td>
-                        
-							<td>${fieldValue(bean:GDOCUserInstance, field:'organization')}</td>
-                        </tr>
-                    </g:each>
-                    </tbody>
-                </table>
-            </div>
-            <div class="paginateButtons">
-                <g:paginate total="${GDOCUserInstanceTotal}" />
-            </div>
-        </div>
-    </body>
+			<g:else>
+				<div style="padding:5px;display:block">
+					<span style="vertical-align:5px"> 
+						<label for="user">Select a user to view all details.</label>
+						<g:form controller="GDOCUser" action="show">
+							<g:hiddenField name="id" id="userField" value="" />
+							<g:submitButton name="submit" id="selectuserButton" value="View Selected User" />
+						</g:form>
+						
+					</span>
+					
+					
+				</div>
+				<table id="searchResults" class="scroll" cellpadding="0" cellspacing="0"></table>
+				<div id="pager" class="scroll" style="text-align:center;height: 45px"></div>
+			</g:else>
+			
+			
+		</div>
+		
+	</body>
+	
 </html>

@@ -15,7 +15,6 @@ class CollaborationGroupsController {
 	def reloadMembershipAndStudyData(){
 			def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,true)
 			def myStudies = []
-		
 			studyNames.each{
 				def foundStudy = Study.findByShortName(it)
 				if(foundStudy){

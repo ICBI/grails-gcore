@@ -3,17 +3,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="adminLayout" />
         <title>Edit UserOption</title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
             <span class="menuButton"><g:link class="list" action="list">UserOption List</g:link></span>
             <span class="menuButton"><g:link class="create" action="create">New UserOption</g:link></span>
         </div>
         <div class="body">
-            <h1>Edit UserOption</h1>
+            <p style="font-size:14pt;padding:10px">Edit UserOption</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -26,7 +25,7 @@
                 <input type="hidden" name="id" value="${userOptionInstance?.id}" />
                 <input type="hidden" name="version" value="${userOptionInstance?.version}" />
                 <div class="dialog">
-                    <table>
+                    <table class="admin">
                         <tbody>
                         
                             <tr class="prop">

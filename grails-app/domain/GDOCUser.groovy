@@ -33,7 +33,7 @@ class GDOCUser {
 		lastName(blank:false)
 		password(blank:false)
 		email(blank:false)
-		title(blank:false)
+		title(blank:false,nullable:true)
 		organization(blank:false)
 		department(nullable:true)
 		lastLogin(nullable:true)

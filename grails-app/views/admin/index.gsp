@@ -99,7 +99,7 @@
 						</div>
 						
 								<div style="padding:5px;background-color:#f2f2f2;">
-							     <g:form action="searchUsers" autocomplete="off">
+							     <g:form controller="GDOCUser" action="list" autocomplete="off">
 									User Id (email OR netId): <g:textField name="userId" id="q" /><br /><br />
 									<g:submitButton name="search" value="Search Users" />
 								</g:form>

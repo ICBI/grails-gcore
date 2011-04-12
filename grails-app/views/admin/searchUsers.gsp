@@ -2,8 +2,10 @@
     <head>
         <title>GDOC - Administration</title>
 		<meta name="layout" content="report" />
-		<jq:plugin name="ui"/>
-		<jq:plugin name="jqgrid"/>
+		<g:javascript library="jquery"/>   
+		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
+		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+		<g:jqgrid />
 		<g:javascript>
 			var selectedIds = [];
 			var selectAll = false;
@@ -79,8 +81,8 @@
 				<div style="padding:10px;display:block">
 					<span style="vertical-align:5px"> 
 						<label for="user">Select a user to view all details.</label>
-						<g:form id="showUser" action="showUser">
-							<g:hiddenField name="user" id="userField" value="" />
+						<g:form controller="GDOCUser" action="show">
+							<g:hiddenField name="id" id="userField" value="" />
 							<g:submitButton name="submit" id="selectuserButton" value="View Selected User" />
 						</g:form>
 						
