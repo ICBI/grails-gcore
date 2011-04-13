@@ -148,7 +148,13 @@ class GDOCUserController {
 	
 
     def show = {
-        def GDOCUserInstance = GDOCUser.get( params.id )
+        def GDOCUserInstance 
+		if(params.id){
+			GDOCUserInstance = GDOCUser.get( params.id )
+		}
+		else if(params.username){
+			GDOCUserInstance = GDOCUser.findByUsername(params.username)
+		}
 
         if(!GDOCUserInstance) {
             flash.message = "GDOCUser not found with id ${params.id}"

@@ -120,7 +120,7 @@
 							
 							<tr class="prop">
                                 <td valign="top" class="name" colSpan="2">Memberships &nbsp; &nbsp;| &nbsp; &nbsp;
-										<g:link controller="membership" params="['GDOCUser.username':GDOCUserInstance?.username]" action="create">Add Membership?</g:link><br />
+										<g:link controller="membership" params="['username':GDOCUserInstance?.username]" action="create">Add Membership?</g:link><br />
                                     <table class="admin">
 					                    <thead>
 					                        <tr>

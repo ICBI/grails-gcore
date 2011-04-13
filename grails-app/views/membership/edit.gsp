@@ -7,7 +7,7 @@
         <title>Edit Membership</title>
     </head>
     <body>
-        <div class="nav">
+        <div>
             
             <span class="menuButton"><g:link class="list" action="list">Membership List</g:link></span>
             <span class="menuButton"><g:link class="create" action="create">New Membership</g:link></span>
@@ -17,14 +17,11 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${membershipInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${membershipInstance}" as="list" />
-            </div>
-            </g:hasErrors>
+            <g:if test="${flash.error}">
+            	<div class="errorDetail">${flash.error}</div>
+            </g:if>
             <g:form method="post" >
                 <input type="hidden" name="id" value="${membershipInstance?.id}" />
-                <input type="hidden" name="version" value="${membershipInstance?.version}" />
                 <div class="dialog">
                     <table class="admin">
                         <tbody>

@@ -225,7 +225,7 @@ class CollaborationGroupsController {
 						exUserString += u + " ,"
 					}
 					log.debug "$exUserString already exist(s) in the group" + cmd.collaborationGroupName 
-					flash.error = "$exUserString already exists in the " + cmd.collaborationGroupName  + " group. No users added to group."
+					flash.error = "$exUserString already exists in the " + cmd.collaborationGroupName  + " group. No users invited to group."
 					redirect(uri:"/collaborationGroups/showUsers")
 					return;
 				}

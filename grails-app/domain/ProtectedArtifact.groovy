@@ -12,7 +12,7 @@ class ProtectedArtifact {
 	String type
 	
 	static constraints = {
-		name(blank:false)
+		name(blank:false,unique:true)
 		objectId(blank:false)
 		type(blank:false)
 	}

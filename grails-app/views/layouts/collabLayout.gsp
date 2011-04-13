@@ -41,7 +41,7 @@
 					</div>
 					<div class="yui-u">
 						<br /><br /><br />
-						<div style="height:600px;overflow:scroll;">
+						<div style="height:600px;overflow:auto;">
 						<g:render template="/notification/invitationTable"/>
 						</div>
 					</div>

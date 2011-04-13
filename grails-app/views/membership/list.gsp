@@ -23,11 +23,11 @@
                         
                    	        <g:sortableColumn property="id" title="Id" />
                         
-                   	        <th>Collaboration Group</th>
+                   	        <g:sortableColumn property="groupName" title="Collaboration Group" />
                    	    
-                   	        <th>Role</th>
+                   	        <g:sortableColumn property="userName" title="User" />
                    	    
-                   	        <th>User</th>
+                   	       	<g:sortableColumn property="roleName" title="Role" />
                    	    
                         </tr>
                     </thead>
@@ -39,9 +39,9 @@
                         
                             <td>${fieldValue(bean:membershipInstance, field:'collaborationGroup')}</td>
                         
-                            <td>${fieldValue(bean:membershipInstance, field:'role')}</td>
-                        
                             <td>${fieldValue(bean:membershipInstance, field:'user')}</td>
+
+							<td>${fieldValue(bean:membershipInstance, field:'role')}</td>
                         
                         </tr>
                     </g:each>

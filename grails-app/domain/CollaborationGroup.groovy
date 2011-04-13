@@ -12,7 +12,7 @@ class CollaborationGroup {
 	String description
 	static hasMany = [artifacts:ProtectedArtifact,memberships:Membership,invitations:Invitation]
 	static constraints = {
-		name(nullable:false,blank:false)
+		name(nullable:false,blank:false,unique:true)
 	}
 	
 	static searchable = {

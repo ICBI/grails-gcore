@@ -39,11 +39,13 @@
                             <td valign="top" class="name">Artifacts:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">
-                                <ul>
+                                <div style="height:250px;overflow:auto;background:#f2f2f2;border:1px solid black;padding:3px">
+								<ul>
                                 <g:each var="a" in="${collaborationGroupInstance.artifacts}">
                                     <li><g:link controller="protectedArtifact" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
                                 </g:each>
                                 </ul>
+								</div>
                             </td>
                             
                         </tr>
@@ -69,8 +71,10 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name" colspan="2">Memberships:<br />
-                            
+                            <td valign="top" class="name">Memberships:</td>
+							
+							<td  valign="top" style="text-align:left;" class="value">
+                            	<div style="height:250px;overflow:auto;background:#f2f2f2;border:1px solid black;padding:3px">
 								<table class="admin">
 				                    <thead>
 				                        <tr>
@@ -93,6 +97,7 @@
 				                    </g:each>
 				                    </tbody>
 				                </table>
+								</div>
 							</td>
                             <%--td  valign="top" style="text-align:left;" class="value">
                                 <ul>

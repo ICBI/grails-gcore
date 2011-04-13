@@ -9,17 +9,21 @@
     <body>
         <div class="nav">
             <span class="menuButton"><g:link class="list" action="list">Membership List</g:link></span>
+			<g:if test="${params?.username}">
+	        	<span class="menuButton"><g:link class="show" action="show" controller="GDOCUser" params="${['username':params?.username]}">Back to User</g:link></span>
+	        </g:if>
         </div>
+		
+		
         <div>
             <p style="font-size:14pt;padding:10px">Create Membership</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <g:hasErrors bean="${membershipInstance}">
-            <div class="errors">
-                <g:renderErrors bean="${membershipInstance}" as="list" />
-            </div>
-            </g:hasErrors>
+            <g:if test="${flash.error}">
+            <div class="errorDetail">${flash.error}</div>
+            </g:if>
+			
             <g:form action="save" method="post" >
                 <div class="dialog">
                     <table class="admin">
@@ -30,7 +34,7 @@
                                     <label for="collaborationGroup">Collaboration Group:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'collaborationGroup','errors')}">
-                                    <g:select optionKey="name" from="${CollaborationGroup.list()}" name="groupName" value="${membershipInstance?.collaborationGroup?.name}" optionValue="name"></g:select>
+                                    <g:select optionKey="name" from="${CollaborationGroup.list()}" name="groupName" value="${flash.params?.groupName}" optionValue="name"></g:select>
                                 </td>
                             </tr> 
                         
@@ -39,7 +43,7 @@
                                     <label for="role">Role:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'role','errors')}">
-                                    <g:select optionKey="name" from="${Role.list()}" name="role" optionValue="name" value="${membershipInstance?.role?.name}" ></g:select>
+                                    <g:select optionKey="name" from="${Role.list()}" name="role" optionValue="name" value="${flash.params?.role}" ></g:select>
                                 </td>
                             </tr> 
                         
@@ -48,7 +52,7 @@
                                     <label for="user">User:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'user','errors')}">
-                                    <g:select optionKey="username" from="${GDOCUser.list(sort:'username')}" name="username"  value="${params?.GDOCUser?.username}" optionValue="username"></g:select>
+                                    <g:select optionKey="username" from="${GDOCUser.list(sort:'username')}" name="username"  value="${params?.username}" optionValue="username"></g:select>
                                 </td>
                             </tr> 
                         

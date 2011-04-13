@@ -44,7 +44,7 @@ class CollaborationGroupController {
 
     def edit = {
         def collaborationGroupInstance = CollaborationGroup.get( params.id )
-
+		
         if(!collaborationGroupInstance) {
             flash.message = "CollaborationGroup not found with id ${params.id}"
             redirect(action:list)
@@ -85,6 +85,7 @@ class CollaborationGroupController {
 			}
 			
             collaborationGroupInstance.properties = params
+			collaborationGroupInstance.validate()
             if(!collaborationGroupInstance.hasErrors() && collaborationGroupInstance.save()) {
                 flash.message = "CollaborationGroup ${params.id} updated"
                 redirect(action:show,id:collaborationGroupInstance.id)
@@ -106,11 +107,9 @@ class CollaborationGroupController {
     }
 
     def save = {
-		log.debug params
-        def collaborationGroupInstance = new CollaborationGroup(params)
+		def collaborationGroupInstance = new CollaborationGroup(params)
 		collaborationGroupInstance.validate()
-		log.debug collaborationGroupInstance.validate()
-        if(!collaborationGroupInstance.hasErrors()) {
+		if(!collaborationGroupInstance.hasErrors()) {
 			if(securityService.createCollaborationGroup(params.owner, params.name, params.description)){
 				flash.message = "CollaborationGroup ${collaborationGroupInstance.id} created"
 	            redirect(action:show,id:collaborationGroupInstance.id)

@@ -166,6 +166,7 @@ class ProtectedArtifactController {
 				
 				
             protectedArtifactInstance.properties = params
+			protectedArtifactInstance.validate()
             if(!protectedArtifactInstance.hasErrors() && protectedArtifactInstance.save()) {
                 flash.message = "ProtectedArtifact ${params.id} updated"
                 redirect(action:show,id:protectedArtifactInstance.id)
@@ -188,6 +189,7 @@ class ProtectedArtifactController {
 
     def save = {
         def protectedArtifactInstance = new ProtectedArtifact(params)
+		protectedArtifactInstance.validate()
         if(!protectedArtifactInstance.hasErrors() && protectedArtifactInstance.save()) {
             flash.message = "ProtectedArtifact ${protectedArtifactInstance.id} created"
             redirect(action:show,id:protectedArtifactInstance.id)

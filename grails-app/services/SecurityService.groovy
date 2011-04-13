@@ -496,7 +496,7 @@ class SecurityService{
 		return groupNames
 	}
 	
-	def doesMembershipExist(username,groupName,roleName){
+	def doesMembershipExistByNames(username,groupName,roleName){
 		def user = GDOCUser.findByUsername(username)
 		if(user.memberships){
 			def exists = user.memberships.find{ membership->
@@ -504,7 +504,28 @@ class SecurityService{
 			}
 			if(exists){
 				log.debug "$username found as " + exists.role.name + exists.collaborationGroup.name
-				return true
+				return exists
+			}else {
+				user.memberships.each{
+					println it.role.name + " for " + it.collaborationGroup.name
+				}
+				return false
+			}
+		}	
+		else{
+			return false
+		}
+	}
+	
+	def doesMembershipExistByIds(userId,groupId,roleId){
+		def user = GDOCUser.get(userId)
+		if(user.memberships){
+			def exists = user.memberships.find{ membership->
+				(membership.collaborationGroup.id.toString() == groupId) && (membership.role.id.toString() == roleId)
+			}
+			if(exists){
+				log.debug "$userId found as " + exists.role.name + exists.collaborationGroup.name
+				return exists
 			}else {
 				user.memberships.each{
 					println it.role.name + " for " + it.collaborationGroup.name
@@ -576,7 +597,7 @@ class SecurityService{
 
 		private getAccessibleIds(user, type,ids,groups) {
 				def accessibleIds = []
-				def studyNames = this.getSharedItemIds(user.username, Study.class.name,null)
+				def studyNames = this.getSharedItemIds(user.username, Study.class.name,false)
 				def studyHQL = "SELECT distinct study FROM Study study " + 
 				"WHERE study.shortName IN (:studyNames) "
 				def studies = []
