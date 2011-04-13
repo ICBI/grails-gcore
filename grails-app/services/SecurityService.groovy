@@ -496,6 +496,27 @@ class SecurityService{
 		return groupNames
 	}
 	
+	def doesMembershipExist(username,groupName,roleName){
+		def user = GDOCUser.findByUsername(username)
+		if(user.memberships){
+			def exists = user.memberships.find{ membership->
+				(membership.collaborationGroup.name == groupName) && (membership.role.name == roleName)
+			}
+			if(exists){
+				log.debug "$username found as " + exists.role.name + exists.collaborationGroup.name
+				return true
+			}else {
+				user.memberships.each{
+					println it.role.name + " for " + it.collaborationGroup.name
+				}
+				return false
+			}
+		}	
+		else{
+			return false
+		}
+	}
+	
 	def deleteAllGroupArtifacts(id, type){
 		if(type == "CollaborationGroup"){
 			def update = jdbcTemplate.update("delete from GROUP_ARTIFACT where COLLABORATION_GROUP_ID = $id")
@@ -581,6 +602,7 @@ class SecurityService{
 					
 				}
 				log.debug "retain only accesible ids and public ids"
+				accessibleIds.retainAll(ids)
 				return accessibleIds
 			}
 	
