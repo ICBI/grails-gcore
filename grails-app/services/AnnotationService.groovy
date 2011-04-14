@@ -175,7 +175,7 @@ class AnnotationService {
 			"WHERE d.HTARRAY_DESIGN_ID = rl.HTARRAY_DESIGN_ID (+) " +
 			"AND rl.HTARRAY_REPORTER_ID = r.HTARRAY_REPORTER_ID (+) " +
 			"AND REGEXP_LIKE(gene_symbol, ?,'i')"
-		def reporters = jdbcTemplate.queryForList(reporterSQL, gene.toUpperCase())
+		def reporters = jdbcTemplate.queryForList(reporterSQL, "^" + gene.toUpperCase() + "\$")
 		log.debug "got reporters $reporters"
 		return reporters
 	}
