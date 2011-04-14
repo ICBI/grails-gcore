@@ -23,10 +23,10 @@ jQuery(document).ready(function()
 			<a class="sf-with-ul" href="#">Users<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:link controller="GDOCUser">Search for user</g:link>
+					<g:link controller="GDOCUser">View All Users</g:link>
 				</li>
 				<li>
-					<g:link controller="GDOCUser" action="create">Create new user</g:link>
+					<g:link controller="GDOCUser" action="create">Create New User</g:link>
 				</li>	
 				<li>
 					<g:link controller="membership" action="list">Manage All Memberships</g:link>
@@ -37,10 +37,10 @@ jQuery(document).ready(function()
 			<a class="sf-with-ul" href="#">Collaboration Groups<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 					<li>
-						<g:link controller="collaborationGroup">Search for Groups</g:link>
+						<g:link controller="collaborationGroup">View All Groups</g:link>
 					</li>
 					<li>
-						<g:link controller="collaborationGroup" action="create">Create New Groups</g:link>
+						<g:link controller="collaborationGroup" action="create">Create New Group</g:link>
 					</li>
 					<li>
 						<g:link controller="invitation">View Invitations</g:link>
@@ -51,10 +51,10 @@ jQuery(document).ready(function()
 			<a class="sf-with-ul" href="#">Protected Artifacts<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:link controller="protectedArtifact">Search for artifacts</g:link>
+					<g:link controller="protectedArtifact">View All Artifacts</g:link>
 				</li>
 				<li>
-					<g:link controller="protectedArtifact" action="create">Create artifacts</g:link>
+					<g:link controller="protectedArtifact" action="create">Create Artifact</g:link>
 				</li>	
 			</ul>
 		</li>	
@@ -62,7 +62,7 @@ jQuery(document).ready(function()
 			<a class="sf-with-ul" href="#">Roles<span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:link controller="role">View all Roles</g:link>
+					<g:link controller="role">View All Roles</g:link>
 				</li>
 				<li>
 					<g:link controller="role" action="create">Create Role</g:link>

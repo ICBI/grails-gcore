@@ -130,20 +130,17 @@
                            		<table class="admin">
 				                    <thead>
 				                        <tr>
-											<g:sortableColumn property="id" title="Id" />
-	   										<g:sortableColumn property="collaborationGroup" title="Group" />
-
-				                   	        <g:sortableColumn property="role" title="Role" />
+											<%--g:sortableColumn property="id" title="Id" /--%>
+	   										<th>Group</th>
+				                   	        <th>Role</th>
 
 				                        </tr>
 				                    </thead>
 				                    <tbody>
-				                    <g:each in="${GDOCUserInstance.memberships}" status="i" var="membership">
+				                    <g:each in="${GDOCUserInstance.memberships.sort{it.collaborationGroup.name}}" status="i" var="membership">
 				                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-											<td><g:link controller="membership" action="show" id="${membership.id}">${membership.id.encodeAsHTML()}</g:link></td>
+											<td><g:link controller="membership" action="show" id="${membership.id}">${fieldValue(bean:membership, field:'collaborationGroup')}</g:link></td>
 											
-											<td>${fieldValue(bean:membership, field:'collaborationGroup')}</td>
-
 				                            <td>${fieldValue(bean:membership, field:'role')}</td>
 
 				                        </tr>
@@ -174,50 +171,55 @@
                             
                         </tr--%>
 						
-						<tr class="prop">
-	                            <td valign="top" class="name" colspan="2">Invitations<br />
-									<table class="admin">
-					                    <thead>
-					                        <tr>
+							<tr class="prop">
+		                            <td valign="top" class="name" colspan="2">Invitations&nbsp; &nbsp;| &nbsp; &nbsp;
+			
+										<table class="admin">
+						                    <thead>
+						                        <tr>
 
-					                   	        <g:sortableColumn property="id" title="Id" />
+						                   	        <th>Id</th>
 
-					                   	        <g:sortableColumn property="dateCreated" title="Date Created" />
+						                   	        <th>Date Created</th>
 
-					                   	        <th>Group</th>
+						                   	        <th>Group</th>
 
-					                   	        <th>Invitee</th>
+						                   	        <th>Invitee</th>
 
-					                   	        <g:sortableColumn property="lastUpdated" title="Last Updated" />
+						                   	        <th>Last Updated</th>
 
-					                   	        <th>Requestor</th>
+						                   	        <th>Requestor</th>
 
-												<g:sortableColumn property="status" title="Status" />
+													<th>Status</th>
 
-					                        </tr>
-					                    </thead>
-					                    <tbody>
-					                    <g:each in="${GDOCUserInstance.invitations}" status="i" var="invitationInstance">
-					                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+						                        </tr>
+						                    </thead>
+						                    <tbody>
+						                    <g:each in="${GDOCUserInstance.invitations.sort{it.dateCreated}.reverse()}" status="i" var="invitationInstance">
+						                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
-					                            <td><g:link action="show" id="${invitationInstance.id}">${fieldValue(bean:invitationInstance, field:'id')}</g:link></td>
+						                            <td><g:link action="show" controller="invitation" id="${invitationInstance.id}">${fieldValue(bean:invitationInstance, field:'id')}</g:link></td>
 
-					                            <td>${fieldValue(bean:invitationInstance, field:'dateCreated')}</td>
+						                            <td><g:formatDate format="EEE MMM d, yyyy" date="${invitationInstance.dateCreated}" /></td>
 
-					                            <td>${fieldValue(bean:invitationInstance, field:'group')}</td>
+						                            <td>${fieldValue(bean:invitationInstance, field:'group')}</td>
 
-					                            <td>${fieldValue(bean:invitationInstance, field:'invitee')}</td>
+						                            <td>${fieldValue(bean:invitationInstance, field:'invitee')}</td>
 
-					                            <td>${fieldValue(bean:invitationInstance, field:'lastUpdated')}</td>
+						                            <td><g:formatDate format="EEE MMM d, yyyy" date="${invitationInstance.lastUpdated}" /></td>
 
-					                            <td>${fieldValue(bean:invitationInstance, field:'requestor')}</td>
+						                            <td>${fieldValue(bean:invitationInstance, field:'requestor')}</td>
 
-												<td>${fieldValue(bean:invitationInstance, field:'status')}</td>
+													<td>${fieldValue(bean:invitationInstance, field:'status')}</td>
 
-					                        </tr>
-					                    </g:each>
-					                    </tbody>
-					                </table>
+						                        </tr>
+						                    </g:each>
+						                    </tbody>
+						                </table>
+		                            
+                                </td>
+                            </tr><br />
+						
 	                            <%--td  valign="top" style="text-align:left;" class="value">
 	                                <ul>
 	                                <g:each var="i" in="${GDOCUserInstance.invitations}">

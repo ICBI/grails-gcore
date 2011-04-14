@@ -9,9 +9,13 @@ class CollaborationGroupController {
     static allowedMethods = [delete:'POST', save:'POST', update:'POST']
 
     def list = {
-        params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
+        //params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
 		//params.sort = "name"
-        [ collaborationGroupInstanceList: CollaborationGroup.list( params ), collaborationGroupInstanceTotal: CollaborationGroup.count() ]
+		if (!params.max) params.max = 10
+		if (!params.offset) params.offset = 0
+		if (!params.sort) params.sort = "name"
+		if (!params.order) params.order = "asc"
+		[ collaborationGroupInstanceList: CollaborationGroup.list( params ), collaborationGroupInstanceTotal: CollaborationGroup.count() ]
     }
 
     def show = {
@@ -68,20 +72,9 @@ class CollaborationGroupController {
 				log.debug "associations exist with $collaborationGroupInstance.artifacts"
 				def additions = []
 				def deletions = []
-				if(params.artifacts){
-					
-				}else{
+				if(!params.artifacts){
 					log.debug "this currently has associations, but the update includes none, so deletions need to be made"
 					securityService.deleteAllGroupArtifacts(collaborationGroupInstance.id, CollaborationGroup.class.name)		
-				}
-			}
-			else{
-				if(params.artifacts){
-					log.debug "this group doesn't currently have associations, but the update includes them, so additions need to be made"
-					
-				}
-				else{
-					log.debug "no existing associations and no associations have been added"
 				}
 			}
 			if(!collaborationGroupService.validName(params.name)){

@@ -94,13 +94,13 @@
 				<tr>
 					<td>
 						<div>
-						<div style="padding:7px;background-color:seashell;">Find a user<br />
+						<div style="padding:7px;background-color:seashell;">Find a user (search by username, last name or email)<br />
 						
 						</div>
 						
 								<div style="padding:5px;background-color:#f2f2f2;">
 							     <g:form controller="GDOCUser" action="list" autocomplete="off">
-									User Id (email OR netId): <g:textField name="userId" id="q" /><br /><br />
+									<g:textField name="userId" id="q" /><br /><br />
 									<g:submitButton name="search" value="Search Users" />
 								</g:form>
 								</div>
@@ -110,7 +110,7 @@
 			</table>
 			
 			<br />
-			<table style="border:1px solid black;width:85%">
+			<!--table style="border:1px solid black;width:85%">
 			<tr>
 				<th style="background-color:silver">Collaboration Admin</th>
 			</tr>
@@ -129,7 +129,7 @@
 					</div>
 				</td>
 			</tr>
-		</table>
+		</table-->
 			
 			
 		</div>

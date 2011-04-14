@@ -20,7 +20,7 @@
                     <thead>
                         <tr>
                         
-                   	        <g:sortableColumn property="id" title="Id" />
+                   	        <%--g:sortableColumn property="id" title="Id" /--%>
                         
                    	        <g:sortableColumn property="name" title="Name" />
                         
@@ -34,13 +34,13 @@
                     <g:each in="${collaborationGroupInstanceList}" status="i" var="collaborationGroupInstance">
                         <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
                         
-                            <td><g:link action="show" id="${collaborationGroupInstance.id}">${fieldValue(bean:collaborationGroupInstance, field:'id')}</g:link></td>
+                            <%--td><g:link action="show" id="${collaborationGroupInstance.id}">${fieldValue(bean:collaborationGroupInstance, field:'id')}</g:link></td--%>
                         
-                            <td>${fieldValue(bean:collaborationGroupInstance, field:'name')}</td>
+                            <td><g:link action="show" id="${collaborationGroupInstance.id}">${fieldValue(bean:collaborationGroupInstance, field:'name')}</g:link></td>
                         
                             <td>${fieldValue(bean:collaborationGroupInstance, field:'description')}</td>
                         
-                            <td>${fieldValue(bean:collaborationGroupInstance, field:'users')}</td>
+                            <td>${collaborationGroupInstance.users?.size()}</td>
                         
                         </tr>
                     </g:each>

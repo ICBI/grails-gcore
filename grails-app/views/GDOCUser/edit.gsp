@@ -121,29 +121,26 @@
 							<tr class="prop">
                                 <td valign="top" class="name" colSpan="2">Memberships &nbsp; &nbsp;| &nbsp; &nbsp;
 										<g:link controller="membership" params="['username':GDOCUserInstance?.username]" action="create">Add Membership?</g:link><br />
-                                    <table class="admin">
-					                    <thead>
-					                        <tr>
-												<g:sortableColumn property="id" title="Id" />
-		   										<g:sortableColumn property="collaborationGroup" title="Group" />
+                                    	<table class="admin">
+						                    <thead>
+						                        <tr>
+													<%--g:sortableColumn property="id" title="Id" /--%>
+			   										<th>Group</th>
+						                   	        <th>Role</th>
 
-					                   	        <g:sortableColumn property="role" title="Role" />
+						                        </tr>
+						                    </thead>
+						                    <tbody>
+						                    <g:each in="${GDOCUserInstance.memberships.sort{it.collaborationGroup.name}}" status="i" var="membership">
+						                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+													<td><g:link controller="membership" action="show" id="${membership.id}">${fieldValue(bean:membership, field:'collaborationGroup')}</g:link></td>
 
-					                        </tr>
-					                    </thead>
-					                    <tbody>
-					                    <g:each in="${GDOCUserInstance.memberships}" status="i" var="membership">
-					                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-												<td><g:link controller="membership" action="show" id="${membership.id}">${membership.id.encodeAsHTML()}</g:link></td>
-												
-												<td>${fieldValue(bean:membership, field:'collaborationGroup')}</td>
+						                            <td>${fieldValue(bean:membership, field:'role')}</td>
 
-					                            <td>${fieldValue(bean:membership, field:'role')}</td>
-
-					                        </tr>
-					                    </g:each>
-					                    </tbody>
-					                </table>
+						                        </tr>
+						                    </g:each>
+						                    </tbody>
+						                </table>
 
                                 </td>
                             </tr>
@@ -170,35 +167,35 @@
 						                    <thead>
 						                        <tr>
 
-						                   	        <g:sortableColumn property="id" title="Id" />
+						                   	        <th>Id</th>
 
-						                   	        <g:sortableColumn property="dateCreated" title="Date Created" />
+						                   	        <th>Date Created</th>
 
 						                   	        <th>Group</th>
 
 						                   	        <th>Invitee</th>
 
-						                   	        <g:sortableColumn property="lastUpdated" title="Last Updated" />
+						                   	        <th>Last Updated</th>
 
 						                   	        <th>Requestor</th>
 
-													<g:sortableColumn property="status" title="Status" />
+													<th>Status</th>
 
 						                        </tr>
 						                    </thead>
 						                    <tbody>
-						                    <g:each in="${GDOCUserInstance.invitations}" status="i" var="invitationInstance">
+						                    <g:each in="${GDOCUserInstance.invitations.sort{it.dateCreated}.reverse()}" status="i" var="invitationInstance">
 						                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
 
 						                            <td><g:link action="show" controller="invitation" id="${invitationInstance.id}">${fieldValue(bean:invitationInstance, field:'id')}</g:link></td>
 
-						                            <td>${fieldValue(bean:invitationInstance, field:'dateCreated')}</td>
+						                            <td><g:formatDate format="EEE MMM d, yyyy" date="${invitationInstance.dateCreated}" /></td>
 
 						                            <td>${fieldValue(bean:invitationInstance, field:'group')}</td>
 
 						                            <td>${fieldValue(bean:invitationInstance, field:'invitee')}</td>
 
-						                            <td>${fieldValue(bean:invitationInstance, field:'lastUpdated')}</td>
+						                            <td><g:formatDate format="EEE MMM d, yyyy" date="${invitationInstance.lastUpdated}" /></td>
 
 						                            <td>${fieldValue(bean:invitationInstance, field:'requestor')}</td>
 

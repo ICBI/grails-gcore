@@ -14,6 +14,7 @@ class GDOCUserController {
 		//params.sort = "username"
         [ GDOCUserInstanceList: GDOCUser.list( params ), GDOCUserInstanceTotal: GDOCUser.count() ]
     }**/
+	
 
 	//future feature
 	def list = {
@@ -32,10 +33,12 @@ class GDOCUserController {
 					}
 					and{
 						'order'("username", "asc")
-						ne("username","CSM")
 					}
 					or {
 						eq("username", params.userId)
+						ilike("username", "%"+params.userId+"%")
+						ilike("lastName", "%"+params.userId+"%")
+						ilike("email", "%"+params.userId+"%")
 					}
 				}
 		}else{
@@ -51,7 +54,6 @@ class GDOCUserController {
 					}
 					and{
 						'order'("username", "asc")
-						ne("username","CSM")
 					}
 				}
 		}
