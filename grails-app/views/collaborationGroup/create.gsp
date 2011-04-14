@@ -13,7 +13,10 @@
         <div>
             <p style="font-size:14pt;padding:10px">Create CollaborationGroup</p>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="message">${flash.message.encodeAsHTML()}</div>
+            </g:if>
+			<g:if test="${flash.error}">
+            	<div class="errorDetail">${flash.error.encodeAsHTML()}</div>
             </g:if>
             <g:hasErrors bean="${collaborationGroupInstance}">
             <div class="errors">

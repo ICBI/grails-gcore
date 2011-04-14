@@ -112,6 +112,12 @@ class CollaborationGroupsController {
 		} else{
 			flash['cmd'] = cmd
 			try{
+				if(!collaborationGroupService.validName(cmd.collaborationGroupName)){
+					log.debug "Group $cmd.collaborationGroupName contains invalid characters"
+					flash["error"]= "Group did not save because invalid characters found in $cmd.collaborationGroupName. Please try again."
+					redirect(action:index)
+					return
+				}
 				def pg = securityService.createCollaborationGroup(session.userId, cmd.collaborationGroupName, cmd.description)
 				if(pg){
 					flash.message = cmd.collaborationGroupName + " has been created. To invite users, select the invite users tab."

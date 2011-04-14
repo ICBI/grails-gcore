@@ -67,9 +67,12 @@ params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB
 		</div>
 	</div><br />
 	<div style="display:block;text-align:left;border-bottom:1px solid grey;background-color:#f3f3f3;padding-bottom:5px">
-		Studies: 
 		<g:if test="${analysis.studies.size()>0}">
-		${analysis.studyNames().join(", ")}<br/>
+		Studies: ${analysis.studyNames().join(", ")}<br/>
+		</g:if>
+		<g:if test="${analysis.groups}">
+		Groups: 
+			${analysis.groups.join(", ")}<br/>
 		</g:if>
 		<g:if test="${analysis.tags.size()>0}">
 		<g:if test="${analysis.tags.contains('_temporary')}">

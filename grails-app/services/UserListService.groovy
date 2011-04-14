@@ -590,7 +590,7 @@ def gatherTags(ids){
 }
 
 def validListName(listName){
-	def invalidChars = ['"','<','%']
+	def invalidChars = ['"','<','%','>',';']
 	def listAsChars = listName.toList()
 	def invalidFound = listAsChars.find{
 		invalidChars.contains(it)

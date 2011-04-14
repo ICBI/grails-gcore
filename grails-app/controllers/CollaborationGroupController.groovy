@@ -2,6 +2,7 @@
 
 class CollaborationGroupController {
     def securityService
+	def collaborationGroupService
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -83,7 +84,12 @@ class CollaborationGroupController {
 					log.debug "no existing associations and no associations have been added"
 				}
 			}
-			
+			if(!collaborationGroupService.validName(params.name)){
+				log.debug "Group $params.name contains invalid characters"
+				flash["error"]= "Group did not save because invalid characters found in $params.name. Please try again."
+				redirect(action:edit,id:collaborationGroupInstance.id)
+				return
+			}
             collaborationGroupInstance.properties = params
 			collaborationGroupInstance.validate()
             if(!collaborationGroupInstance.hasErrors() && collaborationGroupInstance.save()) {
@@ -109,10 +115,17 @@ class CollaborationGroupController {
     def save = {
 		def collaborationGroupInstance = new CollaborationGroup(params)
 		collaborationGroupInstance.validate()
+		if(!collaborationGroupService.validName(params.name)){
+			log.debug "Group $params.name  contains invalid characters"
+			flash["error"]= "Group did not save because invalid characters found in $params.name. Please try again."
+			redirect(action:create)
+			return
+		}
 		if(!collaborationGroupInstance.hasErrors()) {
-			if(securityService.createCollaborationGroup(params.owner, params.name, params.description)){
-				flash.message = "CollaborationGroup ${collaborationGroupInstance.id} created"
-	            redirect(action:show,id:collaborationGroupInstance.id)
+			def newGroup = securityService.createCollaborationGroup(params.owner, params.name, params.description)
+			if(newGroup){
+				flash.message = "CollaborationGroup ${newGroup.id} created"
+	            redirect(action:show,id:newGroup.id)
 			}
             
         }

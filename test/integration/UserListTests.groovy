@@ -7,14 +7,24 @@ class UserListTests extends GroovyTestCase {
 	def userListService
 	def vennService
 	
-	void testSnapshot(){
+	void testFindGroups(){
+		def list = UserList.findByName("galamb2_b_gene_list")
+		if(list){
+			println "get groups = " + list.groups
+		}else{
+			println "no group"
+		}
+		
+	}
+	
+	/**void testSnapshot(){
 		def pagedLists = userListService.getUsersLists(10,"kmr75")
 		println pagedLists["results"]
 		println pagedLists["count"]
 		println pagedLists["snapshot"]
 	}
 	
-	/**void testSearch(){
+	void testSearch(){
 		def pagedLists = userListService.searchListsByTerm("desMin",null,"kmr75",0)
 		println pagedLists
 	}

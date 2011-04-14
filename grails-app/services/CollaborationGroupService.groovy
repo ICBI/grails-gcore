@@ -54,4 +54,18 @@ class CollaborationGroupService{
 		return existingUsers
 	}
 	
+	def validName(name){
+		def invalidChars = ['"','<','%','>',';']
+		def listAsChars = name.toList()
+		def invalidFound = listAsChars.find{
+			invalidChars.contains(it)
+		}
+		if(!(name.trim()) || invalidFound){
+			return false
+		}
+		else{
+			return true
+		}
+	}
+	
 }

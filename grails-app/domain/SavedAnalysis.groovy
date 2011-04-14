@@ -21,7 +21,7 @@ class SavedAnalysis implements Taggable {
 	
 	static hasMany = [studies:Study,evidence:Evidence]
 	static fetchMode = [studies: 'eager']
-	static transients = [ "analysis", "query"]
+	static transients = [ "analysis", "query", "groups"]
 	
 	Object analysis
 	Object query
@@ -61,6 +61,19 @@ class SavedAnalysis implements Taggable {
 			return this.@query
 		} else {
 			return null
+		}
+	}
+	
+	public Object getGroups(){
+		if(this.@id){
+			def objectId = this.@id.toString()
+			def artHQL = "SELECT distinct artifact FROM ProtectedArtifact artifact WHERE artifact.type = 'SavedAnalysis' AND artifact.objectId = :id "
+			def artifact = ProtectedArtifact.executeQuery(artHQL, [id: objectId])
+			if(artifact && artifact.groups){
+				artifact.groups.flatten()
+				def names = artifact.groups.collect{it.name}
+				return names.flatten()
+			}
 		}
 	}
 	

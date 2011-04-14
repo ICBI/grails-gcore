@@ -49,10 +49,10 @@
 	</g:javascript>
 	
 	<g:if test="${flash.message}">
-	<div class="message">${flash.message}</div>
+	<div class="message">${flash.message.encodeAsHTML()}</div>
 	</g:if>
 	<g:if test="${flash.error}">
-	<div class="errorDetail">${flash.error}</div>
+	<div class="errorDetail">${flash.error.encodeAsHTML()}</div>
 	</g:if>
 	
 	<g:if test="${userListInstanceList.size()>0}">
@@ -147,8 +147,12 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 				<div style="border-bottom:1px solid grey;background-color:#f3f3f3;padding-bottom:5px;">
 					<g:if test="${userListInstance.studies.size()>0}">
 					Studies: 
-						${userListInstance.studyNames().join(", ")}
-					</g:if><br/>
+						${userListInstance.studyNames().join(", ")}<br/>
+					</g:if>
+					<g:if test="${userListInstance.groups}">
+					Groups: 
+						${userListInstance.groups.join(", ")}<br/>
+					</g:if>
 					<g:if test="${userListInstance.tags.size()>0}">
 					<g:if test="${userListInstance.tags.contains('_temporary')}">
 					<span style="color:red;padding:3px">NOTE: This list was created via the G-DOC QuickStart and will be removed when you log out of this session.</span>

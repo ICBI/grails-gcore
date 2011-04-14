@@ -54,10 +54,10 @@
 		<div id="centerContent">
 			<br/>
 			<g:if test="${controllerName != 'workflows' && flash.message}">
-				<div class="message" style="font-size:.8em;width:85%;">${flash.message}</div>
+				<div class="message" style="font-size:.8em;width:85%;">${flash.message.encodeAsHTML()}</div>
 			</g:if>
 			<g:if test="${flash.error}">
-				<div class="errorDetail" style="font-size:.8em;width:85%;">${flash.error}</div>
+				<div class="errorDetail" style="font-size:.8em;width:85%;">${flash.error.encodeAsHTML()}</div>
 			</g:if>
 			<div class="tabDiv">
 				<div id="centerTabs" class="tabDiv">
