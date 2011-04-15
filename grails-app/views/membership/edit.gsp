@@ -25,13 +25,25 @@
                 <div class="dialog">
                     <table class="admin">
                         <tbody>
+	
+							<tr class="prop">
+                                <td valign="top" class="name">
+                                    <label for="user">User:</label>
+                                </td>
+                                <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'user','errors')}">
+								${membershipInstance?.user?.username}
+								 <input type="hidden" name="user.id" value="${membershipInstance?.user?.id}" />
+                                    <%--g:select optionKey="id" from="${GDOCUser.list()}" name="user.id" value="${membershipInstance?.user?.id}" optionValue="username" ></g:select--%>
+                                </td>
+                            </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
                                     <label for="collaborationGroup">Collaboration Group:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'collaborationGroup','errors')}">
-                                    <g:select optionKey="id" from="${CollaborationGroup.list()}" name="collaborationGroup.id" value="${membershipInstance?.collaborationGroup?.id}" optionValue="name" ></g:select>
+										${membershipInstance?.collaborationGroup?.name}
+										 <input type="hidden" name="collaborationGroup.id" value="${membershipInstance?.collaborationGroup?.id}" />
                                 </td>
                             </tr> 
                         
@@ -44,16 +56,6 @@
                                 </td>
                             </tr> 
                         
-                            <tr class="prop">
-                                <td valign="top" class="name">
-                                    <label for="user">User:</label>
-                                </td>
-                                <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'user','errors')}">
-								${membershipInstance?.user?.username}
-								 <input type="hidden" name="user.id" value="${membershipInstance?.user?.id}" />
-                                    <%--g:select optionKey="id" from="${GDOCUser.list()}" name="user.id" value="${membershipInstance?.user?.id}" optionValue="username" ></g:select--%>
-                                </td>
-                            </tr> 
                         
                         </tbody>
                     </table>

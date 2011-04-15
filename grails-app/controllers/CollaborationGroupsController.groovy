@@ -254,16 +254,15 @@ class CollaborationGroupsController {
 								log.debug session.userId + " invited user $user.username to " + cmd.collaborationGroupName
 								flash.message = session.userId + " invited user(s) to " + cmd.collaborationGroupName
 								def managerName = buildUserNameForInvite(manager)
-								def th = Thread.start {
-								    	if(user.email){
+								if(user.email){
 											def subject = "$managerName has invited you to join the group, $cmd.collaborationGroupName"
 											sendEmail(user,subject)
-										}
-										else{
+											return
+								}
+								else{
 											log.debug "no email address was listed for $user.email account, invitation will only be seen on login."
 											redirect(action:"showUsers")
 											return
-										}
 								}
 
 							}
@@ -429,7 +428,8 @@ class CollaborationGroupsController {
 	def sendEmail(sendTo,subjectText){
 		def baseUrl = CH.config.grails.serverURL
 		def token = sendTo.username + "||" + System.currentTimeMillis()
-		def collabUrl = baseUrl+"/${g.appName}/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+		def collabUrl = baseUrl+"/${g.appName()}/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+		log.debug collabUrl
 		mailService.sendMail{
 			to sendTo.email
 			from "gdoc-help@georgetown.edu"

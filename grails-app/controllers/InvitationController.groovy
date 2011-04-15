@@ -9,6 +9,8 @@ class InvitationController {
 
     def list = {
         params.max = Math.min( params.max ? params.max.toInteger() : 10,  100)
+		if (!params.sort) params.sort = "dateCreated"
+		if (!params.order) params.order = "desc"
         [ invitationInstanceList: Invitation.list( params ), invitationInstanceTotal: Invitation.count() ]
     }
 

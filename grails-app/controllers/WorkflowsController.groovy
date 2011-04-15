@@ -9,6 +9,7 @@ class WorkflowsController {
 	def springSecurityService
 	
     def index = { 
+		log.debug "params= " + params
 		if(springSecurityService.isLoggedIn()){
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)

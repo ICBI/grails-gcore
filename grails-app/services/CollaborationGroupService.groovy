@@ -68,4 +68,67 @@ class CollaborationGroupService{
 		}
 	}
 	
+	def manipulateArtifactGroups(protectedArtifactInstance,submittedGroups){
+		def additions = []
+		def deletions = []
+		def deletionNames = []
+		def additionNames = []
+		//Loop over existing list and see if they exist in submitted list, for each not found, add to 'delete' list.
+		protectedArtifactInstance.groups.each{ group ->
+			//log.debug "does $submittedGroups contain " + group.id.toString() + "? or should we delete"
+			if(!submittedGroups.contains(group.id.toString())){
+				deletions << group.id
+			}	
+		}
+		//Delete item associations
+		if(deletions){
+			log.debug "this artifact will delete the following group associations $deletions"
+			deletions.each{ toDeleteId ->
+				def collabGroup = CollaborationGroup.get(toDeleteId)
+				if(collabGroup){
+					protectedArtifactInstance.removeFromGroups(collabGroup)
+					deletionNames << collabGroup.name
+				}
+			}
+		}else "no associations will be deleted"
+		//log.debug "the following deletions have been made $deletionNames"
+		
+		//Loop over submitted and see if they exist in pre-existing list, for each not found, add to 'add' list.
+		submittedGroups.each{ groupId ->
+			def existing = protectedArtifactInstance.groups.collect{it.id.toString()}
+			//log.debug "does $submittedGroups contain " + groupId + "? or should we add"
+			if(!existing.contains(groupId)){
+				additions << groupId
+			}
+		}
+		//Add item associations
+		if(additions){ 
+			log.debug "this artifact will add the following group associations $additions"
+			additions.each{ groupId ->
+				def collabGroup = CollaborationGroup.get(groupId)
+				if(collabGroup){
+					protectedArtifactInstance.addToGroups(collabGroup)
+					additionNames << collabGroup.name
+				}
+			}
+		}else "no additions will be made"
+		//log.debug "the following additions have been made $additionNames"
+		def nameMap=[:]
+		nameMap["additionNames"] = additionNames
+		nameMap["deletionNames"] = deletionNames
+		return nameMap
+	}
+	
+	def associateGroupsToArtifact(protectedArtifactInstance,submittedGroups){
+		def additionNames = []
+		submittedGroups.each{ groupId ->
+			def collabGroup = CollaborationGroup.get(groupId)
+			if(collabGroup){
+				protectedArtifactInstance.addToGroups(collabGroup)
+				additionNames << collabGroup.name
+			}
+		}
+		return additionNames
+	}
+	
 }

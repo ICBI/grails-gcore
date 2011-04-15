@@ -130,7 +130,7 @@
                            		<table class="admin">
 				                    <thead>
 				                        <tr>
-											<%--g:sortableColumn property="id" title="Id" /--%>
+											<g:sortableColumn property="id" title="Id" />
 	   										<th>Group</th>
 				                   	        <th>Role</th>
 
@@ -139,7 +139,9 @@
 				                    <tbody>
 				                    <g:each in="${GDOCUserInstance.memberships.sort{it.collaborationGroup.name}}" status="i" var="membership">
 				                        <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-											<td><g:link controller="membership" action="show" id="${membership.id}">${fieldValue(bean:membership, field:'collaborationGroup')}</g:link></td>
+											<td><g:link controller="membership" action="show" id="${membership.id}">${fieldValue(bean:membership, field:'id')}</g:link></td>
+											
+											<td>${fieldValue(bean:membership, field:'collaborationGroup')}</td>
 											
 				                            <td>${fieldValue(bean:membership, field:'role')}</td>
 

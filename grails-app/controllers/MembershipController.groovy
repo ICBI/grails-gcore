@@ -84,8 +84,8 @@ class MembershipController {
     def update = {
 	log.debug params
 		flash.params = params
-		def existingMembership = securityService.doesMembershipExistByIds(params.user.id,params.collaborationGroup.id,params.role.id)
-        if(!existingMembership){
+		//def existingMembership = securityService.doesMembershipExistByIds(params.user.id,params.collaborationGroup.id,params.role.id)
+        //if(!existingMembership){
 			def membershipInstance = Membership.get( params.id )
 	        if(membershipInstance) {
 	            membershipInstance.properties = params
@@ -101,11 +101,11 @@ class MembershipController {
 	            flash.message = "Membership not found with id ${params.id}"
 	            redirect(action:list)
 	        }
-		}else {
+		/**}else {
 			log.debug "this user already exists with a role, $params.role.id in this group $params.collaborationGroup.id"
 			flash.error = "this user already has this role within this group"
 		    render(view:'edit',model:[membershipInstance:existingMembership])
-		}
+		}**/
     }
 
     def create = {

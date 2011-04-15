@@ -2,6 +2,8 @@
 
 class ProtectedArtifactController {
     def securityService
+	def collaborationGroupService
+	
     def index = { redirect(action:list,params:params) }
 
     // the delete, save and update actions only accept POST requests
@@ -67,19 +69,13 @@ class ProtectedArtifactController {
         }
     }
 
-	//TODO: add association to collaboration group
     def update = {
-		/**
-		-Report adds/deletes to user
-		**/
+		def additionNames =[]
 		def deletionNames = []
-		def additionNames = []
 		def protectedArtifactInstance = ProtectedArtifact.get( params.id )
 	    if(protectedArtifactInstance) {
 				if(protectedArtifactInstance.groups){
 					log.debug "associations exist with $protectedArtifactInstance.groups"
-					def additions = []
-					def deletions = []
 					if(params.group){
 						def submittedGroups = []
 						if(params.group.metaClass.respondsTo(params.group, "max")){
@@ -90,52 +86,17 @@ class ProtectedArtifactController {
 						else{
 							submittedGroups << params.group
 						}
-						//Loop over existing list and see if they exist in submitted list, for each not found, add to 'delete' list.
-						protectedArtifactInstance.groups.each{ group ->
-							log.debug "does $submittedGroups contain " + group.id.toString() + "? or should we delete"
-							if(!submittedGroups.contains(group.id.toString())){
-								deletions << group.id
-							}	
-						}
-						//Delete item associations
-						if(deletions){
-							log.debug "this artifact will delete the following group associations $deletions"
-							deletions.each{ toDeleteId ->
-								def collabGroup = CollaborationGroup.get(toDeleteId)
-								if(collabGroup){
-									protectedArtifactInstance.removeFromGroups(collabGroup)
-									deletionNames << collabGroup.name
-								}
-							}
-						}else "no associations will be deleted"
-						log.debug "the following deletions have been made $deletionNames"
-						
-						//Loop over submitted and see if they exist in pre-existing list, for each not found, add to 'add' list.
-						submittedGroups.each{ groupId ->
-							def existing = protectedArtifactInstance.groups.collect{it.id.toString()}
-							log.debug "does $submittedGroups contain " + groupId + "? or should we add"
-							if(!existing.contains(groupId)){
-								additions << groupId
-							}
-						}
-						//Add item associations
-						if(additions){ 
-							log.debug "this artifact will add the following group associations $additions"
-							additions.each{ groupId ->
-								def collabGroup = CollaborationGroup.get(groupId)
-								if(collabGroup){
-									protectedArtifactInstance.addToGroups(collabGroup)
-									additionNames << collabGroup.name
-								}
-							}
-						}else "no additions will be made"
-						log.debug "the following additions have been made $additionNames"						
+						def nameMap = collaborationGroupService.manipulateArtifactGroups(protectedArtifactInstance,submittedGroups)
+						additionNames = nameMap["additionNames"]
+						deletionNames = nameMap["deletionNames"]
+						log.debug "the following additions have been made $additionNames"
+						log.debug "the following deletions have been made $deletionNames"						
 					
 					//No submitted associations	
 					}else{
 						log.debug "this currently has associations, but the update includes none, so deletions need to be made"
 						securityService.deleteAllGroupArtifacts(protectedArtifactInstance.id, ProtectedArtifact.class.name)
-						log.debug "the following deletions have been made $deletionNames"
+						log.debug "all group assocaited artifacts have been deleted"
 					}
 				}
 				else{
@@ -150,13 +111,7 @@ class ProtectedArtifactController {
 						else{
 							submittedGroups << params.group
 						}
-						submittedGroups.each{ groupId ->
-							def collabGroup = CollaborationGroup.get(groupId)
-							if(collabGroup){
-								protectedArtifactInstance.addToGroups(collabGroup)
-								additionNames << collabGroup.name
-							}
-						}
+						additionNames = collaborationGroupService.associateGroupsToArtifact(protectedArtifactInstance,submittedGroups)
 						log.debug "the following additions have been made $additionNames"
 					}
 					else{
