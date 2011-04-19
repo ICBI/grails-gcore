@@ -3,6 +3,7 @@ import org.codehaus.groovy.grails.web.context.ServletContextHolder as SCH
 
 class DataAvailableService implements InitializingBean {
 	def htDataService
+	def jdbcTemplate
 	
 	void afterPropertiesSet() {
 		def da = getDataAvailability()
@@ -137,6 +138,68 @@ class DataAvailableService implements InitializingBean {
 		}
 		log.debug "retrieved my data availability"
 		return myDa
+	}
+	
+	def queryStudyData(study, allDataTypes){
+		StudyContext.setStudy(study.schemaName)
+		def result = [:]
+		def studyName = [:]
+	
+		
+		//find all patients (clnicalData)
+		def patients = []
+		patients = Patient.findAll()
+		result['STUDY'] = study.shortName
+		result['CANCER'] = study.cancerSite
+		log.debug "find data for $study.shortName -> total patients in study: " + patients.size()
+		result['CLINICAL'] = patients.size()
+		
+		
+		
+		allDataTypes.each{ type ->
+			if(type != 'CLINICAL'){
+				//log.debug "find if $type data in $study.shortName"
+				//get specimens
+				def samples = []
+				samples = Sample.findAllByDesignType(type)
+				//get biospecs
+				def pw = []
+				if(samples){
+					def bsWith = []
+					def sids = []
+					sids = samples.collect{it.id}
+					def sidsString = sids.toString().replace("[","")
+					sidsString = sidsString.replace("]","")
+					def query = "select s.biospecimen_id from " + study.schemaName + ".HT_FILE_CONTENTS s where s.id in ("+sidsString+")"
+					bsWith = jdbcTemplate.queryForList(query)
+					//log.debug "biospecimens after $bsWith"
+					def bsIds = bsWith.collect { id ->
+						return id["BIOSPECIMEN_ID"]
+					}
+					//log.debug bsIds
+					def biospecimens = []
+					//biospecimens = Biospecimen.getAll(bsIds)
+					//get patients
+					def patientWith = []
+					def bidsString = bsIds.toString().replace("[","")
+					bidsString = bidsString.replace("]","")
+					def query2 = "select b.patient_id from " + study.schemaName + ".BIOSPECIMEN b where b.biospecimen_id in ("+bidsString+")"
+					patientWith = jdbcTemplate.queryForList(query2);//biospecimens.collect{it.patient.id}
+					def patIds = patientWith.collect { id ->
+						return id["PATIENT_ID"]
+					}
+					//log.debug "returned patient ids=" + patIds
+					if(patIds){
+						pw = Patient.getAll(patIds) as Set
+						//log.debug "all patients with $type: " + pw.size() + " " + pw
+					}
+				}
+				
+				def stats = [:]
+				result[type] = pw.size()
+			}
+		}
+		return result
 	}
 	
 }
