@@ -27,8 +27,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label" >Cancer Type</td>
-				<td>${currStudy.cancerSite}</td>
+				<td class="label" >Disease</td>
+				<td>${currStudy.disease}</td>
 			</tr>			
 			<tr>
 				<td class="label" >Point(s) of Contact</td>

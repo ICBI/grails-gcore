@@ -48,14 +48,14 @@ class HomeController implements ApplicationContextAware{
 		if(da["dataAvailability"]){
 			totalStudies = da["dataAvailability"].size()
 		da["dataAvailability"].each{ study ->
-			def disease = study["CANCER"]
+			def disease = study["DISEASE"]
 			//log.debug "disease: " + disease
 			study.each{ key,value ->
 				if(!diseaseBreakdown[disease]){
 					diseaseBreakdown[disease] = [:]
 					diseaseBreakdown[disease]["availableData"] = new HashSet()
 				}
-					if(key == 'CANCER'){
+					if(key == 'DISEASE'){
 					if(diseaseBreakdown[disease]["studyNumber"]){
 						diseaseBreakdown[disease]["studyNumber"] += 1
 						//log.debug "add another $disease study: $study.STUDY"
@@ -73,7 +73,7 @@ class HomeController implements ApplicationContextAware{
 					}
 					
 				
-				if(key != "STUDY" &&  key != "CANCER"){
+				if(key != "STUDY" &&  key != "DISEASE"){
 					if(value > 0){
 						//log.debug  "$disease has $key available"
 						def nameAndImage = [:]

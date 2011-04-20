@@ -106,7 +106,7 @@ def loadStudyData(projectName) {
 				params.schemaName = data[7]
 				params.longName = data[1]
 				params.abstractText = data[2]
-				params.cancerSite = data[3]
+				params.disease = data[3]
 				params.patientIdName = data[4]
 				params.integrated = data[5]
 				params.overallAccess = data[6]

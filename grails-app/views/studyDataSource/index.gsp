@@ -15,7 +15,7 @@
 						<th>Study Name</th>
 						<th style="width:25%">Description</th>
 						<th>Principal Investigator</th>
-						<th>Cancer Type</th>
+						<th>Disease</th>
 						<th>Point of Contact</th>
 						<!--th style="width: 25%">Contact Email</th-->
 					</tr>
@@ -28,7 +28,7 @@
 								${pi.firstName} ${pi.lastName}, ${pi.suffix}<br/><br/>
 							</g:each>
 						</td>
-						<td>${study.cancerSite}</td>
+						<td>${study.disease}</td>
 						<td>
 							<g:each in="${study.pocs}" var="poc">
 								${poc.firstName} ${poc.lastName}<br/><br/>
@@ -63,7 +63,7 @@
 						${pi.firstName} ${pi.lastName}, ${pi.suffix}<br/><br/>
 					</g:each>
 				</td>
-				<td>${study.cancerSite}</td>
+				<td>${study.disease}</td>
 				<td>
 					<g:each in="${study.pocs}" var="poc">
 						${poc.firstName} ${poc.lastName}<br/><br/>

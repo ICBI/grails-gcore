@@ -74,7 +74,7 @@
 								</g:if>
 				            <div class="desc">${result.longName}:${desc.encodeAsHTML()}</div>
 						</g:if>
-						<%--span style="color:green">cancer site: ${result.cancerSite},Principal Investigators:
+						<%--span style="color:green">cancer site: ${result.disease},Principal Investigators:
 							<g:set var="pis" value="${result.pis.collect{it.lastName}}" />
 							${pis}</span--%>
 					</div>

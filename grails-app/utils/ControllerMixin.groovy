@@ -39,7 +39,7 @@ class ControllerMixin {
 	}
 	
     static getDiseases(self) {
-		def diseases = self.session.myStudies.collect{it.cancerSite}.unique().sort()
+		def diseases = self.session.myStudies.collect{it.disease}.unique().sort()
 		diseases.remove("N/A")
 		return diseases
     }

@@ -24,7 +24,7 @@ class DataAvailableService implements InitializingBean {
 		if(studies) {
 			//get all diseases
 			def diseases = []
-			diseases = studies.collect{it.cancerSite}.sort{it}.unique()
+			diseases = studies.collect{it.disease}.sort{it}.unique()
 			diseases.remove("N/A")
 			log.debug "diseases are $diseases"
 			vocabList["diseases"] = diseases
@@ -37,7 +37,7 @@ class DataAvailableService implements InitializingBean {
 				if(study.shortName != 'DRUG'){
 					def result = [:]
 					result['STUDY'] = study.shortName
-					result['CANCER'] = study.cancerSite
+					result['DISEASE'] = study.disease
 					log.debug "find data available for $study.shortName"
 					def studyDA = []
 					studyDA = DataAvailable.findAllByStudyName(study.shortName)
@@ -67,7 +67,7 @@ class DataAvailableService implements InitializingBean {
 		if(studies) {
 			//get all diseases
 			def diseases = []
-			diseases = studies.collect{it.cancerSite}.sort{it}.unique()
+			diseases = studies.collect{it.disease}.sort{it}.unique()
 			diseases.remove("N/A")
 			vocabList["diseases"] = diseases
 			//get all datatypes
@@ -83,12 +83,12 @@ class DataAvailableService implements InitializingBean {
 							def result = queryStudyData(study,allDataTypes)
 							if(result){	
 								results << result
-								if(result["STUDY"] && result["CANCER"]){
+								if(result["STUDY"] && result["DISEASE"]){
 										result.each{ key,value ->
-											if(key != "STUDY" && key != "CANCER"){
+											if(key != "STUDY" && key != "DISEASE"){
 												def exists = DataAvailable.findByStudyNameAndDataType(result["STUDY"],key)
 												if(!exists){
-													def da = new DataAvailable(studyName:result["STUDY"],diseaseType:result["CANCER"],dataType:key,count:value)
+													def da = new DataAvailable(studyName:result["STUDY"],diseaseType:result["DISEASE"],dataType:key,count:value)
 													if(da.save(flush:true)){
 														log.debug "saved $key data for " + result["STUDY"]
 													}
@@ -150,7 +150,7 @@ class DataAvailableService implements InitializingBean {
 		def patients = []
 		patients = Patient.findAll()
 		result['STUDY'] = study.shortName
-		result['CANCER'] = study.cancerSite
+		result['DISEASE'] = study.disease
 		log.debug "find data for $study.shortName -> total patients in study: " + patients.size()
 		result['CLINICAL'] = patients.size()
 		

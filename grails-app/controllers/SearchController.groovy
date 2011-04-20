@@ -113,7 +113,7 @@ class SearchController {
 			def terms = []
 			terms << searchableService.termFreqs("longName")
 			terms << searchableService.termFreqs("shortName")
-			terms << searchableService.termFreqs("cancerSite")
+			terms << searchableService.termFreqs("disease")
 			terms << searchableService.termFreqs("abstractText")
 			terms << GeneAlias.termFreqs("symbol",size:30000)
 			terms << searchableService.termFreqs("lastName")

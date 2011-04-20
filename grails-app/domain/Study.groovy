@@ -29,7 +29,7 @@ class Study {
 	String shortName
 	String longName
 	String abstractText
-	String cancerSite
+	String disease
 	String schemaName
 	String patientIdName
 	String integrated
