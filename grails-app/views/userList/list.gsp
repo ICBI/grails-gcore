@@ -179,7 +179,7 @@
 			</div>
 	
 			<div class="list" id="allLists">
-				<g:render template="/userList/userListTable" model="${['userListInstanceList':userListInstanceList]}"/>
+				<g:render template="/userList/userListTable" model="${['userListInstanceList':userListInstanceList]}" plugin="gcore"/>
 			</div>
 	
 			<div id="pager2" style="text-align:right;padding:2px 10px 3px 0px">

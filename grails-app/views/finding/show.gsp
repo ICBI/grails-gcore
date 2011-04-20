@@ -27,7 +27,7 @@
 				<g:if test="${finding.principalEvidence}">
 				<tr>
 					<td><b>Principal Evidence</b>:
-					<g:render template="/finding/evidenceViewer" model="${['evidence':finding.principalEvidence,'principal':true]}"/></td>
+					<g:render template="/finding/evidenceViewer" model="${['evidence':finding.principalEvidence,'principal':true]}" plugin="gcore"/></td>
 				</tr>
 				</g:if>
 				<tr>
@@ -48,7 +48,7 @@
 					<td><b>Supporting Evidence: (click to view)</b>:<br />
 						<g:each in="${finding.supportingEvidence}" var="evidence">
 						<br />
-			<g:render template="/finding/evidenceViewer" model="${['evidence':evidence]}"/>
+			<g:render template="/finding/evidenceViewer" model="${['evidence':evidence]}" plugin="gcore"/>
 						</g:each>
 					</td>
 				</tr>

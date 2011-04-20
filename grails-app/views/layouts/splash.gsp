@@ -29,7 +29,7 @@
 <div id="doc2" class="yui-t1" style="border:0px solid black;">
 	<div id="hd">
 		<!-- Header start -->
-    <g:render template="/common/header"/>
+    <g:render template="/common/header" plugin="gcore"/>
     <!-- Header end -->
 	</div>
 	<div class="c" style="border:1px solid #000;padding:3px">
@@ -42,7 +42,7 @@
 	</div>
 	<div id="ft">
 		<!-- Footer start -->
-    <g:render template="/common/footer"/>
+    <g:render template="/common/footer" plugin="gcore"/>
     <!-- Footer end -->
 	</div>
 	</div>

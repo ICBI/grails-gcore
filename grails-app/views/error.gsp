@@ -23,7 +23,7 @@
 <div id="doc2" class="yui-t1">
 	<div id="hd">
 		<!-- Header start -->
-    <g:render template="/common/header"/>
+    <g:render template="/common/header" plugin="gcore"/>
     <!-- Header end -->
 	</div>
 	<div id="bd">
@@ -68,12 +68,12 @@
 			</div>
 		</div>
 		<div id="navigation" class="yui-b first">
-			<g:render template="/common/leftbar"/>
+			<g:render template="/common/leftbar" plugin="gcore"/>
 		</div>
 	</div>
 	<div id="ft">
 		<!-- Footer start -->
-    <g:render template="/common/footer"/>
+    <g:render template="/common/footer" plugin="gcore"/>
     <!-- Footer end -->
 	</div>
 </div>

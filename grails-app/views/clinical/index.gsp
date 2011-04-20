@@ -60,7 +60,7 @@
 	<p style="font-size:14pt">Search for Clinical Data</p>
 		
 		<div id="studyPicker">
-			<g:render template="/studyDataSource/studyPicker"/>
+			<g:render template="/studyDataSource/studyPicker" plugin="gcore"/>
 		</div>
 		
 	<div id="centerContent">
@@ -82,7 +82,7 @@
 		
 		
 		<div id="searchDiv">
-			<g:render template="/clinical/studyForm"/>
+			<g:render template="/clinical/studyForm" plugin="gcore"/>
 		</div>
 		
 		

@@ -61,12 +61,8 @@
 	<p style="font-size:14pt">Notifications</p>
 	<br/>
 	<g:panel title="My Running Analysis" styleClass="notifications" contentClass="myPanelContent" id="notifications">
-		<g:render template="/notification/notificationTable" />
+		<g:render template="/notification/notificationTable"  plugin="gcore"/>
 	</g:panel>
-	<%--g:panel title="Invitations and Messages" styleClass="invitations" contentClass="myPanelContent" id="invitations">
-		(<span style='font-style:italic'>last 30 days</span>)
-		<g:render template="/notification/invitationTable" />
-	</g:panel--%>
 	<br/>
 	<br /><br />
 </body>

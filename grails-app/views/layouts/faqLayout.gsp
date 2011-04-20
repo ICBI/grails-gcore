@@ -28,7 +28,7 @@
 <div id="doc2" class="yui-t1">
 	<div id="hd">
 		<!-- Header start -->
-    <g:render template="/common/headerWorkflow"/>
+    <g:render template="/common/headerWorkflow" plugin="gcore"/>
     <!-- Header end -->
 	</div>
 	<div class="c" style="background:#fff;border:1px solid #000;padding:3px;">
@@ -42,7 +42,7 @@
 					<div class="yui-u">
 						<br /><br /><br />
 						<div>
-						<g:render template="/help/faq_rightBar"/>
+						<g:render template="/help/faq_rightBar" plugin="gcore"/>
 						</div>
 					</div>
 				</div>
@@ -50,13 +50,13 @@
 		</div>
 		<div class="c" style="padding:5px">
 		<div id="navigation" class="yui-b first">
-			<g:render template="/common/leftbar"/>
+			<g:render template="/common/leftbar" plugin="gcore"/>
 		</div>
 		</div>
 	</div>
 	<div id="ft">
 		<!-- Footer start -->
-    <g:render template="/common/footer"/>
+    <g:render template="/common/footer" plugin="gcore"/>
     <!-- Footer end -->
 	</div>
 	</div>

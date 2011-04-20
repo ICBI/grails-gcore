@@ -69,19 +69,19 @@
 				    </ul>
 					
 					 <div id="fragment-4">
-	<g:render template="/collaborationGroups/collabTable" model="${['managedMemberships':managedMemberships,'otherMemberships':otherMemberships]}"/>
+	<g:render template="/collaborationGroups/collabTable" model="${['managedMemberships':managedMemberships,'otherMemberships':otherMemberships]}" plugin="gcore"/>
 					</div>
 				
 					<div id="fragment-5">
-						<g:render template="/collaborationGroups/createGroupForm" />	
+						<g:render template="/collaborationGroups/createGroupForm" plugin="gcore"/>	
 					</div>
 					
 					<div id="fragment-6">
-						<g:render template="/collaborationGroups/inviteUsersForm" />
+						<g:render template="/collaborationGroups/inviteUsersForm" plugin="gcore"/>
 					</div>
 					
 					<div id="fragment-7">
-						<g:render template="/collaborationGroups/allCollabTable" model="${['allMemberships':allMemberships]}"/>
+						<g:render template="/collaborationGroups/allCollabTable" model="${['allMemberships':allMemberships]}" plugin="gcore"/>
 					</div>
 					
 				</div>

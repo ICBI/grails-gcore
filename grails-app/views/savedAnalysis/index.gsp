@@ -88,7 +88,7 @@
 		
 <g:panel title="My Saved Analysis" styleClass="welcome" contentClass="myPanelContent" id="savedAnalysis">
 	<div id="analysisContainer">
-	<g:render template="/savedAnalysis/savedAnalysisTable" />
+	<g:render template="/savedAnalysis/savedAnalysisTable" plugin="gcore" />
 	</div>
 </g:panel>
 	

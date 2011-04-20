@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Georgetown Database of Cancer</title>
-		<g:render template="/common/flex_header"/>
+		<g:render template="/common/flex_header" plugin="gcore"/>
 		<g:javascript src="swfobject.js"/>
 		<meta name="layout" content="splash" />
 		<g:javascript library="jquery"/>
