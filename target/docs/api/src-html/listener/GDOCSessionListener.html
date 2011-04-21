@@ -1,0 +1,102 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    package listener;<a name="line.1"></a>
+<FONT color="green">002</FONT>    <a name="line.2"></a>
+<FONT color="green">003</FONT>    import org.apache.commons.logging.Log; <a name="line.3"></a>
+<FONT color="green">004</FONT>    import org.apache.commons.logging.LogFactory;<a name="line.4"></a>
+<FONT color="green">005</FONT>    import javax.servlet.http.HttpSessionListener; <a name="line.5"></a>
+<FONT color="green">006</FONT>    import javax.servlet.http.HttpSessionEvent;<a name="line.6"></a>
+<FONT color="green">007</FONT>    import org.codehaus.groovy.grails.commons.ApplicationHolder;<a name="line.7"></a>
+<FONT color="green">008</FONT>    import serviceinterfaces.SessionCleanerServiceInt;<a name="line.8"></a>
+<FONT color="green">009</FONT>    import org.springframework.context.ApplicationContext;<a name="line.9"></a>
+<FONT color="green">010</FONT>    import java.util.HashSet;<a name="line.10"></a>
+<FONT color="green">011</FONT>    <a name="line.11"></a>
+<FONT color="green">012</FONT>    public class GDOCSessionListener implements HttpSessionListener { <a name="line.12"></a>
+<FONT color="green">013</FONT>            private static final Log log = LogFactory.getLog(GDOCSessionListener.class);<a name="line.13"></a>
+<FONT color="green">014</FONT>    <a name="line.14"></a>
+<FONT color="green">015</FONT>            public void sessionCreated(HttpSessionEvent event) { <a name="line.15"></a>
+<FONT color="green">016</FONT>                    log.debug("Session created"); <a name="line.16"></a>
+<FONT color="green">017</FONT>                    <a name="line.17"></a>
+<FONT color="green">018</FONT>                    <a name="line.18"></a>
+<FONT color="green">019</FONT>            }<a name="line.19"></a>
+<FONT color="green">020</FONT>    <a name="line.20"></a>
+<FONT color="green">021</FONT>            public void sessionDestroyed(HttpSessionEvent event) {<a name="line.21"></a>
+<FONT color="green">022</FONT>                    log.debug("Session destroyed."); <a name="line.22"></a>
+<FONT color="green">023</FONT>                    String userId = (String) event.getSession().getAttribute("userId");<a name="line.23"></a>
+<FONT color="green">024</FONT>                    HashSet tempLists = (HashSet) event.getSession().getAttribute("tempLists");<a name="line.24"></a>
+<FONT color="green">025</FONT>                    HashSet tempAnalyses = (HashSet) event.getSession().getAttribute("tempAnalyses");<a name="line.25"></a>
+<FONT color="green">026</FONT>                    ApplicationContext ctx = (ApplicationContext)ApplicationHolder.getApplication().getMainContext();<a name="line.26"></a>
+<FONT color="green">027</FONT>                    SessionCleanerServiceInt service = (SessionCleanerServiceInt) ctx.getBean("cleanupService");<a name="line.27"></a>
+<FONT color="green">028</FONT>                    if(service != null &amp;&amp; userId != null &amp;&amp; (tempLists !=null) &amp;&amp; (tempAnalyses!=null)){<a name="line.28"></a>
+<FONT color="green">029</FONT>                            log.debug(userId + " has destroyed session, cleanup temp data");<a name="line.29"></a>
+<FONT color="green">030</FONT>                            if(!(tempLists.isEmpty()) || !(tempAnalyses.isEmpty())){<a name="line.30"></a>
+<FONT color="green">031</FONT>                                    log.debug(userId + " found temporary data");<a name="line.31"></a>
+<FONT color="green">032</FONT>                                    service.cleanup(userId,tempLists,tempAnalyses);<a name="line.32"></a>
+<FONT color="green">033</FONT>                            }       <a name="line.33"></a>
+<FONT color="green">034</FONT>                    }<a name="line.34"></a>
+<FONT color="green">035</FONT>            }<a name="line.35"></a>
+<FONT color="green">036</FONT>    }<a name="line.36"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

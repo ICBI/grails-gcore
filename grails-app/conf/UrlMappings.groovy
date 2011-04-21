@@ -1,0 +1,4 @@
+class UrlMappings {
+    static mappings = {
+	}
+}

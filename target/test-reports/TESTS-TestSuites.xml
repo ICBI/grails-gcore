@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites>
+  <testsuite errors="0" failures="0" hostname="acs224.local" id="0" name="AnalysisAnnotationTests" package="" tests="1" time="0.369" timestamp="2011-03-11T19:11:44">
+      <properties />
+
+      <testcase classname="AnalysisAnnotationTests" name="testRuntime" time="0.349" />
+
+      <system-out><![CDATA[--Output from testRuntime--
+[cin:Chromosomal Instability Index]
+]]></system-out>
+
+      <system-err><![CDATA[--Output from testRuntime--
+]]></system-err>
+
+  </testsuite>
+</testsuites>
