@@ -23,10 +23,10 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 				extensionMap[controller.logicalPropertyName] = annotation
 				
 				// Load up analysis services, looking at requestType on the command and matching it with a service of the same name
-				if(annotation.type() == ExtensionType.ANALYSIS) {
+				if((annotation.type() == ExtensionType.ANALYSIS) || (annotation.type() == ExtensionType.SEARCH && annotation.menu() == "Gene Expression")) {
 					def commandClass = Thread.currentThread().contextClassLoader.loadClass(controller.name + 'Command')
 					analysisTypeMap[commandClass.requestType] = controller.logicalPropertyName
-				}
+				} 
 				
 				// Look at all methods and look for WorkflowExtensions
 				controller.clazz.declaredFields.each { field ->
