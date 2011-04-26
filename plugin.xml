@@ -70,7 +70,6 @@ Brief description of the plugin.
     <resource>Design</resource>
     <resource>Evidence</resource>
     <resource>Feature</resource>
-    <resource>FileFormat</resource>
     <resource>FileType</resource>
     <resource>Finding</resource>
     <resource>GDOCUser</resource>
@@ -147,6 +146,7 @@ Brief description of the plugin.
     <resource>DataExtension</resource>
     <resource>DataType</resource>
     <resource>EncryptionUtil</resource>
+    <resource>ExpressionLookupResultMarshaller</resource>
     <resource>Extension</resource>
     <resource>InviteStatus</resource>
     <resource>ParamsHelper</resource>
