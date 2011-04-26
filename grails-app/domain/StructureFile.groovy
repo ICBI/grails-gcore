@@ -7,7 +7,6 @@ class StructureFile{
 		alias "structureFile"
 		structure reference: true
 	    fileType reference: true
-		fileFormat reference: true
 		dateCreated index: 'no'
 		lastUpdated index: 'no'
 		relativePath index: 'no'
@@ -20,7 +19,6 @@ class StructureFile{
 	static belongsTo = [Structure]
 	Structure structure
 	FileType fileType
-	FileFormat fileFormat
 	Date dateCreated
 	Date lastUpdated
 	static constraints = {

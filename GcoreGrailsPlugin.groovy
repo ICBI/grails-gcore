@@ -7,6 +7,7 @@ import javax.jms.QueueConnectionFactory
 import org.springframework.context.ApplicationContext
 import org.apache.commons.logging.LogFactory
 import org.apache.commons.lang.StringUtils
+import grails.converters.*
 
 class GcoreGrailsPlugin {
 	
@@ -42,6 +43,8 @@ Brief description of the plugin.
     def doWithSpring = {
 	
 		config = getConfiguration(parentCtx, application)
+		
+		println "Configuring gcore ..."
 		
 		ldapUserDetailsMapper(CustomLdapUserDetailsMapper) {}
 		
@@ -100,6 +103,9 @@ Brief description of the plugin.
 
     def doWithApplicationContext = { applicationContext ->
         // TODO Implement post initialization spring config (optional)
+		// Initialize custom json converter
+		println "register JSON object marshaller"
+		JSON.registerObjectMarshaller(new ExpressionLookupResultMarshaller())
     }
 
     def onChange = { event ->

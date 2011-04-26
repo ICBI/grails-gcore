@@ -1,5 +1,5 @@
-//grails.plugin.repos.distribution.gcore="https://svn-bccfr.uis.georgetown.edu/svn/gdoc/gcore-plugins/"
-//grails.plugin.repos.discovery.gcore="https://svn-bccfr.uis.georgetown.edu/svn/gdoc/gcore-plugins/"
+grails.plugin.repos.distribution.gcore="https://svn-bccfr.uis.georgetown.edu/svn/gdoc/gcore-plugins/"
+grails.plugin.repos.discovery.gcore="https://svn-bccfr.uis.georgetown.edu/svn/gdoc/gcore-plugins/"
 
 /*grails.project.dependency.resolution = {
 	repositories {

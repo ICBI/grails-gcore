@@ -23,15 +23,7 @@ class AnalysisService {
 			return null
 		},
 		(AnalysisType.GENE_EXPRESSION): { sess, cmd ->
-			def request = new ExpressionLookupRequest(sess, "ExpressionLookup_" + System.currentTimeMillis())
-			request.dataFileName = cmd.dataFile
-			def sampleGroup = new SampleGroup()
-			sampleGroup.addAll(idService.sampleIdsForFile(cmd.dataFile))
-			def reporterGroup = new ReporterGroup()
-			reporterGroup.addAll(cmd.reporters)
-			request.reporters = reporterGroup
-			request.samples = sampleGroup
-			return request
+			return null
 		},
 		(AnalysisType.KM_GENE_EXPRESSION): { sess, cmd ->
 			
