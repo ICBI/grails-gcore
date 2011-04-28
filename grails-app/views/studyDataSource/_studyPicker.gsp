@@ -42,7 +42,7 @@
 		}
 		function reload(){
 			if(${remote ?: false}) {
-				$("#searchDiv").load("/${appName()}/${controllerName}/_studyForm.gsp",{limit: 25}, function(){
+				$("#searchDiv").load("/${appName()}/${controllerName}/studyForm",{limit: 25}, function(){
 					if(typeof bindBehaviour == 'function')
 						bindBehaviour();
 					});
