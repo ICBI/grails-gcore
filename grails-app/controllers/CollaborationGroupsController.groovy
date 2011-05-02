@@ -13,6 +13,7 @@ class CollaborationGroupsController {
 	def mailService
 	
 	def reloadMembershipAndStudyData(){
+			//set studies
 			def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,true)
 			def myStudies = []
 			studyNames.each{
@@ -21,20 +22,31 @@ class CollaborationGroupsController {
 					myStudies << foundStudy
 				}
 			}
-			session.myStudies = []
+			
+			if(myStudies){
+				myStudies.sort{it.shortName}
+			}
 			session.myStudies = myStudies
+		
+			//set groups
 			def myCollaborationGroups = []
 			myCollaborationGroups = securityService.getCollaborationGroups(session.userId)
+			session.myCollaborationGroups = myCollaborationGroups
+			
+			//set lists
 			def sharedListIds = []
 			sharedListIds = userListService.getSharedListIds(session.userId,true)
 			session.sharedListIds = sharedListIds
-			//get shared anaylysis and places them in session scope
+			
+			//set shared anaylysis 
 			def sharedAnalysisIds = []
 			sharedAnalysisIds = savedAnalysisService.getSharedAnalysisIds(session.userId,true)
 			session.sharedAnalysisIds = sharedAnalysisIds
+			
+			//set data available
 			session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
-			session.myCollaborationGroups = myCollaborationGroups
-			log.debug "reloaded all membership data"
+			
+			log.debug "reloaded all membership and study data"
 	}
 	
 	def index = {

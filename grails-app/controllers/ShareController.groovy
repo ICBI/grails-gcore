@@ -6,29 +6,40 @@ class ShareController {
 //def index = { redirect(action:share,params:params) }
 
 def shareItem = {
-	if(!params.groups || !params.type) {
+	//REFACTOR TO USE SHARE COMMAND
+	ShareCommand cmd ->
+	if(cmd.hasErrors()) {
+		flash['cmd'] = cmd
+		log.debug cmd.errors
+		redirect(controller:'share',action:'share')
+		return
+	}
+	else{	
+	/**if(!params.groups || !params.type) {
 						flash.message = "no groups or no type has been selected. Please select groups."
 		                redirect(controller:'share',action:'share',params:[id:params.itemId,name:params.name,
 																	type:params.type,failure:true])
-	}else{
-	log.debug params
+	}else{**/
+	log.debug cmd
 	def item
 	def groups = []
 	def alreadySharedGroups = []
- 	log.debug groups
-	
-	if(params.groups instanceof String[]){
+ 	
+	groups = cmd.groups.toList()
+	log.debug groups
+	/**
+	if(cmd.groups instanceof String[]){
 		params.groups.each{
 			groups << it 
 		}
 	}else if (params.groups instanceof String){
 		groups << params.groups
-	}
+	}**/
 	
-	if(params.type.equals(Constants.SAVED_ANALYSIS)){
-		if(isAnalysisAuthor(params.itemId)){
-			log.debug 'share saved analysis: ' + params.itemId
-			item = SavedAnalysis.get(params.itemId)
+	if(cmd.type.equals(Constants.SAVED_ANALYSIS)){
+		if(isAnalysisAuthor(cmd.itemId)){
+			log.debug 'share saved analysis: ' + cmd.itemId
+			item = SavedAnalysis.get(cmd.itemId)
 		}
 		else{
 			log.debug "user is NOT permitted to share analysis"
@@ -36,10 +47,10 @@ def shareItem = {
 			return
 		}
 	}
-	if(params.type.equals(Constants.USER_LIST)){
-		if(isListAuthor(params.itemId)){
-			log.debug 'share user list: ' + params.itemId
-			item = UserList.get( params.itemId )
+	if(cmd.type.equals(Constants.USER_LIST)){
+		if(isListAuthor(cmd.itemId)){
+			log.debug 'share user list: ' + cmd.itemId
+			item = UserList.get( cmd.itemId )
 		}
 		else{
 			log.debug "user is NOT permitted to share list"
@@ -47,7 +58,7 @@ def shareItem = {
 			return
 		}
 	}
-	if(item && params.type){
+	if(item && cmd.type){
 		try{
 			alreadySharedGroups = securityService.groupsShared(item)
 			if(alreadySharedGroups){
@@ -80,7 +91,7 @@ def shareItem = {
 			redirect(action:share,params:[failure:true,name:params.name])
 	}else{
 		log.debug "shared to groups: $groups"
-		flash.message = params.name + " has been shared with: "
+		flash.message = cmd.name + " has been shared with: "
 		for(int i=0;i<groups.size();i++){
 			if((i+1)==groups.size()){
 				flash.message+=groups[i]
@@ -93,6 +104,7 @@ def shareItem = {
 	}
 }
 
+//add group besides on 'PUBLIC' group
 def share = {
 	def item
 	if(params.id && params.type){

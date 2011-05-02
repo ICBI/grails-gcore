@@ -176,7 +176,7 @@ class UserListController {
 			}
 			if(!userListService.validListName(listName)){
 				log.debug "List did  not save, invalid characters were found in name, $listName"
-				flash.error = "List did  not save, invalid characters were found in name, $listName. Please try again."
+				flash.error = "List did not save, invalid characters were found in name, $listName or list name is blank. Please try again."
 				redirect(action:list)
 				return
 			}
@@ -302,6 +302,7 @@ class UserListController {
 	def getListItems = {
 		log.debug params
 		def userListInstance = UserList.get( params.id )
+		//REFACTOR and check if molecule-tatget plugin exists
 		def metadata = userListService.decorateListItems(userListInstance)
        	if(userListInstance) {
 			def listItems = userListInstance.listItems
@@ -515,9 +516,9 @@ class UserListController {
 				message = "List not saved. $params.newNameValue already exists."
 				render("<span class='errorDetail'>"+message+"</span")
 			}
-			else if(!userListService.validListName(params.newNameValue)){
+			else if(!userListService.validListName(params.newNameValue) || params.newNameValue.trim()==""){
 				log.debug "List $params.newNameValue contains invalid characters"
-				message = "List did not save because invalid characters found in $params.newNameValue. Please try again."
+				message = "List did not save because invalid characters found in $params.newNameValue. or name is blank. Please try again."
 				render("<span class='errorDetail'>"+message+"</span")	
 			}else{
 				def userListInstance = UserList.get( params.id )

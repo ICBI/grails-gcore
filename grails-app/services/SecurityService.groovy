@@ -548,7 +548,7 @@ class SecurityService{
 	}
 	
 	def getSharedItemIds(username, itemType,refresh) {
-			log.debug "find all artifacts for type $itemType"
+			log.debug "find all artifacts for type $itemType, refresh=$refresh"
 			if(sharedItems[itemType] != null && !refresh) {
 				return sharedItems[itemType]
 			}
@@ -587,21 +587,57 @@ class SecurityService{
 				ids = getAccessibleIds(user,itemType,aIds,publicGroup)
 			}
 
-			if(sharedItems[itemType] == null) {
+			if(sharedItems[itemType] == null || refresh) {
 				log.debug "CACHING ${itemType} $ids"
 				sharedItems[itemType] = ids
 			}
 
 			return ids
 		}
+		
+		private getStudyDetail(user,studyNames){
+					def newStudies = []
+					newStudies.addAll(studyNames)
+					def existingStudyNames = studyNames
+					existingStudyNames = existingStudyNames.sort()
+					if(sharedItems["STUDY_DETAIL"] != null) {
+						def currentNames = sharedItems["STUDY_DETAIL"].collect{it.shortName}.unique()
+						currentNames = currentNames.sort()
+						def esize = existingStudyNames.size()
+						def csize = currentNames.size()
+						//log.debug "existingStudyNames = $esize"
+						//log.debug "current = $csize"
+						if(!(existingStudyNames.retainAll(currentNames)) && (csize == esize)){
+							//log.debug "looks like the studies haven't changed, existingStudyNames = $existingStudyNames, and current = $currentNames"
+							return sharedItems["STUDY_DETAIL"]
+						}else{
+							//log.debug "looks like the studies HAVE changed, existingStudyNames = $existingStudyNames, and current = $currentNames"
+						}
+
+					}
+					def studies = []
+					if(newStudies){
+						//log.debug "retrieve studies in $newStudies"
+						def studyHQL = "SELECT distinct study FROM Study study " + 
+						"WHERE study.shortName IN (:studyNames) "
+						studies = Study.executeQuery(studyHQL, [studyNames: newStudies])
+					}
+					log.debug "grab latest studies and CACHING STUDY_DETAILs " //$studies"
+					sharedItems["STUDY_DETAIL"] = studies
+					//log.debug "return latest studies"
+					return sharedItems["STUDY_DETAIL"]
+				}
+		
 
 		private getAccessibleIds(user, type,ids,groups) {
 				def accessibleIds = []
-				def studyNames = this.getSharedItemIds(user.username, Study.class.name,false)
-				def studyHQL = "SELECT distinct study FROM Study study " + 
+				def studyNames = []
+				studyNames = this.getSharedItemIds(user.username, Study.class.name,false)
+				/**def studyHQL = "SELECT distinct study FROM Study study " + 
 				"WHERE study.shortName IN (:studyNames) "
+				log.debug "grab studies"**/
 				def studies = []
-				studies = Study.executeQuery(studyHQL, [studyNames: studyNames])
+				studies = getStudyDetail(user,studyNames)//Study.executeQuery(studyHQL, [studyNames: studyNames])
 				if(type == UserList.class.name){
 					def artifactHQL = "SELECT distinct list.id FROM UserList list JOIN list.studies studies " + 
 					"WHERE studies IN (:studies) "

@@ -1,3 +1,5 @@
+import groovy.time.*
+
 class WorkflowsController {
 	def securityService
 	def savedAnalysisService
@@ -9,7 +11,6 @@ class WorkflowsController {
 	def springSecurityService
 	
     def index = { 
-		log.debug "params= " + params
 		if(springSecurityService.isLoggedIn()){
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)
@@ -87,6 +88,7 @@ class WorkflowsController {
 			log.debug "done with profile loading, user has requested another view"
 			redirect(controller:params.desiredPage)
 		}
+		
 		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"]]
 	}
 	}

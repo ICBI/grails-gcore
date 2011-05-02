@@ -50,9 +50,11 @@ class SecurityFilters {
 					|| controllerName.equals('collaborationGroup') || controllerName.equals('GDOCUser')
 						|| controllerName.equals('invitation') || controllerName.equals('membership')
 							|| controllerName.equals('userOption') || controllerName.equals('role'))){
-				if(!session.isGdocAdmin){
+				//REFACTOR---isUserGDOCAdmin(currentUser.username)
+				 def currentUser = springSecurityService.getPrincipal() 
+				if(!isUserGDOCAdmin(currentUser.username)){
 					redirect(controller:'home', action:'index')
-					log.debug "$session.userId tried to access the admin panel but is not an Administrator" 
+					log.debug currentUser.username + " has is trying to access admin section but is not an Administrator" 
 	                return false
 				}
 			}
