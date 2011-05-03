@@ -48,36 +48,45 @@
 						<a href="#" class="geneLink">${list_item.value}</a>
 						&nbsp;&nbsp;&nbsp;
 						<g:if test="${metadata}">
-							<g:if test="${metadata[list_item.id]}">
-								<span style="color:red;font-size:1.1em">*</span>
-								<g:each in="${metadata[list_item.id]}" var="itemMetaData">
-									${itemMetaData.key} found: ${itemMetaData.value}
+								<g:each in="${metadata}" var="k,v">
+									<g:if test="${v[list_item.id]}">
+										<span style="color:red;font-size:1.1em">*</span>
+										${k}
+										<g:each in="${v[list_item.id]}" var="itemMetaData">
+											${itemMetaData.value}
+										</g:each>
+									</g:if>
 								</g:each>
-							</g:if>
 						</g:if>
 					</g:if>
 					<g:elseif test="${userListInstance.tags.contains(DataType.MICRORNA.tag())}">
 						<a href="#" class="micrornaLink">${list_item.value}</a>
 						&nbsp;&nbsp;&nbsp;
 						<g:if test="${metadata}">
-							<g:if test="${metadata[list_item.id]}">
-								<span style="color:red;font-size:1.1em">*</span>
-								<g:each in="${metadata[list_item.id]}" var="itemMetaData">
-									${itemMetaData.key} found: ${itemMetaData.value}
+								<g:each in="${metadata}" var="k,v">
+									<g:if test="${v[list_item.id]}">
+										<span style="color:red;font-size:1.1em">*</span>
+										${k}
+										<g:each in="${v[list_item.id]}" var="itemMetaData">
+											${itemMetaData.value}
+										</g:each>
+									</g:if>
 								</g:each>
-							</g:if>
 						</g:if>
 					</g:elseif>
 					<g:elseif test="${userListInstance.tags.contains(DataType.COPY_NUMBER.tag())}">
 						<a href="#" class="copynumberLink">${list_item.value}</a>
 						&nbsp;&nbsp;&nbsp;
 						<g:if test="${metadata}">
-							<g:if test="${metadata[list_item.id]}">
-								<span style="color:red;font-size:1.1em">*</span>
-								<g:each in="${metadata[list_item.id]}" var="itemMetaData">
-									${itemMetaData.key} found: ${itemMetaData.value}
+								<g:each in="${metadata}" var="k,v">
+									<g:if test="${v[list_item.id]}">
+										<span style="color:red;font-size:1.1em">*</span>
+										${k}
+										<g:each in="${v[list_item.id]}" var="itemMetaData">
+											${itemMetaData.value}
+										</g:each>
+									</g:if>
 								</g:each>
-							</g:if>
 						</g:if>
 					</g:elseif>
 					<g:else>

@@ -9,6 +9,7 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	def dataExtensionMap
 	def analysisTypeMap
 	def workflowExtensionMap
+	def pluginManager
 	ApplicationContext applicationContext
 	
 	void afterPropertiesSet() {
@@ -92,5 +93,22 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 			}
 		}
 		return links
+	}
+	
+	def addListItemMetadata(list){
+		def metaData = [:]
+		extensionMap.each { key, value ->
+			if(value.hasListMetadata()) {
+				grailsApplication.serviceClasses.each{ service ->
+					if(service.logicalPropertyName == key){
+						log.debug "adding metatdata from $key"
+						def listMetadataService = applicationContext.getBean(service.logicalPropertyName + 'Service')
+						def label = listMetadataService.getListMetadataLabel()
+						metaData[label] = listMetadataService.addListMetadata(list)
+					}
+				}
+			}
+		}
+		return metaData
 	}
 }

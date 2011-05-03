@@ -9,4 +9,5 @@ enum ExtensionType { SEARCH, ANALYSIS, CYTOSCAPE }
 @interface Extension {
 	String menu();
 	ExtensionType type();
+	boolean hasListMetadata() default false;
 }

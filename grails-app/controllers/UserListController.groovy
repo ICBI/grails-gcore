@@ -12,6 +12,7 @@ class UserListController {
 	def searchableService
 	def tagService
 	def htDataService
+	
     def index = { 
 		log.debug params
 		redirect(action:list,params:params) 
@@ -302,9 +303,10 @@ class UserListController {
 	def getListItems = {
 		log.debug params
 		def userListInstance = UserList.get( params.id )
+		def metadata = [:]
 		//REFACTOR and check if molecule-tatget plugin exists
-		def metadata = userListService.decorateListItems(userListInstance)
-       	if(userListInstance) {
+		metadata = userListService.decorateListItems(userListInstance)
+		if(userListInstance) {
 			def listItems = userListInstance.listItems
 			listItems = listItems.sort{it.value}
 			render(template:"/userList/userListDiv",model:[ userListInstance: userListInstance, listItems:listItems, metadata:metadata], plugin: "gcore")

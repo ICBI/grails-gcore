@@ -3,7 +3,7 @@ import grails.converters.*
 class UserListService{
 
 def securityService
-def drugDiscoveryService
+def extensionService
 	
 	def getPaginatedLists(filter,sharedIds,offset,userId,searchTerm){
 		def pagedLists = [:]
@@ -676,23 +676,21 @@ def createList(userName, listName, listItems, studies, tags) {
 			}
 		}
 	
-	/**util method that finds metadata about list items for display purposes**/
+	/**util method that finds metadata about list items for display purposes
+	REFACTOR & move to mol target to test if molecule-target-plugin exists
+	**/
 def decorateListItems(userList){
 	def metadata = [:]
-	//if this is a gene list, find of there are any targets associated with it's transcribed proteins
-	if(userList.tags.contains('gene')){
-		userList.listItems.each{ item ->
-			//add target links if available
-			def targetData = []
-			def targetLinks = []
-			targetData = drugDiscoveryService.findTargetsFromAlias(item.value)
-			metadata[item.id] = [:]
-			if(targetData){
-				targetData.each{ target ->
-					def link = "<a href='/${appName()}/moleculeTarget/show/"+target.id+"'>"+target+"</a>"
-					targetLinks << link
+	def compiledMetadata = [:]
+	metadata = extensionService.addListItemMetadata(userList)
+	metadata.each{key, value->
+		log.debug key +"--"+value
+		value.each{k,v->
+			if(v){
+				//log.debug v
+				if(!compiledMetadata || !compiledMetadata[value]){
+					//compiledMetadata[value] = 
 				}
-				metadata[item.id]["Target Data (proteins)"] = targetLinks
 			}
 		}
 		
