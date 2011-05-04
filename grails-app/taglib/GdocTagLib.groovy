@@ -1,4 +1,6 @@
 import org.apache.commons.lang.StringUtils
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+
 
 class GdocTagLib {
 	
@@ -90,6 +92,20 @@ class GdocTagLib {
 	
 	def appName = {
 		out << grailsApplication.metadata['app.name']
+	}
+	
+	def appTitle = {
+		if(CH.config.appTitle)
+			out << CH.config.appTitle
+		else 
+			out << grailsApplication.metadata['app.name']
+	}
+	
+	def appLongName = {
+		if(CH.config.appLongName)
+			out << CH.config.appLongName
+		else 
+			out << grailsApplication.metadata['app.name']
 	}
 	
 	def analysisView = { attrs ->

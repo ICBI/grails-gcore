@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Georgetown Database of Cancer</title>
+        <title>${appLongName()}</title>
 		<meta name="layout" content="workflowsLayout" />
 		<g:javascript library="jquery"/>
 		<g:javascript src="jquery/scrollTable/scrolltable.js"/>
@@ -63,13 +63,13 @@
 					<div class="message" style="width:75%">${flash.message}</div>
 				</g:if>
 				<g:if test="${inviteMessage && requestMessage}">
-					<div class="taskMessage" style="width:75%">You have <g:link controller="collaborationGroups">${inviteMessage} and ${requestMessage}</g:link> requiring your attention</div>
+					<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage} and ${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>
 				</g:if>
 				<g:if test="${inviteMessage && !requestMessage}">
-					<div class="taskMessage" style="width:75%">You have <g:link controller="collaborationGroups">${inviteMessage}</g:link> requiring your attention</div>
+					<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage}</g:link> <g:message code="workflows.requiring" /></div>
 				</g:if>
 				<g:if test="${!inviteMessage && requestMessage}">
-					<div class="taskMessage" style="width:75%">You have <g:link controller="collaborationGroups">${requestMessage}</g:link> requiring your attention</div>
+					<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>
 				</g:if>
 				
 				
@@ -82,8 +82,8 @@
 
 							<input type="submit" value="search gdoc" />
 							</g:form>
-							<span style="font-size:.8em;margin-top:8px;">(enter published findings<img class="info" title="findings are hand-curated scientific results from the literature" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
-					 genes, proteins, cancer type, studies, investigators, authors ...)</span>
+							<span style="font-size:.8em;margin-top:8px;"><g:message code="workflows.finding"/><img class="info" title="${message(code: 'workflows.findingTip')}" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
+					 		<g:message code="workflows.searchText"/></span>
 						</div>
 						<br/>
 						
