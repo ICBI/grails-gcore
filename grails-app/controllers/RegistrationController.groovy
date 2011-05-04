@@ -118,7 +118,7 @@ class RegistrationController {
 					def baseUrl = CH.config.grails.serverURL
 					def token = cmd.userId + "||" + System.currentTimeMillis()
 					def activateUrl = baseUrl+"/${g.appName()}/activation/newAccount?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
-					log.debug activateUrl
+					//log.debug activateUrl
 					mailService.sendMail {
 					   to "$cmd.userId"
 					   from "gdoc-help@georgetown.edu"

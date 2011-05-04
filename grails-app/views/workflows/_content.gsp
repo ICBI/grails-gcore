@@ -6,7 +6,7 @@
 							</tr>
 								<tr style="color:#336699;border-bottom:1px solid #336699;" valign="top">
 									<td>
-										<p class="info" title="${message(code: 'workflows.searchTip')}" style="font-size:1.1em;text-decoration:underline;padding-top:0px;padding-left:25px;cursor:pointer;"><g:message code="workflows.search" /></p>
+										<p class="info" title="${message(code: 'workflows.searchTip', args: [appTitle()])}" style="font-size:1.1em;text-decoration:underline;padding-top:0px;padding-left:25px;cursor:pointer;"><g:message code="workflows.search" /></p>
 										<img src="${createLinkTo(dir:'images',file:'searchIcon.png')}" border="0" />
 									</td>
 									<td>

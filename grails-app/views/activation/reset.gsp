@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta name="layout" content="splash" />
-	<title>G-DOC Password Reset</title>
+	<title><g:message code="activation.reset" /></title>
 	<g:javascript library="jquery" />
 	<jq:plugin name="password"/>
 </head>
@@ -21,24 +21,24 @@ $(document).ready(function() {
 </div>
 	
 <fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-    <legend style="padding:7px">Reset password for G-DOC account:</legend>
+    <legend style="padding:7px"><g:message code="activation.resetHeading" />:</legend>
 	<div style="padding:10px;float:left">
 		<g:form name="resetPasswordForm" action="resetPassword">
 		
-		User ID: ${userId}
+		<g:message code="activation.userid" />: ${userId}
 		<g:hiddenField name="userId" value="${userId}"/><br /><br />
-		Enter password: <g:passwordField name="password" id="passwordField" /><br /><br />
+		<g:message code="activation.enterPassword" />: <g:passwordField name="password" id="passwordField" /><br /><br />
 		
 		<br /><br/>
-		<g:submitButton name="resetPassword" value="Reset password" />
+		<g:submitButton name="resetPassword" value="${message(code: 'activation.resetPassword')}" />
 		</g:form>
 	</div>
 	<div class="c" style="float:right;border:1px solid silver;padding:10px;margin-right:10px">
-		<span style="font-size:1.05em">Your password must meet the following requirements:</span><br />
-		 * It must be at least eight characters long.<br />
-		 * It must have at least one number.<br />
-		 * It must have at least one letter.<br />
-		 * It must have at least one symbol (!,@,#,$,^).
+		<span style="font-size:1.05em"><g:message code="activation.requirements.heading" />:</span><br />
+		 * <g:message code="activation.requirements.chars" />.<br />
+		 * <g:message code="activation.requirements.number" />.<br />
+		 * <g:message code="activation.requirements.letter" />.<br />
+		 * <g:message code="activation.requirements.symbol" />.
 	</div>
 </fieldset>
 </div>
