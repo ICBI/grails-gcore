@@ -46,34 +46,26 @@
 
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-<a href="/${appName()}"><img src="${resource(dir:'images',file:'gdocHeader.png', plugin: 'gcore')}" border="0" alt="G-DOC logo" /></a>
+<a href="/${appName()}"><img src="${resource(dir:'images',file:appLogo(), plugin: 'gcore')}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
 </td><td valign="bottom" style="text-align:right;padding:7px">
-<span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
+<span style="color:#f2f2f2"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 
 <sec:ifNotLoggedIn>
 
 <g:if test='${flash.loginError}'>
-<div class='login_message' style="color:white">${flash.loginError}</div>
+<div class='login_message' style="color:#f2f2f2">${flash.loginError}</div>
 </g:if>
 
 <form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
-<input type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="net-Id or email" />
+<input type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="${message(code: 'header.userName')}" />
 <input type='password' name='j_password' id='password' size="15" />
 <g:hiddenField name="desiredPage" value="${params.desiredPage}" />
-<input type='submit' value='login' />
+<input type='submit' value="${message(code: 'header.login')}" />
 </form>
-<%--g:if test="${flash.cmd instanceof LoginCommand && flash.message}">
-<div align="right" id="success" style="color:white">${flash.message}</div>
-</g:if--%>
-<%--g:form name="loginForm" url="[controller:'login',action:'login']" update="[success:'message',failure:'error']">
-       <input name="username" id="username" type="text" style="color:gray" size="20" onclick="clear()" value="net-Id"></input>
-		<g:hiddenField name="desiredPage" value="${params.desiredPage}" />
-       <input name="password" id="password" type="password" size="15"></input>
-       <input type="submit" value="login" />
-</g:form --%>
-<span style="color:white;padding-top:8px;font-size:.9em">
-	<g:link controller="registration" style="color:white">register now</g:link>&nbsp;|&nbsp;
-	<g:link controller="registration" action="passwordReset" style="color:white">forgot password</g:link>
+
+<span style="color:#f2f2f2;padding-top:8px;font-size:.9em">
+	<g:link controller="registration" style="color:#f2f2f2"><g:message code="header.registerNow"/></g:link>&nbsp;|&nbsp;
+	<g:link controller="registration" action="passwordReset" style="color:#f2f2f2"><g:message code="header.forgotPassword" /></g:link>
 </span>
 </sec:ifNotLoggedIn>
 <sec:ifLoggedIn>
@@ -82,21 +74,21 @@
 	
 	 <input name="q" id="q" type="text" value="" size="18"></input>
 	
-	<input type="submit" value="search gdoc" />
+	<input type="submit" value="${message(code: 'header.searchBox', args: [appTitle()])}" />
 	</g:form>
 	
 </div>
 <div style="float:right;color:#f2f2f2">
-	<div>Logged in as: ${session.userId}</div>
+	<div><g:message code="header.loggedInAs"/>: ${session.userId}</div>
 	
 	<div>
 		<g:if test="${session.isGdocAdmin}">
-		<g:link style="color:#f2f2f2" controller="admin">Admin</g:link>
+		<g:link style="color:#f2f2f2" controller="admin"><g:message code="header.admin"/></g:link>
 		<span style="font-weight:bold;color:#fff;padding-left:5px;padding-right:5px">|</span>
 		</g:if>
-			<g:link controller="registration" action="passwordReset" style="color:#f2f2f2">change password</g:link>
+			<g:link controller="registration" action="passwordReset" style="color:#f2f2f2"><g:message code="header.changePassword"/></g:link>
 			<span style="font-weight:bold;color:#fff;padding-left:5px;padding-right:5px">|</span>
-			<g:link style="color:#f2f2f2" action="index" controller="logout" update="success">Logout</g:link>
+			<g:link style="color:#f2f2f2" action="index" controller="logout" update="success"><g:message code="header.logout"/></g:link>
 	
 	</div>
 </div>

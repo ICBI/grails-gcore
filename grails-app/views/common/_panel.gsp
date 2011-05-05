@@ -18,7 +18,7 @@
 							<img class="${it.attrs.id}_toggle"src="${createLinkTo(dir: 'images', file: 'expand.gif')}" width="13"
 					         height="14" border="0" alt="Show/Hide" title="Show/Hide" />
 							<img class="${it.attrs.id}_toggle" src="${createLinkTo(dir: 'images', file: 'collapse.gif')}" width="13"
-							         height="14" border="0" alt="Show/Hide" title="Show/Hide" style="display:none"/>
+							         height="14" border="0" alt="${message(code: 'panel.showHide')}" title="${message(code: 'panel.showHide')}" style="display:none"/>
 					</g:if>
 				</div>
 			</div>			
