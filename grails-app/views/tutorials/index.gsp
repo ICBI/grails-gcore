@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Georgetown Database of Cancer - Tutorials</title>
+        <title><g:message code="tutorial.title" args="${[appLongName()]}"/></title>
 		<meta name="layout" content="main" />
 		<g:javascript library="jquery"/>
 		<g:javascript src="jquery/scrollTable/scrolltable.js"/>
@@ -13,23 +13,23 @@
     <body>
 	
 		<div id="centerContent" style="margin:0pt auto;">
-			<p style="font-size:14pt">GDOC Tutorials (downloads)</p>
+			<p style="font-size:14pt"><g:message code="tutorial.download" args="${[appTitle()]}"/></p>
 			<div>
-				<p style="font-size:12pt">Using Quick Start</p>
+				<p style="font-size:12pt"><g:message code="tutorial.using"/></p>
 			   	<ul>
-					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/usingQS1.mp4"/>Using Quick Start Part #1</a></li>
-					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/usingQS2.mp4"/>Using Quick Start Part #2</a></li>
-					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/usingQS3.mp4"/>Using Quick Start Part #3</a></li>
+					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/usingQS1.mp4"/><g:message code="tutorial.using"/> <g:message code="tutorial.part"/> #1</a></li>
+					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/usingQS2.mp4"/><g:message code="tutorial.using"/> <g:message code="tutorial.part"/> #2</a></li>
+					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/usingQS3.mp4"/><g:message code="tutorial.using"/> <g:message code="tutorial.part"/> #3</a></li>
 				</ul>
 				
 			</div>
 			<br />
 			<div>
-				<p style="font-size:12pt">Example Analysis</p>
+				<p style="font-size:12pt"><g:message code="tutorial.example"/></p>
 			   	<ul>
-					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/exampleAnalysis1.mp4" />Example Analysis Part #1</a></li>
-					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/exampleAnalysis2.mp4" />Example Analysis Part #2</a></li>
-					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/exampleAnalysis3.mp4" />Example Analysis Part #3</a></li>
+					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/exampleAnalysis1.mp4" /><g:message code="tutorial.example"/> <g:message code="tutorial.part"/> #1</a></li>
+					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/exampleAnalysis2.mp4" /><g:message code="tutorial.example"/> <g:message code="tutorial.part"/> #2</a></li>
+					<li style="list-style-type:square;margin-left:25px"><a href="${grailsApplication.config.videosPath}/exampleAnalysis3.mp4" /><g:message code="tutorial.example"/> <g:message code="tutorial.part"/> #3</a></li>
 				</ul>
 				
 			</div>
