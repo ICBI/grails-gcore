@@ -139,11 +139,11 @@
 	</g:each>
 	<br/>
 	<br/>
-	<g:submitButton name="submit" value="Search"/>
+	<g:submitButton name="submit" value="${message(code: 'gcore.submit')}"/>
 </g:form>
 </g:if>
 
 <g:else>
-<p>No study currently selected.</p>
+<p><g:message code="gcore.noStudy" /></p>
 </g:else>
 

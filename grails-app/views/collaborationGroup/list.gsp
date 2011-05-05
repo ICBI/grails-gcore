@@ -4,14 +4,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminReport" />
-        <title>CollaborationGroup List</title>
+        <title><g:message code="collaborationGroup.title" /></title>
     </head>
     <body>
-        <div class="nav">
-            <!--span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span-->
-        </div>
+        <br />
         <div class="body">
-            <p style="font-size:14pt;padding:10px">CollaborationGroup List</p>
+            <p style="font-size:14pt;padding:10px"><g:message code="collaborationGroup.list" /></p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>

@@ -1,8 +1,7 @@
 <g:javascript library="jquery"/>
-<span style="font-size:.9em;color:red">* This table shows groups for which you currently do not have access.<br />
-	To request access, select the option under the group you wish to join.</span>
+<span style="font-size:.9em;color:red"><g:message code="collaborationGroups.otherGroups" /></span>
 <table class="studyTable" style="font-size:1.05em;width:450px">
-	<tr><th>Group Name</th>
+	<tr><th><g:message code="collaborationGroups.name" /></th>
 		<!--th>Members</th-->
 	</tr>
 <g:if test="${allMemberships}">						
@@ -10,7 +9,7 @@
 
 <tr>
 <td valign="top">${allMembership.name}<br />
-<span style="padding-bottom:8px"><g:link action="requestAccess" controller="collaborationGroups" onclick="return confirm('Are you sure?');" params="[collaborationGroupName:allMembership.name]">request access?</g:link></span>
+<span style="padding-bottom:8px"><g:link action="requestAccess" controller="collaborationGroups" onclick="return confirm('Are you sure?');" params="[collaborationGroupName:allMembership.name]"><g:message code="collaborationGroups.requestAccessToGroup" /></g:link></span>
 </td>
 <!--td style="width:55%" valign="top">
 	<g:if test="${allMembership.users}">

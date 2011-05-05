@@ -5,7 +5,7 @@
 		<meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
 		<meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
 		<g:javascript library="jquery" />
-        <title>Search Clinical Data</title>         
+        <title><g:message code="clinical.title" args="${ [appTitle()] }" /></title>         
     </head>
     <body>
 		<jq:plugin name="tooltip"/>
@@ -57,7 +57,7 @@
 			
 			
 		</g:javascript>
-	<p style="font-size:14pt">Search for Clinical Data</p>
+	<p style="font-size:14pt"><g:message code="clinical.heading" /></p>
 		
 		<div id="studyPicker">
 			<g:render template="/studyDataSource/studyPicker" plugin="gcore"/>

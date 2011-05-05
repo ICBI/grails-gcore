@@ -35,12 +35,12 @@ $(document).ready(function(){
 <g:if test="${managedMemberships}">
 <div style="padding:5px;background-color:#f2f2f2;">
  <g:form action="showUsers" autocomplete="off">
-	Enter user last name or username: <g:textField name="userId" id="q" /><br /><br />
-	<g:submitButton name="search" value="Search Users" />
+	<g:message code="collaborationGroups.userSearch" />: <g:textField name="userId" id="q" /><br /><br />
+	<g:submitButton name="search" value="${message(code: 'admin.searchUser')}" />
 </g:form>
 </div>
 </g:if>
 <g:else>
-You currently do not manage any collaboration groups of your own.
+<g:message code="collaborationGroups.noGroupsManaged" />
 </g:else>
 

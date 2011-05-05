@@ -6,9 +6,9 @@
 <table>
 	<tr><td style="padding-right:15px;padding-bottom:15px" valign="top">
 		<table class="studyTable" style="font-size:1.05em;width:375px">
-			<tr><th colspan="2" style="background-color:#FFFFCC">Managed Groups</th></tr>
-			<tr><th>Group Name</th>
-				<th>Members</th>
+			<tr><th colspan="2" style="background-color:#FFFFCC"><g:message code="collaborationGroups.managedGroups" /></th></tr>
+			<tr><th><g:message code="collaborationGroups.name" /></th>
+				<th><g:message code="collaborationGroups.members" /></th>
 			</tr>
 <g:if test="${managedMemberships}">			
 <g:each in="${managedMemberships}" var="manMembership">
@@ -16,8 +16,8 @@
 	<td valign="top">${manMembership.name}</td>
 	<td style="width:75%">
 		<g:if test="${manMembership.users}">
-<a href="#" id="${manMembership.id}_showHide" style="color:#FF6F0F;text-decoration:underline;font-weight:normal"        				onClick="toggleUsers('${manMembership.id}_usersDiv','${manMembership.id}_showHide');return false;">Show users</a></g:if>
-		<g:else>no users have been added to this group</g:else>
+<a href="#" id="${manMembership.id}_showHide" style="color:#FF6F0F;text-decoration:underline;font-weight:normal"        				onClick="toggleUsers('${manMembership.id}_usersDiv','${manMembership.id}_showHide');return false;"><g:message code="collaborationGroups.showUsers" /></a></g:if>
+		
 		<div id="${manMembership.id}_usersDiv" style="display:none;height:130px;overflow: scroll;">
 			<g:if test="${manMembership.users}">
 			<g:form name="${manMembership.id}_removeUserForm" action="deleteUsersFromGroup">
@@ -32,12 +32,13 @@
 						</g:if>
 				</g:each>
 			</ul>
-			<g:submitButton class="actionButton" style="float:center;width:105px" onclick="return confirm('Are you sure?');" name="deleteUser" value="Remove Users" />
+			<g:submitButton class="actionButton" style="float:center;width:105px" onclick="return confirm('Are you sure?');" name="deleteUser" value="${message(code: 'collaborationGroups.removeUsers')}" />
 			</g:form>
 			</g:if>	
+			<g:else><g:message code="collaborationGroups.noUsers" /></g:else>
 			<g:form action="deleteGroup" method="post">
 				<g:hiddenField name="group" value="${manMembership.id}" />
-				<g:submitButton name="deleteGroup" class="actionButton" style="width:150px" onclick="return confirm('Are you sure?');" value="Delete this group" />
+				<g:submitButton name="deleteGroup" class="actionButton" style="width:150px" onclick="return confirm('Are you sure?');" value="${message(code: 'collaborationGroups.deleteGroup')}" />
 			</g:form>		
 		</div>
 	</td>
@@ -46,7 +47,7 @@
 </g:if>
 <g:else>
 <tr><td colspan="2">
-You do not manage any groups
+<g:message code="collaborationGroups.noGroupsManaged" />
 </td></tr>
 </g:else>
 </table>
@@ -58,9 +59,9 @@ You do not manage any groups
 
 <tr><td colspan="2" style="padding-right:15px">
 	<table class="studyTable" style="font-size:1.05em;width:375px">
-		<tr><th style="background-color:#FFFFCC" colspan="2">Member Groups</th></tr>
-		<tr><th>Group Name</th>
-			<th>Members</th>
+		<tr><th style="background-color:#FFFFCC" colspan="2"><g:message code="collaborationGroups.memberGroups" /></th></tr>
+		<tr><th><g:message code="collaborationGroups.name" /></th>
+			<th><g:message code="collaborationGroups.members" /></th>
 		</tr>
 <g:if test="${otherMemberships}">						
 <g:each in="${otherMemberships}" var="otherMembership">
@@ -70,13 +71,13 @@ You do not manage any groups
 		<g:form name="${otherMembership.id}_removeMyselfForm" action="deleteUsersFromGroup">
 		<g:hiddenField name="collaborationGroupName" value="${otherMembership.name}" />
 		<g:hiddenField name="users" value="${session.userId}" />
-		<g:submitButton name="deleteMyself" class="actionButton" style="float:right" onclick="return confirm('Are you sure?');" value="Leave group" />
+		<g:submitButton name="deleteMyself" class="actionButton" style="float:right" onclick="return confirm('Are you sure?');" value="${message(code: 'collaborationGroups.leaveGroup')}" />
 		</g:form>
 	</td>
 	<td style="width:75%" valign="top">
 		<g:if test="${otherMembership.users}">
-<a href="#" id="${otherMembership.id}_showHide" style="color:#FF6F0F;text-decoration:underline;font-weight:normal"        				onClick="toggleUsers('${otherMembership.id}_usersDiv','${otherMembership.id}_showHide');return false;">Show users</a></g:if>
-		<g:else>no users have been added to this group</g:else>
+<a href="#" id="${otherMembership.id}_showHide" style="color:#FF6F0F;text-decoration:underline;font-weight:normal"        				onClick="toggleUsers('${otherMembership.id}_usersDiv','${otherMembership.id}_showHide');return false;"><g:message code="collaborationGroups.showUsers" /></a></g:if>
+		
 		<div id="${otherMembership.id}_usersDiv" style="display:none;height:130px;overflow: scroll;">
 			<g:if test="${otherMembership.users}">
 			<ul>
@@ -87,18 +88,17 @@ You do not manage any groups
 				</g:each>
 			</ul>
 			</g:if>
-			<g:else>
-				no users in this group
-			</g:else>
+			
 		</div>
 	</td>
 	</tr>
 	</g:if>
+	<g:else><g:message code="collaborationGroups.noUsers" /></g:else>
 </g:each>
 </g:if>
 <g:else>
 <tr><td colspan="2">
-You are not serving as a member in any other groups
+<g:message code="collaborationGroups.notAMember" />
 </td></tr>
 </g:else>
 </table>

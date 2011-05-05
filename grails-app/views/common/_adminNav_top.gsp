@@ -13,61 +13,60 @@ jQuery(document).ready(function()
 <div id="top-navigation-block" width="100%" style="position: absolute; z-index: 100;">
 	<ul id="adminNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
-			<g:navigationLink name="${g.appName()} Home" controller="workflows" />
+			<g:navigationLink name="${g.appTitle()} Home" controller="workflows" />
 		</li>
 		<li>
-			<g:navigationLink name="Admin Home" controller="admin" />
+			<g:navigationLink name="${message(code: 'admin.nav.home')}" controller="admin" />
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#">Users<span class="sf-sub-indicator"> »</span></a>
+			<a class="sf-with-ul" href="#"><g:message code="admin.nav.users" /><span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:link controller="GDOCUser">View All Users</g:link>
+					<g:link controller="GDOCUser"><g:message code="admin.nav.viewAllUsers" /></g:link>
 				</li>
 				<li>
-					<g:link controller="GDOCUser" action="create">Create New User</g:link>
+					<g:link controller="GDOCUser" action="create"><g:message code="admin.nav.createNewUsers" /></g:link>
 				</li>	
 				<li>
-					<g:link controller="membership" action="list">Manage All Memberships</g:link>
+					<g:link controller="membership" action="list"><g:message code="admin.nav.manageMemberships" /></g:link>
 				</li>
 			</ul>
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#">Collaboration Groups<span class="sf-sub-indicator"> »</span></a>
+			<a class="sf-with-ul" href="#"><g:message code="admin.nav.groups" /><span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 					<li>
-						<g:link controller="collaborationGroup">View All Groups</g:link>
+						<g:link controller="collaborationGroup"><g:message code="admin.nav.viewAllGroups" /></g:link>
 					</li>
 					<li>
-						<g:link controller="collaborationGroup" action="create">Create New Group</g:link>
+						<g:link controller="collaborationGroup" action="create"><g:message code="admin.nav.createNewGroup" /></g:link>
 					</li>
 					<li>
-						<g:link controller="invitation">View Invitations</g:link>
+						<g:link controller="invitation"><g:message code="admin.nav.viewInvitations" /></g:link>
 					</li>
 			</ul>
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#">Protected Artifacts<span class="sf-sub-indicator"> »</span></a>
+			<a class="sf-with-ul" href="#"><g:message code="admin.nav.artifacts" /><span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:link controller="protectedArtifact">View All Artifacts</g:link>
+					<g:link controller="protectedArtifact"><g:message code="admin.nav.viewAllArtifacts" /></g:link>
 				</li>
 				<li>
-					<g:link controller="protectedArtifact" action="create">Create Artifact</g:link>
+					<g:link controller="protectedArtifact" action="create"><g:message code="admin.nav.createNewArtifact" /></g:link>
 				</li>	
 			</ul>
 		</li>	
 		<li>
-			<a class="sf-with-ul" href="#">Roles<span class="sf-sub-indicator"> »</span></a>
+			<a class="sf-with-ul" href="#"><g:message code="admin.nav.roles" /><span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:link controller="role">View All Roles</g:link>
+					<g:link controller="role"><g:message code="admin.nav.viewAllRoles" /></g:link>
 				</li>
 				<li>
-					<g:link controller="role" action="create">Create Role</g:link>
+					<g:link controller="role" action="create"><g:message code="admin.nav.createNewRole" /></g:link>
 				</li>	
 			</ul>
 		</li>
 	</ul>
-
 </div>

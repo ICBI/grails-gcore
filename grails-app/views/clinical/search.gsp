@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta name="layout" content="report" />
-        <title>Clinical Search Results</title>      
+        <title><g:message code="clinical.searchResults" /></title>      
 <g:javascript library="jquery"/>   
     </head>
     <body>
@@ -144,17 +144,17 @@
 		}
 	</g:javascript>
 	<br/>
-	<p style="font-size:14pt">Clinical Search Results</p>
+	<p style="font-size:14pt"><g:message code="clinical.searchResults" /></p>
 	<div id="centerContent">
 		<br/>
-			<p style="font-size:12pt">Current Study: 
+			<p style="font-size:12pt"><g:message code="gcore.currentStudy" />: 
 			<span id="label" style="display:inline-table">
-				<g:if test="${!session.study}">no study currently selected</g:if>
+				<g:if test="${!session.study}"><g:message code="gcore.noStudy" /></g:if>
 				${session.study?.shortName}
 			</span>
 			</p>
 			<g:if test="${!session.results}">
-				No results found.
+				<g:message code="clinical.noResults" />
 			</g:if>
 			<g:else>
 				<g:if test="${session.userId}">
@@ -164,10 +164,10 @@
 				<g:form name="download" action="download">
 				</g:form>
 				<div style="margin:5px 5px 5px 50px">
-					<span style="vertical-align:5px"> <label for="list_name">List Name:</label>
+					<span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
 						<g:textField name="list_name" size="15" maxlength="15"/>
 					</span>
-				<span class="bla" id="listAdd">Save Selected
+				<span class="bla" id="listAdd"><g:message code="clinical.listSave" />
 					</span><br />
 				<span id="message" style="display:none"></span>
 				<span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>

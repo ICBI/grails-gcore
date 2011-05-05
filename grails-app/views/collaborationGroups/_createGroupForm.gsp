@@ -5,15 +5,15 @@
 </g:if>
 <table class="studyTable" style="font-size:1.05em;width:400px">
 	<tr>
-		<td>Group name:</td>
+		<td><g:message code="collaborationGroup.name" />:</td>
 		<td><g:textField name="collaborationGroupName" /></td>
 	</tr>
 	<tr>
-		<td>Description:</td>
+		<td><g:message code="collaborationGroup.description" />:</td>
 		<td><g:textArea name="description" /></td>
 	</tr>
 	<tr>
-		<td colspan="2"><g:submitButton name="createCollaborationGroup" class="actionButton" style="float:right" value="Create" /></td>
+		<td colspan="2"><g:submitButton name="createCollaborationGroup" class="actionButton" style="float:right" value="${message(code: 'gcore.create')}" /></td>
 	</tr>
 </table>
 </g:form>

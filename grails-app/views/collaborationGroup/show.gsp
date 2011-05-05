@@ -4,15 +4,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-        <title>Show CollaborationGroup</title>
+        <title><g:message code="collaborationGroup.title" /></title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="collaborationGroup.list" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="collaborationGroup.create" /></g:link></span>
         </div>
         <div>
-            <p style="font-size:14pt;padding:10px">Show CollaborationGroup</p>
+            <p style="font-size:14pt;padding:10px"><g:message code="collaborationGroup.label" />: ${fieldValue(bean:collaborationGroupInstance, field:'name')}</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -22,21 +22,21 @@
 
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Id:</td>
+                            <td valign="top" class="name"><g:message code="collaborationGroup.id" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:collaborationGroupInstance, field:'id')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Name:</td>
+                            <td valign="top" class="name"><g:message code="collaborationGroup.name" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:collaborationGroupInstance, field:'name')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Artifacts:</td>
+                            <td valign="top" class="name"><g:message code="collaborationGroup.artifacts" />:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">
                                 <div style="height:250px;overflow:auto;background:#f2f2f2;border:1px solid black;padding:3px">
@@ -51,14 +51,14 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Description:</td>
+                            <td valign="top" class="name"><g:message code="collaborationGroup.description" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:collaborationGroupInstance, field:'description')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Invitations:</td>
+                            <td valign="top" class="name"><g:message code="collaborationGroup.invitations" />:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">
                                 <ul>
@@ -71,16 +71,16 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Memberships:</td>
+                            <td valign="top" class="name"><g:message code="collaborationGroup.memberships" />:</td>
 							
 							<td  valign="top" style="text-align:left;" class="value">
                             	<div style="height:250px;overflow:auto;background:#f2f2f2;border:1px solid black;padding:3px">
 								<table class="admin">
 				                    <thead>
 				                        <tr>
-											<th>Id</th>
-	   										<th>User</th>
-											<th>Role</th>
+											<th><g:message code="membership.id" /></th>
+	   										<th><g:message code="membership.user" /></th>
+											<th><g:message code="membership.role" /></th>
 
 				                        </tr>
 				                    </thead>
@@ -109,12 +109,12 @@
                             
                         </tr>
                     
-                        <tr class="prop">
+                        <%--tr class="prop">
                             <td valign="top" class="name">Users:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:collaborationGroupInstance, field:'users')}</td>
                             
-                        </tr>
+                        </tr--%>
                     
                     </tbody>
                 </table>
@@ -122,8 +122,8 @@
             <div class="buttons">
                 <g:form>
                     <input type="hidden" name="id" value="${collaborationGroupInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" value="Edit" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
+                    <span class="button"><g:actionSubmit class="edit" value="${message(code: 'gcore.edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 </g:form>
             </div>
         </div>

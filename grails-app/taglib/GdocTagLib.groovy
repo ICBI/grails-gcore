@@ -108,6 +108,20 @@ class GdocTagLib {
 			out << grailsApplication.metadata['app.name']
 	}
 	
+	def appVersion = {
+		if(CH.config.appVersion)
+			out << CH.config.appVersion
+		else 
+			out << '0.1'
+	}
+	
+	def appLogo = {
+		if(CH.config.appLogo)
+			out << CH.config.appLogo
+		else 
+			out << 'gcodeLogo.png'
+	}
+	
 	def analysisView = { attrs ->
 		out << extensionService.getAnalysisView(attrs.type)
 	}

@@ -163,7 +163,7 @@ class AdminController {
 		render jsonObject as JSON
 	}**/
 	
-	def searchGroups = {
+	/**def searchGroups = {
 		def groups
 		groups = CollaborationGroup.createCriteria().list()
 				{
@@ -436,6 +436,6 @@ class AdminController {
 			}	
 		}
 	}
-	
+	**/
 	
 }

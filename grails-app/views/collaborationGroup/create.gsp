@@ -4,14 +4,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-        <title>Create CollaborationGroup</title>         
+        <title><g:message code="collaborationGroup.title" /></title>         
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="collaborationGroup.list" /></g:link></span>
         </div>
         <div>
-            <p style="font-size:14pt;padding:10px">Create CollaborationGroup</p>
+            <p style="font-size:14pt;padding:10px"><g:message code="collaborationGroup.create" /></p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message.encodeAsHTML()}</div>
             </g:if>
@@ -30,7 +30,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="name">Name:</label>
+                                    <label for="name"><g:message code="collaborationGroup.name" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'name','errors')}">
                                     <input type="text" id="name" name="name" value="${fieldValue(bean:collaborationGroupInstance,field:'name')}"/>
@@ -39,7 +39,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description">Description:</label>
+                                    <label for="description"><g:message code="collaborationGroup.description" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'description','errors')}">
                                     <input type="text" id="description" name="description" value="${fieldValue(bean:collaborationGroupInstance,field:'description')}"/>
@@ -48,7 +48,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="owner">Owner:</label>
+                                    <label for="owner"><g:message code="collaborationGroup.owner" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'users','errors')}">
                                     <g:select optionKey="username" from="${GDOCUser.list(sort:'username')}" name="owner"  value="${params?.GDOCUser?.username}" optionValue="username"></g:select>
@@ -59,7 +59,7 @@
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><input class="save" type="submit" value="Create" /></span>
+                    <span class="button"><input class="save" type="submit" value="${message(code: 'gcore.create')}" /></span>
                 </div>
             </g:form>
         </div>

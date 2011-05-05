@@ -4,7 +4,7 @@
 
 	<g:javascript library="jquery"/>
 	<jq:plugin name="ui"/>
-        <title>Collaboration Groups</title>         
+        <title><g:message code="collaborationGroups.title" /></title>         
     </head>
     <body>
 		
@@ -50,7 +50,7 @@
 			</g:javascript>
 		</g:if>
 		
-		<p style="font-size:14pt">Collaboration Groups</p>
+		<p style="font-size:14pt"><g:message code="collaborationGroups.title" /></p>
 		<div id="centerContent">
 			<br/>
 			<g:if test="${controllerName != 'workflows' && flash.message}">
@@ -62,10 +62,10 @@
 			<div class="tabDiv">
 				<div id="centerTabs" class="tabDiv">
 				    <ul>
-				        <li><a href="#fragment-4"><span>My Groups</span></a></li>
-				        <li><a href="#fragment-5"><span>Create Group</span></a></li>
-						<li><a href="#fragment-6"><span>Invite Users</span></a></li>
-						<li><a href="#fragment-7"><span>Request Access to Other Groups</span></a></li>
+				        <li><a href="#fragment-4"><span><g:message code="collaborationGroups.myGroups" /></span></a></li>
+				        <li><a href="#fragment-5"><span><g:message code="collaborationGroups.createGroup" /></span></a></li>
+						<li><a href="#fragment-6"><span><g:message code="collaborationGroups.inviteUsers" /></span></a></li>
+						<li><a href="#fragment-7"><span><g:message code="collaborationGroups.requestAccess"/></span></a></li>
 				    </ul>
 					
 					 <div id="fragment-4">

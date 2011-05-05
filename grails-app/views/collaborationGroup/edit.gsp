@@ -4,15 +4,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-        <title>Edit CollaborationGroup</title>
+        <title><g:message code="collaborationGroup.title" /></title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list">CollaborationGroup List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New CollaborationGroup</g:link></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="collaborationGroup.list" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="collaborationGroup.create" /></g:link></span>
         </div>
         <div>
-            <p style="font-size:14pt;padding:10px">Edit CollaborationGroup</p>
+            <p style="font-size:14pt;padding:10px"><g:message code="collaborationGroup.edit" /></p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message.encodeAsHTML()}</div>
             </g:if>
@@ -33,7 +33,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="name">Name:</label>
+                                    <label for="name"><g:message code="collaborationGroup.name" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'name','errors')}">
                                     <input type="text" id="name" name="name" value="${fieldValue(bean:collaborationGroupInstance,field:'name')}"/>
@@ -42,7 +42,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="artifacts">Artifacts:</label>
+                                    <label for="artifacts"><g:message code="collaborationGroup.artifacts" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'artifacts','errors')}">
                                     <g:select name="artifacts"
@@ -55,7 +55,7 @@ value="${collaborationGroupInstance?.artifacts}" />
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="description">Description:</label>
+                                    <label for="description"><g:message code="collaborationGroup.description" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'description','errors')}">
                                     <input type="text" id="description" name="description" value="${fieldValue(bean:collaborationGroupInstance,field:'description')}"/>
@@ -64,7 +64,7 @@ value="${collaborationGroupInstance?.artifacts}" />
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="invitations">Invitations:</label>
+                                    <label for="invitations"><g:message code="collaborationGroup.invitations" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:collaborationGroupInstance,field:'invitations','errors')}">
                                     
@@ -80,14 +80,14 @@ value="${collaborationGroupInstance?.artifacts}" />
                         
                             <tr class="prop">
                                 
-                                <td valign="top" class="name" colspan="2">Memberships:&nbsp; &nbsp;| &nbsp; &nbsp;
-										<g:link controller="membership" params="['groupName':collaborationGroupInstance?.name]" action="create">Add Membership?</g:link><br />
+                                <td valign="top" class="name" colspan="2"><g:message code="collaborationGroup.memberships" />:&nbsp; &nbsp;| &nbsp; &nbsp;
+										<g:link controller="membership" params="['groupName':collaborationGroupInstance?.name]" action="create"><g:message code="membership.create" /></g:link><br />
 									<table class="admin">
 					                    <thead>
 					                        <tr>
-												<th>Id</th>
-		   										<th>User</th>
-												<th>Role</th>
+												<th><g:message code="membership.id" /></th>
+		   										<th><g:message code="membership.user" /></th>
+												<th><g:message code="membership.role" /></th>
 
 					                        </tr>
 					                    </thead>
@@ -120,9 +120,9 @@ value="${collaborationGroupInstance?.artifacts}" />
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" value="Update" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
-                	<span class="button"><g:link action="show" id="${collaborationGroupInstance?.id}" class="cancel">Cancel</g:link></span>
+                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                	<span class="button"><g:link action="show" id="${collaborationGroupInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
 				</div>
             </g:form>
         </div>

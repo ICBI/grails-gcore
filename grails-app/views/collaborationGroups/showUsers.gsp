@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>GDOC - User Search</title>
+        <title><g:message code="collaborationGroups.title" /></title>
 		<meta name="layout" content="report" />
 		<g:javascript library="jquery"/>   
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
@@ -121,11 +121,11 @@
     <body>
 		
 		<div id="centerContent" style="padding:25px">
-			<p style="font-size:14pt;">GDOC User Search</p>
-			<span>Select a group, choose user(s) and click the 'Send Invite' button below.</span>
+			<p style="font-size:14pt;"><g:message code="collaborationGroups.searchHeading" args="${ [appTitle()] }" /></p>
+			<span><g:message code="collaborationGroups.instruction" /></span>
 			<br />
 			<g:if test="${!session.uresults}">
-				No users found.
+				<g:message code="collaborationGroups.noUsersFound" />
 			</g:if>
 			<g:else>
 				<g:if test="${session.managedMemberships}">
@@ -142,11 +142,11 @@
 				<br /><br />
 				<table class="studyTable" style="font-size:1.05em;width:400px">
 					<tr>
-						<td>Group:
+						<td><g:message code="collaborationGroups.name" />:
 						
 							<g:form action="inviteUsers">
 							<g:select name="collaborationGroupName" from="${session.managedMemberships}"
-						          noSelection="['':'-Choose group-']"
+						          noSelection="${['':message(code:'collaborationGroups.chooseGroup')]}"
 								  optionValue="name"
 								  optionKey="name" />
 							<g:hiddenField name="users" id="users" />
@@ -160,7 +160,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><g:submitButton class="actionButton" id="inviteButton" style="float:right" name="inviteButton" value="Send Invite" /></g:form></td>
+						<td colspan="2"><g:submitButton class="actionButton" id="inviteButton" style="float:right" name="inviteButton" value="${message(code: 'collaborationGroups.sendInvite')}" /></g:form></td>
 					</tr>
 					</table>
 					</g:if>	

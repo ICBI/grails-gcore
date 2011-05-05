@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>GDOC - Administration</title>
+        <title><g:message code="admin.title" args="${ [appTitle()] }" /></title>
 		<meta name="layout" content="adminLayout" />
 		<g:javascript library="jquery"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'scrollable-navig.css')}"/>
@@ -52,7 +52,7 @@
 		  });
 		</g:javascript>
 		<div id="centerContent">
-			<p style="font-size:14pt">GDOC Admin Panel</p><br />
+			<p style="font-size:14pt"><g:message code="admin.heading" args="${ [appTitle()] }" /></p><br />
 			
 			<g:if test="${flash.message}">
 				<span class="message" style="margin-botton:10px">${flash.message}</span><br />
@@ -60,16 +60,16 @@
 			<br />
 			<table style="border:1px solid black;width:85%">
 				<tr>
-					<th style="background-color:silver">Data-Loading Tasks</th>
+					<th style="background-color:silver"><g:message code="admin.dataLoading" /></th>
 				</tr>
 				<tr>
 					<td>
 						<div>
 						<div style="padding:7px;background-color:seashell;">
-				<g:link action="reload" onclick="loading()">reload data availability</g:link><br />
+				<g:link action="reload" onclick="loading()"><g:message code="admin.reloadData" /></g:link><br />
 						<span id="status">Status: 
-							<g:if test="${loadedStudies}">${loadedStudies.size()} studies loaded</g:if>
-							<g:else> there are no studies loaded at this time</g:else>
+							<g:if test="${loadedStudies}">${loadedStudies.size()} <g:message code="admin.studiesLoaded" /></g:if>
+							<g:else> <g:message code="admin.noStudies" /></g:else>
 						</span>
 						<span id="spinner" style="visibility:hidden;display:inline-table"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
 						</div>
@@ -79,7 +79,7 @@
 								${loadedStudies}
 								</g:if>
 								<g:else>
-								no studies loaded
+								<g:message code="admin.noStudies" />
 								</g:else>
 								</div>
 						</div>
@@ -89,19 +89,19 @@
 				<br />
 				<table style="border:1px solid black;width:85%">
 				<tr>
-					<th style="background-color:silver">User Admin</th>
+					<th style="background-color:silver"><g:message code="admin.userAdmin" /></th>
 				</tr>
 				<tr>
 					<td>
 						<div>
-						<div style="padding:7px;background-color:seashell;">Find a user (search by username, last name or email)<br />
+						<div style="padding:7px;background-color:seashell;"><g:message code="admin.findUser" /><br />
 						
 						</div>
 						
 								<div style="padding:5px;background-color:#f2f2f2;">
 							     <g:form controller="GDOCUser" action="list" autocomplete="off">
 									<g:textField name="userId" id="q" /><br /><br />
-									<g:submitButton name="search" value="Search Users" />
+									<g:submitButton name="search" value="${message(code: 'admin.searchUser')}" />
 								</g:form>
 								</div>
 						</div>
