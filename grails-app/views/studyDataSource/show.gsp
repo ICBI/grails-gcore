@@ -2,24 +2,24 @@
     <head>
         <meta name="layout" content="main" />
 		</script>
-        <title>${currStudy.shortName} Details</title>         
+        <title>${currStudy.shortName} <g:message code="study.details"/></title>         
     </head>
     <body>
-	<p style="font-size:14pt">${currStudy.shortName} Details</p>
+	<p style="font-size:14pt">${currStudy.shortName} <g:message code="study.details"/></p>
 	<br/>
 	<div id="centerContent" class="welcome">
 		<g:panel id="studyPanel" title="Study Details" styleClass="welcome" >
 		<table class="studyTable" width="100%">
 			<tr>
-				<td class="label" width="20%">Study Name</td>
+				<td class="label" width="20%"><g:message code="study.name"/></td>
 				<td>${currStudy.shortName}</td>
 			</tr>
 			<tr>
-				<td class="label" >Study Abstract</td>
+				<td class="label" ><g:message code="study.abstract"/></td>
 				<td>${currStudy.abstractText}</td>
 			</tr>			
 			<tr>
-				<td class="label" >Principal Investigator(s)</td>
+				<td class="label" ><g:message code="study.pi"/></td>
 				<td>
 					<g:each in="${currStudy.pis}" var="pi">
 						${pi.firstName} ${pi.lastName}, ${pi.suffix}<br/>
@@ -27,11 +27,11 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label" >Disease</td>
+				<td class="label" ><g:message code="study.disease"/></td>
 				<td>${currStudy.disease}</td>
 			</tr>			
 			<tr>
-				<td class="label" >Point(s) of Contact</td>
+				<td class="label" ><g:message code="study.poc"/></td>
 				<td>
 					<g:each in="${currStudy.pocs}" var="poc">
 						${poc.firstName} ${poc.lastName}<br/>
@@ -53,38 +53,28 @@
 				</tr>
 			</g:if>
 			<tr>
-				<th>Data Type</th>
-				<th>Number of Elements</th>
-				<th>Search</th>
+				<th><g:message code="gcore.dataType"/></th>
+				<th><g:message code="study.elements"/></th>
+				<th><g:message code="study.search"/></th>
 			</tr>
 			<tr>
 				<g:if test="${clinicalElements}">
-					<td>Clinical Data</td>
-					<td>${clinicalElements.size} Clinical Elements</td>
+					<td><g:message code="study.clinicalData"/></td>
+					<td>${clinicalElements.size} <g:message code="study.clinicalElements"/></td>
 					<td>
 						<g:if test="${allowAccess}">
-							<g:link controller="clinical">Search</g:link>
+							<g:link controller="clinical"><g:message code="study.search"/></g:link>
 						</g:if>
 						<g:else>
-							You currently do not have access to search within this study
+							<g:message code="study.noAccess"/>
 						</g:else>
 					</td>
 				</g:if>
 				<g:else>
-					<td colspan="2">This Study DataSource currently has no Clinical Elements</td>
-					<td>No Clinical Search available at this time</td>
+					<td colspan="2"><g:message code="study.noElements"/></td>
+					<td><g:message code="study.noSearch"/></td>
 				</g:else>
 			</tr>
-			<tr>
-				<g:if test="${currStudy.hasGenomicData()}">
-					<td colspan="2">Genomic Data</td>
-					<td>Select an analysis type from 'Analysis' tab in the menu</td>
-				</g:if>
-				<g:else>
-					<td colspan="2">This Study DataSource currently has no Genomic Data</td>
-					<td>No Analysis available at this time</td>
-				</g:else>
-			</tr>		
 		</table>
 		</g:panel>
 	</div>

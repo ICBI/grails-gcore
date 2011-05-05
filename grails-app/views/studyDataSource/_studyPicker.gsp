@@ -71,16 +71,16 @@
 			$("#studyPageSpinner").css("visibility","visible");
 		}
 		</g:javascript>
-		<p style="font-size:12pt">Current Study: 
+		<p style="font-size:12pt"><g:message code="gcore.currentStudy"/>: 
 			<span id="label" style="display:inline-table">
-				<g:if test="${!session.study}">no study currently selected</g:if>
+				<g:if test="${!session.study}"><g:message code="gcore.noStudy"/></g:if>
 				${session.study?.shortName}</span>
 			<span style="display:inline-table;font-size:.8em">
 				<g:if test="${session.study}">
-					<a href="#" id="changeStudy" style="display:block;margin-left:26px">change study?</a>
+					<a href="#" id="changeStudy" style="display:block;margin-left:26px"><g:message code="study.change"/></a>
 				</g:if>
 				<g:else>
-					<a href="#" id="changeStudy" style="display:none;margin-left:26px">change study?</a>
+					<a href="#" id="changeStudy" style="display:none;margin-left:26px"><g:message code="study.change"/></a>
 				</g:else>
 			</span>
 		</p>
@@ -90,17 +90,17 @@
 		<g:else>
 		<div id="studyFieldset" style="display:none">
 		</g:else>
-		<fieldset style="border:1px solid #336699;margin:10px;padding:8px;background-color:beige"><legend style="margin:8px">Choose a disease and study</legend>
+		<fieldset style="border:1px solid #336699;margin:10px;padding:8px;background-color:beige"><legend style="margin:8px"><g:message code="study.choose"/></legend>
 			<g:formRemote name="setStudyForm" url="[controller:'studyDataSource',action:'setStudy']" update="label" onLoading="showSpinner();" onSuccess="reload();">
-		Disease:
+		<g:message code="study.disease"/>:
 		<g:select name="disease" 
-				noSelection="${['':'Select Disease...']}"
+				noSelection="${['': message(code:'study.selectDisease')]}"
 				from="${diseases}">
 		</g:select>
 		
-		Study:
+		<g:message code="study.study"/>:
 		<g:select name="study" 
-				noSelection="${['':'First Select Disease...']}">
+				noSelection="${['': message(code: 'study.selectStudy')]}">
 				
 		</g:select>
 		<%--from="${myStudies}"
