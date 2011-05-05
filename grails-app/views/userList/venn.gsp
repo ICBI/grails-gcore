@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>Venn Diagram</title>
+    <title><g:message code="userList.vennTitle"/></title>
 	<meta name="layout" content="report" />
     <g:javascript library="jquery"/>
 	<jq:plugin name="DOMWindow"/>
@@ -88,7 +88,7 @@
 			<table class="studyTable" style="width:55%;background-color:#f2f2f2">
 				<g:if test="${tags}">
 	   			<tr>
-					<td>List Type: 
+					<td><g:message code="userList.listType"/>: 
 					</td>
 					<td style="text-align:left">${tags}
 						<g:hiddenField name="tags" value="${tags}" />
@@ -96,7 +96,7 @@
 				</tr>
 			</g:if>
 			<tr>
-				<td>List Name:
+				<td><g:message code="userList.listName"/>:
 				</td>
 				<td>
 					<g:textField name="name" size="15" maxlength="15" />
@@ -105,8 +105,8 @@
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align:right">
-					<input type="button" class="example5closeDOMWindow" value="Cancel" style="padding-right:5px"/>
-					<g:submitButton name="submit" id="submitButton" value="Save"/>
+					<input type="button" class="example5closeDOMWindow" value="${message(code:'userList.cancel')}" style="padding-right:5px"/>
+					<g:submitButton name="submit" id="submitButton" value="${message(code: 'userList.save')}"/>
 				</td>
 			</tr>
 		</table>
@@ -117,15 +117,15 @@
 		
       
       	<br />
-		<p>The following items will be saved into a list viewable in the 'Saved Lists page' upon clicking 'Save' button</p>
+		<p><g:message code="userList.saved"/></p>
 		<div id="itemsDiv" style="border:1px solid gray;width:500px;height:130px;overflow: scroll;margin-top:10px"></div>
 		
     	</div>
 		<br />
 		<div id="example8Null" align="left" style="display:none;text-align:left;">
-		 	<p class="errorDetail" style="font-size:1.2em">The Venn area you've selected does not contain any items.</p><br />
+		 	<p class="errorDetail" style="font-size:1.2em"><g:message code="userList.venn"/></p><br />
 		  </div>
-		  <span class="example5closeDOMWindow" style="float:right;display:inline-table;cursor:pointer;text-decoration:underline">close</span>
+		  <span class="example5closeDOMWindow" style="float:right;display:inline-table;cursor:pointer;text-decoration:underline"><g:message code="userList.close"/></span>
 		
 	  </div>
 	

@@ -19,9 +19,9 @@
 		</g:if>
         <div class="body">
 					<p class="pageHeading">
-            Upload List 
+            <g:message code="userList.upload"/>
 					</p>
-					<p>(*requires .txt format & will be read as line-delimited)
+					<p><g:message code="userList.requires"/>
 					</p>
 					<div class="clinicalSearch">
 						
@@ -32,11 +32,11 @@
             <div class="errorDetail">${flash.error}</div>
             </g:if>
             <g:form name="uploadListForm" action="saveList" method="post" enctype="multipart/form-data">
-							List Type: <br/>
+							<g:message code="userList.listType"/>: <br/>
 							<g:select name="listType" from="${['patient','gene','reporter']}" /><br /><br />
-							List Name: <br/>
+							<g:message code="userList.listName"/>: <br/>
 							<g:textField name="listName" size="15" maxlength="15"/><br /><br/>
-							File: <br/>
+							<g:message code="userList.file" />: <br/>
 							<input type="file" name="file"/>
 							<br /><br />
 							<input type="submit" value="Submit" />

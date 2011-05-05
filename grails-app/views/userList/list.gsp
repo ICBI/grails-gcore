@@ -113,13 +113,12 @@
 
 	<div class="body">
 		<p class="pageHeading">
-			Manage Lists  
-			<img class="info" title="In this section you can view list contents, upload lists and sort lists. In addition,
-			you can delete lists using the checkboxes to the left of the list name. Advanced list tools are available under the list tools section." style="font-size:1.1em;text-decoration:underline;padding-top:7px;padding-left:25px;cursor:pointer;" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
+			<g:message code="userList.manage"/>  
+			<img class="info" title="${message(code: 'userList.tip')}" style="font-size:1.1em;text-decoration:underline;padding-top:7px;padding-left:25px;cursor:pointer;" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
 			<span style="display:none" class="ajaxController">userList</span>	
 			
 			<g:if test="${session.listFilter}">
-				<span style="font-size:12px">total: ${allLists}&nbsp;&nbsp; </span>
+				<span style="font-size:12px"><g:message code="userList.total"/>: ${allLists}&nbsp;&nbsp; </span>
 			</g:if>
 			<br/>
 			<span id="message" class="message" style="display:none"></span>
@@ -130,7 +129,7 @@
 			<td style="padding:5px 5px 5px 15px;">
 			<span>
 			<g:form name="filterForm" action="list">
-			Filter:&nbsp;<g:select name="listFilter" 
+			<g:message code="userList.filter"/>:&nbsp;<g:select name="listFilter" 
 				noSelection="${['':'Filter Lists...']}"
 				value="${session.listFilter?:'value'}"
 				from="${timePeriods}"
@@ -144,7 +143,7 @@
 			<g:else>
 			<div id="searchBox" style="padding-top:8px">
 			</g:else>
-			Search by list name or list item<br />
+			<g:message code="userList.search"/><br />
 			<g:textField name="searchTerm" id="searchTerm" size="15" />
 			<g:submitButton value="search" name="searchButton"/>
 			</div>
@@ -155,13 +154,13 @@
 			<span class="controlBarUpload" id="controlBarUpload">
 			<g:link class="thickbox" name="Upload custom list" action="upload" 
 			style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;padding: 4px 13px;width:100px;border: 1px solid #a0a0a0;margin: 10px 3px 1px 3px;"
-		params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']">Upload List</g:link>
+		params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']"><g:message code="userList.upload"/></g:link>
 			</span>
 			</td>
 
 			<td><g:form name="delListForm" action="deleteMultipleLists">
 			<span class="controlBarUpload" id="controlBarDelete">
-			<g:submitButton name="del" value="Delete List (s)" style="font-size: 12px;color:black;text-decoration:none;padding: 4px 10px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 5px 3px 3px 5px;" onclick="return confirm('Are you sure?');" /></span></td>
+			<g:submitButton name="del" value="${message(code: 'userList.deleteLists')}" style="font-size: 12px;color:black;text-decoration:none;padding: 4px 10px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 5px 3px 3px 5px;" onclick="return confirm('${message(code: 'userList.confirm')}');" /></span></td>
 			</tr>
 		</table>
 			
@@ -195,7 +194,7 @@
 			</div>
 			</g:if>
 			<g:else>
-				<p>Currrently, you have no saved lists</p>
+				<p><g:message code="userList.noSaved"/></p>
 			</g:else>
 		</g:form>
 

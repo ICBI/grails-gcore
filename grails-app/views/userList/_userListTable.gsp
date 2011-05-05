@@ -59,7 +59,7 @@
 	
 	<fieldset style="border:0px solid black">
 	
-	<div><input type="checkbox" class="checkall"> Check all for deletion</div>
+	<div><input type="checkbox" class="checkall"> <g:message code="userList.checkAll"/></div>
 	
  	<g:panel title="My Lists" styleClass="welcome" >
 	
@@ -101,7 +101,7 @@
 					</div>
 					</g:if>
 					<g:else>
-						* List exceeds 100 items *
+						* <g:message code="userList.exceeds"/> *
 					</g:else>
 					<span style="float:right">
 						
@@ -130,7 +130,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 					</g:if>
 					<g:else>
 					<div style="border:0px solid black;width:60%;float:right">	
-						Shared by: ${userListInstance.author.firstName}&nbsp;${userListInstance.author.lastName}&nbsp;(author)
+						<g:message code="userList.sharedBy"/>: ${userListInstance.author.firstName}&nbsp;${userListInstance.author.lastName}&nbsp;(author)
 						<g:link action="export" style="padding-right:5px;" id="${userListInstance.id}">
 						<img alt="export list" border="0" title="Export list" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
 						</g:link>
@@ -145,19 +145,19 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 				</div>
 				<div style="border-bottom:1px solid grey;background-color:#f3f3f3;padding-bottom:5px;">
 					<g:if test="${userListInstance.studies.size()>0}">
-					Studies: 
+					<g:message code="userList.studies"/>: 
 						${userListInstance.studyNames().join(", ")}<br/>
 					</g:if>
 					<g:if test="${userListInstance.groups}">
-					Groups: 
+					<g:message code="userList.groups"/>: 
 						${userListInstance.groups.join(", ")}<br/>
 					</g:if>
 					<g:if test="${userListInstance.tags.size()>0}">
 					<g:if test="${userListInstance.tags.contains('_temporary')}">
-					<span style="color:red;padding:3px">NOTE: This list was created via the G-DOC QuickStart and will be removed when you log out of this session.</span>
+					<span style="color:red;padding:3px"><g:message code="userList.note"/></span>
 					</g:if>
 					<g:else>
-					Tags: ${userListInstance.tags.join(", ")}
+					<g:message code="userList.tags"/>: ${userListInstance.tags.join(", ")}
 					
 					</g:else>
 					</g:if>
@@ -175,10 +175,10 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 </fieldset>
 </g:if>
 <g:else>
-<p>Currently, you have no saved lists during the time period of 
+<p><g:message code="userList.noList"/>
 	<g:if test="${session.listFilter}">
-		<span>${session.listFilter} day(s).</span><br />
-		Try expanding the time period by selected the "Filter By Date" button above.
+		<span>${session.listFilter} <g:message code="userList.days"/></span><br />
+		<g:message code="userList.expand"/>
 	</g:if>
 	
 	</p>

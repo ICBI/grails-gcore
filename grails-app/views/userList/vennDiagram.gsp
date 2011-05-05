@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta name="layout" content="report" />
-        <title>Venn Diagram</title>     
+        <title><g:message code="userList.vennTitle"/></title>     
 		<g:render template="/common/flex_header" plugin="gcore"/>
 		<g:javascript library="jquery"/>
 		<jq:plugin name="tooltip"/>
@@ -42,7 +42,7 @@
 	
 	</g:javascript>
 	<br/>
-	<p style="font-size:14pt">Venn Diagram Results</p>
+	<p style="font-size:14pt"><g:message code="userList.results"/></p>
 	
 	</body>
 	

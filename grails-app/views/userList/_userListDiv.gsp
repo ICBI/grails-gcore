@@ -94,7 +94,7 @@
 					</g:else>
 				</td>
 				<g:if test="${session.userId.equals(userListInstance.author.username)}">
-				<td><a href="javascript:void(0)" 	onclick="if(confirm('Are you sure?')){var classn ='${userListInstance.id}_toggle';${remoteFunction(action:'deleteListItem',id:list_item.id,update:userListInstance.id+'_content',onLoading:'showPageSpinner(true,classn)',onComplete:'showPageSpinner(false,classn)')}return false;}">delete</a></td>
+				<td><a href="javascript:void(0)" 	onclick="if(confirm('${message(code: 'userList.confirm')}')){var classn ='${userListInstance.id}_toggle';${remoteFunction(action:'deleteListItem',id:list_item.id,update:userListInstance.id+'_content',onLoading:'showPageSpinner(true,classn)',onComplete:'showPageSpinner(false,classn)')}return false;}"><g:message code="userList.delete"/></a></td>
 				</g:if>
 			</tr>
 
