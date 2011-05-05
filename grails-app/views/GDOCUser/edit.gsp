@@ -4,15 +4,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-        <title>Edit User</title>
+        <title><g:message code="users.userAdminTitle" args="${ [appTitle()] }" /></title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list">User List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New User</g:link></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="users.list" args="${ [appTitle()] }" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="users.create" args="${ [appTitle()] }" /></g:link></span>
         </div>
         <div>
-            <p style="font-size:14pt;padding:10px">Edit User: ${fieldValue(bean:GDOCUserInstance, field:'username')}</p>
+            <p style="font-size:14pt;padding:10px"><g:message code="users.editUser" />: ${fieldValue(bean:GDOCUserInstance, field:'username')}</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -30,7 +30,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="username">Username:</label>
+                                    <label for="username"><g:message code="users.userName" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'username','errors')}">
                                     <input type="text" id="username" name="username" value="${fieldValue(bean:GDOCUserInstance,field:'username')}"/>
@@ -39,7 +39,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="firstName">First Name:</label>
+                                    <label for="firstName"><g:message code="users.firstName" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'firstName','errors')}">
                                     <input type="text" id="firstName" name="firstName" value="${fieldValue(bean:GDOCUserInstance,field:'firstName')}"/>
@@ -48,7 +48,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="lastName">Last Name:</label>
+                                    <label for="lastName"><g:message code="users.lastName" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'lastName','errors')}">
                                     <input type="text" id="lastName" name="lastName" value="${fieldValue(bean:GDOCUserInstance,field:'lastName')}"/>
@@ -57,7 +57,7 @@
                         	
 							<tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="password">Password:</label>
+                                    <label for="password"><g:message code="users.password" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'password','errors')}">
                                     <input type="password" id="password" name="password" value="${fieldValue(bean:GDOCUserInstance,field:'password')}"/>
@@ -67,7 +67,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="email">Email:</label>
+                                    <label for="email"><g:message code="users.email" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'email','errors')}">
                                     <input type="text" id="email" name="email" value="${fieldValue(bean:GDOCUserInstance,field:'email')}"/>
@@ -76,7 +76,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="organization">Organization:</label>
+                                    <label for="organization"><g:message code="users.organization" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'organization','errors')}">
                                     <input type="text" id="organization" name="organization" value="${fieldValue(bean:GDOCUserInstance,field:'organization')}"/>
@@ -85,7 +85,7 @@
 							
 							<tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="title">Title:</label>
+                                    <label for="title"><g:message code="users.title" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'title','errors')}">
                                     <input type="text" id="title" name="title" value="${fieldValue(bean:GDOCUserInstance,field:'title')}"/>
@@ -94,7 +94,7 @@
 							
 							<tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="options">Options:</label>
+                                    <label for="options"><g:message code="users.options" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'options','errors')}">
                                     
@@ -103,14 +103,14 @@
     <li><g:link controller="userOption" action="show" id="${o.id}">${o?.encodeAsHTML()}</g:link></li>
 </g:each>
 </ul>
-<g:link controller="userOption" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create">Add UserOption</g:link>
+<g:link controller="userOption" params="['GDOCUser.id':GDOCUserInstance?.id]" action="create"><g:message code="users.addUserOption" /></g:link>
 
                                 </td>
                             </tr>
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="department">Department:</label>
+                                    <label for="department"><g:message code="users.department" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'department','errors')}">
                                     <input type="text" id="department" name="department" value="${fieldValue(bean:GDOCUserInstance,field:'department')}"/>
@@ -119,14 +119,14 @@
 
 							
 							<tr class="prop">
-                                <td valign="top" class="name" colSpan="2">Memberships &nbsp; &nbsp;| &nbsp; &nbsp;
-										<g:link controller="membership" params="['username':GDOCUserInstance?.username]" action="create">Add Membership?</g:link><br />
+                                <td valign="top" class="name" colSpan="2"><g:message code="users.memberships" /> &nbsp; &nbsp;| &nbsp; &nbsp;
+										<g:link controller="membership" params="['username':GDOCUserInstance?.username]" action="create"><g:message code="users.addMembership" /></g:link><br />
                                     	<table class="admin">
 						                    <thead>
 						                        <tr>
 													<%--g:sortableColumn property="id" title="Id" /--%>
-			   										<th>Group</th>
-						                   	        <th>Role</th>
+			   										<th><g:message code="membership.group" /></th>
+						                   	        <th><g:message code="membership.role" /></th>
 
 						                        </tr>
 						                    </thead>
@@ -161,25 +161,25 @@
                             </tr--%>
 
 							<tr class="prop">
-		                            <td valign="top" class="name" colspan="2">Invitations&nbsp; &nbsp;| &nbsp; &nbsp;
+		                            <td valign="top" class="name" colspan="2"><g:message code="invitations.heading" />&nbsp; &nbsp;| &nbsp; &nbsp;
 			
 										<table class="admin">
 						                    <thead>
 						                        <tr>
 
-						                   	        <th>Id</th>
+						                   	        <th><g:message code="invitations.id" /></th>
 
-						                   	        <th>Date Created</th>
+						                   	        <th><g:message code="invitations.dateCreated" /></th>
 
-						                   	        <th>Group</th>
+						                   	        <th><g:message code="invitations.group" /></th>
 
-						                   	        <th>Invitee</th>
+						                   	        <th><g:message code="invitations.invitee" /></th>
 
-						                   	        <th>Last Updated</th>
+						                   	        <th><g:message code="invitations.lastUpdated" /></th>
 
-						                   	        <th>Requestor</th>
+						                   	        <th><g:message code="invitations.requestor" /></th>
 
-													<th>Status</th>
+													<th><g:message code="invitations.status" /></th>
 
 						                        </tr>
 						                    </thead>
@@ -211,7 +211,7 @@
 							
 							 <tr class="prop">
 	                                <td valign="top" class="name">
-	                                    <label for="dateCreated">Date Created:</label>
+	                                    <label for="dateCreated"><g:message code="users.dateCreated" />:</label>
 	                                </td>
 	                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'dateCreated','errors')}">
 	                                    <g:datePicker name="dateCreated" value="${GDOCUserInstance?.dateCreated}" precision="minute" ></g:datePicker>
@@ -220,7 +220,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="lastLogin">Last Login:</label>
+                                    <label for="lastLogin"><g:message code="users.lastLogin" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'lastLogin','errors')}">
                                     <g:datePicker name="lastLogin" value="${GDOCUserInstance?.lastLogin}" precision="minute" noSelection="['':'']"></g:datePicker>
@@ -233,7 +233,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="enabled">Enabled:</label>
+                                    <label for="enabled"><g:message code="users.enabled" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'enabled','errors')}">
                                     <g:checkBox name="enabled" value="${GDOCUserInstance?.enabled}" ></g:checkBox>
@@ -242,7 +242,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="accountExpired">Account Expired:</label>
+                                    <label for="accountExpired"><g:message code="users.accountExpired" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'accountExpired','errors')}">
                                     <g:checkBox name="accountExpired" value="${GDOCUserInstance?.accountExpired}" ></g:checkBox>
@@ -251,7 +251,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="accountLocked">Account Locked:</label>
+                                    <label for="accountLocked"><g:message code="users.accountLocked" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'accountLocked','errors')}">
                                     <g:checkBox name="accountLocked" value="${GDOCUserInstance?.accountLocked}" ></g:checkBox>
@@ -262,7 +262,7 @@
 
 	                            <tr class="prop">
 	                                <td valign="top" class="name">
-	                                    <label for="passwordExpired">Password Expired:</label>
+	                                    <label for="passwordExpired"><g:message code="users.passwordExpired" />:</label>
 	                                </td>
 	                                <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'passwordExpired','errors')}">
 	                                    <g:checkBox name="passwordExpired" value="${GDOCUserInstance?.passwordExpired}" ></g:checkBox>
@@ -273,7 +273,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="lastUpdated">Last Updated:</label>
+                                    <label for="lastUpdated"><g:message code="users.lastUpdated" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:GDOCUserInstance,field:'lastUpdated','errors')}">
                                     <g:datePicker name="lastUpdated" value="${GDOCUserInstance?.lastUpdated}" precision="minute" ></g:datePicker>
@@ -303,9 +303,9 @@
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" value="Update" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
-               		<span class="button"><g:link action="show" id="${GDOCUserInstance?.id}" class="cancel">Cancel</g:link></span>
+                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+               		<span class="button"><g:link action="show" id="${GDOCUserInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
  				</div>
             </g:form>
         </div>

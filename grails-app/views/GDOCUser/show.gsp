@@ -4,15 +4,15 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-        <title>Show User</title>
+        <title><g:message code="users.userAdminTitle" args="${ [appTitle()] }" /></title>
     </head>
     <body>
         <div class="nav">
-            <span class="menuButton"><g:link class="list" action="list">User List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New User</g:link></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="users.list" args="${ [appTitle()] }" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="users.create" args="${ [appTitle()] }" /></g:link></span>
         </div>
         <div>
-            <p style="font-size:14pt;padding:15px">Show User: ${fieldValue(bean:GDOCUserInstance, field:'username')}</p>
+            <p style="font-size:14pt;padding:15px"><g:message code="users.showUser" />: ${fieldValue(bean:GDOCUserInstance, field:'username')}</p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -22,28 +22,28 @@
 
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Id:</td>
+                            <td valign="top" class="name"><g:message code="users.id" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'id')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Username:</td>
+                            <td valign="top" class="name"><g:message code="users.userName" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'username')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">First Name:</td>
+                            <td valign="top" class="name"><g:message code="users.firstName" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'firstName')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Last Name:</td>
+                            <td valign="top" class="name"><g:message code="users.lastName" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'lastName')}</td>
                             
@@ -57,28 +57,28 @@
                         </tr--%>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Email:</td>
+                            <td valign="top" class="name"><g:message code="users.email" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'email')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Organization:</td>
+                            <td valign="top" class="name"><g:message code="users.organization" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'organization')}</td>
                             
                         </tr>
 						
 						<tr class="prop">
-                            <td valign="top" class="name">Title:</td>
+                            <td valign="top" class="name"><g:message code="users.title" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'title')}</td>
                             
                         </tr>
 
 						<tr class="prop">
-                            <td valign="top" class="name">Options:</td>
+                            <td valign="top" class="name"><g:message code="users.options" />:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">
                                 <ul>
@@ -91,7 +91,7 @@
                         </tr>
                     
                    		<tr class="prop">
-	                            <td valign="top" class="name">Department:</td>
+	                            <td valign="top" class="name"><g:message code="users.department" />:</td>
 
 	                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'department')}</td>
 
@@ -99,7 +99,7 @@
                     
 						
 						<tr class="prop">
-                            <td valign="top" class="name">Lists:</td>
+                            <td valign="top" class="name"><g:message code="users.lists" />:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">${userLists}
                                 <%--ul>
@@ -112,7 +112,7 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Analysis:</td>
+                            <td valign="top" class="name"><g:message code="users.analyses" />:</td>
                             
                             <td  valign="top" style="text-align:left;" class="value">${userAnalyses}
                                 <ul>
@@ -125,14 +125,14 @@
                         </tr>
 
 						<tr class="prop">
-                            <td valign="top" class="name" colSpan="2">Memberships<br />
+                            <td valign="top" class="name" colSpan="2"><g:message code="users.memberships" /><br />
 							
                            		<table class="admin">
 				                    <thead>
 				                        <tr>
-											<g:sortableColumn property="id" title="Id" />
-	   										<th>Group</th>
-				                   	        <th>Role</th>
+											<g:sortableColumn property="id" title="${message(code: 'membership.id')}" />
+	   										<th><g:message code="membership.group" /></th>
+				                   	        <th><g:message code="membership.role" /></th>
 
 				                        </tr>
 				                    </thead>
@@ -174,25 +174,25 @@
                         </tr--%>
 						
 							<tr class="prop">
-		                            <td valign="top" class="name" colspan="2">Invitations&nbsp; &nbsp;| &nbsp; &nbsp;
+		                            <td valign="top" class="name" colspan="2"><g:message code="invitations.heading" />&nbsp; &nbsp;| &nbsp; &nbsp;
 			
 										<table class="admin">
 						                    <thead>
 						                        <tr>
 
-						                   	        <th>Id</th>
+						                   	        <th><g:message code="invitations.id" /></th>
 
-						                   	        <th>Date Created</th>
+						                   	        <th><g:message code="invitations.dateCreated" /></th>
 
-						                   	        <th>Group</th>
+						                   	        <th><g:message code="invitations.group" /></th>
 
-						                   	        <th>Invitee</th>
+						                   	        <th><g:message code="invitations.invitee" /></th>
 
-						                   	        <th>Last Updated</th>
+						                   	        <th><g:message code="invitations.lastUpdated" /></th>
 
-						                   	        <th>Requestor</th>
+						                   	        <th><g:message code="invitations.requestor" /></th>
 
-													<th>Status</th>
+													<th><g:message code="invitations.status" /></th>
 
 						                        </tr>
 						                    </thead>
@@ -265,7 +265,7 @@
                         </tr--%>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Date Created:</td>
+                            <td valign="top" class="name"><g:message code="users.dateCreated" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'dateCreated')}</td>
                             
@@ -273,28 +273,28 @@
 
 
 						 <tr class="prop">
-	                            <td valign="top" class="name">Last Login:</td>
+	                            <td valign="top" class="name"><g:message code="users.lastLogin" />:</td>
 
 	                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'lastLogin')}</td>
 
 	                        </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Enabled:</td>
+                            <td valign="top" class="name"><g:message code="users.enabled" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'enabled')}</td>
                             
                         </tr>
 
 						<tr class="prop">
-                            <td valign="top" class="name">Account Expired:</td>
+                            <td valign="top" class="name"><g:message code="users.accountExpired" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'accountExpired')}</td>
                             
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Account Locked:</td>
+                            <td valign="top" class="name"><g:message code="users.accountLocked" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'accountLocked')}</td>
                             
@@ -313,7 +313,7 @@
                         
                     
                         <tr class="prop">
-                            <td valign="top" class="name">Password Expired:</td>
+                            <td valign="top" class="name"><g:message code="users.passwordExpired" />:</td>
                             
                             <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'passwordExpired')}</td>
                             
@@ -326,8 +326,8 @@
             <div class="buttons">
                 <g:form>
                     <input type="hidden" name="id" value="${GDOCUserInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" value="Edit" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
+                    <span class="button"><g:actionSubmit class="edit" value="${message(code: 'gcore.edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 </g:form>
             </div>
         </div>

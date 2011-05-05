@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>GDOC - Administration</title>
+        <title><g:message code="users.userAdminTitle" args="${ [appTitle()] }" /></title>
 		<meta name="layout" content="adminReport" />
 		<g:javascript library="jquery"/>   
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
@@ -72,21 +72,26 @@
     </head>
     <body>
 		
-		<div id="centerContent">
-			<p style="font-size:14pt;padding:10px">GDOC - User Search</p><br />
+		<div id="centerContent"><br />
+			<p style="font-size:14pt;padding-top:10px"><g:message code="users.userSearch" /> | 
+				<span style="font-size:.8em">
+					<g:message code="users.totalUsers" args="${ [appTitle()] }" />:${session.uresults.size()}<br />
+				</span>
+			</p>
 			<g:if test="${!session.uresults}">
-				No results found.
+				<g:message code="users.noUsersFound" />
 			</g:if>
 			<g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
 			<g:else>
 				<div style="padding:5px;display:block">
+					
 					<span style="vertical-align:5px"> 
-						<label for="user">Select a user to view all details.</label>
+						<label for="user"><g:message code="users.searchInstructions" /></label>
 						<g:form controller="GDOCUser" action="show">
 							<g:hiddenField name="id" id="userField" value="" />
-							<g:submitButton name="submit" id="selectuserButton" value="View Selected User" />
+							<g:submitButton name="submit" id="selectuserButton" value="${message(code: 'users.viewSelected')}" />
 						</g:form>
 						
 					</span>
