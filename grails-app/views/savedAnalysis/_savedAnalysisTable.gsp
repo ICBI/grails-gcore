@@ -28,7 +28,7 @@
 			<g:else>
 				<g:if test="${g.analysisView(type: analysis.type)}">
 					<g:if test="${(analysis.query?.geAnalysisId?.toString() == 'null')}">
-						<span style="font-style:italic">${analysis.type} **REFERENCED ANALYSIS (not viewable)**</span>
+						<span style="font-style:italic">${analysis.type} **<g:message code="savedAnalysis.referenced"/>**</span>
 					</g:if>
 					<g:else>
 					<g:link controller="${g.analysisView(type: analysis.type)}" action="view"  id="${analysis.id}">${analysis.type}</g:link>
@@ -57,7 +57,7 @@ params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB
 				</g:if>
 				<g:else>
 				<div style="border:0px solid black;width:50%;float:right">	
-					Shared by: ${analysis.author.firstName}&nbsp;${analysis.author.lastName}&nbsp;(author)
+					<g:message code="savedAnalysis.sharedBy" args="${[analysis.author.firstName, analysis.author.lastName]}"/>
 				</div>
 				</g:else>
 				</g:else>
@@ -68,19 +68,19 @@ params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB
 	</div><br />
 	<div style="display:block;text-align:left;border-bottom:1px solid grey;background-color:#f3f3f3;padding-bottom:5px">
 		<g:if test="${analysis.studies.size()>0}">
-		Studies: ${analysis.studyNames().join(", ")}<br/>
+		<g:message code="userList.studies"/>: ${analysis.studyNames().join(", ")}<br/>
 		</g:if>
 		<g:if test="${analysis.groups}">
-		Groups: 
+		<g:message code="userList.groups"/>: 
 			${analysis.groups.join(", ")}<br/>
 		</g:if>
 		<g:if test="${analysis.tags.size()>0}">
 		<g:if test="${analysis.tags.contains('_temporary')}">
-			<span style="color:red;padding:3px">NOTE: This analysis was created via the G-DOC QuickStart and will be removed when you log out of this session.</span>
+			<span style="color:red;padding:3px"><g:message code="userList.note"/></span>
 		</g:if>
 		<g:else>
 		${analysis.tags[2]}
-		Tags: ${analysis.tags.join(", ")}
+		<g:message code="userList.tags"/>: ${analysis.tags.join(", ")}
 		</g:else>
 	
 		
