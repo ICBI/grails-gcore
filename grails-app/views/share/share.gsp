@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<title>Share</title>
+	<title><g:message code="share.title"/></title>
 	<g:javascript library="jquery"/>
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox.js')}"></script>
 	<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>
@@ -19,17 +19,17 @@
 		<div class="successMessage" style="color:#007000">${flash.message}</div><br />
 	</g:if>
 	<g:if test="${groups}">
-		<div class="taskMessage" style="width:85%;font-size:.9em">${params.name} is currently shared with ${groups}</div><br />
+		<div class="taskMessage" style="width:85%;font-size:.9em"><g:message code="share.sharedWith" args="${[params.name, groups]}"/></div><br />
 	</g:if>
 	
 	<g:if test="${params.id} || ${flash.cmd?.itemId}">
 	
 	<g:if test="${!(session.myCollaborationGroups.minus('PUBLIC'))}">
-		<p>Sorry, you cannot share this item because you currently do not manage or belong to any groups. You may create a group by navigating to the 'Collaboration Groups' page and select the 'Create Group' tab.</p>
+		<p><g:message code="share.sorry"/></p>
 	</g:if>
 	<g:else>
 	<p class="pageHeading">
-		Share 
+		<g:message code="share.title"/> 
 		<g:if test="${params?.name}">
 		'${params?.name}'?
 		</g:if>
@@ -41,7 +41,7 @@
 		<g:renderErrors bean="${flash.cmd?.errors}" field="groups" />
 		<%--g:renderErrors bean="${flash.cmd?.errors}" field="type" /--%>
 	</div>
-	<div>Select the collaboration groups you would like to share '<span style="color:blue">${params.name}</span>' with:</div><br />
+	<div><g:message code="share.select"/> '<span style="color:blue">${params.name}</span>' <g:message code="share.with"/>:</div><br />
 	<g:form name="shareForm" on404="alert('not found!')" update="[success:'smessage',failure:'error']" 
 	    action="shareItem" url="${[controller:'share',action:'shareItem']}"
 		onComplete="alert(${flash.message})">

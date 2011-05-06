@@ -11,7 +11,7 @@
 
 		<script type="text/javascript" src="${resource(dir: 'js/jquery', file: 'jquery.ui.js')}"></script>
 	
-    <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if>G-DOC Search</title>
+    <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if><g:message code="search.title"/></title>
     
 
     <script type="text/javascript">
@@ -35,8 +35,8 @@
     <div class="title">
       <span>
         <g:if test="${haveQuery && haveResults}">
-          Showing <strong>${searchResult.offset + 1}</strong> - <strong>${searchResult.results.size() + searchResult.offset}</strong> of <strong>${searchResult.total}</strong>
-          results for <strong>${params.q.encodeAsHTML()}</strong>
+          <g:message code="search.showing"/> <strong>${searchResult.offset + 1}</strong> - <strong>${searchResult.results.size() + searchResult.offset}</strong> <g:message code="search.of"/> <strong>${searchResult.total}</strong>
+          <g:message code="search.results"/> <strong>${params.q.encodeAsHTML()}</strong>
         </g:if>
         <g:else>
         &nbsp;
@@ -46,14 +46,14 @@
 
     <g:if test="${haveQuery && !haveResults && !parseException}">
 	
-      <p>Nothing matched your recent query. </p>
+      <p><g:message code="search.noResults"/> </p>
       
     </g:if>
 
     
 
     <g:if test="${parseException}">
-      <p>Your query - <strong>${params.q.encodeAsHTML()}</strong> - is not valid.</p>
+      <p><g:message code="search.query"/> - <strong>${params.q.encodeAsHTML()}</strong> - <g:message code="search.notValid"/></p>
       
     </g:if>
 
@@ -66,7 +66,7 @@
 					<div>
 						<g:link style="color:blue;font-size:1.2em" action="show" controller="studyDataSource" id="${result.id}">
 							${result.shortName}
-						</g:link> (Study)
+						</g:link> <g:message code="search.study"/>
 						<g:if test="${result.abstractText}">
 							<g:set var="desc" value="${result.abstractText}" />
 				            	<g:if test="${desc.size() > 120}">
@@ -87,7 +87,7 @@
 					            	<g:if test="${molDesc.size() > 20}">
 										<g:set var="molDesc" value="${molDesc[0..10] + '...'+ ' with ' + result}" />
 									</g:if>
-					            <div class="molDesc">(Target Drug Molecule) ${molDesc.encodeAsHTML()}</div>
+					            <div class="molDesc"><g:message code="search.target"/> ${molDesc.encodeAsHTML()}</div>
 							</g:if>
 							<g:else>
 								${result}
@@ -101,9 +101,9 @@
 				            <%--div class="desc">${desc.encodeAsHTML()}</div--%>
 						</g:if>
 						<g:else>
-						No binding data available
+						<g:message code="search.noBinding"/>
 						</g:else>
-						<span style="color:green">targets: 
+						<span style="color:green"><g:message code="search.targets"/>: 
 						<g:set var="target" value="${result.protein.gene?.geneAliases?.toArray().collect{it.symbol}}" />
 							${target.join(",")}
 						</span>
@@ -111,7 +111,7 @@
 				</g:if>
 				<g:if test="${className == 'Finding'}">
 					<div>
-						<g:link action="show" id="${result.id}" controller="finding">${result.title}</g:link> (Finding)
+						<g:link action="show" id="${result.id}" controller="finding">${result.title}</g:link> <g:message code="search.finding"/>
 						<g:if test="${result.description}">
 							<g:set var="desc" value="${result.description}" />
 				            	<g:if test="${desc.size() > 120}">
@@ -120,7 +120,7 @@
 				            <div class="desc">${desc.encodeAsHTML()}</div>
 						</g:if>
 						<g:else>
-						No title available
+						<g:message code="search.noTitle"/>
 						</g:else>
 						
 					</div>
@@ -133,14 +133,14 @@
       <div>
         <div class="paging">
           	<g:if test="${haveResults}"> <!-- or you could use test="${searchResult?.results}" -->
-			    Page:
+			    <g:message code="search.page"/>:
 			    <g:set var="totalPages" value="${Math.ceil(searchResult.total / searchResult.max)}" />
 			    <g:if test="${totalPages == 1}">
 			        <span class="currentStep">1</span>
 			    </g:if>
 			    <g:else>
 			        <g:paginate controller="search" action="index" params="[q: params.q]" 
-			                    total="${searchResult.total}" prev="&lt; previous" next="next &gt;"/>
+			                    total="${searchResult.total}" prev="&lt; ${message(code: 'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
 			    </g:else>
 			</g:if>
         </div>
