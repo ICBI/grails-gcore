@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Georgetown Database of Cancer</title>
+        <title>${appLongName()}</title>
 		<g:render template="/common/flex_header" plugin="gcore"/>
 		<g:javascript src="swfobject.js"/>
 		<g:javascript src="deployJava.js"/>
@@ -48,7 +48,7 @@
 						
 					<br/>
 					<div align="center" style="font-size: 1.8em; font-weight:bold;">
-						G-DOC System Requirements Check
+						<g:message code="home.reqCheckHeading" />
 					</div>
 					<br/>
 					<br/>
@@ -56,43 +56,43 @@
 					<br/>					
 					<table class="checkTable" border="1" style="margin:auto; font-size: 1.0em">
 						<tr style="padding:4px 4px 4px 4px;background-color:#f2f2f2">
-							<td>Required</td>
-							<td>Your Computer</td>
-							<td>Pass?</td>
-							<td>Download</td>
+							<td><g:message code="home.required" /></td>
+							<td><g:message code="home.yourComputer" /></td>
+							<td><g:message code="home.pass" /></td>
+							<td><g:message code="home.download" /></td>
 						</tr>
 						<tr>
-							<td>Mozilla Firefox 3.5+, Google Chrome or Internet Explorer 8.0+</td>
+							<td><g:message code="home.browsers" /></td>
 							<td><div id="browserVersion"></div></td>
 							<td>
 								<div id="browserPass" align="center">
-									<img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="Pass" style="display:none" class="pass"/>
-									<img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="Fail" class="fail"/>
+									<img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="${message(code: 'home.passAlt')}" style="display:none" class="pass"/>
+									<img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="${message(code: 'home.failAlt')}" class="fail"/>
 								</div>
 							</td>
 							<td>
-								<a href="http://www.mozilla.com/firefox" target="_blank">Firefox</a><br/>
-								<a href="http://www.google.com/chrome/" target="_blank">Chrome</a><br/>
-								<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx" target="_blank">Internet Explorer</a>
+								<a href="http://www.mozilla.com/firefox" target="_blank"><g:message code="home.firefox" /></a><br/>
+								<a href="http://www.google.com/chrome/" target="_blank"><g:message code="home.chrome" /></a><br/>
+								<a href="http://www.microsoft.com/windows/internet-explorer/default.aspx" target="_blank"><g:message code="home.ie" /></a>
 							</td>
 						</tr>
 						<tr>
-							<td>Flash 10.0+</td>
+							<td><g:message code="home.flashVersion" /></td>
 							<td><div id="flashVersion"></div></td>
 							<td><div id="flashPass" align="center">
-								<img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="Pass" style="display:none" class="pass"/>
-								<img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="Fail" class="fail"/>
+								<img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="${message(code: 'home.passAlt')}" style="display:none" class="pass"/>
+								<img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="${message(code: 'home.failAlt')}" class="fail"/>
 							</div></td>
-							<td><a href="http://get.adobe.com/flashplayer/" target="_blank">Flash</a></td>
+							<td><a href="http://get.adobe.com/flashplayer/" target="_blank"><g:message code="home.flash" /></a></td>
 						</tr>	
 						<tr>
-							<td>Java 1.6+</td>
+							<td><g:message code="home.javaVersion" /></td>
 							<td><div id="javaVersion"></div></td>
 							<td><div id="javaPass" align="center">
-								<img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="Pass" style="display:none" class="pass"/>
-								<img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="Fail" class="fail"/>
+								<img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="${message(code: 'home.passAlt')}" style="display:none" class="pass"/>
+								<img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="${message(code: 'home.failAlt')}" class="fail"/>
 							</div></td>
-							<td><a href="#" id="javaLink" target="_blank">Java</a></td>
+							<td><a href="#" id="javaLink" target="_blank"><g:message code="home.java" /></a></td>
 						</tr>
 						</table>	
 							

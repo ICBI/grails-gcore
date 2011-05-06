@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Georgetown Database of Cancer</title>
+        <title>${appLongName()}</title>
 		<g:render template="/common/flex_header" plugin="gcore"/>
 		<g:javascript src="swfobject.js"/>
 		<meta name="layout" content="splash" />
@@ -120,8 +120,7 @@
 				<br/>
 				<div align="center">
 					<div id="reqMessage" class="errorBox" style="display: none;">
-						Your system does not meet the minimum system requirements.  <br/>
-						Please visit the <a href="${createLink(controller: 'home', action: 'requirementCheck')}" target="_blank">System Requirements</a> page to download the necessary requirements.<br/>
+						<g:message code="home.notMeetRequirements" />
 					</div>
 					<br/>
 				</div>
@@ -147,8 +146,7 @@
 					                <!--<![endif]-->
 					                <!--[if gte IE 6]>-->
 					                <p> 
-					                  Either scripts and active content are not permitted to run or Adobe Flash Player version
-					                  10.0.45 or greater is not installed.
+					                  <g:message code="home.flashVersionGreater" />
 					                </p>
 					                <!--<![endif]-->
 					                <a href="http://www.adobe.com/go/getflashplayer">
@@ -182,10 +180,10 @@
 							<table class="sumTable" border="1" style="font-size:.9em" id="patientsTable">
 								<th colspan="4" style="padding:8px 8px 8px 8px;background-color:#EBF1FF">Cancer/Study Overview</th>
 								<tr style="padding:4px 4px 4px 4px;background-color:#f2f2f2">
-									<td>Disease</td>
-									<td># Studies</td>
-									<td># Patients</td>
-									<td>Available Data Types</td>
+									<td><g:message code="home.disease" /></td>
+									<td><g:message code="home.study" /></td>
+									<td><g:message code="home.patients" /></td>
+									<td><g:message code="home.availableData" /></td>
 									<g:if test="${diseaseBreakdown}">
 									<g:each in="${diseaseBreakdown}" var="item">
 											<tr>
@@ -204,7 +202,7 @@
 									</g:if>
 									<g:else>
 										<tr>
-											<td>Error communicating with patient service.  Please try again.</td>
+											<td><g:message code="home.errorService" /></td>
 										</tr>
 									</g:else>
 								</tr>
@@ -215,9 +213,9 @@
 										<table border="0">
 											<tr>
 											<td style="width:10%" valign="top">
-												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:0px;border-left:1px solid #334477;background-color:#fff">FINDINGS</div>
-												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:1px solid #334477;border-left:1px solid #334477;background-color:#EBF1FF">NEWS</div>
-												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:1px solid #334477;border-left:1px solid #334477;background-color:#EBF1FF;border-bottom:1px solid #334477;">PUBLICATIONS</div>
+												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:0px;border-left:1px solid #334477;background-color:#fff"><g:message code="home.findings" /></div>
+												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:1px solid #334477;border-left:1px solid #334477;background-color:#EBF1FF"><g:message code="home.news" /></div>
+												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:1px solid #334477;border-left:1px solid #334477;background-color:#EBF1FF;border-bottom:1px solid #334477;"><g:message code="home.publications" /></div>
 												<div style="height:150px;border-right:1px solid #334477"></div>
 											</td>
 
@@ -226,7 +224,7 @@
 													<div class="partDiv">
 													<g:if test="${findings}">
 													<g:each in="${findings}" var="finding">
-														<p style="border-bottom:1px dashed black;padding:2px">${finding.title}&nbsp; - <span style="color:blue">loaded on: <g:formatDate format="EEE MMM d, yyyy" date="${finding.dateCreated}"/></span></p>
+														<p style="border-bottom:1px dashed black;padding:2px">${finding.title}&nbsp; - <span style="color:blue"><g:message code="home.loadedOn" />: <g:formatDate format="EEE MMM d, yyyy" date="${finding.dateCreated}"/></span></p>
 													</g:each>
 													</g:if>
 													</div>
@@ -244,7 +242,7 @@
 												
 												<div id="pub" class="parts" style="padding:15px;border-bottom:1px solid #334477;height:330px;border-right:1px solid #334477;height:330px;border-top:1px solid #334477;height:330px;overflow: scroll;display:none">
 													<div class="partDiv">
-									The first of several anticipated G-DOC publications, describing the tool and its use, are expected to go to press in the first half of 2011.  In addition, we anticipate numerous publications and presentations to arise from the use of G-DOC by the scientific community.  New publications will be provided as they become available.
+									<g:message code="home.pubMessage" />
 													</div>
 												</div>
 											</td>
@@ -262,8 +260,8 @@
 							<table class="sumTable" border="1" style="font-size:.9em" id="patientsTable">
 								<th colspan="4" style="padding:8px 8px 8px 8px;background-color:#EBF1FF">Data-Type Overview</th>
 								<tr style="padding:4px 4px 4px 4px;background-color:#f2f2f2">
-									<td>Data Type</td>
-									<td># Studies</td>
+									<td><g:message code="home.dataType" /></td>
+									<td><g:message code="home.study" /></td>
 									<g:if test="${dataBreakdown}">
 									<g:each in="${dataBreakdown}" var="data">
 									
@@ -276,7 +274,7 @@
 									</g:if>
 									<g:else>
 										<tr>
-											<td>Error communicating with patient service.  Please try again.</td>
+											<td><g:message code="home.errorService" /></td>
 										</tr>
 									</g:else>
 								</tr>

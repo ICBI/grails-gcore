@@ -42,7 +42,7 @@
 					<div class="yui-u">
 						<br /><br /><br />
 						<div>
-						<g:render template="/help/faq_rightBar" plugin="gcore"/>
+						<g:render template="/help/faq_rightBar" />
 						</div>
 					</div>
 				</div>
