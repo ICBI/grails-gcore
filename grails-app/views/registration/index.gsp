@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta name="layout" content="splash" />
-	<title>G-DOC Registration</title>
+	<title><g:message code="registration.title" args="${[appTitle()]}"/></title>
 	<g:javascript>
 	$(document).ready( function () {
 				$('#userCat').change(function() {
@@ -18,8 +18,8 @@
 </head>
 
 <div id="userCatDiv" align="center" style="padding:10px">
-<span style="font-size:13pt;">Select your user category</span><br />
-<g:select id="userCat" from="${categoryList}" noSelection="${['null':'Select One...']}" />
+<span style="font-size:13pt;"><g:message code="registration.category"/></span><br />
+<g:select id="userCat" from="${categoryList}" noSelection="${['null': message(code:'registration.selectOne')]}" />
 </div>
 
 <g:if test="${flash.error}">
@@ -35,7 +35,7 @@
 	</g:javascript>
 	</g:if>
 <fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-    <legend style="padding:7px">Georgetown NET ID required:</legend>
+    <legend style="padding:7px"><g:message code="registration.netId"/>:</legend>
 	<div style="padding:10px">
 		<g:form name="registrationForm" action="register">
 		<g:if test="${flash.cmd instanceof RegistrationCommand}">
@@ -43,14 +43,14 @@
 				<g:renderErrors bean="${flash.cmd?.errors}" />
 			</div>
 		</g:if>
-		Enter a valid Georgetown Net-Id: <g:textField name="netId" /><br /><br />
-		Enter password: <g:passwordField name="password" id="passwordField" /><br /><br />
-		Select a department (optional): 
+		<g:message code="registration.validNetid"/>: <g:textField name="netId" /><br /><br />
+		<g:message code="registration.password"/>: <g:passwordField name="password" id="passwordField" /><br /><br />
+		<g:message code="registration.department"/>: 
 		<g:select name="department"
 		          from="${departmentList}" 
-				noSelection="['':'-Choose department-']"/>
+				noSelection="['':message(code: 'registration.chooseDepartment')]"/>
 		<br /><br/>
-		<g:submitButton name="register" value="Register" />
+		<g:submitButton name="register" value="${message(code: 'registration.register')}" />
 		</g:form>
 	</div>
 </fieldset>
@@ -63,7 +63,7 @@
 	</g:javascript>
 	</g:if>
 	<fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-	    <legend style="padding:7px">Request access to G-DOC:</legend>
+	    <legend style="padding:7px"><g:message code="registration.request" args="${[appTitle()]}"/>:</legend>
 		<div style="padding:10px;float:left">
 			<g:if test="${flash.cmd instanceof RegistrationPublicCommand}">
 				<div class="errorDetail">
@@ -71,18 +71,16 @@
 				</div>
 			</g:if>
 			<g:form name="registrationPublicForm" action="registerPublic">
-			Enter a valid email address (userId): <g:textField name="userId" /><br /><br />
+			<g:message code="registration.validEmail"/>: <g:textField name="userId" /><br /><br />
 
 			<recaptcha:ifEnabled>
 			    <recaptcha:recaptcha theme="blackglass"/>
 			</recaptcha:ifEnabled>
 			<br /><br/>
 			<div class="c" style="border:1px solid silver;padding:10px;margin-right:10px;width:50%">
-				*NOTE:<span style="font-size:.85em">A registration link will be sent your email address after submission
-				 If you do not receive a registration email in a timely manner,
-				 check your 'spam' box and verify your filter does not block future email from gdoc-help@georgetown.edu</span><br />
+				*<g:message code="registration.note"/>:<span style="font-size:.85em"> <g:message code="registration.link"/></span><br />
 			</div><br />
-			<g:submitButton name="registerPublic" value="Register" />
+			<g:submitButton name="registerPublic" value="${message(code: 'registration.register')}" />
 			</g:form>
 		</div>
 		
