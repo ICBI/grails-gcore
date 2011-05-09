@@ -3,7 +3,7 @@
 	<meta name="layout" content="main" />
 	<g:javascript library="jquery"/>
 	<jq:plugin name="tooltip"/>
-	<title>Notifications</title>         
+	<title><g:message code="notifications.heading" /></title>         
 </head>
 <body>
 	<g:javascript>
@@ -58,9 +58,9 @@
 		}
 		
 	</g:javascript>
-	<p style="font-size:14pt">Notifications</p>
+	<p style="font-size:14pt"><g:message code="notifications.heading" /></p>
 	<br/>
-	<g:panel title="My Running Analysis" styleClass="notifications" contentClass="myPanelContent" id="notifications">
+	<g:panel title="${message(code: 'notifications.panelHeader')}" styleClass="notifications" contentClass="myPanelContent" id="notifications">
 		<g:render template="/notification/notificationTable"  plugin="gcore"/>
 	</g:panel>
 	<br/>

@@ -4,15 +4,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminReport" />
-        <title>Invitation List</title>
+        <title><g:message code="invitations.heading" /></title>
     </head>
     <body>
-        <div class="nav">
-            <!--span class="menuButton"><a class="home" href="${resource(dir:'')}">Home</a></span>
-            <span class="menuButton"><g:link class="create" action="create">New Invitation</g:link></span-->
-        </div>
+        
         <div>
-            <p style="font-size:14pt;padding:15px">Invitation List</p>
+            <p style="font-size:14pt;padding:15px"><g:message code="invitations.list" /></p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -21,19 +18,19 @@
                     <thead>
                         <tr>
                         
-                   	        <g:sortableColumn property="id" title="Id" />
+                   	        <g:sortableColumn property="id" title="${message(code: 'invitations.id')}" />
                         
-                   	        <g:sortableColumn property="dateCreated" title="Date Created" />
+                   	        <g:sortableColumn property="dateCreated" title="${message(code: 'invitations.dateCreated')}" />
                         
-                   	        <th>Group</th>
+                   	        <th><g:message code="invitations.group" /></th>
                    	    
-                   	        <th>Invitee</th>
+                   	        <th><g:message code="invitations.invitee" /></th>
                    	    
-                   	        <g:sortableColumn property="lastUpdated" title="Last Updated" />
+                   	        <g:sortableColumn property="lastUpdated" title="${message(code: 'invitations.lastUpdated')}" />
                         
-                   	        <th>Requestor</th>
+                   	        <th><g:message code="invitations.requestor" /></th>
 
-							<g:sortableColumn property="status" title="Status" />
+							<g:sortableColumn property="status" title="${message(code: 'invitations.status')}" />
                    	    
                         </tr>
                     </thead>

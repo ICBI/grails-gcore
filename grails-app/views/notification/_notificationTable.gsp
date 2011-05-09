@@ -5,5 +5,5 @@
 
 </g:if>
 <g:else>
-No running analysis at this time.
+<g:message code="notifications.none" />
 </g:else>

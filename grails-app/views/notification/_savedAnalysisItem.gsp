@@ -25,7 +25,7 @@
 	<div class="status" style="float: right;">${notification.status} <img style="height: 12px" src="${createLinkTo(dir:'images',file:'indicator.gif')}" border="0" />
 	
 	<g:link onclick="return confirm('Are you sure?');" action="delete" id="${notification.id}">
-	<img alt="Delete Analysis" title="Delete Analysis" style="vertical-align: bottom;" src="${createLinkTo(dir: 'images', file: 'cross.png')}"/></g:link>
+	<img alt="${message(code: 'notifications.delete')}" title="${message(code: 'notifications.delete')}" style="vertical-align: bottom;" src="${createLinkTo(dir: 'images', file: 'cross.png')}"/></g:link>
 	</div>
 </g:else>
 </div>

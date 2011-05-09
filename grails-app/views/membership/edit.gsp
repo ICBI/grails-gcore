@@ -4,16 +4,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-        <title>Edit Membership</title>
+        <title><g:message code="membership.title" /></title>
     </head>
     <body>
         <div>
             
-            <span class="menuButton"><g:link class="list" action="list">Membership List</g:link></span>
-            <span class="menuButton"><g:link class="create" action="create">New Membership</g:link></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="membership.list" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="membership.create" /></g:link></span>
         </div>
         <div class="body">
-            <p style="font-size:14pt;padding:10px">Edit Membership</p>
+            <p style="font-size:14pt;padding:10px"><g:message code="membership.edit" args="${ [fieldValue(bean:membershipInstance, field:'id')] }" /></p>
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
@@ -28,7 +28,7 @@
 	
 							<tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="user">User:</label>
+                                    <label for="user"><g:message code="membership.user" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'user','errors')}">
 								${membershipInstance?.user?.username}
@@ -39,7 +39,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="collaborationGroup">Collaboration Group:</label>
+                                    <label for="collaborationGroup"><g:message code="membership.collab" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'collaborationGroup','errors')}">
 										${membershipInstance?.collaborationGroup?.name}
@@ -49,7 +49,7 @@
                         
                             <tr class="prop">
                                 <td valign="top" class="name">
-                                    <label for="role">Role:</label>
+                                    <label for="role"><g:message code="membership.role" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'role','errors')}">
                                     <g:select optionKey="id" from="${Role.list()}" name="role.id" value="${membershipInstance?.role?.id}" optionValue="name" ></g:select>
@@ -61,11 +61,11 @@
                     </table>
                 </div>
                 <div class="buttons"><br />
-                    <span class="button"><g:actionSubmit class="save" value="Update" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
-                	<span class="button"><g:link action="show" id="${membershipInstance?.id}" class="cancel">Cancel</g:link></span>
+                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                	<span class="button"><g:link action="show" id="${membershipInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
 				</div>
-            </g:form>
+            </g:form><br />
         </div>
     </body>
 </html>
