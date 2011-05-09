@@ -15,7 +15,7 @@ class ActivationController {
     			def validRequestor = securityService.validateToken(token)
     				if(!validRequestor){
     					log.debug "invalid token"
-    					flash.error = "This request has expired and is no longer valid"
+    					flash.error = message(code:"activation.requestExpired")
     					redirect(controller:'home',action:"index")
     				}else{
     					log.debug "user token authenticated"
@@ -37,7 +37,7 @@ class ActivationController {
     			def validRequestor = securityService.validateToken(token)
     				if(!validRequestor){
     					log.debug "invalid token"
-    					flash.message = "This request for a new account is has expired and is no longer valid"
+    					flash.error =  message(code:"activation.requestExpired")
     					redirect(controller:'home',action:"index")
     				}else{
     					log.debug "user token authenticated"
@@ -69,12 +69,12 @@ class ActivationController {
     			if(securityService.changeUserPassword(cmd.userId,cmd.password)){
     				def u = GDOCUser.findByUsername(cmd.userId)
     				if(session.userId){
-    					flash.message = "You have successfully changed your password."
+    					flash.message =  message(code:"activation.changedPassword")
     					log.debug "$cmd.userId successfully changed password."
     					redirect(controller:'workflows',action:"index")
     					return
     				}else{
-    					flash.message = "You have successfully changed your password."
+    					flash.message =  message(code:"activation.changedPassword")
     					log.debug "$cmd.userId successfully changed password."
     					redirect(controller:'home',action:"index")
     					return
@@ -82,7 +82,7 @@ class ActivationController {
     				
     			}else{
     				log.debug "$cmd.userId password has NOT been reset"
-    				flash.message = "$cmd.userId password has NOT been reset. Please try again or contact the help desk"
+    				flash.message =  message(code:"activation.notChangedPassword")
     				redirect(controller:'home',action:"index")
     			}
     		}
@@ -106,8 +106,9 @@ class ActivationController {
     			def existingUser = GDOCUser.findByUsername(cmd.userId)
     			if(existingUser){
     				log.debug "user already exists"
-    				flash.message = "This user already exists in the system"
+    				flash.error = message(code:"activation.userAlreadyExists",args:[appTitle()])
     				redirect(controller:'home',action:"index")
+					return
     			}
     			log.debug "now add the user to system with public access"
     			try{
@@ -125,7 +126,7 @@ class ActivationController {
 							return
 						}catch(BadCredentialsException bce){
 							log.debug bce
-							flash.error = "There was an error adding the user. Please verify credentials"
+							flash.error = message(code:"activation.userNotAddedBadCredentials")
 							redirect(controller:'registration',action:'index')
 							return
 						}
@@ -134,13 +135,15 @@ class ActivationController {
 
     			}catch (SecurityException se){
     				log.debug "user not added " + se
-    				flash.error = "There was a problem adding user to the system. Please contact G-DOC help desk."
+    				flash.error = message(code:"activation.userNotAdded")
     				redirect(controller:'registration',action:"index")
+					return
     			}
 				catch (Exception se){
     				log.debug "user not added " + se
-    				flash.error = "There was a problem adding user to the system. Please contact G-DOC help desk."
+    				flash.error = message(code:"activation.userNotAdded")
     				redirect(controller:'registration',action:"index")
+					return
     			}
     		}
     	}
