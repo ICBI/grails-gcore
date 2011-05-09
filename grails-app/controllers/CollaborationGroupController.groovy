@@ -22,7 +22,7 @@ class CollaborationGroupController {
         def collaborationGroupInstance = CollaborationGroup.get( params.id )
 
         if(!collaborationGroupInstance) {
-            flash.message = "CollaborationGroup not found with id ${params.id}"
+            flash.message = message(code:"collaborationGroup.groupNotFound", args:[params.id])
             redirect(action:list)
         }
         else { return [ collaborationGroupInstance : collaborationGroupInstance ] }
@@ -33,16 +33,16 @@ class CollaborationGroupController {
         if(collaborationGroupInstance) {
             try {
                 collaborationGroupInstance.delete(flush:true)
-                flash.message = "CollaborationGroup ${params.id} deleted"
+                flash.message = message(code:"collaborationGroup.deleted", args:[params.id])
                 redirect(action:list)
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "CollaborationGroup ${params.id} could not be deleted"
+                flash.message = message(code:"collaborationGroup.notDeleted", args:[params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "CollaborationGroup not found with id ${params.id}"
+            flash.message = message(code:"collaborationGroup.groupNotFound", args:[params.id])
             redirect(action:list)
         }
     }
@@ -51,7 +51,7 @@ class CollaborationGroupController {
         def collaborationGroupInstance = CollaborationGroup.get( params.id )
 		
         if(!collaborationGroupInstance) {
-            flash.message = "CollaborationGroup not found with id ${params.id}"
+            flash.message = message(code:"collaborationGroup.groupNotFound", args:[params.id])
             redirect(action:list)
         }
         else {
@@ -79,14 +79,14 @@ class CollaborationGroupController {
 			}
 			if(!collaborationGroupService.validName(params.name)){
 				log.debug "Group $params.name contains invalid characters"
-				flash["error"]= "Group did not save because invalid characters found in $params.name. Please try again."
+				flash["error"]=  message(code:"collaborationGroup.invalidChars", args:[params.name])
 				redirect(action:edit,id:collaborationGroupInstance.id)
 				return
 			}
             collaborationGroupInstance.properties = params
 			collaborationGroupInstance.validate()
             if(!collaborationGroupInstance.hasErrors() && collaborationGroupInstance.save()) {
-                flash.message = "CollaborationGroup ${params.id} updated"
+                flash.message = message(code:"collaborationGroup.updated", args:[params.id])
                 redirect(action:show,id:collaborationGroupInstance.id)
             }
             else {
@@ -94,7 +94,7 @@ class CollaborationGroupController {
             }
         }
         else {
-            flash.message = "CollaborationGroup not found with id ${params.id}"
+            flash.message = message(code:"collaborationGroup.groupNotFound", args:[params.id])
             redirect(action:list)
         }
     }
@@ -110,14 +110,14 @@ class CollaborationGroupController {
 		collaborationGroupInstance.validate()
 		if(!collaborationGroupService.validName(params.name)){
 			log.debug "Group $params.name  contains invalid characters"
-			flash["error"]= "Group did not save because invalid characters found in $params.name. Please try again."
+			flash["error"]=  message(code:"collaborationGroup.invalidChars", args:[params.name])
 			redirect(action:create)
 			return
 		}
 		if(!collaborationGroupInstance.hasErrors()) {
 			def newGroup = securityService.createCollaborationGroup(params.owner, params.name, params.description)
 			if(newGroup){
-				flash.message = "CollaborationGroup ${newGroup.id} created"
+				flash.message = message(code:"collaborationGroup.created", args:[newGroup.id])
 	            redirect(action:show,id:newGroup.id)
 			}
             
