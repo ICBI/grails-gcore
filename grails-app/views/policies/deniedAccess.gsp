@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>GDOC - DENIED ACCESS</title>
+        <title><g:message code="policies.denied"/></title>
 		<meta name="layout" content="splash" />
 		<g:javascript library="jquery"/>
 		
@@ -8,9 +8,9 @@
     <body>
 	
 		<div id="centerContent" style="margin:0pt auto;width:65%">
-			<p style="font-size:14pt">DENIED ACCESS</p>
+			<p style="font-size:14pt"><g:message code="policies.denied"/></p>
 				<p>
-					You have attempted to access a page that you are restricted from viewing.
+					<g:message code="policies.attempted"/>
 				</p>
 				
 				
