@@ -159,7 +159,7 @@ class GDOCUserController {
 		}
 
         if(!GDOCUserInstance) {
-            flash.message = "GDOCUser not found with id ${params.id}"
+            flash.message = message(code:"users.notFoundBoth", args:[params.id, params.username])
             redirect(action:list)
         }
         else { 
@@ -176,21 +176,21 @@ class GDOCUserController {
             try {
 				if(securityService.removeUser(params.id)){
                 	//GDOCUserInstance.delete(flush:true)
-	                flash.message = "GDOCUser ${params.id} deleted"
+	                flash.message = message(code:"users.deleted", args:[params.id])
 	                redirect(action:list)
 				}
 				else{
-					flash.message = "GDOCUser ${params.id} could not be deleted"
+					flash.message = message(code:"users.notDeleted", args:[params.id])
 	                redirect(action:show,id:params.id)
 				}
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "GDOCUser ${params.id} could not be deleted"
+                flash.message = message(code:"users.notDeleted", args:[params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "GDOCUser not found with id ${params.id}"
+            flash.message = message(code:"users.notFound", args:[params.id])
             redirect(action:list)
         }
     }
@@ -199,7 +199,7 @@ class GDOCUserController {
         def GDOCUserInstance = GDOCUser.get( params.id )
 
         if(!GDOCUserInstance) {
-            flash.message = "GDOCUser not found with id ${params.id}"
+            flash.message = message(code:"users.notFound", args:[params.id])
             redirect(action:list)
         }
         else {
@@ -211,18 +211,9 @@ class GDOCUserController {
 		log.debug params
         def GDOCUserInstance = GDOCUser.get( params.id )
         if(GDOCUserInstance) {
-            if(params.version) {
-                def version = params.version.toLong()
-                if(GDOCUserInstance.version > version) {
-                    
-                    GDOCUserInstance.errors.rejectValue("version", "GDOCUser.optimistic.locking.failure", "Another user has updated this GDOCUser while you were editing.")
-                    render(view:'edit',model:[GDOCUserInstance:GDOCUserInstance])
-                    return
-                }
-            }
             GDOCUserInstance.properties = params
             if(!GDOCUserInstance.hasErrors() && GDOCUserInstance.save()) {
-                flash.message = "GDOCUser ${params.id} updated"
+                flash.message = message(code:"users.updated", args:[params.id])
                 redirect(action:show,id:GDOCUserInstance.id)
             }
             else {
@@ -230,7 +221,7 @@ class GDOCUserController {
             }
         }
         else {
-            flash.message = "GDOCUser not found with id ${params.id}"
+            flash.message = message(code:"users.notFound", args:[params.id])
             redirect(action:list)
         }
     }
@@ -247,11 +238,11 @@ class GDOCUserController {
         if(!GDOCUserInstance.hasErrors()) {
 			def newUser = securityService.createNewUser(params.username, params.password, params.firstName,params.lastName,params.email,params.organization, params.title, params.department)
 			if(newUser){
-				flash.message = "GDOCUser ${newUser.id} created"
+				flash.message = message(code:"users.created", args:[newUser.id])
 				redirect(action:show,id:newUser.id)
 			}
 			else{
-				flash.message = "GDOCUser not created"
+				flash.message = message(code:"users.notCreated")
 	            redirect(action:create)
 			}
             
