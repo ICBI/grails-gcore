@@ -91,35 +91,10 @@ NOPARALLEL
 MONITORING;
 
 
-CREATE TABLE ${projectName}.HT_FILE_COLUMN
-(
-  HT_FILE_COLUMN_ID  NUMBER(10)                 NOT NULL,
-  HT_FILE_ID         NUMBER(10)                 NOT NULL,
-  COLUMN_NUMBER      NUMBER(3)                  NOT NULL,
-  COLUMN_NAME        VARCHAR2(50 BYTE)          NOT NULL,
-  INSERT_USER        VARCHAR2(10 BYTE)          NOT NULL,
-  INSERT_DATE        DATE                       NOT NULL,
-  INSERT_METHOD      VARCHAR2(20 BYTE)          NOT NULL
-)
-LOGGING 
-NOCOMPRESS 
-NOCACHE
-NOPARALLEL
-MONITORING;
-
-
 CREATE TABLE ${projectName}.HT_FILE
 (
   HT_FILE_ID      NUMBER(10)                    NOT NULL,
   NAME            VARCHAR2(50 BYTE)             NOT NULL,
-  RELATIVE_PATH   VARCHAR2(100 BYTE)            NOT NULL,
-  SIZE_B          NUMBER(12)                    NOT NULL,
-  FILE_TYPE_ID    NUMBER(3)                     NOT NULL,
-  FILE_FORMAT_ID  NUMBER(3)                     NOT NULL,
-  DATA_LEVEL      VARCHAR2(15 BYTE)             NOT NULL,
-  INSERT_USER     VARCHAR2(20 BYTE)             NOT NULL,
-  INSERT_DATE     DATE                          NOT NULL,
-  INSERT_METHOD   VARCHAR2(20 BYTE)             NOT NULL,
   DESIGN_ID		  NUMBER,
   DESCRIPTION     VARCHAR2(100 BYTE)
 )
