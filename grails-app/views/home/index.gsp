@@ -242,7 +242,7 @@
 												
 												<div id="pub" class="parts" style="padding:15px;border-bottom:1px solid #334477;height:330px;border-right:1px solid #334477;height:330px;border-top:1px solid #334477;height:330px;overflow: scroll;display:none">
 													<div class="partDiv">
-									<g:message code="home.pubMessage" />
+									<g:message code="home.pubMessage" args="${[appTitle()]}"/>
 													</div>
 												</div>
 											</td>

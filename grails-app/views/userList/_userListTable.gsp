@@ -154,7 +154,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 					</g:if>
 					<g:if test="${userListInstance.tags.size()>0}">
 					<g:if test="${userListInstance.tags.contains('_temporary')}">
-					<span style="color:red;padding:3px"><g:message code="userList.note"/></span>
+					<span style="color:red;padding:3px"><g:message code="userList.note" args="${[appTitle()]}"/></span>
 					</g:if>
 					<g:else>
 					<g:message code="userList.tags"/>: ${userListInstance.tags.join(", ")}

@@ -48,7 +48,7 @@
 						
 					<br/>
 					<div align="center" style="font-size: 1.8em; font-weight:bold;">
-						<g:message code="home.reqCheckHeading" />
+						<g:message code="home.reqCheckHeading" args="${[appTitle()]}"/>
 					</div>
 					<br/>
 					<br/>
