@@ -91,10 +91,10 @@ class HomeController implements ApplicationContextAware{
 			}
 		}
 	}
-		diseaseBreakdown['<i>TOTAL</i>'] = [:]
-		diseaseBreakdown['<i>TOTAL</i>']['patientNumber'] = totalPatient
-		diseaseBreakdown['<i>TOTAL</i>']['studyNumber'] = totalStudies
-		diseaseBreakdown['<i>TOTAL</i>']['availableData'] = totalData
+		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>'] = [:]
+		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['patientNumber'] = totalPatient
+		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['studyNumber'] = totalStudies
+		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['availableData'] = totalData
 		log.debug diseaseBreakdown
 		log.debug dataBreakdown
 		

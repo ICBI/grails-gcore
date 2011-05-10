@@ -18,7 +18,7 @@ class InvitationController {
         def invitationInstance = Invitation.get( params.id )
 
         if(!invitationInstance) {
-            flash.message = "Invitation not found with id ${params.id}"
+            flash.message = message(code:"invitations.notFound",args:[params.id])
             redirect(action:list)
         }
         else { return [ invitationInstance : invitationInstance ] }
@@ -29,16 +29,16 @@ class InvitationController {
         if(invitationInstance) {
             try {
                 invitationInstance.delete(flush:true)
-                flash.message = "Invitation ${params.id} deleted"
+                flash.message = message(code:"invitations.deleted",args:[params.id])
                 redirect(action:list)
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "Invitation ${params.id} could not be deleted"
+                flash.message = message(code:"invitations.notDeleted",args:[params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "Invitation not found with id ${params.id}"
+            flash.message =  message(code:"invitations.notFound",args:[params.id])
             redirect(action:list)
         }
     }
@@ -47,7 +47,7 @@ class InvitationController {
         def invitationInstance = Invitation.get( params.id )
 
         if(!invitationInstance) {
-            flash.message = "Invitation not found with id ${params.id}"
+            flash.message =  message(code:"invitations.notFound",args:[params.id])
             redirect(action:list)
         }
         else {
@@ -58,18 +58,9 @@ class InvitationController {
     def update = {
         def invitationInstance = Invitation.get( params.id )
         if(invitationInstance) {
-            if(params.version) {
-                def version = params.version.toLong()
-                if(invitationInstance.version > version) {
-                    
-                    invitationInstance.errors.rejectValue("version", "invitation.optimistic.locking.failure", "Another user has updated this Invitation while you were editing.")
-                    render(view:'edit',model:[invitationInstance:invitationInstance])
-                    return
-                }
-            }
             invitationInstance.properties = params
             if(!invitationInstance.hasErrors() && invitationInstance.save()) {
-                flash.message = "Invitation ${params.id} updated"
+                flash.message =  message(code:"invitations.updated",args:[params.id])
                 redirect(action:show,id:invitationInstance.id)
             }
             else {
@@ -77,7 +68,7 @@ class InvitationController {
             }
         }
         else {
-            flash.message = "Invitation not found with id ${params.id}"
+            flash.message =  message(code:"invitations.notFound",args:[params.id])
             redirect(action:list)
         }
     }

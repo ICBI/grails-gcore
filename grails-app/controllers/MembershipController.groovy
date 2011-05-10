@@ -44,7 +44,7 @@ class MembershipController {
         def membershipInstance = Membership.get( params.id )
 
         if(!membershipInstance) {
-            flash.message = "Membership not found with id ${params.id}"
+            flash.message = message(code:"membership.notFound",args:[params.id])
             redirect(action:list)
         }
         else { return [ membershipInstance : membershipInstance ] }
@@ -55,16 +55,16 @@ class MembershipController {
         if(membershipInstance) {
             try {
                 membershipInstance.delete(flush:true)
-                flash.message = "Membership ${params.id} deleted"
+                flash.message = message(code:"membership.deleted",args:[params.id])
                 redirect(action:list)
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "Membership ${params.id} could not be deleted"
+                flash.message = message(code:"membership.notDeleted",args:[params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "Membership not found with id ${params.id}"
+            flash.message = message(code:"membership.notFound",args:[params.id])
             redirect(action:list)
         }
     }
@@ -73,7 +73,7 @@ class MembershipController {
         def membershipInstance = Membership.get( params.id )
 
         if(!membershipInstance) {
-            flash.message = "Membership not found with id ${params.id}"
+            flash.message = message(code:"membership.notFound",args:[params.id])
             redirect(action:list)
         }
         else {
@@ -90,7 +90,7 @@ class MembershipController {
 	        if(membershipInstance) {
 	            membershipInstance.properties = params
 	            if(!membershipInstance.hasErrors() && membershipInstance.save()) {
-	                flash.message = "Membership ${params.id} updated"
+	                flash.message = message(code:"membership.updated",args:[params.id])
 	                redirect(action:show,id:membershipInstance.id)
 	            }
 	            else {
@@ -98,7 +98,7 @@ class MembershipController {
 	            }
 	        }
 	        else {
-	            flash.message = "Membership not found with id ${params.id}"
+	            flash.message = message(code:"membership.notFound",args:[params.id])
 	            redirect(action:list)
 	        }
 		/**}else {
@@ -121,16 +121,16 @@ class MembershipController {
         if(!membershipInstance) {
          	def newMembershipInstance = securityService.createMembership(params.username,params.groupName.toUpperCase(),params.role)
 			if(newMembershipInstance){
-				flash.message = "Membership ${newMembershipInstance.id} created"
+				flash.message = message(code:"membership.created",args:[newMembershipInstance.id])
 	            redirect(action:show,id:newMembershipInstance.id)
 			}else{
-				flash.message = "Membership not created"
+				flash.message = message(code:"membership.notCreated")
 	            redirect(action:create)
 			}
 		}
         else {
 			log.debug "$params.username already exists as a $params.role in $params.groupName"
-			flash.error = "$params.username already exists as a $params.role in $params.groupName"
+			flash.error = message(code:"membership.alreadyExists",args:[params.username,params.role,params.groupName])
             render(view:'create')
         }
     }

@@ -39,6 +39,8 @@ Ant.sequential {
     	fileset(dir: "${pluginBasedir}/web-app/visualizations")
 	}
 
+	copy(file: "${pluginBasedir}/grails-app/conf/GcoreConfig", todir: "${basedir}/grails-app/conf", overwrite: true) 
+	
 }
 
 event("StatusFinal", ["Installed gcore resources"])
