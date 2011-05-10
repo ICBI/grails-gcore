@@ -180,7 +180,7 @@ class RegistrationController {
 								return
 							}catch(BadCredentialsException bce){
 								log.debug bce
-								flash.error = message(code: "registration.netIdError", code: [g.appTitle()])
+								flash.error = message(code: "registration.netIdError", args: [g.appTitle()])
 								redirect(action:'index')
 								return
 							}
