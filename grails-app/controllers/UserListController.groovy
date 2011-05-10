@@ -22,7 +22,20 @@ class UserListController {
 		log.debug params
 		def lists = []
 		//removed : 1:"-1 day",7:"-1 week",
-		def timePeriods = [hideShared:"Show my Lists",search:"Search my lists",my_gene:"-my gene lists",my_reporter:"-my reporter lists",my_patient:"-my patient lists",30:"-past 30 days",90:"-past 90 days",180:"-past 6 months",all:"Show all Lists (includes shared lists)",gene:"-gene lists",reporter:"-reporter list",patient:"-patient",onlyShared:"Show only shared"]
+		def timePeriods = [
+			hideShared: message(code:"userList.filterMy"),
+			search: message(code:"userList.searchMy"),
+			my_gene: message(code:"userList.filterGene"),
+			my_reporter: message(code:"userList.filterReporter"),
+			my_patient: message(code:"userList.filterPatient"),
+			30: message(code:"userList.filter30"),
+			90: message(code:"userList.filter90"),
+			180: message(code:"userList.filter6months"),
+			all: message(code:"userList.filterAll"),
+			gene: message(code:"userList.filterAllGene"),
+			reporter: message(code:"userList.filterAllReporter"),
+			patient: message(code:"userList.filterAllPatient"),
+			onlyShared: message(code:"userList.filterShared")]
 		def filteredLists = []
 		def searchTerm = params.searchTerm
 		def pagedLists = []
@@ -171,13 +184,13 @@ class UserListController {
 			}
 			if(listDup) {
 				log.debug "List did  not save, $listName already exists as a list"
-				flash.error = "List did  not save, $listName already exists in your lists"
+				flash.error = message(code: "userList.listDidNotSave", args: [listName])
 				redirect(action:list)
 				return
 			}
 			if(!userListService.validListName(listName)){
 				log.debug "List did  not save, invalid characters were found in name, $listName"
-				flash.error = "List did not save, invalid characters were found in name, $listName or list name is blank. Please try again."
+				flash.error = message(code: "userList.invalidChar", args: [listName])
 				redirect(action:list)
 				return
 			}
@@ -199,17 +212,17 @@ class UserListController {
 					return
 			}
 			if(userListInstance){
-				flash.message = "UserList ${listName} created"
+				flash.message = message(code: "userList.created", args: [listName])
 				session.listFilter = "hideShared"
 				session.results = null
 				redirect(action:list)
 			}else{
-				flash.error = "List not created. No items found"
+				flash.error = message(code: "userList.notCreated")
 				redirect(action:list)
 			}
 		}else{
 			log.debug "no lists have been selected"
-			flash.error = "no lists have been selected"
+			flash.error = message(code: "userList.noSelected")
 			redirect(action:list)
 		}
 	}
@@ -239,16 +252,16 @@ class UserListController {
 			        if(userListInstance) {
 			            if(userListInstance.evidence){
 							log.debug "could not delete " + userListInstance + ", this link represents a piece of evidence in a G-DOC finding"
-							message += " $userListInstance.name could not be deleted because it represents a piece of evidence in a G-DOC finding."
+							message += message(code: "userList.finding", args: [userListInstance.name, g.appTitle()])
 						}
 						else if(userListInstance.author.username != session.userId){
 							log.debug "did not delete " + userListInstance + ", you are not the author."
-							message += "did not delete $userListInstance.id , you are not the author."
+							message += message(code: "userList.notAuthor", args: [userListInstance.id])
 						}
 						else{
 			            	userListService.deleteList(userListInstance.id)
 							log.debug "deleted " + userListInstance
-							message += " $userListInstance.name has been deleted."
+							message += message(code: "userList.deleted", args:[userListInstance.name])
 						}
 					}
 				}
@@ -257,16 +270,16 @@ class UserListController {
 		        if(userListInstance) {
 					if(userListInstance.evidence){
 						log.debug "could not delete " + userListInstance + ", this link represents a piece of evidence in a G-DOC finding"
-						message = "$userListInstance.name could not be deleted because it represents a piece of evidence in a G-DOC finding."
+						message = message(code: "userList.finding", args: [userListInstance.name, g.appTitle()])
 					}
 					else if(userListInstance.author.username != session.userId){
 						log.debug "did not delete " + userListInstance + ", you are not the author."
-						message += "did not delete $userListInstance.id , you are not the author."
+						message += message(code: "userList.notAuthor", args: [userListInstance.id])
 					}
 					else{
 		            	userListService.deleteList(userListInstance.id)
 						log.debug "deleted " + userListInstance
-						message = "$userListInstance.name has been deleted."
+						message = message(code: "userList.deleted", args:[userListInstance.name])
 					}
 				}
 			}
@@ -274,7 +287,7 @@ class UserListController {
 			redirect(action:list)
 			return
 		}else{
-			flash.message = "No user list(s) have been selected for deletion"
+			flash.message = message(code: "userList.noSelectionDelete")
 			redirect(action:list)
 			return
 		}
@@ -293,7 +306,7 @@ class UserListController {
 				render(template:"/userList/userListDiv",model:[ userListInstance: list, listItems:list.listItems ], plugin: "gcore")
 			}
 			else {
-	            flash.message = "UserList item not found with id ${params.id} or you are not the author"
+	            flash.message = message(code: "userList.notFound", args: [params.id])
 				redirect(action:list)
 	        }
         }
@@ -312,7 +325,7 @@ class UserListController {
 			render(template:"/userList/userListDiv",model:[ userListInstance: userListInstance, listItems:listItems, metadata:metadata], plugin: "gcore")
         }
         else {
-            flash.message = "UserList not found with id ${params.id}"
+            flash.message = message(code: "userList.notFound2", args: [params.id])
 			redirect(action:list)
         }
     }
@@ -330,11 +343,11 @@ class UserListController {
 			it.name == params["name"]
 		}
 		if(listDup) {
-			render "List $params.name already exists. Please choose different name and try again."
+			render message(code: "userList.exists", args: [params.name])
 			return
 		}
 		if(!userListService.validListName(params["name"])){
-			render "List did  not save, invalid characters were found in name, $params.name. Please try again."
+			render message(code: "userList.invalidChar", args: [params.name])
 			return
 		}
 		log.debug "save list"
@@ -367,7 +380,7 @@ class UserListController {
 				}
 			}
 			if(ids.size() > MAX_LIST_SIZE) {
-				render "List cannot be larger than ${MAX_LIST_SIZE} items. Please select a subset and try again."
+				render message(code: "userList.maxSize", args: [MAX_LIST_SIZE])
 				return
 			}
 		} else if(params['ids']){
@@ -406,10 +419,10 @@ class UserListController {
 		}
 		def userListInstance = userListService.createList(session.userId, params.name, ids, [StudyContext.getStudy()], tags)
         if(userListInstance){
-			render "$params.name created succesfully"
+			render message(code: "userList.success", args: [params.name])
 		}
 		else {
-				render "Error creating $params.name list"
+			render message(code: "userList.error", args: [params.name])
         }
     }
 
@@ -425,11 +438,11 @@ class UserListController {
 			it.name == params["name"]
 		}
 		if(listDup) {
-			render "List $params.name already exists"
+			render message(code: "userList.exists", args: [params.name])
 			return
 		}
 		if(!userListService.validListName(params["name"])){
-			render "List did  not save, invalid characters were found in name, $params.name. Please try again."
+			render  message(code: "userList.invalidChar", args: [params.name])
 			return
 		}
 		def ids = new HashSet();
@@ -459,9 +472,9 @@ class UserListController {
 		}
 		def userListInstance = userListService.createList(session.userId, params.name, ids, studies , tags)
         if(userListInstance) {
-				render "$params.name created succesfully"
+				render message(code: "userList.success", args: [params.name])
         } else {
-				render "Error creating $params.name list"
+				render message(code: "userList.error", args: [params.name])
         }
 	}
 
@@ -473,16 +486,16 @@ class UserListController {
 			}
 		}
 		if(ids.size() > MAX_LIST_SIZE) {
-			flash.message = "List cannot be larger than ${MAX_LIST_SIZE} items."
+			flash.message = message(code: "userList.maxSize2", args: [MAX_LIST_SIZE])
 			return
 		}
 		if(!userListService.validListName(params["name"])){
-			render "List did  not save, invalid characters were found in name, $params.name. Please try again."
+			render  message(code: "userList.invalidChar", args: [params.name])
 			return
 		}
 		def userListInstance = userListService.createList(session.userId, params.name, ids, [StudyContext.getStudy()], [])
 		 if(userListInstance) {
-			flash.message = "UserList ${userListInstance.name} created"
+			flash.message = message(code: "userList.success", args: [params.name])
 	            	redirect(action:show,id:userListInstance.id)
 	        }
 	        else {
@@ -515,18 +528,18 @@ class UserListController {
 			}
 			if(listDup) {
 				log.debug "List not saved. $params.newNameValue already exists"
-				message = "List not saved. $params.newNameValue already exists."
+				message = message(code: "userList.rename", args: [params.newNameValue])
 				render("<span class='errorDetail'>"+message+"</span")
 			}
 			else if(!userListService.validListName(params.newNameValue) || params.newNameValue.trim()==""){
 				log.debug "List $params.newNameValue contains invalid characters"
-				message = "List did not save because invalid characters found in $params.newNameValue. or name is blank. Please try again."
+				message = message(code: "userList.renameError", args: [params.newNameValue])
 				render("<span class='errorDetail'>"+message+"</span")	
 			}else{
 				def userListInstance = UserList.get( params.id )
 				userListInstance.name = params.newNameValue
 				if(userListInstance.save()){
-					message = "updated list $params.id to $params.newNameValue"
+					message = message(code: "userList.updated", args: [params.id, params.newNameValue])
 					render(message)
 				}
 			}
@@ -538,13 +551,13 @@ class UserListController {
 		//TODO: Validate list
 		if(!params.listName){
 			log.debug "List needs to be named"
-			flash["message"]= "please name this list"
+			flash["message"]= message(code: "userList.pleaseName")
 			redirect(action:upload,params:[failure:true])
 			return
 		}
 		if(!request.getFile("file").inputStream.text){
 			log.debug "List needs a file associated with it"
-			flash["message"]= "please select a file to be uploaded and verify the file contains data"
+			flash["message"]= message(code: "userList.selectFile")
 			redirect(action:upload,params:[failure:true])
 			return
 		}
@@ -557,7 +570,7 @@ class UserListController {
 			}
 			if(request.getFile("file").getOriginalFilename().lastIndexOf(".txt") == -1){
 				log.debug "List $params.listName needs to be formatted as plain-text .txt file"
-				flash["message"]= "List $params.listName needs to be formatted as plain-text .txt file"
+				flash["message"]= message(code: "userList.textFile", args: [params.listName])
 				redirect(action:upload,params:[failure:true])
 				return
 			}
@@ -565,12 +578,12 @@ class UserListController {
 			
 			if(listDup) {
 				log.debug "List $params.listName already exists"
-				flash["error"]= "List $params.listName already exists"
+				flash["error"]= message(code: "userList.exists", args: [params.listName])
 				redirect(action:upload,params:[failure:true])
 				return
 			}else if(!userListService.validListName(params["listName"])){
 				log.debug "List $params.listName contains invalid characters"
-				flash["error"]= "List did not save because invalid characters found in $params.listName. Please try again."
+				flash["error"]= message(code: "userList.invalidChar", args: [params.listName])
 				redirect(action:upload,params:[failure:true])
 				return
 			}else{
@@ -595,19 +608,19 @@ class UserListController {
 					return
 				}
 				if(userList.listItems?.size() > MAX_LIST_SIZE) {
-					flash.error = "List cannot be larger than ${MAX_LIST_SIZE} items."
+					flash.error = message(code: "userList.maxSize2", args: [MAX_LIST_SIZE])
 					redirect(action:upload,params:[failure:true])
 					return
 				}
 	        	if(!userList.hasErrors() && userList.save()) {
 
 						userList.addTag(params["listType"])
-						flash["message"] = "$params.listName uploaded succesfully"
+						flash["message"] = message(code: "userList.uploadSuccess", args: [params.listName])
 						redirect(action:upload,params:[success:true])
 						return
 
 		        } else {
-					flash["error"] =  "Error uploading $params.listName list"
+					flash["error"] =  message(code: "userList.errorUpload", args: [params.listName])
 					redirect(action:upload,params:[failure:true])
 					return
 		        }
