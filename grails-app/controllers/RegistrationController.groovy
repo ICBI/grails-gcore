@@ -14,9 +14,14 @@ class RegistrationController {
 	RecaptchaService recaptchaService
 	
     def index = {
-		def categoryList = ["Public User","Georgetown User"]
-		def departmentList = ["Oncology","Pathology","Radiation Medicine","Biostatistics","Bioinformatics",
-		"Biomathmatics","Student"]
+		def categoryList = [message(code: "registration.publicUser"), message(code: "registration.georgetownUser")]
+		def departmentList = [message(code: "registration.oncology"), 
+							  message(code: "registration.pathology"),
+							  message(code: "registraion.radiation"),
+							  message(code: "registration.biostatistics"),
+							  message(code: "registration.bioinformatics"),
+							  message(code: "registration.biomathmatics"),
+							  message(code: "registration.student")]
 		[departmentList:departmentList,categoryList:categoryList]
 	}
 	
@@ -52,7 +57,7 @@ class RegistrationController {
 				def recaptchaOK = true
 				if (!recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)) {
 				    recaptchaOK = false
-					flash.error = "incorrect code verification"
+					flash.error = message(code: "registration.incorrect")
 					log.debug "incorrect code verification"
 					redirect(action:'passwordReset')
 					return
@@ -61,7 +66,7 @@ class RegistrationController {
 				def existingUser = GDOCUser.findByUsername(cmd.userId)
 				if(!existingUser){
 					log.debug cmd.userId + " user was not found in the G-DOC system."
-					flash.error = cmd.userId + " user was not found in the G-DOC system."
+					flash.error = message(code: "registration.userNotFound", args: [cmd.userId])
 					redirect(action:'passwordReset')
 					return
 				}else{
@@ -73,14 +78,14 @@ class RegistrationController {
 						mailService.sendMail {
 						   to "$existingUser.email"
 						   from "gdoc-help@georgetown.edu"
-						   subject "Reset your G-DOC password"
-						   body 'Hello '+ cmd.userId + ',\nYou can reset your G-DOC account password by clicking this link (or pasting into browser url window): \n'+ resetUrl + '. \n\nIf you did not make this request, please notify gdoc-help@georgetown.edu via email. \nThanks, \nThe G-DOC team'
+						   subject message(code: "registration.subject", args: [g.appTitle()])
+						   body  message(code: "registration.body", args: [cmd.userId, g.appTitle(), resetUrl])
 						}
-						flash.message = cmd.userId + " Thanks for your request, you will receive instructions to complete a password reset for your account"
+						flash.message = message(code: "registration.thanks", args: [cmd.userId])
 						redirect(action:'confirmation')
 						return
 					}else{
-						flash.message = cmd.userId + " no email address was listed in you account, please contact gdoc-help@georgetown.edu for further assistance."
+						flash.message = message(code: "registration.noEmail", args: [cmd.userId])
 						redirect(action:'confirmation')
 						return
 					}
@@ -101,7 +106,7 @@ class RegistrationController {
 				def recaptchaOK = true
 				if (!recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)) {
 				    recaptchaOK = false
-					flash.error = "incorrect code verification"
+					flash.error = message(code: "registration.incorrect")
 					log.debug "incorrect code verification"
 					redirect(action:'index')
 					return
@@ -110,7 +115,7 @@ class RegistrationController {
 				def existingUser = GDOCUser.findByUsername(cmd.userId)
 				if(existingUser){
 					log.debug cmd.userId + " already exists as a user in the G-DOC system."
-					flash.error = cmd.userId + " already exists as a user in the G-DOC system."
+					flash.error = message(code: "registration.exists", args: [cmd.userId, g.appTitle()])
 					redirect(action:'index')
 					return
 				}else{
@@ -122,10 +127,10 @@ class RegistrationController {
 					mailService.sendMail {
 					   to "$cmd.userId"
 					   from "gdoc-help@georgetown.edu"
-					   subject "Your G-DOC access: activate now!"
-					   body 'Hello '+ cmd.userId + ', \nYou can activate your G-DOC account by clicking this link (or pasting into browser url window):\n'+ activateUrl + '. \n\nIf you did not make this request, please notify gdoc-help@georgetown.edu via email. \nThanks, \nThe G-DOC team'
+					   subject message(code: "registration.activate", args: [g.appTitle()])
+					   body message(code: "registration.activationBody", args: [cmd.userId, g.appTitle(), activateUrl])
 					}
-					flash.message = cmd.userId + " Thanks for your request, you will receive instructions to complete activation of your account"
+					flash.message = message(code: "registration.activationThanks", args: [cmd.userId])
 					redirect(action:'confirmation')
 					return
 				}
@@ -152,7 +157,7 @@ class RegistrationController {
 			def existingUser = GDOCUser.findByUsername(cmd.netId)
 			if(existingUser){
 				log.debug cmd.netId + " already exists as a user in the system. Use Net-Id credentials to login above"
-				flash.error = cmd.netId + " already exists as a user in the system. Use Net-Id credentials to login above"
+				flash.error = message(code: "registration.netIdExists", args: [cmd.netId])
 				redirect(action:'index')
 				return
 			}else{
@@ -175,20 +180,20 @@ class RegistrationController {
 								return
 							}catch(BadCredentialsException bce){
 								log.debug bce
-								flash.error = "There was an error adding the user to G-DOC. Please verify your Net-ID credential with the Georgetown University Administration"
+								flash.error = message(code: "registration.netIdError", code: [g.appTitle()])
 								redirect(action:'index')
 								return
 							}
 							
 					}else{
 						log.debug "user has NET ID, but missing a required field (username, firstName or lastName)"
-						flash.error = "There was a system error adding the user to G-DOC. The user may be missing a first and/or last name in the system."
+						flash.error = message(code: "registration.netIdName", args: [g.appTitle()])
 						redirect(action:'index')
 						return
 					}
 				}else{
 					log.debug cmd.netId + " is an invalid Net-Id. Contact Georgetown University Administration to obtain Net-Id."
-					flash.error = cmd.netId + " is an invalid Net-Id. Contact Georgetown University Administration to obtain Net-Id."
+					flash.error = message(code: "registration.invalidNetId", args: [cmd.netId])
 					redirect(action:'index')
 					return
 				}
