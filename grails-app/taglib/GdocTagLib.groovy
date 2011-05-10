@@ -94,10 +94,13 @@ class GdocTagLib {
 		out << grailsApplication.metadata['app.name']
 	}
 	
-	def appTitle = {
-		if(CH.config.appTitle)
-			out << CH.config.appTitle
-		else 
+	def appTitle = { attrs ->
+		if(CH.config.appTitle) {
+			if(attrs.noHtml)
+				out << CH.config.appTitle.replace("&reg;", "")
+			else 
+				out << CH.config.appTitle
+		} else 
 			out << grailsApplication.metadata['app.name']
 	}
 	

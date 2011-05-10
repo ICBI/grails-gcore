@@ -78,8 +78,8 @@ class RegistrationController {
 						mailService.sendMail {
 						   to "$existingUser.email"
 						   from "gdoc-help@georgetown.edu"
-						   subject message(code: "registration.subject", args: [g.appTitle()])
-						   body  message(code: "registration.body", args: [cmd.userId, g.appTitle(), resetUrl])
+						   subject message(code: "registration.subject", args: [g.appTitle(noHtml:true)])
+						   body  message(code: "registration.body", args: [cmd.userId, g.appTitle(noHtml:true), resetUrl])
 						}
 						flash.message = message(code: "registration.thanks", args: [cmd.userId])
 						redirect(action:'confirmation')
@@ -127,8 +127,8 @@ class RegistrationController {
 					mailService.sendMail {
 					   to "$cmd.userId"
 					   from "gdoc-help@georgetown.edu"
-					   subject message(code: "registration.activate", args: [g.appTitle()])
-					   body message(code: "registration.activationBody", args: [cmd.userId, g.appTitle(), activateUrl])
+					   subject message(code: "registration.activate", args: [g.appTitle(noHtml:true)])
+					   body message(code: "registration.activationBody", args: [cmd.userId, g.appTitle(noHtml:true), activateUrl])
 					}
 					flash.message = message(code: "registration.activationThanks", args: [cmd.userId])
 					redirect(action:'confirmation')
