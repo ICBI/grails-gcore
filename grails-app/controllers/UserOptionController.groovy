@@ -16,7 +16,7 @@ class UserOptionController {
         def userOptionInstance = UserOption.get( params.id )
 
         if(!userOptionInstance) {
-            flash.message = "UserOption not found with id ${params.id}"
+            flash.message = message(code: "userOption.notFound", args: [params.id])
             redirect(action:list)
         }
         else { return [ userOptionInstance : userOptionInstance ] }
@@ -27,16 +27,16 @@ class UserOptionController {
         if(userOptionInstance) {
             try {
                 userOptionInstance.delete(flush:true)
-                flash.message = "UserOption ${params.id} deleted"
+                flash.message = message(code: "userOption.deleted", args: [params.id])
                 redirect(action:list)
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "UserOption ${params.id} could not be deleted"
+                flash.message = message(code: "userOption.notDeleted", args: [params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "UserOption not found with id ${params.id}"
+            flash.message = message(code: "userOption.notFound", args: [params.id])
             redirect(action:list)
         }
     }
@@ -45,7 +45,7 @@ class UserOptionController {
         def userOptionInstance = UserOption.get( params.id )
 
         if(!userOptionInstance) {
-            flash.message = "UserOption not found with id ${params.id}"
+            flash.message = message(code: "userOption.notFound", args: [params.id])
             redirect(action:list)
         }
         else {
@@ -67,7 +67,7 @@ class UserOptionController {
             }
             userOptionInstance.properties = params
             if(!userOptionInstance.hasErrors() && userOptionInstance.save()) {
-                flash.message = "UserOption ${params.id} updated"
+                flash.message = message(code: "userOption.updated", args: [params.id])
                 redirect(action:show,id:userOptionInstance.id)
             }
             else {
@@ -75,7 +75,7 @@ class UserOptionController {
             }
         }
         else {
-            flash.message = "UserOption not found with id ${params.id}"
+            flash.message = message(code: "userOption.notFound", args: [params.id])
             redirect(action:list)
         }
     }
@@ -89,7 +89,7 @@ class UserOptionController {
     def save = {
         def userOptionInstance = new UserOption(params)
         if(!userOptionInstance.hasErrors() && userOptionInstance.save()) {
-            flash.message = "UserOption ${userOptionInstance.id} created"
+            flash.message = message(code: "userOption.created", args: [userOptionInstance.id])
             redirect(action:show,id:userOptionInstance.id)
         }
         else {
