@@ -16,7 +16,7 @@ class RoleController {
         def roleInstance = Role.get( params.id )
 
         if(!roleInstance) {
-            flash.message = "Role not found with id ${params.id}"
+            flash.message = message(code: "role.notFound", args: [params.id])
             redirect(action:list)
         }
         else { return [ roleInstance : roleInstance ] }
@@ -27,16 +27,16 @@ class RoleController {
         if(roleInstance) {
             try {
                 roleInstance.delete(flush:true)
-                flash.message = "Role ${params.id} deleted"
+                flash.message = message(code: "role.deleted", args: [params.id])
                 redirect(action:list)
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "Role ${params.id} could not be deleted"
+                flash.message = message(code: "role.notDeleted", args: [params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "Role not found with id ${params.id}"
+            flash.message = message(code: "role.notFound", args: [params.id])
             redirect(action:list)
         }
     }
@@ -45,7 +45,7 @@ class RoleController {
         def roleInstance = Role.get( params.id )
 
         if(!roleInstance) {
-            flash.message = "Role not found with id ${params.id}"
+            flash.message = message(code: "role.notFound", args: [params.id])
             redirect(action:list)
         }
         else {
@@ -67,7 +67,7 @@ class RoleController {
             }
             roleInstance.properties = params
             if(!roleInstance.hasErrors() && roleInstance.save()) {
-                flash.message = "Role ${params.id} updated"
+                flash.message = message(code: "role.updated", args: [params.id])
                 redirect(action:show,id:roleInstance.id)
             }
             else {
@@ -75,7 +75,7 @@ class RoleController {
             }
         }
         else {
-            flash.message = "Role not found with id ${params.id}"
+            flash.message = message(code: "role.notFound", args: [params.id])
             redirect(action:list)
         }
     }
@@ -89,7 +89,7 @@ class RoleController {
     def save = {
         def roleInstance = new Role(params)
         if(!roleInstance.hasErrors() && roleInstance.save()) {
-            flash.message = "Role ${roleInstance.id} created"
+            flash.message = message(code: "role.created", args: [roleInstance.id])
             redirect(action:show,id:roleInstance.id)
         }
         else {
