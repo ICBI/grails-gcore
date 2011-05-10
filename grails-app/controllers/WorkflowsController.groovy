@@ -69,15 +69,12 @@ class WorkflowsController {
 			if(lastLogin){
 				def formattedDate = lastLogin.format('EEE MMM d, yyyy')
 				log.debug "users last login was $formattedDate"
-				flash.message =  "Welcome back, your last login was $formattedDate. You can check if you have been granted access to new <a href='/${appName()}/userList?listFilter=all'>lists</a> or <a href='/${appName()}/savedAnalysis?analysisFilter=all'>analyses</a> since your last login"
+				flash.message =  message(code: "workflows.welcomeBack", args: [formattedDate, g.appName()])
 				
 			}
 			if(params.firstLogin){
 				log.debug "this is the user's first login"
-				flash.message = "Welcome ... your account has been created in G-DOC! " +  
-				"Your current permissions allow you to view public data sets. Once logged in you may gain access to " +
-				"other data sets requesting " + 
-				"access to the study group via the 'Collaboration Groups' page."
+				flash.message = message(code: "workflows.firstLogin", args: [g.appName()])
 			}
 			
 			session.profileLoaded = true
