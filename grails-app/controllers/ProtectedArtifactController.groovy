@@ -19,7 +19,7 @@ class ProtectedArtifactController {
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
 		
         if(!protectedArtifactInstance) {
-            flash.message = "ProtectedArtifact not found with id ${params.id}"
+            flash.message = message(code:"protectedArtifact.notFound", args: [params.id])
             redirect(action:list)
         }
         else { 
@@ -44,16 +44,16 @@ class ProtectedArtifactController {
         if(protectedArtifactInstance) {
             try {
                 protectedArtifactInstance.delete(flush:true)
-                flash.message = "ProtectedArtifact ${params.id} deleted"
+                flash.message = message(code: "protectedArtifact.deleted", args: [params.id])
                 redirect(action:list)
             }
             catch(org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "ProtectedArtifact ${params.id} could not be deleted"
+                flash.message = message(code: "protectedArtifact.notDeleted", args: [params.id])
                 redirect(action:show,id:params.id)
             }
         }
         else {
-            flash.message = "ProtectedArtifact not found with id ${params.id}"
+            flash.message = message(code: "protectedArtifact.notFound", args: [params.id])
             redirect(action:list)
         }
     }
@@ -61,7 +61,7 @@ class ProtectedArtifactController {
     def edit = {
         def protectedArtifactInstance = ProtectedArtifact.get( params.id )
         if(!protectedArtifactInstance) {
-            flash.message = "ProtectedArtifact not found with id ${params.id}"
+            flash.message = message(code: "protectedArtifact.notFound", args: [params.id])
             redirect(action:list)
         }
         else {
@@ -123,7 +123,7 @@ class ProtectedArtifactController {
             protectedArtifactInstance.properties = params
 			protectedArtifactInstance.validate()
             if(!protectedArtifactInstance.hasErrors() && protectedArtifactInstance.save()) {
-                flash.message = "ProtectedArtifact ${params.id} updated"
+                flash.message = message(code: "protectedArtifact.updated", args: [params.id])
                 redirect(action:show,id:protectedArtifactInstance.id)
             }
             else {
@@ -131,7 +131,7 @@ class ProtectedArtifactController {
             }
         }
         else {
-            flash.message = "ProtectedArtifact not found with id ${params.id}"
+            flash.message = message(code: "protectedArtifact.notFound", args: [params.id])
             redirect(action:list)
         }
     }
@@ -146,7 +146,7 @@ class ProtectedArtifactController {
         def protectedArtifactInstance = new ProtectedArtifact(params)
 		protectedArtifactInstance.validate()
         if(!protectedArtifactInstance.hasErrors() && protectedArtifactInstance.save()) {
-            flash.message = "ProtectedArtifact ${protectedArtifactInstance.id} created"
+            flash.message = message(code: "protectedArtifact.created", args: [protectedArtifactInstance.id])
             redirect(action:show,id:protectedArtifactInstance.id)
         }
         else {
