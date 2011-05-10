@@ -8,7 +8,12 @@ class SavedAnalysisController{
 	
 	def index = {
 		def myAnalyses = []
-		def timePeriods = [30:"past 30 days",90:"past 90 days",180:"past 6 months",hideShared:"Show just MY analyses",all:"Show ALL (include shared analyses)"]
+		def timePeriods = [
+			30: message(code: "gcore.filter30"), 
+			90: message(code: "gcore.filter90"), 
+			180: message(code: "gcore.filter6months"),
+			hideShared: message(code: "gcore.filterMyAnalysis"),
+			all: message(code: "gcore.filterAllAnalysis")]
 		def pagedAnalyses = [:]
 		
 		if(params.analysisFilter){
@@ -56,16 +61,16 @@ class SavedAnalysisController{
 			        if(analysis) {
 			            if(analysis.evidence){
 							log.debug "could not delete " + analysis + ", this link represents a piece of evidence in a G-DOC finding"
-							message += "analysis $analysis.id could not be deleted because represented as a piece of evidence in a G-DOC finding."
+							message += message(code: "savedAnalysis.finding", args: [analysis.id, g.appTitle()])
 						}
 						else if(analysis.author.username != session.userId){
 							log.debug "did not delete " + analysis + ", you are not the author."
-							message += "did not delete $analysis.id , you are not the author."
+							message += message(code: "savedAnalysis.noDelete", args: [analysis.id])
 						}
 						else{
 			            	savedAnalysisService.deleteAnalysis(analysis.id)
 							log.debug "deleted " + analysis
-							message += "analysis $analysis.id has been deleted."
+							message += message(code: "savedAnalysis.deleted", args: [analysis.id])
 						}
 					}
 				}
@@ -74,15 +79,15 @@ class SavedAnalysisController{
 		        if(analysis) {
 		             if(analysis.evidence){
 							log.debug "could not delete " + analysis + ", this link represents a piece of evidence in a G-DOC finding"
-							message += "analysis $analysis.id could not be deleted because represented as a piece of evidence in a G-DOC finding."
+							message += message(code: "savedAnalysis.finding", args: [analysis.id, g.appTitle()])
 						}
 						else if(analysis.author.username != session.userId){
 							log.debug "did not delete " + analysis + ", you are not the author."
-							message += "did not delete $analysis.id , you are not the author."
+							message += message(code: "savedAnalysis.noDelete", args: [analysis.id])
 						}
 						else{
 			            	savedAnalysisService.deleteAnalysis(analysis.id)
-							message += "analysis $analysis.id has been deleted."
+							message += message(code: "savedAnalysis.deleted", args: [analysis.id])
 						}
 				}
 			}
@@ -90,7 +95,7 @@ class SavedAnalysisController{
 			redirect(action:index)
 			return
 		}else{
-			flash.message = "No analyses have been selected for deletion"
+			flash.message = message(code: "savedAnalysis.noneSelected")
 			redirect(action:index)
 			return
 		}
@@ -106,15 +111,15 @@ class SavedAnalysisController{
 			log.debug ("THE COMMAND PARAMS:")
 				if(savedAnalysisService.saveAnalysisResult(session.userId, params.resultData,session.command,null)){
 					log.debug ("saved analysis")
-					savedAttempt["result"] = "Analysis Saved"
+					savedAttempt["result"] = message(code: "savedAnalysis.saved")
 					render savedAttempt as JSON		
 				} 	else{
-							savedAttempt["result"] = "Analysis not Saved -- may have already been saved."
+							savedAttempt["result"] = message(code: "savedAnalysis.notSaved")
 							log.debug savedAttempt
 							render savedAttempt as JSON
 					}
 			}else{
-					savedAttempt["result"] = "Analysis not Saved -- may have already been saved."
+					savedAttempt["result"] = message(code: "savedAnalysis.notSaved")
 					log.debug savedAttempt
 					render savedAttempt as JSON
 			}
