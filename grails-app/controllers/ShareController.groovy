@@ -74,13 +74,13 @@ def shareItem = {
 			}
 		}catch(SecurityException se){
 				log.error("error with sharing item", se)
-				flash['message'] = 'Sorry, there has been a problem sharing this item'
+				flash['message'] = message(code: "share.problem")
 				redirect(action:share,params:[success:false,groups:groups,name:params.name])
 		}
 	}
 	if(groups.isEmpty()){
 			log.debug "no item is to be shared"
-			flash['message'] = 'This item has already been shared with the following: '
+			flash['message'] = message(code: "share.alreadyShared")
 			for(int i=0;i<alreadySharedGroups.size();i++){
 				if((i+1)==alreadySharedGroups.size()){
 					flash.message+=alreadySharedGroups[i]
@@ -91,7 +91,7 @@ def shareItem = {
 			redirect(action:share,params:[failure:true,name:params.name])
 	}else{
 		log.debug "shared to groups: $groups"
-		flash.message = cmd.name + " has been shared with: "
+		flash.message = message(code: "share.with", args: [cmd.name])
 		for(int i=0;i<groups.size();i++){
 			if((i+1)==groups.size()){
 				flash.message+=groups[i]
