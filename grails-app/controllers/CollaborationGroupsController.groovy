@@ -126,13 +126,13 @@ class CollaborationGroupsController {
 			try{
 				if(!collaborationGroupService.validName(cmd.collaborationGroupName)){
 					log.debug "Group $cmd.collaborationGroupName contains invalid characters"
-					flash["error"]= "Group did not save because invalid characters found in $cmd.collaborationGroupName. Please try again."
+					flash["error"]= message(code:"collaborationGroup.invalidChars",args: [cmd.collaborationGroupName])
 					redirect(action:index)
 					return
 				}
 				def pg = securityService.createCollaborationGroup(session.userId, cmd.collaborationGroupName, cmd.description)
 				if(pg){
-					flash.message = cmd.collaborationGroupName + " has been created. To invite users, select the invite users tab."
+					flash.message = message(code:"collaborationGroups.created",args: [cmd.collaborationGroupName])
 					session.myCollaborationGroups << pg.name
 					if(session.managedMemberships)
 					 	session.managedMemberships << pg.name
@@ -145,7 +145,7 @@ class CollaborationGroupsController {
 				}
 			}catch(DuplicateCollaborationGroupException de){
 				log.debug "DUPLICATE! " + de
-				flash.message = cmd.collaborationGroupName + " already exists as a collaboration group."
+				flash.error =  message(code:"collaborationGroups.duplicate",args: [cmd.collaborationGroupName])
 				redirect(action:"index")
 			}
 		}
@@ -163,14 +163,14 @@ class CollaborationGroupsController {
 					if(manager && (manager.username == session.userId)){
 						if(securityService.deleteCollaborationGroup(session.userId,groupName)){
 							log.debug "collaboration group, $groupName has been deleted"
-							flash.message = "collaboration group, $groupName has been deleted"
+							flash.message =  message(code:"collaborationGroup.deleted",args: [groupName])
 							reloadMembershipAndStudyData()
 							redirect(action:index)
 							return
 						}
 						else{
 							log.debug "collaboration group, $groupName has NOT been deleted"
-							flash.error = "collaboration group, $groupName has NOT been deleted"
+							flash.error = message(code:"collaborationGroup.notDeleted",args: [groupName])
 							redirect(action:index)
 							return
 						}
@@ -208,7 +208,7 @@ class CollaborationGroupsController {
 			def usrs = []
 			if(cmd.users == 'allUsers'){
 				log.debug "$session.userId attempted to invite all users, return false"
-				flash.error = "You are not permitted to invite all users at one time to this group. No users added to group, please make a selection of 10 users or less."
+				flash.error = message(code:"collaborationGroup.inviteAllError")
 				redirect(uri:"/collaborationGroups/showUsers")
 				return;
 			}
@@ -216,13 +216,13 @@ class CollaborationGroupsController {
 				usrs = cmd.users.tokenize(",")
 				if(usrs.size() == 0 ){
 					log.debug "$session.userId attempted to invite 0 users, return false"
-					flash.error = "You must slect at least one user."
+					flash.error = message(code:"collaborationGroups.inviteOneError")
 					redirect(uri:"/collaborationGroups/showUsers")
 					return;
 				}
 				if(usrs.size() > 10){
 					log.debug "$session.userId attempted to invite more than 10 users, return false"
-					flash.error = "You are not permitted to invite more than 10 users at a time, to this group. No users added to group, please make a selection of 10 users or less."
+					flash.error = message(code:"collaborationGroups.inviteOverTenError")
 					redirect(uri:"/collaborationGroups/showUsers")
 					return;
 				}
@@ -243,7 +243,7 @@ class CollaborationGroupsController {
 						exUserString += u + " ,"
 					}
 					log.debug "$exUserString already exist(s) in the group" + cmd.collaborationGroupName 
-					flash.error = "$exUserString already exists in the " + cmd.collaborationGroupName  + " group. No users invited to group."
+					flash.error = message(code:"collaborationGroups.userAlreadyInGroup",args: [exUserString,cmd.collaborationGroupName])
 					redirect(uri:"/collaborationGroups/showUsers")
 					return;
 				}
@@ -255,7 +255,7 @@ class CollaborationGroupsController {
 						usernames.each{ u ->
 							inv = invitationService.findSimilarRequest(manager.username,u,cmd.collaborationGroupName)
 							if(inv){
-								flash.error = "A similar invitation exists for $u invited. No invitations sent... please try again."
+								flash.error = message(code:"collaborationGroups.similarInvite",args: [u,cmd.collaborationGroupName])
 								log.debug "A similar invitation exists for $u invited, do not send invites."
 								exists = true
 							}
@@ -264,10 +264,10 @@ class CollaborationGroupsController {
 							gdocUsers.each{ user ->
 								if(invitationService.requestAccess(manager.username,user.username,cmd.collaborationGroupName))
 								log.debug session.userId + " invited user $user.username to " + cmd.collaborationGroupName
-								flash.message = session.userId + " invited user(s) to " + cmd.collaborationGroupName
+								flash.message =  message(code:"collaborationGroups.inviteConfirmation",args: [session.userId,cmd.collaborationGroupName])
 								def managerName = buildUserNameForInvite(manager)
 								if(user.email){
-											def subject = "$managerName has invited you to join the group, $cmd.collaborationGroupName"
+											def subject = message(code:"collaborationGroups.inviteEmailSubject",args: [managerName,cmd.collaborationGroupName])
 											sendEmail(user,subject)
 											return
 								}
@@ -423,30 +423,29 @@ class CollaborationGroupsController {
 				def sessUser = GDOCUser.findByUsername(session.userId)
 				def userName = buildUserNameForInvite(sessUser)
 				if(manager.email){
-					def subject = "$userName has requested access to join your group, $params.collaborationGroupName"
-					def th = Thread.start {
-						sendEmail(manager,subject)
-					}
+					def subject = message(code:"collaborationGroups.requestEmailSubject",args: [userName,params.collaborationGroupName])
+					sendEmail(manager,subject)
 				}
-				flash.message = "An access request has been created to join the " + params.collaborationGroupName + " collaboration group."
+				flash.message = message(code:"collaborationGroups.requestEmailMessage",args: [params.collaborationGroupName])
 				redirect(action:"index")
 			}
 		}else{
-			flash.message = "No collaboration group specified. Try again."
+			flash.message = message(code:"collaborationGroups.noGroupSpecified")
 			redirect(action:"index")
 		}
 	}
 	
 	def sendEmail(sendTo,subjectText){
 		def baseUrl = CH.config.grails.serverURL
+		log.debug "my base is " + baseUrl
 		def token = sendTo.username + "||" + System.currentTimeMillis()
 		def collabUrl = baseUrl+"/${g.appName()}/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
-		log.debug collabUrl
+		//log.debug collabUrl
 		mailService.sendMail{
 			to sendTo.email
-			from "gdoc-help@georgetown.edu"
+			from appContactEmail()
 			subject "$subjectText"
-			body "To view this request, click this link  (or paste in a browser):\n"+collabUrl+"\n.*Note: This link will expire within 24 hours*"
+			body message(code:"collaborationGroups.emailBody",args:[collabUrl])
 		}
 		log.debug "email has been sent to $sendTo.email account"	
 	}
@@ -478,8 +477,7 @@ class CollaborationGroupsController {
 					log.debug "$user has been removed from " + cmd.collaborationGroupName 
 					delString += user + ", "
 				}
-				flash.message = delString + " has been marked for removal from " + cmd.collaborationGroupName + ". Subsequent logins will prevent user from accessing this group"
-				reloadMembershipAndStudyData()
+				flash.message = message(code:"collaborationGroups.deletedUsers",args:[delString, cmd.collaborationGroupName])
 				redirect(action:'index')
 			}
 			else{
@@ -494,9 +492,9 @@ class CollaborationGroupsController {
 	def grantAccess = { 
 		if(params.id && params.user && params.group){
 			if(invitationService.confirmAccess(session.userId, params.id))
-				flash.message = "$params.user user has been added to the $params.group"
+				flash.message = message(code:"collaborationGroups.userAdded",args:[params.user, params.group])
 			else
-				flash.message = "$params.user user has NOT been added to the $params.group"
+				flash.message =  message(code:"collaborationGroups.userNotAdded",args:[params.user, params.group])
 		}
 		reloadMembershipAndStudyData()
 		redirect(action:index)
@@ -507,9 +505,9 @@ class CollaborationGroupsController {
 		log.debug params.id
 		if(params.user && params.id && params.group){
 			if(invitationService.acceptAccess(params.user,params.id))
-				flash.message = "$params.user user has been added to the $params.group"
+				flash.message =  message(code:"collaborationGroups.userAdded",args:[params.user, params.group])
 			else
-				flash.message = "$params.user user has NOT been added to the $params.group"
+				flash.message =  message(code:"collaborationGroups.userNotAdded",args:[params.user, params.group])
 		}
 		reloadMembershipAndStudyData()
 		redirect(action:index)
@@ -520,9 +518,9 @@ class CollaborationGroupsController {
 		log.debug params.id
 		if(params.user && params.id && params.group){
 			if(invitationService.rejectAccess(params.id))
-				flash.message = "$params.user user will not be joining the $params.group group at this time"
+				flash.message =  message(code:"collaborationGroups.userRejected",args:[params.user, params.group])
 			else
-				flash.message = "$params.user user has NOT been rejected access to the $params.group"
+				flash.message = message(code:"collaborationGroups.userNotRejected",args:[params.user, params.group])
 		}
 		redirect(action:index)
 	}

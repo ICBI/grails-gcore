@@ -125,6 +125,13 @@ class GdocTagLib {
 			out << 'gcodeLogo.png'
 	}
 	
+	def appContactEmail ={
+		if(CH.config.appContactEmail)
+			out << CH.config.appContactEmail
+		else 
+			out << 'gdoc-help@georgetown.edu'
+	}
+	
 	def analysisView = { attrs ->
 		out << extensionService.getAnalysisView(attrs.type)
 	}
