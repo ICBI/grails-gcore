@@ -1,3 +1,7 @@
+import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
+import grails.util.GrailsUtil
+import org.codehaus.groovy.grails.commons.GrailsApplication
+
 //
 // This script is executed by Grails after plugin was installed to project.
 // This script is a Gant script so you can use all special variables provided
@@ -38,9 +42,33 @@ Ant.sequential {
 	copy(todir: "${basedir}/web-app/visualizations", overwrite: true) {
     	fileset(dir: "${pluginBasedir}/web-app/visualizations")
 	}
-
-	copy(file: "${pluginBasedir}/grails-app/conf/GcoreConfig", todir: "${basedir}/grails-app/conf", overwrite: true) 
 	
+	//config file
+	copy(file: "${pluginBasedir}/grails-app/conf/GcoreConfig.groovy", todir: "${basedir}/grails-app/conf/", overwrite: false) 
+	
+	
+	def file = new File("${basedir}/grails-app/conf/Config.groovy")
+	def appConfig = new ConfigSlurper().parse(file.toURL())
+	if(appConfig.grails.config.defaults.locations){
+		event("StatusUpdate", ["External default configuration already exists, skip config addition"])
+	}
+	else{
+		event("StatusUpdate", ["Adding configuration default setting"])
+		def configObj = new ConfigObject()
+		configObj.grails.config.defaults.locations = [ "classpath:conf/GcoreConfig.groovy", "file:"+"${basedir}/grails-app/conf/GcoreConfig.groovy"]
+
+		def tempFile=File.createTempFile('Tem', '.txt')
+		tempFile.withWriterAppend{ writer ->
+			configObj.writeTo(writer)
+		}
+		file.eachLine{
+			tempFile.append(it+"\n")
+		}
+		file.write("")
+		tempFile.eachLine{
+			file.append(it+"\n")
+		}
+	}
 }
 
 event("StatusFinal", ["Installed gcore resources"])
