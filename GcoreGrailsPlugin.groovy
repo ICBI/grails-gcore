@@ -44,7 +44,7 @@ Brief description of the plugin.
 
     def doWithSpring = {
 	
-		config = getConfiguration(parentCtx, application)
+		//config = getConfiguration(parentCtx, application)
 		
 		println "Configuring gcore ..."
 		
