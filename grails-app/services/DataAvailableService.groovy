@@ -17,7 +17,7 @@ class DataAvailableService implements InitializingBean {
 		if(studies){
 			studies.sort{it.shortName}
 		}
-		log.debug "sorted studies and getting snapshot for data for all $studies.size studies " + studies.collect{it.shortName}
+		log.debug "sorted studies and getting snapshot for data for all $studies.size studies " 
 		def vocabList = [:]
 		def attList = [""]
 		def results = []

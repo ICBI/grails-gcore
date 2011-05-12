@@ -564,6 +564,8 @@ class SecurityService{
 				}
 			}
 			def artifacts = []
+			if(!groups)
+				return []
 			def artifactHQL = "SELECT distinct artifact FROM ProtectedArtifact artifact JOIN artifact.groups groups " + 
 			"WHERE artifact.type = :type " + 
 			"AND groups IN (:groups) "
@@ -638,6 +640,8 @@ class SecurityService{
 				log.debug "grab studies"**/
 				def studies = []
 				studies = getStudyDetail(user,studyNames)//Study.executeQuery(studyHQL, [studyNames: studyNames])
+				if(!studies)
+					return accessibleIds
 				if(type == UserList.class.name){
 					def artifactHQL = "SELECT distinct list.id FROM UserList list JOIN list.studies studies " + 
 					"WHERE studies IN (:studies) "
