@@ -80,7 +80,7 @@
 
 							 <input name="q" id="q" type="text" value="" size="35"></input>
 
-							<input type="submit" value="search gdoc" />
+							<input type="submit" value="search ${appTitle()}" />
 							</g:form>
 							<span style="font-size:.8em;margin-top:8px;"><g:message code="workflows.finding"/><img class="info" title="${message(code: 'workflows.findingTip')}" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
 					 		<g:message code="workflows.searchText"/></span>
