@@ -3,7 +3,7 @@ class CommonAttributeType {
 	static mapping = {
 		table 'COMMON.ATTRIBUTE_TYPE'
 		version false
-		id column:'attribute_type_id', generator: 'sequence', params: [sequence: 'ATTRIBUTE_TYPE_SEQUENCE']
+		id column:'attribute_type_id', generator: 'native', params: [sequence: 'ATTRIBUTE_TYPE_SEQUENCE']
 		vocabs column: 'attribute_type_id'
 		value column: 'class'
 	}

@@ -2,9 +2,6 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import org.springframework.orm.hibernate3.SessionFactoryUtils
 import org.springframework.orm.hibernate3.SessionHolder
 import org.springframework.transaction.support.TransactionSynchronizationManager
-import gov.nih.nci.security.AuthenticationManager
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement
-import gov.nih.nci.security.SecurityServiceProvider
 import org.springframework.mock.jndi.SimpleNamingContextBuilder
 
 grailsHome = Ant.antProject.properties."env.GRAILS_HOME"

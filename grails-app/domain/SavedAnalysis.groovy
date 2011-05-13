@@ -48,7 +48,7 @@ class SavedAnalysis implements Taggable {
 	
 	public void setAnalysis(Object data) {
 		def temp
-		temp = data as AnalysisJSON
+		temp = data as JSON
 		this.@analysisData = temp
 	}
 	

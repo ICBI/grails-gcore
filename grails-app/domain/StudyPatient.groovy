@@ -3,7 +3,7 @@ class StudyPatient {
 	static mapping = {
 		table '__STUDY_SCHEMA__.PATIENT'
 		version false
-		id column: 'patient_id', generator: 'sequence', params: [sequence: 'PATIENT_SEQUENCE']
+		id column: 'patient_id', generator: 'native', params: [sequence: 'PATIENT_SEQUENCE']
 		values column:'patient_id'
 	}
 	

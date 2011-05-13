@@ -3,7 +3,7 @@ class Contact {
 	static mapping = {
 		table 'COMMON.CONTACT'
 		version false
-		id column:'contact_id', generator: 'sequence', params: [sequence: 'CONTACT_SEQUENCE']
+		id column:'contact_id', generator: 'native', params: [sequence: 'CONTACT_SEQUENCE']
 		firstName column: 'first_name'
 		lastName column: 'last_name'
 		//studies joinTable:[name:"data_source_contact", key:'contact_id', column:'data_source_id']

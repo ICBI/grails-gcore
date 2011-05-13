@@ -3,7 +3,7 @@ class Study {
 	static mapping = {
 		table 'COMMON.DATA_SOURCE'
 		version false
-		id column:'data_source_id', generator: 'sequence', params: [sequence: 'DATA_SOURCE_SEQUENCE']
+		id column:'data_source_id', generator: 'native', params: [sequence: 'DATA_SOURCE_SEQUENCE']
 		abstractText column: 'abstract'
 		pis joinTable: [name:'data_source_pis', key:'data_source_id', column:'contact_id']
 		pocs joinTable: [name:'data_source_pocs', key:'data_source_id', column:'contact_id']

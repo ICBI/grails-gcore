@@ -131,4 +131,34 @@ class CollaborationGroupService{
 		return additionNames
 	}
 	
+	def protectStudy(projectName, isPublic) {
+
+		def protectedArtifact = new ProtectedArtifact()
+		protectedArtifact.name =  projectName + "_DATA"
+		protectedArtifact.objectId = projectName
+		protectedArtifact.type = 'Study'
+		if(!protectedArtifact.save(flush:true)){
+			log.error "Error saving protected artifact " + protectedArtifact.errors
+		}
+		def groupToAdd
+		if(isPublic) {
+			log.info "Adding $projectName as a public study."
+			groupToAdd = CollaborationGroup.findByName("PUBLIC")
+
+		} else {
+			log.info "Adding $projectName as a private study."
+			groupToAdd = new CollaborationGroup()
+			groupToAdd.name = projectName + "_COLLAB"
+			groupToAdd.description = "Collaboration group for $projectName"
+			if(!groupToAdd.save()) {
+				log.error "Error creating collaboration group: ${groupToAdd.errors}"
+			}
+		}
+		groupToAdd.addToArtifacts(protectedArtifact)
+		if(!groupToAdd.save()) {
+			log.error "Error adding artifact to group: ${groupToAdd.errors}"
+		}
+
+	}
+	
 }

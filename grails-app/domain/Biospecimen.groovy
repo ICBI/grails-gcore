@@ -3,7 +3,7 @@ class Biospecimen {
 	static mapping = {
 		table '__STUDY_SCHEMA__.BIOSPECIMEN'
 		version false
-		id column:'biospecimen_id', generator: 'sequence', params: [sequence: '__STUDY_SCHEMA__.BIOSPECIMEN_SEQUENCE']
+		id column:'biospecimen_id', generator: 'native', params: [sequence: '__STUDY_SCHEMA__.BIOSPECIMEN_SEQUENCE']
 		type column: 'class'
 		patient column:'patient_id'
 		values column:'biospecimen_id'

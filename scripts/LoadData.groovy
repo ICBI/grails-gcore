@@ -2,9 +2,6 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import org.springframework.orm.hibernate3.SessionFactoryUtils
 import org.springframework.orm.hibernate3.SessionHolder
 import org.springframework.transaction.support.TransactionSynchronizationManager
-import gov.nih.nci.security.AuthenticationManager
-import gov.nih.nci.security.authorization.domainobjects.ProtectionElement
-import gov.nih.nci.security.SecurityServiceProvider
 import org.springframework.mock.jndi.SimpleNamingContextBuilder
 
 grailsHome = Ant.antProject.properties."env.GRAILS_HOME"
@@ -17,7 +14,6 @@ target(main: "Load data into the DB") {
 	// Load up grails contexts to be able to use GORM
 	loadApp()
 	configureApp()
-
 	println "Please specify a project name:"
 	def projectName = new InputStreamReader(System.in).readLine().toUpperCase()
 	def studyFile = new File("dataImport/${projectName}/${projectName}_study_table.txt")
@@ -34,17 +30,17 @@ target(main: "Load data into the DB") {
 	def isPublic = false
 	try {
 		println "Cleaning up schema...."
-		executeScript("sql/study_cleanup_template.sql", [projectName: projectName], true)
+		executeScript("${gcorePluginDir}/sql/study_cleanup_template.sql", [projectName: projectName], true)
 		println "Creating user ${projectName}...."
-		executeScript("sql/01_study_setup_template.sql", [projectName: projectName])
+		executeScript("${gcorePluginDir}/sql/01_study_setup_template.sql", [projectName: projectName])
 		println "Creating schema for project ${projectName}...."
-		executeScript("sql/02_study_schema_template.sql", [projectName: projectName])
+		executeScript("${gcorePluginDir}/sql/02_study_schema_template.sql", [projectName: projectName])
 
 		def sql = groovy.sql.Sql.newInstance(CH.config.dataSource.url, projectName,
 		                     "cur34c4nc3r", CH.config.dataSource.driverClassName)
 	
 		def engine = new groovy.text.SimpleTemplateEngine() 
-		def template = engine.createTemplate(new File("sql/03_study_grants_template.sql").text) 
+		def template = engine.createTemplate(new File("${gcorePluginDir}/sql/03_study_grants_template.sql").text) 
 	
 		Writable writable = template.make([projectName: projectName])
 		println "Adding grants for project ${projectName}...."
@@ -68,10 +64,8 @@ target(main: "Load data into the DB") {
 	def jmxService =  appCtx.getBean('jmxService')
 	jmxService.flushConnectionPool()
 	println "is public $isPublic"
-	if(isPublic) {
-		println "Adding $projectName as a public study."
-		addPublicStudy(projectName)
-	}
+	def collaborationGroupService =  appCtx.getBean('collaborationGroupService')
+	collaborationGroupService.protectStudy(projectName, isPublic)
 	println "Data loading for $projectName was successful"
 }
 
@@ -94,8 +88,6 @@ def loadStudyData(projectName) {
 	def studyDataSourceService = appCtx.getBean("studyDataSourceService")
 	def sessionFactory = appCtx.getBean("sessionFactory")
 
-	def session = sessionFactory.getCurrentSession()
-	def trans = session.beginTransaction()
 	def isPublic = false
 	try {
 		studyFile.eachLine { line, number ->
@@ -152,9 +144,7 @@ def loadStudyData(projectName) {
 				
 			}
 		}
-		trans.commit()
 	} catch (Exception e) {
-		trans.rollback()
 		throw e
 	}
 	return isPublic
@@ -167,8 +157,6 @@ def loadClinicalData(projectName) {
 	def sessionFactory = appCtx.getBean("sessionFactory")
 	def attributeService = appCtx.getBean("attributeService")
 
-	def session = sessionFactory.getCurrentSession()
-	def trans = session.beginTransaction()
 	try {
 		def attributes = []
 		clinicalTypes.eachLine { line, number ->
@@ -217,9 +205,7 @@ def loadClinicalData(projectName) {
 			}
 		}
 		
-		trans.commit()
 	} catch (Exception e) {
-		trans.rollback()
 		throw e
 	}
 }
@@ -230,9 +216,6 @@ def loadPatientData(projectName) {
 	def sessionFactory = appCtx.getBean("sessionFactory")
 	def patientService = appCtx.getBean("patientService")
 	def entityInterceptor = appCtx.getBean("entityInterceptor")
-	def session = sessionFactory.openSession(entityInterceptor)
-	def trans = session.beginTransaction()
-	TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session))
 	try {
 		def patients = []
 		def attributeHash = [:]
@@ -261,12 +244,9 @@ def loadPatientData(projectName) {
 			}
 		}
 		patientService.createPatientsForStudy(projectName, patients, patientAndData)
-		trans.commit()
 	} catch (Exception e) {
-		trans.rollback()
 		throw e
 	} 
-	TransactionSynchronizationManager.unbindResource(sessionFactory)
 }
 
 def loadClinicalDataValues(projectName) {
@@ -275,9 +255,6 @@ def loadClinicalDataValues(projectName) {
 	def sessionFactory = appCtx.getBean("sessionFactory")
 	def patientService = appCtx.getBean("patientService")
 	def entityInterceptor = appCtx.getBean("entityInterceptor")
-	def session = sessionFactory.openSession(entityInterceptor)
-	def trans = session.beginTransaction()
-	TransactionSynchronizationManager.bindResource(sessionFactory, new SessionHolder(session))
 	try {
 		def patients = []
 		def attributeHash = [:]
@@ -309,34 +286,9 @@ def loadClinicalDataValues(projectName) {
 		patientAndData.each { originalDataSourceId, values ->
 			patientService.addClinicalValuesToPatient(projectName, originalDataSourceId, values, auditInfo)
 		}
-		trans.commit()
 	} catch (Exception e) {
-		trans.rollback()
 		throw e
 	}
-	TransactionSynchronizationManager.unbindResource(sessionFactory)
-}
-
-def addPublicStudy(projectName) {
-	def dataSource = appCtx.getBean("dataSource")
-	SimpleNamingContextBuilder builder =
-		SimpleNamingContextBuilder.emptyActivatedContextBuilder()
-
-	builder.bind("java:/gdoc", dataSource);
-	def authManager = SecurityServiceProvider.getAuthorizationManager("gdoc")
-	
-	// Create protection element
-	ProtectionElement pe = authManager.getProtectionElement(projectName, 'Study')
-	if(!pe) {
-		pe = new ProtectionElement()
-		pe.protectionElementName = projectName + '_DATA'
-		
-		pe.objectId = projectName
-		pe.attribute = 'Study'
-		authManager.createProtectionElement(pe)
-		//attach to protection group
-		authManager.assignProtectionElement('PUBLIC', pe.objectId, pe.attribute)
-	} 
 }
 
 setDefaultTarget(main)
