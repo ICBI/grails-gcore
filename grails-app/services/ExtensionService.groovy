@@ -72,6 +72,8 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	def buildRequest(userId, cmd) {
 		def name = analysisTypeMap[cmd.requestType]
 		def analysisService = applicationContext.getBean(name + 'Service')
+		if(!analysisService)
+			throw new Exception("analysis-core plugin is not installed!")
 		return analysisService.handle(userId, cmd)
 	}
 	

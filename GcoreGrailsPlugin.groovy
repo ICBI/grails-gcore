@@ -7,19 +7,18 @@ import javax.jms.QueueConnectionFactory
 import org.springframework.context.ApplicationContext
 import org.apache.commons.logging.LogFactory
 import org.apache.commons.lang.StringUtils
-import grails.converters.*
 
 class GcoreGrailsPlugin {
 	
 	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
-    def version = "0.1.4"
+    def version = "0.1.5"
 	// groupName
 	def groupId = "edu.georgetown.gcore"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
-    def dependsOn = [recaptcha:'0.5.2',searchable:'0.5.5', taggable:'0.6.1', jquery:'1.3.2.4', jms:'1.1', mail:'0.9',quartz:'0.4.1', springSecurityCore:'1.1.2',springSecurityLdap:'1.0.3']
+    def dependsOn = [recaptcha:'0.5.2',searchable:'0.5.5', taggable:'0.6.1', jquery:'1.3.2.4', mail:'0.9',quartz:'0.4.1', springSecurityCore:'1.1.2',springSecurityLdap:'1.0.3']
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
             "grails-app/views/error.gsp"
@@ -56,33 +55,10 @@ Brief description of the plugin.
 	
         entityInterceptor(StudyContextInterceptor)
 
-		jndiTemplate(org.springframework.jndi.JndiTemplate) {
-			environment = ["java.naming.factory.initial":"org.jnp.interfaces.NamingContextFactory",
-								"java.naming.provider.url": CH.config.jmsserver,
-								"java.naming.factory.url.pkgs":"org.jboss.naming:org.jnp.interfaces"]
-		}
-
 	 	jdbcTemplate(org.springframework.jdbc.core.JdbcTemplate) {
 	        dataSource = ref('dataSource')
 	    }
 
-		jmsTemplate(org.springframework.jms.core.JmsTemplate) {
-			connectionFactory = ref('jmsConnectionFactory')
-			defaultDestination = ref('sendQueue')
-			receiveTimeout = 30000
-		}
-		jmsConnectionFactory(org.springframework.jndi.JndiObjectFactoryBean) {
-			jndiName = "ConnectionFactory"
-			jndiTemplate = ref('jndiTemplate')
-		}
-		receiveQueue(org.springframework.jndi.JndiObjectFactoryBean) {
-			jndiName = "queue/${CH.config.responseQueue}"
-			jndiTemplate = ref('jndiTemplate')
-		}
-		sendQueue(org.springframework.jndi.JndiObjectFactoryBean) {
-			jndiName = "queue/SharedAnalysisRequest"
-			jndiTemplate = ref('jndiTemplate')
-		}	
 		securityServiceProxy(SecurityService) {bean ->
 			jdbcTemplate = ref('jdbcTemplate')
 			springSecurityService = ref('springSecurityService')
@@ -105,9 +81,6 @@ Brief description of the plugin.
 
     def doWithApplicationContext = { applicationContext ->
         // TODO Implement post initialization spring config (optional)
-		// Initialize custom json converter
-		println "register JSON object marshaller"
-		JSON.registerObjectMarshaller(new ExpressionLookupResultMarshaller())
     }
 
     def onChange = { event ->
