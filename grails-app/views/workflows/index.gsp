@@ -89,7 +89,7 @@
 						
 						<!-- root element for scrollable -->
 				</div>
-				<g:render template="/workflows/content"/>
+				<g:render template="/workflows/content" plugin="gcore"/>
 					
 					<br/>
 					</div>
