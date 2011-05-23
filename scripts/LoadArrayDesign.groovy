@@ -31,13 +31,8 @@ target(main: "Load High Throughput Data") {
 	}
 	
 	
-	def sessionFactory = appCtx.getBean("sessionFactory")
-
-	def session = sessionFactory.getCurrentSession()
-	def trans = session.beginTransaction()
 	def designName = loadArrayDesign(metadataFile)
 	loadReporters(designName, reporterFile)
-	trans.commit()
 	
 	println "Successfully loaded ${designName}."
 }
