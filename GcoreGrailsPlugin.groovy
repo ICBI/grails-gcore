@@ -12,7 +12,7 @@ class GcoreGrailsPlugin {
 	
 	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
-    def version = "0.1.5"
+    def version = "0.1.6"
 	// groupName
 	def groupId = "edu.georgetown.gcore"
     // the version or versions of Grails the plugin is designed for
@@ -21,7 +21,8 @@ class GcoreGrailsPlugin {
     def dependsOn = [recaptcha:'0.5.2',searchable:'0.5.5', taggable:'0.6.1', jquery:'1.3.2.4', mail:'0.9',quartz:'0.4.1', springSecurityCore:'1.1.2',springSecurityLdap:'1.0.3']
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+            "grails-app/views/error.gsp",
+			"scripts/_Events.groovy"
     ]
 
 	def loadAfter = ['springSecurityCore', 'springSecurityLdap']

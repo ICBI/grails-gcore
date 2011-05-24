@@ -42,6 +42,11 @@ Ant.sequential {
 	copy(todir: "${basedir}/web-app/visualizations", overwrite: true) {
     	fileset(dir: "${pluginBasedir}/web-app/visualizations")
 	}
+
+	//sql
+	copy(todir: "${gcorePluginDir}/sql", overwrite: true) {
+    	fileset(dir: "${pluginBasedir}/sql")
+	}
 	
 	//config file
 	copy(file: "${pluginBasedir}/grails-app/conf/GcoreConfig.groovy", todir: "${basedir}/grails-app/conf/", overwrite: false) 
