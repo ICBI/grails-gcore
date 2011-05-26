@@ -1,4 +1,4 @@
-<plugin name='gcore' version='0.1.6' grailsVersion='1.3.7 &gt; *'>
+<plugin name='gcore' version='0.1.7' grailsVersion='1.3.7 &gt; *'>
   <author>Your name</author>
   <title>gcore plugin</title>
   <description>\
