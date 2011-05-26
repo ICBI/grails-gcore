@@ -95,16 +95,15 @@ class StudyDataSourceController {
 			StudyContext.setStudy(currStudy.schemaName)
 			clinicalElements = AttributeType.findAll()
 			//log.debug clinicalElements
-			if(session.myStudies){
-				def mysid = session.myStudies.find{
-					 it.id == params.id.toLong()
-				}
-				if(mysid){
-					session.study = currStudy
-					allowAccess = true
-				}
+		}
+		if(session.myStudies){
+			def mysid = session.myStudies.find{
+				 it.id == params.id.toLong()
 			}
-				
+			if(mysid){
+				session.study = currStudy
+				allowAccess = true
+			}
 		}
 		if (!allowAccess){
 			log.debug "user is NOT permitted to access this study"

@@ -23,6 +23,10 @@ class CustomLdapUserDetailsMapper implements UserDetailsContextMapper {
 			}
 	        else{
 		 		// Now simply create and return an instance of CustomUserDetails
+				if(!user.password){
+					println "this authenticated ldap user lacks a stored password"
+					user.password = "N/A"
+				}
 		    	return new CustomUserDetails(user.username, user.password, user.enabled, 
 					!user.accountExpired, !user.passwordExpired, !user.accountLocked, authority ?: NO_ROLES, user.id, user)
 			}

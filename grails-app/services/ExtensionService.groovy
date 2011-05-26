@@ -7,6 +7,7 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	def grailsApplication
 	def extensionMap
 	def dataExtensionMap
+	def dataExtensionTypeMap
 	def analysisTypeMap
 	def workflowExtensionMap
 	def pluginManager
@@ -15,6 +16,7 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	void afterPropertiesSet() {
 		extensionMap = [:]
 		dataExtensionMap = [:]
+		dataExtensionTypeMap = [:]
 		analysisTypeMap = [:]
 		workflowExtensionMap = [:]
 		// Find all extension annotations on the controllers
@@ -44,6 +46,7 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 		grailsApplication.serviceClasses.each{ service ->
 			if(service.clazz.getAnnotation(DataExtension.class)) {
 				def annotation = service.clazz.getAnnotation(DataExtension.class)
+				dataExtensionTypeMap[annotation.label()] = annotation.type()
 				dataExtensionMap[annotation.label()] = applicationContext.getBean(service.logicalPropertyName + 'Service')
 			}
 		}
@@ -63,6 +66,18 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 	
 	def getDataExtensionLabels() {
 		return dataExtensionMap.collect {key, value -> return key}
+	}
+	
+	def getDataExtensionLabelsForType(type) {
+		def typeValue = type.toString()
+		def typeLabels = []
+		def extensionLabels = []
+		dataExtensionTypeMap.each {key, value -> 
+			if(value.toString()==typeValue){
+				extensionLabels << key
+			}
+		}
+		return extensionLabels
 	}
 	
 	def createLinkForLabel(label, item) {

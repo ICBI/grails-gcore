@@ -519,8 +519,8 @@ class UserListController {
 	}
 	
 	def renameList = {
-		log.debug params
-		def message = ""
+		log.debug "rename list: "+params
+		def rnmessage = ""
 		if(params.newNameValue && params.id){
 			def author = GDOCUser.findByUsername(session.userId)
 			def listDup = author.lists.find {
@@ -528,19 +528,22 @@ class UserListController {
 			}
 			if(listDup) {
 				log.debug "List not saved. $params.newNameValue already exists"
-				message = message(code: "userList.rename", args: [params.newNameValue])
-				render("<span class='errorDetail'>"+message+"</span")
+				rnmessage += message(code: "userList.rename", args: [params.newNameValue])
+				render("<span class='errorDetail'>"+rnmessage+"</span")
+				return
 			}
 			else if(!userListService.validListName(params.newNameValue) || params.newNameValue.trim()==""){
 				log.debug "List $params.newNameValue contains invalid characters"
-				message = message(code: "userList.renameError", args: [params.newNameValue])
-				render("<span class='errorDetail'>"+message+"</span")	
+				rnmessage += message(code: "userList.renameError", args: [params.newNameValue])
+				render("<span class='errorDetail'>"+rnmessage+"</span")	
+				return
 			}else{
 				def userListInstance = UserList.get( params.id )
 				userListInstance.name = params.newNameValue
 				if(userListInstance.save()){
-					message = message(code: "userList.updated", args: [params.id, params.newNameValue])
-					render(message)
+					rnmessage += message(code: "userList.updated", args: [params.id, params.newNameValue])
+					render(rnmessage)
+					return
 				}
 			}
 		}
