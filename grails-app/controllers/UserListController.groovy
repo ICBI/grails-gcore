@@ -335,7 +335,18 @@ class UserListController {
 		log.debug params
 		def author = GDOCUser.findByUsername(session.userId)
 		if(!params["name"]){
-			params["name"] = author.username + new Date().getTime();
+			def usname = ""
+			if(author.username.contains("@")){
+				def handleArray = author.username.split("@")
+				def handle = handleArray[0]
+				if(handle.size() > 5){
+					handle = handle.substring(0,4)
+				}
+				usname = handle
+			}else{
+				usname = author.username
+			}
+			params["name"] =  usname + new Date().getTime();
 		}
 		
 		params["author.id"] = author.id

@@ -117,4 +117,7 @@ class HomeController implements ApplicationContextAware{
 	def team = {
 		
 	}
+	def releaseNotes = {
+		
+	}
 }
