@@ -125,6 +125,9 @@
 			if($("#searchResults").width() < 300){
 				$("#searchResults").setGridWidth(700);
 			}
+			if($("#searchResults").width() > 900){
+				$("#doc3").css("width",$("#searchResults").width()+70);
+			}
 			
 		});
 		

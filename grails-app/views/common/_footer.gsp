@@ -2,7 +2,8 @@
 <div style="background: #f2f2f2 url(/gdoc/images/border_bottom.gif) top repeat-x;height:100%;" align="center"><br />
 	<div style="border:0px solid black">
 		<span size="6" style="vertical-align:20px;font-size: 11px; font-family: arial,helvetica,sans-serif; color: #1c2674;border:0px solid black">
-			${g.appTitle()} ${g.appVersion()}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" target="_blank"><g:message code="common.footer.releaseNotes" /></a></span>
+			${g.appTitle()} ${g.appVersion()}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" target="_blank"><g:message code="common.footer.releaseNotes" /></a>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;powered by G-CODE</span>
 
 	</div>
 	

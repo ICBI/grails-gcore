@@ -242,7 +242,7 @@ class UserListController {
 	
 
 	def deleteMultipleLists ={
-		def message = ""
+		def delmessage = ""
 		if(params.deleteList){
 			log.debug "Requesting deletion of: $params.deleteList"
 			if(params.deleteList.metaClass.respondsTo(params.deleteList, "max")){
@@ -252,16 +252,16 @@ class UserListController {
 			        if(userListInstance) {
 			            if(userListInstance.evidence){
 							log.debug "could not delete " + userListInstance + ", this link represents a piece of evidence in a G-DOC finding"
-							message += message(code: "userList.finding", args: [userListInstance.name, g.appTitle()])
+							delmessage += message(code: "userList.finding", args: [userListInstance.name, g.appTitle()])
 						}
 						else if(userListInstance.author.username != session.userId){
 							log.debug "did not delete " + userListInstance + ", you are not the author."
-							message += message(code: "userList.notAuthor", args: [userListInstance.id])
+							delmessage += message(code: "userList.notAuthor", args: [userListInstance.id])
 						}
 						else{
 			            	userListService.deleteList(userListInstance.id)
 							log.debug "deleted " + userListInstance
-							message += message(code: "userList.deleted", args:[userListInstance.name])
+							delmessage += message(code: "userList.deleted", args:[userListInstance.name])
 						}
 					}
 				}
@@ -270,20 +270,20 @@ class UserListController {
 		        if(userListInstance) {
 					if(userListInstance.evidence){
 						log.debug "could not delete " + userListInstance + ", this link represents a piece of evidence in a G-DOC finding"
-						message = message(code: "userList.finding", args: [userListInstance.name, g.appTitle()])
+						delmessage = message(code: "userList.finding", args: [userListInstance.name, g.appTitle()])
 					}
 					else if(userListInstance.author.username != session.userId){
 						log.debug "did not delete " + userListInstance + ", you are not the author."
-						message += message(code: "userList.notAuthor", args: [userListInstance.id])
+						delmessage += message(code: "userList.notAuthor", args: [userListInstance.id])
 					}
 					else{
 		            	userListService.deleteList(userListInstance.id)
 						log.debug "deleted " + userListInstance
-						message = message(code: "userList.deleted", args:[userListInstance.name])
+						delmessage = message(code: "userList.deleted", args:[userListInstance.name])
 					}
 				}
 			}
-			flash.message = message
+			flash.message = delmessage
 			redirect(action:list)
 			return
 		}else{
@@ -335,18 +335,8 @@ class UserListController {
 		log.debug params
 		def author = GDOCUser.findByUsername(session.userId)
 		if(!params["name"]){
-			def usname = ""
-			if(author.username.contains("@")){
-				def handleArray = author.username.split("@")
-				def handle = handleArray[0]
-				if(handle.size() > 5){
-					handle = handle.substring(0,4)
-				}
-				usname = handle
-			}else{
-				usname = author.username
-			}
-			params["name"] =  usname + new Date().getTime();
+			def usname = "list" +  new Date().getTime()
+			params["name"] = usname
 		}
 		
 		params["author.id"] = author.id

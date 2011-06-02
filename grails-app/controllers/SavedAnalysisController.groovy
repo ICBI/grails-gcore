@@ -51,7 +51,7 @@ class SavedAnalysisController{
 	}
 	
 	def deleteMultipleAnalyses ={
-		def message = ""
+		def delmessage = ""
 		if(params.deleteAnalyses){
 			log.debug "Requesting deletion of: $params.deleteAnalyses"
 			if(params.deleteAnalyses.metaClass.respondsTo(params.deleteAnalyses, "max")){
@@ -61,16 +61,16 @@ class SavedAnalysisController{
 			        if(analysis) {
 			            if(analysis.evidence){
 							log.debug "could not delete " + analysis + ", this link represents a piece of evidence in a G-DOC finding"
-							message += message(code: "savedAnalysis.finding", args: [analysis.id, g.appTitle()])
+							delmessage += message(code: "savedAnalysis.finding", args: [analysis.id, g.appTitle()])
 						}
 						else if(analysis.author.username != session.userId){
 							log.debug "did not delete " + analysis + ", you are not the author."
-							message += message(code: "savedAnalysis.noDelete", args: [analysis.id])
+							delmessage += message(code: "savedAnalysis.noDelete", args: [analysis.id])
 						}
 						else{
 			            	savedAnalysisService.deleteAnalysis(analysis.id)
 							log.debug "deleted " + analysis
-							message += message(code: "savedAnalysis.deleted", args: [analysis.id])
+							delmessage += message(code: "savedAnalysis.deleted", args: [analysis.id])
 						}
 					}
 				}
@@ -79,19 +79,19 @@ class SavedAnalysisController{
 		        if(analysis) {
 		             if(analysis.evidence){
 							log.debug "could not delete " + analysis + ", this link represents a piece of evidence in a G-DOC finding"
-							message += message(code: "savedAnalysis.finding", args: [analysis.id, g.appTitle()])
+							delmessage += message(code: "savedAnalysis.finding", args: [analysis.id, g.appTitle()])
 						}
 						else if(analysis.author.username != session.userId){
 							log.debug "did not delete " + analysis + ", you are not the author."
-							message += message(code: "savedAnalysis.noDelete", args: [analysis.id])
+							delmessage += message(code: "savedAnalysis.noDelete", args: [analysis.id])
 						}
 						else{
 			            	savedAnalysisService.deleteAnalysis(analysis.id)
-							message += message(code: "savedAnalysis.deleted", args: [analysis.id])
+							delmessage += message(code: "savedAnalysis.deleted", args: [analysis.id])
 						}
 				}
 			}
-			flash.message = message
+			flash.message = delmessage
 			redirect(action:index)
 			return
 		}else{
