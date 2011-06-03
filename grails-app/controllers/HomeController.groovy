@@ -34,6 +34,7 @@ class HomeController implements ApplicationContextAware{
 		}
 		
 		//get LCCC feed
+		println "get feed"
 		def feedMap = feedService.getFeed()
 		println "does this bean exist?"
 		//get patient counts for each study
