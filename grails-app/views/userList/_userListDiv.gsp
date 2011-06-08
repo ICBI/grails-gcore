@@ -4,7 +4,7 @@
 <g:javascript src="geneLink.js"/>
 <script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'jquery.editableText.js')}"></script>
 	<g:javascript>
-	$(document).ready(function() {
+	/**$(document).ready(function() {
 		$("[class*='_name']").each(function(index){
 			$(this).editableText({
 			          // default value
@@ -37,7 +37,7 @@
 		          }
 		       });
 		   });
-	});
+	});**/
 	</g:javascript>
 	<table id="${userListInstance.id}_listItems">
 		
@@ -103,7 +103,7 @@
 
 	<g:javascript>
 	
-				$("[class*='_name']").each(function(index){
+				/**$("[class*='_name']").each(function(index){
 					$(this).editableText({
 					          // default value
 					          newlinesEnabled: false
@@ -134,5 +134,5 @@
 							}, 1500);
 				          }
 				       });
-				   });
+				   });**/
 </g:javascript>

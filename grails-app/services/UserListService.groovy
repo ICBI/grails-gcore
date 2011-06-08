@@ -287,7 +287,7 @@ def extensionService
 			pagedListsMap["name"] = it[1]
 			pagedListsMaps << pagedListsMap
 		}
-		log.debug "all lists snapsot -> $pagedListsMaps "
+		//log.debug "all lists snapsot -> $pagedListsMaps "
 		return pagedListsMaps
 	}
 	

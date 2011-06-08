@@ -13,7 +13,7 @@
 <g:if test="${managedMemberships}">			
 <g:each in="${managedMemberships}" var="manMembership">
 	<tr>
-	<td valign="top">${manMembership.name}</td>
+	<td valign="top">${manMembership.name.encodeAsHTML()}</td>
 	<td style="width:75%">
 		<g:if test="${manMembership.users}">
 <a href="#" id="${manMembership.id}_showHide" style="color:#FF6F0F;text-decoration:underline;font-weight:normal"        				onClick="toggleUsers('${manMembership.id}_usersDiv','${manMembership.id}_showHide');return false;"><g:message code="collaborationGroups.showUsers" /></a></g:if>
@@ -21,7 +21,7 @@
 		<div id="${manMembership.id}_usersDiv" style="display:none;height:130px;overflow: scroll;">
 			<g:if test="${manMembership.users}">
 			<g:form name="${manMembership.id}_removeUserForm" action="deleteUsersFromGroup">
-			<g:hiddenField name="collaborationGroupName" value="${manMembership.name}" />
+			<g:hiddenField name="collaborationGroupName" value="${manMembership.name.encodeAsHTML()}" />
 			<ul>
 				<g:each in="${manMembership.users}" var="user">
 						<g:if test="${user.username != session.userId}">
@@ -67,9 +67,9 @@
 <g:each in="${otherMemberships}" var="otherMembership">
 	<g:if test="${otherMembership.name != 'PUBLIC'}">
 	<tr>
-	<td valign="top">${otherMembership.name}<br /><br />
+	<td valign="top">${otherMembership.name.encodeAsHTML()}<br /><br />
 		<g:form name="${otherMembership.id}_removeMyselfForm" action="deleteUsersFromGroup">
-		<g:hiddenField name="collaborationGroupName" value="${otherMembership.name}" />
+		<g:hiddenField name="collaborationGroupName" value="${otherMembership.name.encodeAsHTML()}" />
 		<g:hiddenField name="users" value="${session.userId}" />
 		<g:submitButton name="deleteMyself" class="actionButton" style="float:right" onclick="return confirm('Are you sure?');" value="${message(code: 'collaborationGroups.leaveGroup')}" />
 		</g:form>

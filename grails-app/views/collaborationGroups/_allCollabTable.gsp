@@ -8,8 +8,8 @@
 <g:each in="${allMemberships}" var="allMembership">
 
 <tr>
-<td valign="top">${allMembership.name}<br />
-<span style="padding-bottom:8px"><g:link action="requestAccess" controller="collaborationGroups" onclick="return confirm('Are you sure?');" params="[collaborationGroupName:allMembership.name]"><g:message code="collaborationGroups.requestAccessToGroup" /></g:link></span>
+<td valign="top">${allMembership.name.encodeAsHTML()}<br />
+<span style="padding-bottom:8px"><g:link action="requestAccess" controller="collaborationGroups" onclick="return confirm('Are you sure?');" params="[collaborationGroupName:allMembership.name.encodeAsHTML()]"><g:message code="collaborationGroups.requestAccessToGroup" /></g:link></span>
 </td>
 <!--td style="width:55%" valign="top">
 	<g:if test="${allMembership.users}">

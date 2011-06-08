@@ -1,4 +1,5 @@
 <g:javascript library="jquery"/>
+<jq:plugin name="DOMWindow"/>
 	<g:javascript>
 	function showToolsSpinner(show) {
 		if(show == true){
@@ -36,8 +37,21 @@
 	</g:javascript>
 	<g:javascript>
 	$(document).ready( function () {
+			$('.editWindow').openDOMWindow({ 
+				    height:300, 
+					width:400, 
+					eventType:'click', 
+					windowSource:'iframe', 
+					windowPadding:0, 
+					loader:1, 
+					loaderImagePath:'animationProcessing.gif', 
+					loaderHeight:16, 
+					loaderWidth:17
+			    });
+			    return false; 
+			$('.closeEditWindow').closeDOMWindow({eventType:'click'});
 			$("[class*='_name']").each(function(index){
-				$(this).contentEditable="true";
+				//$(this).contentEditable="true";
 			});
 			$('.checkall').click(function () {
 					$(this).parents('fieldset:eq(0)').find(':checkbox').attr('checked', this.checked);
@@ -78,7 +92,7 @@
 					
 					<div id="${userListInstance.id}_title" style="border:0px solid black;height: 30px;">
 					<div style="border:0px solid black;width:40%;float:left">	
-	<span class="${userListInstance.id}_name" id="${userListInstance.id}_name" style="font-weight:bold;padding-left:5px;padding-right:5px">${fieldValue(bean:userListInstance, field:'name')} </span>
+	<span class="${userListInstance.id}_name" id="${userListInstance.id}_name" style="font-weight:bold;padding-left:5px;padding-right:5px">${fieldValue(bean:userListInstance, field:'name').encodeAsHTML()} </span>
 	<span>(${userListInstance.listItems.size()} items)</span>
 						
 							
@@ -109,9 +123,9 @@
 					</span>
 					</div>
 					<g:if test="${session.userId.equals(userListInstance.author.username)}">
-					<div style="border:0px solid black;width:20%;float:right">	
-						<a href="javascript:void(0)" style="padding-right:5px">
-						<img alt="edit list" title="Rename list" src="${createLinkTo(dir: 'images', file: 'pencil.png')}" onclick="makeEditable(${userListInstance.id});" border="0" /></a>
+					<div style="border:0px solid black;width:20%;float:right">
+						<g:link action="listModify" params="[id:userListInstance.id,name:userListInstance.name]" style="padding-right:5px" class="editWindow">	
+							<img alt="edit list" title="Rename list" src="${createLinkTo(dir: 'images', file: 'pencil.png')}"  border="0" /></g:link>
 						
 						<g:if test="${!userListInstance.tags.contains('_temporary')}">
 						<g:link class="thickbox" name="Share &nbsp; ${userListInstance.name}" action="share" controller="share" 

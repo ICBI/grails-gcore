@@ -55,7 +55,7 @@ class CollaborationGroupService{
 	}
 	
 	def validName(name){
-		def invalidChars = ['"','<','%','>',';']
+		def invalidChars = ['"','<','%','>',';','[',']']
 		def listAsChars = name.toList()
 		def invalidFound = listAsChars.find{
 			invalidChars.contains(it)

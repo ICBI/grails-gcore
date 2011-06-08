@@ -519,35 +519,48 @@ class UserListController {
 		
 	}
 	
-	def renameList = {
-		log.debug "rename list: "+params
-		def rnmessage = ""
-		if(params.newNameValue && params.id){
-			def author = GDOCUser.findByUsername(session.userId)
-			def listDup = author.lists.find {
-				it.name == params.newNameValue.trim()
-			}
-			if(listDup) {
-				log.debug "List not saved. $params.newNameValue already exists"
-				rnmessage += message(code: "userList.rename", args: [params.newNameValue])
-				render("<span class='errorDetail'>"+rnmessage+"</span")
-				return
-			}
-			else if(!userListService.validListName(params.newNameValue) || params.newNameValue.trim()==""){
-				log.debug "List $params.newNameValue contains invalid characters"
-				rnmessage += message(code: "userList.renameError", args: [params.newNameValue])
-				render("<span class='errorDetail'>"+rnmessage+"</span")	
-				return
-			}else{
-				def userListInstance = UserList.get( params.id )
-				userListInstance.name = params.newNameValue
-				if(userListInstance.save()){
-					rnmessage += message(code: "userList.updated", args: [params.id, params.newNameValue])
-					render(rnmessage)
-					return
+	def listModify = {}
+	
+	def renameList = { RenameListCommand cmd ->
+		if(cmd.hasErrors()) {
+			flash['cmd'] = cmd
+			log.debug cmd.errors
+			redirect(action:'listModify')
+			return
+		}
+		else{
+			if(isListAccessible(cmd.id)){
+				log.debug "rename list: "+params
+				if(cmd.newName && cmd.id){
+					def author = GDOCUser.findByUsername(session.userId)
+					def listDup = author.lists.find {
+						it.name == cmd.newName.trim()
+					}
+					if(listDup) {
+						log.debug "List not saved. $cmd.newName already exists"
+						flash.error = message(code: "userList.rename", args: [cmd.newName])
+						redirect(action:'listModify')
+						return
+					}else{
+						flash['cmd'] = cmd
+						def userListInstance = UserList.get(cmd.id)
+						userListInstance.name = cmd.newName.trim()
+						if(userListInstance.save()){
+							flash.message = message(code: "userList.updated", args: [cmd.id, cmd.newName])
+							redirect(action:'listModify')
+							return
+						}
+					}
 				}
 			}
+			else{
+				log.debug "user is NOT permitted to rename list"
+				redirect(controller:'policies',action:'deniedAccess')
+				return
+			}
 		}
+		
+		
 	}
 	
 	

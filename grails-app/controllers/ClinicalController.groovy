@@ -234,7 +234,7 @@ class ClinicalController {
 	private processResults(searchResults) {
 		//log.debug searchResults
 		def columns = []
-		columns << [index: "id", name: "GDOC ID", sortable: true, width: '90']
+		columns << [index: "id", name: "GDOC ID", sortable: true, width: '100']
 		//columns << [index: "dataSourceInternalId", name: "PATIENT ID", sortable: true, width: '70']
 		def columnNames = []
 		log.debug searchResults

@@ -25,14 +25,7 @@
 			$('#'+element+'_content').slideToggle();
 			$('.'+element+'_toggle').toggle();
 		}
-		function makeEditable(list){
-		var listTitle = $('#'+list+"_title");
-		var listEdit = 	listTitle.find('.edit');
-		listEdit.click();
-		var listEditToolbar = listTitle.find('.editableToolbar');
-		listEditToolbar.children().css("width","16px");
-		$('.'+list+"_name").focus();
-		}
+	
 	</script>
 	
 	
@@ -60,40 +53,6 @@
 						return true;
 					}
 				});
-				
-				$("[class*='_name']").each(function(index){
-					$(this).editableText({
-					          // default value
-					          newlinesEnabled: false
-
-					});
-				});
-				
-				$("[class*='_name']").change(function(){
-				         var newValue = jQuery.trim($(this).text());
-						 var id = $(this).attr("id").split("_name")[0];
-				         // do something
-				         // For example, you could place an AJAX call here:
-				        $.ajax({
-				          type: "POST",
-				          url: "/${appName()}/userList/renameList",
-				          data:{ newNameValue:newValue, id:id },//data: "newNameValue=" + newValue + "&id=" + id,
-				          success: function(msg){
-				            $('.message').html(msg);
-							$('.message').css("display","block");
-							if(msg.indexOf("updated")!=-1){
-								$("#userListIds option[value='"+ id +  "']").text(newValue);
-								$('.editableToolbar').children().css("width","0px");
-							}else{
-								makeEditable(id);
-							}
-							
-							window.setTimeout(function() {
-							  $('.message').remove();
-							}, 10000);
-				          }
-				       });
-				   });
 				
 			
 	} );
