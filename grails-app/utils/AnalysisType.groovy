@@ -9,7 +9,12 @@ public enum AnalysisType {
 	CIN;
 
 	public String value() {
-		return name();
+		if(name()=="CLASS_COMPARISON"){
+			return "GROUP_COMPARISON"
+		}
+		else{
+			return name()
+		}
 	}
 
 	public static AnalysisType fromValue(String v) {

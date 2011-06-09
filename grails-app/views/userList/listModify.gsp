@@ -5,11 +5,11 @@
 	<jq:plugin name="DOMWindow"/>
 	
 	<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>
-	<script type="text/javascript">
+	<g:javascript>
 		function refreshListPage(){
 			window.parent.location.replace(window.parent.location.pathname);
 		}
-	</script>
+	</g:javascript>
 	<body>
 	<div style="background-color:#f2f2f2;width:100%">
 		<p style="font-size:1em;display:inline-table">
@@ -24,10 +24,9 @@
 <div id="editNameContent" align="left" class="clinicalSearch"> 
 	<div id="saveForm">
 		<g:if test="${flash.message}">
+		<g:javascript>$("#toolSpinner").css("visibility","visible");</g:javascript>
 		<div class="message">${flash.message.encodeAsHTML()}</div>
-		<div class="taskMessage"><g:message code="userList.refreshing"/></div>
-		
-		<script>refreshListPage();</script>
+		<g:javascript>refreshListPage();</g:javascript>
 		</g:if>
 		<g:if test="${flash.error}">
 		<div class="errorDetail">${flash.error.encodeAsHTML()}</div>
@@ -65,10 +64,14 @@
 				<input type="button" class="closeEditWindow" value="${message(code:'userList.cancel')}" style="padding-right:5px"/>
 				<g:submitButton name="submit" id="submitButton" value="${message(code: 'userList.save')}"/>
 			</td>
+			<td>
+					<span id="toolSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
+			</td>
 		</tr>
 	</table>
 		
 		</g:form><br />
+		
 		<span class="closeEditWindow" style="float:right;padding-top:5px">
 			<a href="javascript:parent.$('#DOMWindowID').closeDOMWindow();"><g:message code="userList.close"/></a></span>
 	</div>

@@ -28,14 +28,14 @@
 			<g:else>
 				<g:if test="${g.analysisView(type: analysis.type)}">
 					<g:if test="${(analysis.query?.geAnalysisId?.toString() == 'null')}">
-						<span style="font-style:italic">${analysis.type} **<g:message code="savedAnalysis.referenced"/>**</span>
+						<span style="font-style:italic">${analysis.type.value()} **<g:message code="savedAnalysis.referenced"/>**</span>
 					</g:if>
 					<g:else>
-					<g:link controller="${g.analysisView(type: analysis.type)}" action="view"  id="${analysis.id}">${analysis.type}</g:link>
+					<g:link controller="${g.analysisView(type: analysis.type)}" action="view"  id="${analysis.id}">${analysis.type.value()}</g:link>
 					</g:else>
 				</g:if>
 				<g:else>
-					${analysis.type}
+					${analysis.type.value()}
 				</g:else>
 				&nbsp;&nbsp;<span><g:formatDate date="${analysis.dateCreated}" format="h:mm M/dd/yyyy"/></span>
 			</div>
