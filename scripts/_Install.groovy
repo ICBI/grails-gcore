@@ -49,6 +49,8 @@ Ant.sequential {
 	}
 	
 	//config file
+	event("StatusUpdate", ["add security filters"])
+	copy(file: "${pluginBasedir}/grails-app/conf/SecurityFilters.groovy", todir: "${basedir}/grails-app/conf/", overwrite: true) 
 	copy(file: "${pluginBasedir}/grails-app/conf/GcoreConfig.groovy", todir: "${basedir}/grails-app/conf/", overwrite: false) 
 	
 	
