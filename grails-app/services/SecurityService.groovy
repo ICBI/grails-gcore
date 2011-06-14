@@ -144,10 +144,18 @@ class SecurityService{
 						email = attr.get("mail").get()
 					}
 					if(department){
+						log.debug "department set to $department"
 						department = department
+					}else{
+						log.debug "no department sent"
+						department = ""
 					}
 					if(title){
+						log.debug "title set to $title"
 						title = title
+					}else{
+						log.debug "title set to N/A"
+						title = "N/A"
 					}
 					
 					password = "gdocLCCC"

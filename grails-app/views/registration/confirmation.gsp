@@ -1,6 +1,6 @@
 <html>
 <head>
-	<meta name="layout" content="splash" />
+	<meta name="layout" content="noHeaderLayout" />
 	<title><g:message code="registration.confirmation"/></title>
 	
 </head>

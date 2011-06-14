@@ -19,7 +19,7 @@
 		<div class="successMessage" style="color:#007000">${flash.message}</div><br />
 	</g:if>
 	<g:if test="${groups}">
-		<div class="taskMessage" style="width:85%;font-size:.9em"><g:message code="share.sharedWith" args="${[params.name, groups]}"/></div><br />
+		<div class="taskMessage" style="width:85%;font-size:.9em"><g:message code="share.sharedWith" args="${[params.name, groups.size()]}"/></div><br />
 	</g:if>
 	
 	<g:if test="${params.id} || ${flash.cmd?.itemId}">
@@ -41,7 +41,7 @@
 		<g:renderErrors bean="${flash.cmd?.errors}" field="groups" />
 		<%--g:renderErrors bean="${flash.cmd?.errors}" field="type" /--%>
 	</div>
-	<div><g:message code="share.select"/> '<span style="color:blue">${params.name}</span>' <g:message code="share.with"/>:</div><br />
+	<div><g:message code="share.select"/> '<span style="color:blue">${params.name}</span>' </div><br />
 	<g:form name="shareForm" on404="alert('not found!')" update="[success:'smessage',failure:'error']" 
 	    action="shareItem" url="${[controller:'share',action:'shareItem']}"
 		onComplete="alert(${flash.message})">

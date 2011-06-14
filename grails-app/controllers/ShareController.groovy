@@ -15,11 +15,7 @@ def shareItem = {
 		return
 	}
 	else{	
-	/**if(!params.groups || !params.type) {
-						flash.message = "no groups or no type has been selected. Please select groups."
-		                redirect(controller:'share',action:'share',params:[id:params.itemId,name:params.name,
-																	type:params.type,failure:true])
-	}else{**/
+	flash['cmd'] = cmd
 	log.debug cmd
 	def item
 	def groups = []
