@@ -148,7 +148,7 @@ class DataAvailableService implements InitializingBean {
 		
 		//find all patients (clnicalData)
 		def patients = []
-		patients = Patient.findAll()
+		patients = Subject.findAll()
 		result['STUDY'] = study.shortName
 		result['DISEASE'] = study.disease
 		log.debug "find data for $study.shortName -> total patients in study: " + patients.size()
@@ -190,7 +190,7 @@ class DataAvailableService implements InitializingBean {
 					}
 					//log.debug "returned patient ids=" + patIds
 					if(patIds){
-						pw = Patient.getAll(patIds) as Set
+						pw = Subject.getAll(patIds) as Set
 						//log.debug "all patients with $type: " + pw.size() + " " + pw
 					}
 				}

@@ -14,14 +14,10 @@ class ClinicalController {
 			StudyContext.setStudy(session.study.schemaName)
 			session.dataTypes = AttributeType.findAll().sort { it.longName }
 			loadUsedVocabs()
+			loadSubjectTypes()
 		}
 		[diseases:getDiseases(),myStudies:session.myStudies]
 		
-	}
-	
-	def test = {
-		def results = middlewareService.sparqlQuery()
-		log.debug results
 	}
 	
 	def search = {
@@ -36,10 +32,10 @@ class ClinicalController {
 			}
 			def criteria = QueryBuilder.build(params, "clinical_", session.dataTypes)
 			def biospecimenIds
-			if(session.dataTypes.collect { it.target }.contains("BIOSPECIMEN")) {
+			if(session.dataTypes.collect { it.target }.contains("SAMPLE")) {
 				def biospecimenCriteria = QueryBuilder.build(params, "biospecimen_", session.dataTypes)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
-					biospecimenIds = biospecimenService.queryByCriteria(biospecimenCriteria).collect { it.id }
+					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, "SAMPLE", biospecimenIds).collect { it.id }
 					log.debug "GOT IDS ${biospecimenIds.size()}"
 					if(!biospecimenIds){
 						log.debug "no biospecimens found for criteria, return no results"
@@ -49,7 +45,7 @@ class ClinicalController {
 				}
 			}
 			//log.debug criteria
-			searchResults = clinicalService.queryByCriteria(criteria, biospecimenIds)
+			searchResults = clinicalService.queryByCriteria(criteria, "PATIENT", biospecimenIds)
 			processResults(searchResults)
 	}
 	
@@ -137,19 +133,19 @@ class ClinicalController {
 		def patientId = params["id"]
 		if(!patientId)
 			return
-		def patient = Patient.findByGdocId(patientId)
-		if(!patient.biospecimens)
+		def patient = Subject.get(patientId)
+		if(!patient.children)
 			return
 
 		def specimens = [:]
 		def rows = []
-		patient.biospecimens.each { specimen ->
+		patient.children.each { specimen ->
 			if(specimen.values) {
 				def cells = []
-				cells << specimen.name
+				cells << specimen.dataSourceInternalId
 				session.specimenColumns.each {
 					if(it != "SPECIMEN ID") {
-						cells << specimen.biospecimenData[it]
+						cells << specimen.clinicalData[it]
 					}
 				}
 				rows << ["id": specimen.id, cell: cells]
@@ -217,22 +213,25 @@ class ClinicalController {
 	
 	private void setupBiospecimens() {
 		session.subgridModel = [:]
-		def values = AttributeType.findAllByTarget("BIOSPECIMEN")
+		def values = AttributeType.findAllByTarget("SAMPLE")
 		if(!values) 
 			return
 		def columns = ["SPECIMEN ID"]
 		def headers = values.collect { it.shortName }.sort()
+		def widths = [200]
 		headers.each {
 			columns << it
+			widths << 200
 		}
 		session.specimenColumns = columns
-		def widths = [70, 70, 70, 70, 70, 70]
 		def data = [[name: columns, width: widths]]
 		session.subgridModel = data as JSON
 	}
 	
 	private processResults(searchResults) {
 		//log.debug searchResults
+		def allParentIds = [:]
+		def allChildIds = [:]
 		def columns = []
 		columns << [index: "id", name: "GDOC ID", sortable: true, width: '100']
 		//columns << [index: "dataSourceInternalId", name: "PATIENT ID", sortable: true, width: '70']
@@ -243,6 +242,10 @@ class ClinicalController {
 				if(!columnNames.contains(key)) {
 					columnNames << key
 				}
+			}
+			allParentIds[patient.id] = patient.id
+			patient.children.each { child ->
+				allChildIds[child.id] = child.id
 			}
 		}
 		columnNames.sort()
@@ -261,6 +264,8 @@ class ClinicalController {
 		session.results = searchResults
 		session.columns = sortedColumns
 		session.columnNames = sortedColumns as JSON
+		session.allParentIds = allParentIds as JSON
+		session.allChildIds = allChildIds as JSON
 		setupBiospecimens()
 	}
 	

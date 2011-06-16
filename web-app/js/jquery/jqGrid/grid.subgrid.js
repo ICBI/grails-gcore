@@ -82,7 +82,9 @@ addSubGrid : function(t,pos) {
 			var tddiv,result , i,cur, sgmap,j,
 			dummy = $("<table cellspacing='0' cellpadding='0' border='0'><tbody></tbody></table>"),
 			trdiv = $("<tr></tr>");
+			trdiv.append($("<th class='ui-state-default ui-th-subgrid ui-th-column ui-th-"+ts.p.direction+"' style=\"padding-left: 23px\"><div></div></th>"));
 			for (i = 0; i<ts.p.subGridModel[0].name.length; i++) {
+				
 				tddiv = $("<th class='ui-state-default ui-th-subgrid ui-th-column ui-th-"+ts.p.direction+"'></th>");
 				$(tddiv).html(ts.p.subGridModel[0].name[i]);
 				$(tddiv).width( ts.p.subGridModel[0].width[i]);
@@ -96,6 +98,8 @@ addSubGrid : function(t,pos) {
 					for (i=0;i<result.length;i++) {
 						cur = result[i];
 						trdiv = $("<tr class='ui-widget-content ui-subtblcell'></tr>");
+						var box = $("<td align=\"center\"><input role=\"checkbox\" type=\"checkbox\""+" id=\"sub_" + cur.id + "\" name=\"sub_" + cur.id + "\" class=\"cbox subcbox\" /></td>");
+						trdiv.append(box);
 						if(sgmap.repeatitems === true) {
 							if(sgmap.cell) { cur=cur[sgmap.cell]; }
 							for (j=0;j<cur.length;j++) {
@@ -158,6 +162,7 @@ addSubGrid : function(t,pos) {
 								subGridJson($.jgrid.parse(sxml.responseText),sid);
 							}
 							sxml=null;
+							$(document).trigger("loadsubgrid");
 						}
 					}, $.jgrid.ajaxOptions, ts.p.ajaxSubgridOptions || {}));
 					break;

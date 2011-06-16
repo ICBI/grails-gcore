@@ -11,20 +11,20 @@ class PatientService {
 		def patients = []
 		def index = 0;
 		while(index < gdocIds.size()) {
-			def c = Patient.createCriteria()
+			def c = Subject.createCriteria()
 			def patientsLeft = gdocIds.size() - index
 			def tempPatients
 			if(patientsLeft > PAGE_SIZE) {
 				def tempIds = (gdocIds.getAt(index..<(index + PAGE_SIZE)))
 				tempPatients = c.listDistinct {
-					'in'("gdocId", tempIds)
+					'in'("id", tempIds)
 				}
 				patients.addAll(tempPatients)
 				index += PAGE_SIZE
 			} else {
 				def tempIds = (gdocIds.getAt(index..<gdocIds.size()))
 				tempPatients = c.listDistinct {
-					'in'("gdocId", tempIds)
+					'in'("id", tempIds)
 				}
 				patients.addAll(tempPatients)
 				index += patientsLeft
@@ -36,7 +36,7 @@ class PatientService {
 
 	def patientsForSampleIds(sampleIds) {
 		def queryClosure = { tempIds -> 
-			def c = Patient.createCriteria()
+			def c = Subject.createCriteria()
 			return c.listDistinct {
 				biospecimens {
 					'in'("name", tempIds)

@@ -48,7 +48,7 @@ class ControllerMixin {
 		if(self.session.study){
 			StudyContext.setStudy(self.session.study.schemaName)
 			def lists = []
-			lists = self.userListService.getListsByTagAndStudy(Constants.PATIENT_LIST,self.session.study,self.session.sharedListIds, self.session.userId)
+			lists = self.userListService.getListsByTagAndStudy(Constants.SUBJECT_LIST,self.session.study,self.session.sharedListIds, self.session.userId)
 			self.session.patientLists = lists
 		}
 	}
@@ -92,12 +92,6 @@ class ControllerMixin {
 			}
 		}
 		
-		def biospecimenCriteria = BiospecimenValue.createCriteria()
-		def bioResults = biospecimenCriteria {
-			projections {
-				distinct(["commonType.id", "value"])
-			}
-		}
 		def usedVocabMap = [:]
 		results.each {
 			if(!usedVocabMap[it[0]])
@@ -106,12 +100,23 @@ class ControllerMixin {
 				
 		}
 		
-		bioResults.each {
-			if(!usedVocabMap[it[0]])
-				usedVocabMap[it[0]] = []
-			usedVocabMap[it[0]] << it[1]
-				
-		}
 		self.session.usedVocabs = usedVocabMap
+	}
+	
+	static loadSubjectTypes(self) {
+		def criteria = Subject.createCriteria()
+		def results = criteria {
+			projections {
+				distinct(["type", "parent.id"])
+			}
+		}
+		def subjectTypes = [:]
+		results.each {
+			if(!it[1])
+				subjectTypes["parent"] = it[0]
+			else 
+				subjectTypes["child"] = it[0]
+		}
+		self.session.subjectTypes = subjectTypes
 	}
 }

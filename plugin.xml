@@ -155,15 +155,6 @@ Brief description of the plugin.
     <resource>VennContainer</resource>
     <resource>WorkflowExtension</resource>
   </resources>
-  <dependencies>
-    <plugin name='recaptcha' version='0.5.2' />
-    <plugin name='searchable' version='0.5.5' />
-    <plugin name='taggable' version='0.6.1' />
-    <plugin name='jquery' version='1.3.2.4' />
-    <plugin name='mail' version='0.9' />
-    <plugin name='quartz' version='0.4.1' />
-    <plugin name='springSecurityCore' version='1.1.2' />
-    <plugin name='springSecurityLdap' version='1.0.3' />
-  </dependencies>
+  <dependencies />
   <behavior />
 </plugin>

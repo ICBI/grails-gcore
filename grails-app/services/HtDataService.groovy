@@ -32,15 +32,8 @@ class HtDataService {
 		}
 		biospecimens.each {
 
-			def studyPatient = StudyPatient.findByDataSourceInternalId(it.patientId)
-			def patient  = Patient.get(studyPatient.id)
-			def biospecimen = Biospecimen.findByPatientAndName(patient, it.name)
-			if(biospecimen){
-				log.debug "found biospecimen, now link"
-			}else{
-				log.debug "biospecimen does not yet exist, create one, and then link"
-				biospecimen = biospecimenService.loadBiospecimen(it)
-			}
+			def subject = Subject.findByDataSourceInternalId(it.subjectId)
+			def biospecimen = biospecimenService.loadBiospecimen(it)
 			
 			file.addToSubjects(biospecimen)
 			if(!file.merge())

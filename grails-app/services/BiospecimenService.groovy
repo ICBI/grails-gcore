@@ -110,13 +110,12 @@ class BiospecimenService {
 	
 	
 	def loadBiospecimen(params) {
-		def studyPatient = StudyPatient.findByDataSourceInternalId(params.patientId)
-		def patient  = Patient.get(studyPatient.id)
+		def subject = Subject.findByDataSourceInternalId(params.subjectId)
+		if(!subject)
+			throw new Exception("No Subject with DataSourceInternalId: ${params.subjectId} found!")
 		def biospecimen = new Biospecimen(params)
-		biospecimen.patient = patient
-		biospecimen.type = "SAMPLE"
-		biospecimen.diseased = true
-		if(!biospecimen.save())
+		biospecimen.subject = subject
+		if(!biospecimen.save(flush:true))
 			log.debug biospecimen.errors
 		return biospecimen
 	}

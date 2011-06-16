@@ -17,7 +17,7 @@ class OutcomeDataService {
 			def pids = patientIds.collect { id ->
 				return id["PATIENT_ID"]
 			}
-			patients = Patient.getAll(pids)
+			patients = Subject.getAll(pids)
 			if(patients){
 				def gdocIds = new HashSet()
 				gdocIds = patients.collect{it.gdocId}
@@ -66,7 +66,7 @@ class OutcomeDataService {
 		//log.debug "get gdocIds for less = " + patLTIds
 		def patLT = []
 		if(patLTIds){
-			patLT = Patient.getAll(patLTIds)
+			patLT = Subject.getAll(patLTIds)
 		}
 	 	
 		if(patLT){
@@ -81,7 +81,7 @@ class OutcomeDataService {
 		//log.debug "get gdocIds for more than = " + patMTIds
 		def patMT = []
 		if(patMTIds){
-			patMT = Patient.getAll(patMTIds)
+			patMT = Subject.getAll(patMTIds)
 		}
 		
 		if(patMT){

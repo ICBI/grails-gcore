@@ -104,11 +104,11 @@ NOCACHE
 NOPARALLEL
 MONITORING;
 
-CREATE TABLE ${projectName}.HT_FILE_SUBJECT 
+CREATE TABLE ${projectName}.HT_FILE_BIOSPECIMEN
 ( 
   HT_FILE_ID NUMBER NOT NULL, 
-  SUBJECT_ID NUMBER NOT NULL, 
-  CONSTRAINT HT_FILE_SUBJECT_PK PRIMARY KEY (HT_FILE_ID, SUBJECT_ID)
+  BIOSPECIMEN_ID NUMBER NOT NULL, 
+  CONSTRAINT HT_FILE_BIOSPECIMEN_PK PRIMARY KEY (HT_FILE_ID, BIOSPECIMEN_ID)
 );
 
 
@@ -125,69 +125,13 @@ NOCACHE
 NOPARALLEL
 MONITORING;
 
-
-CREATE TABLE ${projectName}.BIOSPECIMEN_ATTRIBUTE_VALUE
-(
-  BIOSPEC_ATTRIBUTE_VALUE_ID  NUMBER(10)        NOT NULL,
-  BIOSPECIMEN_ID              NUMBER(10)        NOT NULL,
-  ATTRIBUTE_TYPE_ID           NUMBER(10)        NOT NULL,
-  VALUE                       VARCHAR2(100 BYTE) NOT NULL,
-  INSERT_USER                 VARCHAR2(20 BYTE) NOT NULL,
-  INSERT_DATE                 DATE              NOT NULL,
-  INSERT_METHOD               VARCHAR2(20 BYTE) NOT NULL
-)
-LOGGING 
-NOCOMPRESS 
-NOCACHE
-NOPARALLEL
-MONITORING;
-
-CREATE TABLE ${projectName}.PATIENT
-(
-  PATIENT_ID               NUMBER(10)           NOT NULL,
-  DATA_SOURCE_INTERNAL_ID  VARCHAR2(15 BYTE)    NOT NULL,
-  INSERT_USER              VARCHAR2(10 BYTE)    NOT NULL,
-  INSERT_DATE              DATE                 NOT NULL,
-  INSERT_METHOD            VARCHAR2(20 BYTE)    NOT NULL
-)
-LOGGING 
-NOCOMPRESS 
-NOCACHE
-NOPARALLEL
-MONITORING;
-
-
-CREATE TABLE ${projectName}.PATIENT_ATTRIBUTE_VALUE
-(
-  PATIENT_ATTRIBUTE_VALUE_ID  NUMBER(10)        NOT NULL,
-  PATIENT_ID                  NUMBER(10)        NOT NULL,
-  ATTRIBUTE_TYPE_ID           NUMBER(10)        NOT NULL,
-  VALUE                       VARCHAR2(100 BYTE) NOT NULL,
-  GROUP_NUMBER                NUMBER(8),
-  AGE_AT_EVENT                NUMBER(3,1),
-  INSERT_USER                 VARCHAR2(10 BYTE) NOT NULL,
-  INSERT_DATE                 DATE              NOT NULL,
-  INSERT_METHOD               VARCHAR2(20 BYTE) NOT NULL
-)
-LOGGING 
-NOCOMPRESS 
-NOCACHE
-NOPARALLEL
-MONITORING;
-
-
 CREATE TABLE ${projectName}.BIOSPECIMEN
 (
   BIOSPECIMEN_ID          NUMBER(10)            NOT NULL,
-  CLASS                   VARCHAR2(20 BYTE)     NOT NULL,
   NAME                    VARCHAR2(50 BYTE)     NOT NULL,
-  PATIENT_ID              NUMBER(10)            NOT NULL,
-  BIOSPECIMEN_PARENT_ID   NUMBER(10),
-  DISEASED                NUMBER(1)             NOT NULL,
-  INSERT_USER             VARCHAR2(20 BYTE)     NOT NULL,
+  SUBJECT_ID			  NUMBER(10)			NOT NULL,
   INSERT_DATE             DATE                  NOT NULL,
-  INSERT_METHOD           VARCHAR2(20 BYTE)     NOT NULL,
-  AGE_AT_EVENT            NUMBER(3,1)
+  primary key (BIOSPECIMEN_ID)
 )
 LOGGING 
 NOCOMPRESS 
@@ -213,56 +157,36 @@ NOCACHE
 NOPARALLEL
 MONITORING;
 
+create table ${projectName}.SUBJECT (
+	subject_id number(19,0) not null, 
+	data_source_internal_id varchar2(255) not null, 
+	type varchar2(255) not null, 
+	timepoint varchar2(255), 
+	parent_id number(19,0),
+	insert_date date not null,
+	primary key (subject_id));
+
+
+CREATE TABLE ${projectName}.SUBJECT_ATTRIBUTE_VALUE(	
+	SUBJECT_ATTRIBUTE_VALUE_ID NUMBER(10,0) NOT NULL, 
+	SUBJECT_ID NUMBER(19,0) NOT NULL, 
+	ATTRIBUTE_TYPE_ID NUMBER(10,0) NOT NULL, 
+	VALUE VARCHAR2(100 BYTE) NOT NULL, 
+	INSERT_DATE DATE NOT NULL, 
+	 CONSTRAINT SAV_SUBJECT_FK FOREIGN KEY (SUBJECT_ID)
+	  REFERENCES ${projectName}.SUBJECT (SUBJECT_ID) ENABLE
+   );
+
+CREATE INDEX  ${projectName}.SUBJECT_ATTRIBUTE_VALUE_INDEX1 ON  ${projectName}.SUBJECT_ATTRIBUTE_VALUE (ATTRIBUTE_TYPE_ID ASC) LOGGING NOPARALLEL;
+	
 CREATE UNIQUE INDEX  ${projectName}.reduction_analysis_PK ON ${projectName}.reduction_analysis
 (ID)
 LOGGING
 NOPARALLEL;
 
 
-CREATE UNIQUE INDEX ${projectName}.BIOSPECIMEN_PK ON ${projectName}.BIOSPECIMEN
-(BIOSPECIMEN_ID)
-LOGGING
-NOPARALLEL;
-
-
-CREATE UNIQUE INDEX ${projectName}.PATIENT_ATTRIBUTE_VALUE_PK ON ${projectName}.PATIENT_ATTRIBUTE_VALUE
-(PATIENT_ATTRIBUTE_VALUE_ID)
-LOGGING
-NOPARALLEL;
-
-
-CREATE UNIQUE INDEX ${projectName}.PATIENT_PK ON ${projectName}.PATIENT
-(PATIENT_ID)
-LOGGING
-NOPARALLEL;
-
-
 CREATE UNIQUE INDEX ${projectName}.BIOSPECIMEN_NAME_AK ON ${projectName}.BIOSPECIMEN
 (NAME)
-LOGGING
-NOPARALLEL;
-
-
-CREATE UNIQUE INDEX ${projectName}.PAV_VALUE_AK2 ON ${projectName}.PATIENT_ATTRIBUTE_VALUE
-(GROUP_NUMBER, PATIENT_ID, ATTRIBUTE_TYPE_ID)
-LOGGING
-NOPARALLEL;
-
-
-CREATE UNIQUE INDEX ${projectName}.PATIENT_AK1 ON ${projectName}.PATIENT
-(DATA_SOURCE_INTERNAL_ID)
-LOGGING
-NOPARALLEL;
-
-
-CREATE INDEX ${projectName}.PAV_TYPE_VALUE_IDX ON ${projectName}.PATIENT_ATTRIBUTE_VALUE
-(ATTRIBUTE_TYPE_ID, VALUE)
-LOGGING
-NOPARALLEL;
-
-
-CREATE UNIQUE INDEX ${projectName}.BAV_PK ON ${projectName}.BIOSPECIMEN_ATTRIBUTE_VALUE
-(BIOSPEC_ATTRIBUTE_VALUE_ID)
 LOGGING
 NOPARALLEL;
 
@@ -275,12 +199,6 @@ NOPARALLEL;
 
 CREATE UNIQUE INDEX ${projectName}.KM_ATTRIBUTE_PK ON ${projectName}.KM_ATTRIBUTE
 (KM_ATTRIBUTE_ID, CENSOR_ATTRIBUTE_ID)
-LOGGING
-NOPARALLEL;
-
-
-CREATE UNIQUE INDEX ${projectName}.BAV_AK ON ${projectName}.BIOSPECIMEN_ATTRIBUTE_VALUE
-(BIOSPECIMEN_ID, ATTRIBUTE_TYPE_ID)
 LOGGING
 NOPARALLEL;
 
@@ -332,33 +250,11 @@ CREATE UNIQUE INDEX ${projectName}.MS_PEAK_EVIDENCE_LINK_AK ON ${projectName}.MS
 LOGGING
 NOPARALLEL;
 
-CREATE INDEX ${projectName}.PATIENT_ATTRIBUTE_VALUE_INDEX1 ON ${projectName}.PATIENT_ATTRIBUTE_VALUE
-(ATTRIBUTE_TYPE_ID ASC)
-LOGGING
-NOPARALLEL;
-
-CREATE INDEX ${projectName}.BIOSPECIMEN_ATT_VALUE_INDEX1 ON ${projectName}.BIOSPECIMEN_ATTRIBUTE_VALUE
-(ATTRIBUTE_TYPE_ID ASC)
-LOGGING
-NOPARALLEL;
-
-
-CREATE OR REPLACE VIEW ${projectName}.PATIENTS
-AS 
-select c.gdoc_id, s.patient_id, s.data_source_internal_id
-from common.patient_data_source c, ${projectName}.patient s
-where s.patient_id = c.patient_id;
-
-
 CREATE OR REPLACE VIEW ${projectName}.USED_ATTRIBUTES
 AS 
-SELECT distinct c.attribute_type_id, c.short_name, c.long_name, c.definition, c.class, c.semantic_group, c.gdoc_preferred, c.cadsr_id, c.evs_id, c.qualitative, c.continuous, c.vocabulary, c.oracle_datatype, c.unit, c.upper_range, c.lower_range, 'PATIENT' as target
-FROM common.attribute_type c inner join ${projectName}.patient_attribute_value v
-       on v.attribute_type_id = c.attribute_type_id
-UNION
-SELECT distinct c.attribute_type_id, c.short_name, c.long_name, c.definition, c.class, c.semantic_group, c.gdoc_preferred, c.cadsr_id, c.evs_id, c.qualitative, c.continuous, c.vocabulary, c.oracle_datatype, c.unit, c.upper_range, c.lower_range, 'BIOSPECIMEN' as target
-FROM common.attribute_type c inner join ${projectName}.biospecimen_attribute_value v
-	   on v.attribute_type_id = c.attribute_type_id
+SELECT distinct c.attribute_type_id, c.short_name, c.long_name, c.definition, c.class, c.semantic_group, c.gdoc_preferred, c.cadsr_id, c.evs_id, c.qualitative, c.continuous, c.vocabulary, c.oracle_datatype, c.unit, c.upper_range, c.lower_range, s.type as target
+FROM common.attribute_type c inner join ${projectName}.subject_attribute_value v 
+       on v.attribute_type_id = c.attribute_type_id inner join ${projectName}.subject s on v.subject_id = s.subject_id
 WITH READ ONLY;
 
 
@@ -376,11 +272,11 @@ CREATE OR REPLACE FORCE VIEW ${projectName}.HT_FILE_CONTENTS
 AS 
 SELECT   ROWNUM id, f.name file_name, b.biospecimen_id biospecimen_id, b.name biospecimen_name, d.ARRAY_TYPE design_type, d.htarray_design_id design_id 
 	FROM ${projectName}.ht_file f, 
-		 ${projectName}.ht_file_subject r, 
+		 ${projectName}.ht_file_biospecimen r, 
 		 ${projectName}.biospecimen b, 
 		 common.all_designs d 
 	WHERE  r.ht_file_id = F.ht_FILE_ID 
-		   AND r.subject_id = b.biospecimen_id 
+		   AND r.biospecimen_id = b.biospecimen_id 
 		   AND f.DESIGN_ID = d.htarray_design_id 
 	WITH READ ONLY;
 
@@ -408,28 +304,6 @@ ALTER TABLE ${projectName}.KM_ATTRIBUTE ADD (
   CONSTRAINT KM_ATTRIBUTE_PK
  PRIMARY KEY
  (KM_ATTRIBUTE_ID, CENSOR_ATTRIBUTE_ID));
-
-ALTER TABLE ${projectName}.BIOSPECIMEN_ATTRIBUTE_VALUE ADD (
-  CONSTRAINT BAV_PK
- PRIMARY KEY
- (BIOSPEC_ATTRIBUTE_VALUE_ID));
-
-ALTER TABLE ${projectName}.PATIENT ADD (
-  CONSTRAINT PATIENT_PK
- PRIMARY KEY
- (PATIENT_ID));
-
-ALTER TABLE ${projectName}.PATIENT_ATTRIBUTE_VALUE ADD (
-  CONSTRAINT PATIENT_ATTRIBUTE_VALUE_PK
- PRIMARY KEY
- (PATIENT_ATTRIBUTE_VALUE_ID));
-
-ALTER TABLE ${projectName}.BIOSPECIMEN ADD (
-  CONSTRAINT BIOSPECIMEN_CLASS_CC
- CHECK (class in ('SAMPLE','EXTRACT','LABELED_EXTRACT')),
-  CONSTRAINT BIOSPECIMEN_PK
- PRIMARY KEY
- (BIOSPECIMEN_ID));
 
 ALTER TABLE ${projectName}.reduction_analysis add (
  	CONSTRAINT reduction_analysis_pk
@@ -468,37 +342,17 @@ ALTER TABLE ${projectName}.KM_ATTRIBUTE ADD (
  FOREIGN KEY (CENSOR_VALUE_ID) 
  REFERENCES COMMON.ATTRIBUTE_VOCABULARY (ATTRIBUTE_VOCABULARY_ID));
 
-ALTER TABLE ${projectName}.BIOSPECIMEN_ATTRIBUTE_VALUE ADD (
-  CONSTRAINT BAV_BIOSPECIMEN_FK 
- FOREIGN KEY (BIOSPECIMEN_ID) 
- REFERENCES ${projectName}.BIOSPECIMEN (BIOSPECIMEN_ID),
-  CONSTRAINT BAV_ATTRIBUTE_TYPE_FK 
- FOREIGN KEY (ATTRIBUTE_TYPE_ID) 
- REFERENCES COMMON.ATTRIBUTE_TYPE (ATTRIBUTE_TYPE_ID));
-
-ALTER TABLE ${projectName}.PATIENT_ATTRIBUTE_VALUE ADD (
-  CONSTRAINT PAV_PATIENT_FK 
- FOREIGN KEY (PATIENT_ID) 
- REFERENCES ${projectName}.PATIENT (PATIENT_ID),
-  CONSTRAINT PAV_ATTRIBUTE_TYPE_FK 
- FOREIGN KEY (ATTRIBUTE_TYPE_ID) 
- REFERENCES COMMON.ATTRIBUTE_TYPE (ATTRIBUTE_TYPE_ID));
-
-ALTER TABLE ${projectName}.BIOSPECIMEN ADD (
-  CONSTRAINT BIOSPECIMEN_PATIENT_FK 
- FOREIGN KEY (PATIENT_ID) 
- REFERENCES ${projectName}.PATIENT (PATIENT_ID),
-  CONSTRAINT BIOSPECIMEN_PARENT_FK 
- FOREIGN KEY (BIOSPECIMEN_PARENT_ID) 
- REFERENCES ${projectName}.BIOSPECIMEN (BIOSPECIMEN_ID));
-
-ALTER TABLE ${projectName}.HT_FILE_SUBJECT ADD ( 
+ALTER TABLE ${projectName}.HT_FILE_BIOSPECIMEN ADD ( 
 	CONSTRAINT HT_FILE_ID_FK 
 	FOREIGN KEY (HT_FILE_ID) 
 	REFERENCES ${projectName}.HT_FILE(HT_FILE_ID), 
-	CONSTRAINT SUBJECT_ID_FK 
-	FOREIGN KEY (SUBJECT_ID) 
+	CONSTRAINT BIOSPECIMEN_ID_FK 
+	FOREIGN KEY (BIOSPECIMEN_ID) 
 	REFERENCES ${projectName}.BIOSPECIMEN(BIOSPECIMEN_ID));
 
+ALTER TABLE ${projectName}.BIOSPECIMEN ADD ( 
+	CONSTRAINT SUBJECT_ID_FK 
+	FOREIGN KEY (SUBJECT_ID) 
+	REFERENCES ${projectName}.SUBJECT(SUBJECT_ID));
 
 commit;

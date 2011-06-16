@@ -4,7 +4,7 @@ class MicroarrayFile {
 		version false
 		id column:'ht_file_id', generator: 'native', params: [sequence: '__STUDY_SCHEMA__.HT_FILE_SEQUENCE']
 		design column: 'design_id'
-		subjects joinTable: [name:'__STUDY_SCHEMA__.HT_FILE_SUBJECT', key:'HT_FILE_ID', column:'SUBJECT_ID']
+		subjects joinTable: [name:'__STUDY_SCHEMA__.HT_FILE_BIOSPECIMEN', key:'HT_FILE_ID', column:'BIOSPECIMEN_ID']
 	}
 	static constraints = {
         design(nullable: true)

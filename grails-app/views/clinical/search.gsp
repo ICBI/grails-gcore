@@ -18,7 +18,13 @@
 		});
 		$("span.bla").styledButton({
 			'orientation' : 'alone', // one of {alone, left, center, right} default is alone
-			'role' : 'button', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
+			<g:if test="${session.subgridModel != [:]}">
+				'dropdown' : { 'element' : 'ul' },
+				'role' : 'select', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
+			</g:if>
+			<g:else>
+				'role' : 'button', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
+			</g:else>
 			'defaultValue' : "foobar", // default value for select, doubles as default for checkboxValue.on if checkbox, default is empty
 			'name' : 'testButton', // name to use for hidden input field for checkbox and select so form can submit values
 			// enable a dropdown menu, default is none
@@ -39,9 +45,12 @@
 	}
 	</g:javascript>
 	<g:javascript>
-		var selectedIds = [];
-		var selectAll = false;
+		var selectedParentIds = {};
+		var selectedChildIds = {};
 		var currPage = 1;
+		var selectAll = false;
+		var allParentIds = ${session.allParentIds};
+		var allChildIds = ${session.allChildIds};
 		$(document).ready(function(){
 			jQuery("#searchResults").jqGrid({ 
 				url:'view', 
@@ -51,7 +60,6 @@
 				height: 350, 
 				rowNum:25, 
 				rowList:[25,50], 
-				//imgpath: gridimgpath, 
 				pager: jQuery('#pager'), 
 				sortname: 'id', 
 				viewrecords: true, 
@@ -63,41 +71,49 @@
 				caption: "Patient Search Results",
 				onSelectAll: function(all, checked) {
 					selectAll = checked;
-					selectedIds = [];
 				},
 				onPaging: function(direction) {
-					if(jQuery("#searchResults").getGridParam('selarrrow')) {
-							selectedIds[currPage] = jQuery("#searchResults").getGridParam('selarrrow');
-					}
+					// $(".cbox:checked").each(function() {
+					// 	selectedIds[this.id] = this.id;
+					// });
 				},
 				gridComplete: function() {
 					currPage = jQuery("#searchResults").getGridParam("page");
-					var ids = selectedIds[currPage];
-					if(selectAll) {
-						selectAllItems();
-					} else if(ids) {
-						for(var i = 0; i < ids.length; i++) {
-							jQuery("#searchResults").setSelection(ids[i]);
-						}
-						
-						if(ids.length == jQuery("#searchResults").getGridParam("rowNum")) {
-							jQuery("#cb_jqg").attr('checked', true);
-						}
-					}
-					
+					$('#cb_searchResults').attr('checked', selectAll);
+					//setSelectAll();
+					selectSaved();
+					bindCheckboxes();
 				},
 				onSortCol: function() {
-					selectAll = false;
-					selectedIds = [];
+					//selectAll = false;
+					selectedIds = {};
 				}
 			});
+			<g:if test="${session.subgridModel != [:]}">
+			jQuery("#listAdd li").click( function() { 			
+			</g:if>
+			<g:else>
 			jQuery("#listAdd").click( function() { 
-				var s; 
+			</g:else>
+				var s = []; 
 				var author = '${session.userId}';
-				if(jQuery("#searchResults").getGridParam('selarrrow')) {
-						selectedIds[currPage] = jQuery("#searchResults").getGridParam('selarrrow');
+
+				var selectedItem = this.title;
+				var itemType;
+				if(selectedItem)
+					itemType = this.innerHTML
+				else
+					itemType = '${session.subjectTypes.parent}';
+				var ids;
+				if(itemType == '${session.subjectTypes.parent}') {
+					ids = selectedParentIds;
+				} else {
+					ids = selectedChildIds;
 				}
-				s = selectedIds;//jQuery("#searchResults").getGridParam('selarrrow'); 
+				$.each(ids, function(key, value) {
+					s.push(key);
+				});
+				
 				if(s.length == 0) {
 					jQuery('#message').html("No IDs selected.")
 					jQuery('#message').css("display","block");
@@ -107,10 +123,10 @@
 				} else {
 					var tags = new Array();
 					tags.push("clinical");
-					tags.push("patient");
+					tags.push(itemType);
 					var listName = jQuery('#list_name').val();
 					listName = encodeURIComponent(listName);
-					${remoteFunction(action:'saveFromQuery',controller:'userList', update:'message', onLoading:'showSaveSpinner(true)', onComplete: 'showSaveSpinner(false)', params:'\'ids=\'+ s+\'&author.username=\'+author+\'&tags=\'+tags+\'&selectAll=\'+ selectAll+\'&name=\'+listName')}
+					${remoteFunction(action:'saveFromQuery',controller:'userList', update:'message', onLoading:'showSaveSpinner(true)', onComplete: 'showSaveSpinner(false)', params:'\'ids=\'+ s+\'&author.username=\'+author+\'&tags=\'+tags+\'&name=\'+listName')}
 				}
 			}); 
 			jQuery("#searchResults").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search:false, refresh: false,position:'left'});
@@ -128,14 +144,31 @@
 			if($("#searchResults").width() > 900){
 				$("#doc3").css("width",$("#searchResults").width()+70);
 			}
-			
+			$(document).bind('loadsubgrid', function() {
+				bindCheckboxes();
+				toggleChildren();
+				selectSaved();
+			});
 		});
 		
-		function selectAllItems() {
-			jQuery('#searchResults tbody tr').each(function() {
-				jQuery("#searchResults").setSelection(this.id);
-			});
-			jQuery("#cb_jqg").attr('checked', true);
+		function setSelectAll() {
+			var checked = $('#cb_searchResults').attr('checked');
+			jQuery("#searchResults").resetSelection();
+			if(checked) {
+				jQuery('#searchResults tbody tr').each(function() {
+					jQuery("#searchResults").setSelection(this.id);
+				});
+				$('#searchResults tbody tr ui-widget-content').addClass("ui-state-highlight");
+				$(".ui-subtblcell").addClass("ui-state-highlight");
+				addAllIds();
+			} else {
+				$('#searchResults tbody tr ui-widget-content').removeClass("ui-state-highlight");
+				$(".ui-subtblcell").removeClass("ui-state-highlight");
+				selectedParentIds = {};
+				selectedChildIds = {};
+			}
+			$(".cbox").attr('checked', checked);
+			selectAll = checked;
 		}
 		function success() {
 			jQuery('#list_name').val("");
@@ -144,6 +177,86 @@
 			}, 10000);
 			
 		
+		}
+		
+		function bindCheckboxes() {
+			$('.cbox').unbind('click');
+			$('.cbox').bind('click', function(event) {
+				if(this.id == "cb_searchResults") {
+					setSelectAll();
+					return;
+				}
+				var checked = $(this).attr('checked');
+				var parent = $(this).closest("tr");
+				var sub = parent.next("tr");
+				var id = getIdFromCheckboxId(this.id);
+				if(checked) {
+					if($(this).hasClass("subcbox")) {
+						selectedChildIds[id] = id;
+					} else {
+						selectedParentIds[id] = id;
+					}
+					parent.addClass("ui-state-highlight");
+					if(sub.hasClass("ui-subgrid")) {
+						sub.find(".cbox").each(function() {
+							var childId = getIdFromCheckboxId(this.id);
+							$(this).attr('checked', checked);
+							selectedChildIds[childId] = childId;
+						});
+						sub.find("tr").addClass("ui-state-highlight");
+					}
+				} else { 
+					$('#cb_searchResults').attr('checked', false);
+					selectAll = false;
+					if($(this).hasClass("subcbox")) {
+						delete selectedChildIds[id];
+					} else {
+						delete selectedParentIds[id];
+					}
+					parent.removeClass("ui-state-highlight");
+					if(sub.hasClass("ui-subgrid")) {
+						sub.find(".cbox").each(function() {
+							var childId = getIdFromCheckboxId(this.id);
+							$(this).attr('checked', checked);
+							delete 	selectedChildIds[childId];
+						});
+						sub.find("tr").removeClass("ui-state-highlight");
+					}
+				}
+			});
+		}
+		
+		function toggleChildren() {
+			$(".cbox:checked").each(function() {
+				var parent = $(this).closest("tr");
+				var sub = parent.next("tr");
+				if(sub.hasClass("ui-subgrid")) {
+					sub.find(".cbox").attr('checked', true);
+					sub.find("tr").addClass("ui-state-highlight");
+				}
+			});
+		}
+		
+		function selectSaved() {
+			jQuery("#searchResults").resetSelection();
+			$('#cb_searchResults').attr('checked', selectAll);
+			$.each(selectedParentIds, function(key, value) {
+				$("#jqg_searchResults_" + key).attr("checked", true).closest("tr").addClass("ui-state-highlight");
+				jQuery("#searchResults").setSelection(key);
+			})
+		}
+		
+		function addAllIds() {
+			$.each(allParentIds, function(key, value) {
+				selectedParentIds[key] = key;
+			})
+			$.each(allChildIds, function(key, value) {
+				selectedChildIds[key] = key;
+			})
+		}
+		
+		function getIdFromCheckboxId(cbox) {
+			return cbox.substring(cbox.lastIndexOf("_") + 1);
 		}
 	</g:javascript>
 	<br/>
@@ -170,8 +283,18 @@
 					<span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
 						<g:textField name="list_name" size="15" maxlength="15"/>
 					</span>
-				<span class="bla" id="listAdd"><g:message code="clinical.listSave" />
-					</span><br />
+				<span class="bla" id="listAdd">
+					<g:if test="${session.subgridModel != [:]}">
+						<g:message code="clinical.listSave" /> ⇣
+						<ul>
+							<li title="parent">${session.subjectTypes.parent}</li>
+							<li title="child">${session.subjectTypes.child}</li>
+						</ul>
+					</g:if>
+					<g:else>
+						<g:message code="clinical.listSave" />
+					</g:else>
+				</span><br />
 				<span id="message" style="display:none"></span>
 				<span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
 				</div>

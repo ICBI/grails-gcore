@@ -1,20 +1,16 @@
 class AttributeValue {
 	static mapping = {
-		table '__STUDY_SCHEMA__.patient_attribute_value'
+		table '__STUDY_SCHEMA__.SUBJECT_ATTRIBUTE_VALUE'
 		version false
-		id column:'PATIENT_ATTRIBUTE_VALUE_ID', generator: 'native', params: [sequence: '__STUDY_SCHEMA__.PATIENT_ATTRIB_VAL_SEQUENCE']
-		patient column:'patient_id', insertable: false, updateable: false
-		studyPatient column: 'patient_id'
+		id column:'SUBJECT_ATTRIBUTE_VALUE_ID', generator: 'native', params: [sequence: '__STUDY_SCHEMA__.PATIENT_ATTRIB_VAL_SEQUENCE']
+		subject column:'subject_id'
 		type column:'attribute_type_id', insertable: false, updateable: false
 		commonType column:'attribute_type_id'
 	}
 
 	String value
-	Patient patient
-	StudyPatient studyPatient
+	Subject subject
 	AttributeType type
 	CommonAttributeType commonType
-	String insertUser
-	String insertMethod
 	Date insertDate
 }

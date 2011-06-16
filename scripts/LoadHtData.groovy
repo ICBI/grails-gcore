@@ -58,19 +58,20 @@ def loadFileAndSubjects(schemaName, mappingFile) {
 	mappingFile.eachLine { line, number ->
 		if(number != 1) {
 			def data = line.split('\t')
-			if(!htFile.name || htFile.name != data[4]) {
+			if(!htFile.name || htFile.name != data[3]) {
 				// if this is a new file, load the previous file
 				if(htFile.name) {
 					htDataService.loadFileAndSubjects(subjects, htFile)
 					subjects = []
 				}
-				htFile.name = data[4]
-				htFile.description = data[5].replace("\"", "")
-				htFile.design = data[3]
+				htFile.name = data[3]
+				htFile.description = data[4].replace("\"", "")
+				htFile.design = data[2]
 			}
 			def params = [:]
-			params.patientId = data[0]
+			params.subjectId = data[0]
 			params.name = data[1]
+			params.insertDate = new Date()
 			subjects << params
 		}
 		

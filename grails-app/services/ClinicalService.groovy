@@ -6,24 +6,23 @@ class ClinicalService {
 	def sessionFactory
 	def jdbcTemplate 
 	def middlewareService
-	def queryString = '(select p.patient_id from ${schema}.patient p, common.attribute_type c, ${schema}.patient_attribute_value v ' +
-		 			  'where p.patient_id = v.patient_id and v.attribute_type_id = c.attribute_type_id ' +
+	def queryString = '(select distinct p.subject_id from ${schema}.subject p, common.attribute_type c, ${schema}.subject_attribute_value v ' +
+		 			  'where p.type = \'${type}\' and p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
 					  ' and v.value = \'${value}\' and c.short_name = \'${key}\')'
-	def rangeQueryString = '(select /*+ index(v,PATIENT_ATTRIBUTE_VALUE_INDEX1) */ p.patient_id from ${schema}.patient p, common.attribute_type c, ${schema}.patient_attribute_value v ' +
-		 			  	   'where p.patient_id = v.patient_id and v.attribute_type_id = c.attribute_type_id ' +
+	def rangeQueryString = '(select /*+ index(v,SUBJECT_ATTRIBUTE_VALUE_INDEX1) */ distinct p.subject_id from ${schema}.subject p, common.attribute_type c, ${schema}.subject_attribute_value v ' +
+		 			  	   'where p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
 					  	   ' and c.short_name = \'${key}\' and v.value BETWEEN ${value.min} and ${value.max} )'					
 	
-	def patientIdQuery = 'select b.patient_id from ${schema}.biospecimen b where b.biospecimen_id in (${ids})'
-	def gdocIdQuery = 'select p.patient_id from ${schema}.patients p where p.gdoc_id in (${ids})'
+	def patientIdQuery = 'select s.parent_id from ${schema}.subject s where s.subject_id in (${ids})'
     boolean transactional = true
 	
-	def queryByCriteria(criteria, biospecimenIds) {
+	def queryByCriteria(criteria, subjectType, childIds) {
 		log.debug "querying by criteria"
-		def patientIds = getPatientIdsForCriteria(criteria, biospecimenIds)
+		def patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
 		return getPatientsForIds(patientIds)
 	}
 	
-	def getPatientIdsForCriteria(criteria, biospecimenIds){
+	def getSubjectIdsForCriteria(criteria, subjectType, biospecimenIds){
 		def engine = new SimpleTemplateEngine()
 		def queryTemplate = engine.createTemplate(queryString)
 		def rangeQueryTemplate = engine.createTemplate(rangeQueryString)
@@ -32,11 +31,11 @@ class ClinicalService {
 		// get patient ids for biospecimens
 		def bioPatientIds
 		if(biospecimenIds && biospecimenIds.size() > 0) {
-			bioPatientIds = getPatientIdsForBiospecimenIds(biospecimenIds)
+			bioPatientIds = getSubjectsIdsForChildIds(biospecimenIds)
 		}
 		log.debug "BIO PATIENT IDS $bioPatientIds"
 		if(!criteria || criteria.size() == 0) {
-			def patients = Patient.executeQuery("select p.id from Patient p")
+			def patients = Subject.executeQuery("select p.id from Subject p where p.type = \'${subjectType}\'")
 			// filter out patients that did not match biopecimens
 			if(bioPatientIds && bioPatientIds.size() > 0) {
 				patients = patients.findAll {
@@ -51,6 +50,7 @@ class ClinicalService {
 			temp.key = entry.key
 			temp.value = entry.value
 			temp.schema = StudyContext.getStudy()
+			temp.type = subjectType
 			if(temp.value instanceof java.util.Map) {
 				selects << rangeQueryTemplate.make(temp)
 			} 
@@ -67,7 +67,7 @@ class ClinicalService {
 		log.debug query
 		def ids = jdbcTemplate.queryForList(query)
 		def patientIds = ids.collect { id ->
-			return id["PATIENT_ID"]
+			return id["SUBJECT_ID"]
 		}
 		
 		// filter out patients that do not match biospecimen criteria
@@ -79,8 +79,8 @@ class ClinicalService {
 	
 	def createORQueryString(attributes){
 		def schema = StudyContext.getStudy()
-		def selectStmnt = '(select /*+ index(v,PATIENT_ATTRIBUTE_VALUE_INDEX1) */ unique (p.patient_id) from ' + schema + '.patient p, common.attribute_type c, ' + schema + '.patient_attribute_value v ' +
-			 			  'where p.patient_id = v.patient_id and v.attribute_type_id = c.attribute_type_id ' +
+		def selectStmnt = '(select /*+ index(v,PATIENT_ATTRIBUTE_VALUE_INDEX1) */ unique (p.subject_id) from ' + schema + '.subject p, common.attribute_type c, ' + schema + '.patient_attribute_value v ' +
+			 			  'where p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
 						  ' and ('
 		//log.debug "iterate over array and add each mapped criteria, depending on range or regular value"
 		def addendum = []
@@ -105,7 +105,7 @@ class ClinicalService {
 		return selectStmnt
 	}
 	
-	def getPatientIdsForBiospecimenIds(biospecimenIds) { 
+	def getSubjectsIdsForChildIds(biospecimenIds) { 
 		
 		def engine = new SimpleTemplateEngine()
 		def queryTemplate = engine.createTemplate(patientIdQuery)
@@ -123,7 +123,7 @@ class ClinicalService {
 				log.debug "QUERY $query"
 				tempSpecimens = jdbcTemplate.queryForList(query.toString())
 				patientIds.addAll(tempSpecimens.collect { id ->
-					return id["PATIENT_ID"]
+					return id["PARENT_ID"]
 				})
 				index += PAGE_SIZE
 			} else {
@@ -137,7 +137,7 @@ class ClinicalService {
 				log.debug "QUERY $query"
 				tempSpecimens = jdbcTemplate.queryForList(query.toString())
 				patientIds.addAll(tempSpecimens.collect { id ->
-					return id["PATIENT_ID"]
+					return id["PARENT_ID"]
 				})
 				index += specimensLeft
 			}
@@ -146,19 +146,7 @@ class ClinicalService {
 	}
 	
 	def getPatientsForGdocIds(gdocIds) {
-		def engine = new SimpleTemplateEngine()
-		def queryTemplate = engine.createTemplate(gdocIdQuery)
-		def temp =[:]
-		temp.ids = gdocIds.join(", ")
-		temp.schema = StudyContext.getStudy()
-		def query = queryTemplate.make(temp)
-		log.debug query
-		def patientIds = []
-		def tempSpecimens = jdbcTemplate.queryForList(query.toString())
-		patientIds.addAll(tempSpecimens.collect { id ->
-			return id["PATIENT_ID"]
-		})
-		return getPatientsForIds(patientIds)
+		return getPatientsForIds(gdocIds)
 	}
 	
 	def getPatientsForIds(patientIds) {
@@ -178,56 +166,17 @@ class ClinicalService {
 			def patientsLeft = pids.size() - index
 			def tempPatients
 			if(patientsLeft > PAGE_SIZE) {
-				tempPatients = Patient.getAll(pids.getAt(index..<(index + PAGE_SIZE)))
+				tempPatients = Subject.getAll(pids.getAt(index..<(index + PAGE_SIZE)))
 				patients.addAll(tempPatients)
 				index += PAGE_SIZE
 			} else {
-				tempPatients = Patient.getAll(pids.getAt(index..<pids.size()))
+				tempPatients = Subject.getAll(pids.getAt(index..<pids.size()))
 				patients.addAll(tempPatients)
 				index += patientsLeft
 			}
 		}
 		log.debug patients.size()
 		return patients.grep { it }
-	}
-	
-	/**
-	Sends SPARQL query to  middle-tier service (hitting triplestore), then
-	parses and formats the results in a structure more suitable (Map of Maps) for reporting
-	**/
-	def queryAcrossStudies(sparql){
-		def results = middlewareService.sparqlQuery(sparql)
-		def processedResults = [:]
-		results.each{key,value ->
-			log.debug key
-			if(key=='results'){
-				results.results.bindings.each{ binding ->
-						 def patient = binding.gid.value
-						 def attribute = binding.t.value.split('#')[1].toString()
-						 def att_value = binding.v.value
-						 def study = binding.study.value.split('Study#')[1].toString()
-						 //log.debug "study is $study"
-						 //log.debug "patient id: $patient"
-						 //log.debug "attribute: $attribute"
-						 //log.debug "value: $att_value"
-						if(processedResults.containsKey(patient)){
-							def att_map = [:]
-							att_map[attribute] = att_value
-							processedResults[patient] << att_map
-						}else{
-							processedResults[patient] = []
-							def att_map = [:]
-							att_map[attribute] = att_value
-							def study_map = [:]
-							study_map["Study"] = study
-							processedResults[patient] << study_map
-							processedResults[patient] << att_map
-						}
-				}
-			}
-		}
-		//log.debug processedResults
-		return processedResults
 	}
 	
 	def retrieveSearchableAttributes(){

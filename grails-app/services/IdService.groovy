@@ -19,9 +19,15 @@ class IdService {
 	
 	def sampleNamesForGdocIds(gdocIds) {
 		def results = patientService.patientsForGdocIds(gdocIds)
-		def sampleIds = results.collect { patient ->
-			return patient.biospecimens.collect { specimen ->
-				return specimen.name
+		def sampleIds = []
+		results.each { subject ->
+			subject.biospecimens.each { specimen ->
+				sampleIds << specimen.name
+			}
+			subject.children.each { child ->
+				child.biospecimens.each { specimen ->
+					sampleIds << specimen.name
+				}
 			}
 		}
 		def ids = []
@@ -39,7 +45,7 @@ class IdService {
 		}
 		if(samples){
 			Set gdocIds = samples.collect{ sample ->
-				sample.patient.gdocId
+				sample.subject.gdocId
 			}
 			return gdocIds.flatten()
 		}
