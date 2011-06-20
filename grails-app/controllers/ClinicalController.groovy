@@ -32,10 +32,10 @@ class ClinicalController {
 			}
 			def criteria = QueryBuilder.build(params, "clinical_", session.dataTypes)
 			def biospecimenIds
-			if(session.dataTypes.collect { it.target }.contains("SAMPLE")) {
+			if(session.subjectTypes["child"]) {
 				def biospecimenCriteria = QueryBuilder.build(params, "biospecimen_", session.dataTypes)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
-					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, "SAMPLE", biospecimenIds).collect { it.id }
+					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 					log.debug "GOT IDS ${biospecimenIds.size()}"
 					if(!biospecimenIds){
 						log.debug "no biospecimens found for criteria, return no results"
@@ -45,7 +45,7 @@ class ClinicalController {
 				}
 			}
 			//log.debug criteria
-			searchResults = clinicalService.queryByCriteria(criteria, "PATIENT", biospecimenIds)
+			searchResults = clinicalService.queryByCriteria(criteria, session.subjectTypes["parent"], biospecimenIds)
 			processResults(searchResults)
 	}
 	
@@ -144,7 +144,7 @@ class ClinicalController {
 				def cells = []
 				cells << specimen.dataSourceInternalId
 				session.specimenColumns.each {
-					if(it != "SPECIMEN ID") {
+					if(it != "ID") {
 						cells << specimen.clinicalData[it]
 					}
 				}
@@ -213,19 +213,21 @@ class ClinicalController {
 	
 	private void setupBiospecimens() {
 		session.subgridModel = [:]
-		def values = AttributeType.findAllByTarget("SAMPLE")
-		if(!values) 
-			return
-		def columns = ["SPECIMEN ID"]
-		def headers = values.collect { it.shortName }.sort()
-		def widths = [200]
-		headers.each {
-			columns << it
-			widths << 200
+		if(session.subjectTypes["child"]) {
+			def values = AttributeType.findAllByTarget(session.subjectTypes["child"].value())
+			if(!values) 
+				return
+			def columns = ["ID"]
+			def headers = values.collect { it.shortName }.sort()
+			def widths = [200]
+			headers.each {
+				columns << it
+				widths << 200
+			}
+			session.specimenColumns = columns
+			def data = [[name: columns, width: widths]]
+			session.subgridModel = data as JSON
 		}
-		session.specimenColumns = columns
-		def data = [[name: columns, width: widths]]
-		session.subgridModel = data as JSON
 	}
 	
 	private processResults(searchResults) {

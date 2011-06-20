@@ -68,7 +68,7 @@
 				subGrid: ${session.subgridModel != [:]},
 				subGridUrl: 'biospecimen',
 				subGridModel: ${session.subgridModel},
-				caption: "Patient Search Results",
+				caption: "Search Results",
 				onSelectAll: function(all, checked) {
 					selectAll = checked;
 				},

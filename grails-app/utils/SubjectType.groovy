@@ -2,7 +2,8 @@ public enum SubjectType {
 	PATIENT,
 	SAMPLE, 
 	CELL_LINE,
-	ANIMAL_MODEL;
+	ANIMAL_MODEL,
+	REPLICATE;
 
 	public String value() {
 		return name();
