@@ -30,10 +30,11 @@ class ClinicalController {
 				redirect(action:'index',id:session.study.id)
 				return
 			}
-			def criteria = QueryBuilder.build(params, "clinical_", session.dataTypes)
+			println "PARAMS: " + params
+			def criteria = QueryBuilder.build(params, "parent_", session.dataTypes)
 			def biospecimenIds
 			if(session.subjectTypes["child"]) {
-				def biospecimenCriteria = QueryBuilder.build(params, "biospecimen_", session.dataTypes)
+				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 					log.debug "GOT IDS ${biospecimenIds.size()}"
@@ -44,7 +45,7 @@ class ClinicalController {
 					}
 				}
 			}
-			//log.debug criteria
+			log.debug "CRITERIA: " + criteria
 			searchResults = clinicalService.queryByCriteria(criteria, session.subjectTypes["parent"], biospecimenIds)
 			processResults(searchResults)
 	}

@@ -45,11 +45,11 @@
 
 <g:form name="searchForm" action="search">
 	<g:each in="${session.dataTypes}">
-		<g:if test="${it.target == 'PATIENT'}">
-			<g:set var="type" value="clinical"/>
+		<g:if test="${it.target == session.subjectTypes.parent.value()}">
+			<g:set var="type" value="parent"/>
 		</g:if>
 		<g:else>
-			<g:set var="type" value="biospecimen" />
+			<g:set var="type" value="child" />
 		</g:else>
 		<div class="clinicalSearch">
 			<div style="float: left">
