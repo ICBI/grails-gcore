@@ -45,7 +45,13 @@ class HtDataService {
 	def getAllHTDataTypes(){
 		def htTypes = []
 		def arrayTypes = []
-		htTypes << DataType.CLINICAL.value()
+		htTypes << SubjectType.PATIENT.value()
+		htTypes << Constants.BIOSPECIMEN
+		htTypes << SubjectType.CELL_LINE.value()
+		htTypes << SubjectType.ANIMAL_MODEL.value()
+		htTypes << SubjectType.REPLICATE.value()
+				
+		
 		def types = ArrayDesign.createCriteria().list()
 			{
 				projections{

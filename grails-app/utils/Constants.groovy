@@ -6,4 +6,5 @@ class Constants{
 	def static final GENE_LIST = "gene"
 	def static final REPORTER_LIST = "reporter"
 	def static final SUBJECT_LIST = "clinical"
+	def static final BIOSPECIMEN = 'BIOSPECIMEN'
 }

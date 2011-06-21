@@ -109,7 +109,7 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 				links[key] = value.menu()
 			}
 		}
-		return links
+		return links.sort{it.value}
 	}
 	
 	def addListItemMetadata(list){

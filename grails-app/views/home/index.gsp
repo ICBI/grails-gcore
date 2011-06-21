@@ -178,11 +178,12 @@
 						<tr>
 							<td valign="top" style="width:45%">
 							<table class="sumTable" border="1" style="font-size:.9em" id="patientsTable">
-								<th colspan="4" style="padding:8px 8px 8px 8px;background-color:#EBF1FF">Cancer/Study Overview</th>
+								<th colspan="5" style="padding:8px 8px 8px 8px;background-color:#EBF1FF">Cancer/Study Overview</th>
 								<tr style="padding:4px 4px 4px 4px;background-color:#f2f2f2">
 									<td><g:message code="home.disease" /></td>
 									<td><g:message code="home.study" /></td>
 									<td><g:message code="home.patients" /></td>
+									<td><g:message code="home.biospecimens" /></td>
 									<td><g:message code="home.availableData" /></td>
 									<g:if test="${diseaseBreakdown}">
 									<g:each in="${diseaseBreakdown}" var="item">
@@ -190,10 +191,13 @@
 											<td>${item.key}</td>
 											<td>${item.value.studyNumber}</td>
 											<td>${item.value.patientNumber}</td>
+											<td>${item.value.biospecimenNumber}</td>
 											<td>
 												<g:each in="${item.value.availableData}" var="nameAndImage">
 													<g:each in="${nameAndImage}" var="n">
-														<img src="${resource(dir: 'images', file: n.value)}" alt="${n.key}" class="info" title="${n.key}" />
+														<g:if test="${n.key != 'BIOSPECIMEN'}">
+														<img src="${resource(dir: 'images', file: n.value)}" alt="${n.key}" class="info" title="${n.key}" />	
+														</g:if>
 													</g:each>
 												</g:each>
 											</td>
@@ -264,12 +268,17 @@
 									<td><g:message code="home.study" /></td>
 									<g:if test="${dataBreakdown}">
 									<g:each in="${dataBreakdown}" var="data">
-									
+											<g:if test="${data.key != 'BIOSPECIMEN' && data.key != 'CELL LINE'}">
+											<g:set var="key" value="${data.key}" />
+											<g:if test="${data.key == 'REPLICATE'}">
+												<g:set var="key" value="CELL LINE" />
+											</g:if>
 											<tr>
 											<td>
-												<div valign="top" style="text-align:top">${data.key} &nbsp;&nbsp;<img src="${resource(dir: 'images', file: data.key.replace(" ","_") + '_icon.gif')}" alt="${data.key}" style="margin-bottom:-5px" class="info" title="${data.key}"/></div></td>
+												<div valign="top" style="text-align:top">${key} &nbsp;&nbsp;<img src="${resource(dir: 'images', file: data.key.replace(" ","_") + '_icon.gif')}" alt="${key}" style="margin-bottom:-5px" class="info" title="${key}"/></div></td>
 											<td>${data.value}</td>
 											</tr>
+											</g:if>
 									</g:each>
 									</g:if>
 									<g:else>

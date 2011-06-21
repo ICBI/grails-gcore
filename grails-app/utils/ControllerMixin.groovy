@@ -44,6 +44,11 @@ class ControllerMixin {
 		return diseases
     }
 
+	static getSubjectTypes(self){
+		def subjectTypes = [(SubjectType.PATIENT.value()):"PATIENT",(SubjectType.ANIMAL_MODEL.value()):'ANIMAL MODEL',(SubjectType.CELL_LINE.value()):'CELL LINE']
+		return subjectTypes
+	}	
+
 	static loadPatientLists(self) {
 		if(self.session.study){
 			StudyContext.setStudy(self.session.study.schemaName)

@@ -34,7 +34,7 @@
                                     <label for="collaborationGroup"><g:message code="membership.collab" />:</label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean:membershipInstance,field:'collaborationGroup','errors')}">
-                                    <g:select optionKey="name" from="${CollaborationGroup.list()}" name="groupName" value="${flash.params?.groupName}" optionValue="name"></g:select>
+                                    <g:select optionKey="name" from="${CollaborationGroup.list()?.sort{it.name}}" name="groupName" value="${flash.params?.groupName}" optionValue="name"></g:select>
                                 </td>
                             </tr> 
                         

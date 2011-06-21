@@ -1,7 +1,7 @@
 import grails.converters.*
 
 @Mixin(ControllerMixin)
-@Extension(type=ExtensionType.SEARCH, menu="Clinical Data")
+@Extension(type=ExtensionType.SEARCH, menu="Studies")
 class ClinicalController {
 
 	def clinicalService
@@ -16,7 +16,7 @@ class ClinicalController {
 			loadUsedVocabs()
 			loadSubjectTypes()
 		}
-		[diseases:getDiseases(),myStudies:session.myStudies]
+		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes()]
 		
 	}
 	

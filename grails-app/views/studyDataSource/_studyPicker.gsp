@@ -4,18 +4,26 @@
 		<g:javascript dir="js/jquery" file="jquery.ui.js" plugin="gcore"/>
 		<g:javascript>
 			$(document).ready(function (){
-				$("#disease").change(function() {
-					queryForDisease();
+				$("#type").change(function() {
+					if($("#type").val() && $("#disease").val()) {
+						queryForDisease();
+					}
 		 		  }); // end clicked button to trigger AJAX
-				if($("#disease").val()) {
+				$("#disease").change(function() {
+					if($("#type").val() && $("#disease").val()) {
+						queryForDisease();
+					}
+		 		  });
+				if($("#type").val()) {
 					queryForDisease();
 				}
 				$("#changeStudy").click(function() {
 				  	showStudyChange();
 				});
 			});
+			
 		function queryForDisease() {
-			jQuery.getJSON("/${appName()}/studyDataSource/findStudiesForDisease", { disease: $("#disease").val() },
+			jQuery.getJSON("/${appName()}/studyDataSource/findStudiesForDisease", { disease: $("#disease").val(), subjectType: $("#type").val() },
 				function(j) {
 				     // erase all OPTIONs from existing select menu on the page
 				    $("#study options").remove();
@@ -92,13 +100,18 @@
 		</g:else>
 		<fieldset style="border:1px solid #336699;margin:10px;padding:8px;background-color:beige"><legend style="margin:8px"><g:message code="study.choose"/></legend>
 			<g:formRemote name="setStudyForm" url="[controller:'studyDataSource',action:'setStudy']" update="label" onLoading="showSpinner();" onSuccess="reload();">
-		<g:message code="study.disease"/>:
+		<%--g:message code="study.disease"/>:--%>
 		<g:select name="disease" 
 				noSelection="${['': message(code:'study.selectDisease')]}"
 				from="${diseases}">
 		</g:select>
 		
-		<g:message code="study.study"/>:
+		<g:select name="type"
+				noSelection="${['': message(code:'study.selectType')]}"
+				from="${availableSubjectTypes.entrySet()}" optionKey="key" optionValue="value">
+		</g:select>
+		
+		<%--g:message code="study.study"/>:--%>
 		<g:select name="study" 
 				noSelection="${['': message(code: 'study.selectStudy')]}">
 				

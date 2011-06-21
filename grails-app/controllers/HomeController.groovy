@@ -44,6 +44,7 @@ class HomeController implements ApplicationContextAware{
 		def diseaseBreakdown = [:]
 		def dataBreakdown = [:]
 		def totalPatient = 0
+		def totalBiospecimen = 0
 		def totalStudies = 0
 		def totalData = new HashSet()
 		if(da["dataAvailability"]){
@@ -64,7 +65,7 @@ class HomeController implements ApplicationContextAware{
 						diseaseBreakdown[disease]["studyNumber"] = 1
 					}
 					}
-					if(key == 'CLINICAL'){
+					if(key == 'PATIENT'){
 						if(diseaseBreakdown[disease]["patientNumber"]){
 								diseaseBreakdown[disease]["patientNumber"] += value
 						}else{
@@ -72,9 +73,18 @@ class HomeController implements ApplicationContextAware{
 						}
 						totalPatient += value
 					}
+					if(key == 'BIOSPECIMEN'){
+						if(diseaseBreakdown[disease]["biospecimenNumber"]){
+								diseaseBreakdown[disease]["biospecimenNumber"] += value
+						}else{
+								diseaseBreakdown[disease]["biospecimenNumber"] = value
+						}
+						totalBiospecimen += value
+					}
+					//add map values below
 					
 				
-				if(key != "STUDY" &&  key != "DISEASE"){
+				if(key != "STUDY" &&  key != "DISEASE" && key != "subjectType"){
 					if(value > 0){
 						//log.debug  "$disease has $key available"
 						def nameAndImage = [:]
@@ -94,6 +104,7 @@ class HomeController implements ApplicationContextAware{
 	}
 		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>'] = [:]
 		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['patientNumber'] = totalPatient
+		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['biospecimenNumber'] = totalBiospecimen
 		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['studyNumber'] = totalStudies
 		diseaseBreakdown['<i>'+message(code:"home.total")+'</i>']['availableData'] = totalData
 		log.debug diseaseBreakdown

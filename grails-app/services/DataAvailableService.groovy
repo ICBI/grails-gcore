@@ -9,6 +9,7 @@ class DataAvailableService implements InitializingBean {
 		def da = getDataAvailability()
 		SCH.getServletContext().setAttribute("dataAvailability", da)
 	}
+
 	
 	def getDataAvailability(){
 		log.debug "get all study data availability"
@@ -38,6 +39,7 @@ class DataAvailableService implements InitializingBean {
 					def result = [:]
 					result['STUDY'] = study.shortName
 					result['DISEASE'] = study.disease
+					result["subjectType"] = study.subjectType
 					log.debug "find data available for $study.shortName"
 					def studyDA = []
 					studyDA = DataAvailable.findAllByStudyName(study.shortName)
@@ -151,13 +153,18 @@ class DataAvailableService implements InitializingBean {
 		patients = Subject.findAll()
 		result['STUDY'] = study.shortName
 		result['DISEASE'] = study.disease
+		
+		/**remove this and jump into each block below
 		log.debug "find data for $study.shortName -> total patients in study: " + patients.size()
-		result['CLINICAL'] = patients.size()
+		result['CLINICAL'] = patients.size()**/
 		
 		
 		
 		allDataTypes.each{ type ->
-			if(type != 'CLINICAL'){
+			//if Patient, Sample, Cell-Line or animal model
+			//get size on findAllBy for Subject, if not, continue with this method
+			if(type != SubjectType.PATIENT.value() && type!= Constants.BIOSPECIMEN &&
+				type != SubjectType.CELL_LINE.value() && type != SubjectType.ANIMAL_MODEL.value() && type != SubjectType.REPLICATE.value()){
 				//log.debug "find if $type data in $study.shortName"
 				//get specimens
 				def samples = []
@@ -183,20 +190,28 @@ class DataAvailableService implements InitializingBean {
 					def patientWith = []
 					def bidsString = bsIds.toString().replace("[","")
 					bidsString = bidsString.replace("]","")
-					def query2 = "select b.patient_id from " + study.schemaName + ".BIOSPECIMEN b where b.biospecimen_id in ("+bidsString+")"
+					def query2 = "select b.subject_id from " + study.schemaName + ".BIOSPECIMEN b where b.biospecimen_id in ("+bidsString+")"
 					patientWith = jdbcTemplate.queryForList(query2);//biospecimens.collect{it.patient.id}
 					def patIds = patientWith.collect { id ->
-						return id["PATIENT_ID"]
+						return id["SUBJECT_ID"]
 					}
-					//log.debug "returned patient ids=" + patIds
+					//log.debug "returned patient ids=" + patIds + " for $type"
 					if(patIds){
 						pw = Subject.getAll(patIds) as Set
-						//log.debug "all patients with $type: " + pw.size() + " " + pw
+						//log.debug "all subjects with $type: " + pw.size() + " " + pw
 					}
-				}
-				
+				}	
 				def stats = [:]
 				result[type] = pw.size()
+			}
+			else if (type == Constants.BIOSPECIMEN){
+				def biospecCount = Biospecimen.count()
+				result[type] = biospecCount
+			}
+			else{
+				def subjects = []
+				subjects = Subject.findAllByType(type)
+				result[type] = subjects.size()
 			}
 		}
 		return result

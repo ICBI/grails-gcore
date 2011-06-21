@@ -16,6 +16,7 @@
 						<th style="width:25%"><g:message code="study.description"/></th>
 						<th><g:message code="study.pi"/></th>
 						<th><g:message code="study.disease"/></th>
+						<th><g:message code="study.subjectType"/></th>
 						<th><g:message code="study.poc"/></th>
 					</tr>
 					<g:each in="${myStudies}" var="study">
@@ -28,6 +29,7 @@
 							</g:each>
 						</td>
 						<td>${study.disease}</td>
+						<td>${study.subjectType?.replace("_"," ")}</td>
 						<td>
 							<g:each in="${study.pocs}" var="poc">
 								${poc.firstName} ${poc.lastName}<br/><br/>
@@ -45,6 +47,8 @@
 				<th style="width: 25%"><g:message code="study.description"/></th>
 				<th><g:message code="study.pi"/></th>
 				<th><g:message code="study.disease"/></th>
+				<th><g:message code="study.subjectType"/></th>
+				
 				<th><g:message code="study.poc"/></th>
 			</tr>
 			<g:each in="${otherStudies}" var="study">
@@ -57,6 +61,7 @@
 					</g:each>
 				</td>
 				<td>${study.disease}</td>
+				<td>${study.subjectType?.replace("_"," ")}</td>
 				<td>
 					<g:each in="${study.pocs}" var="poc">
 						${poc.firstName} ${poc.lastName}<br/><br/>

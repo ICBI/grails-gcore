@@ -1,7 +1,7 @@
 import grails.converters.*
 
 @Mixin(ControllerMixin)
-@Extension(type=ExtensionType.SEARCH, menu="Studies")
+//@Extension(type=ExtensionType.SEARCH, menu="Studies")
 class StudyDataSourceController {
 
 	def myStudies
@@ -73,15 +73,20 @@ class StudyDataSourceController {
 		def myStudies = []
 		def studiesJSON = []
 		
-		if(params.disease){
-			log.debug "user interested in $params.disease, grab all studies that have data for $params.disease"
+		if(params.disease && params.subjectType){
+			log.debug "grab all studies that have data for $params.disease with type $params.subjectType"
 			myStudies = session.myStudies.findAll{it.disease == params.disease}
 			myStudies.each{
 				if(it.shortName!="DRUG"){
-					def studies = [:]
-					studies["studyName"] = it.shortName
-					studies["studyId"] = it.id
-					studiesJSON << studies
+					def dataAvailability =  session['dataAvailability']
+					def hasSubjectMatter =dataAvailability['dataAvailability'].find{elm ->
+						if((elm["STUDY"] == it.shortName) && (elm["subjectType"] == params.subjectType)){
+							def studies = [:]
+							studies["studyName"] = it.shortName
+							studies["studyId"] = it.id
+							studiesJSON << studies
+						}
+					}
 				}
 			}
 		}
