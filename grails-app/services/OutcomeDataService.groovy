@@ -7,30 +7,31 @@ class OutcomeDataService {
 	def clinicalService
     boolean transactional = true
 
-	def addQueryOutcome(study,name, query, description){
-		def patientIds = []
-		def patients = []
+	def addQueryOutcome(study,name, query, description,group){
+		def subjectIds = []
+		def subjects = []
 		StudyContext.setStudy(study.schemaName)
 		log.debug "Study schema is for $study.schemaName , OUTCOME QUERY: $query"
-		patientIds = jdbcTemplate.queryForList(query)
-		if(patientIds){
-			def pids = patientIds.collect { id ->
-				return id["PATIENT_ID"]
+		subjectIds = jdbcTemplate.queryForList(query)
+		if(subjectIds){
+			def pids = subjectIds.collect { id ->
+				return id["SUBJECT_ID"]
 			}
-			patients = Subject.getAll(pids)
-			if(patients){
+			subjects = Subject.getAll(pids)
+			if(subjects){
 				def gdocIds = new HashSet()
-				gdocIds = patients.collect{it.gdocId}
+				gdocIds = subjects.collect{it.gdocId}
 				log.debug "returned $gdocIds.size() found for query"
 				gdocIds.each{ gdocId ->
-					def outcomeData = new Outcome(patientId:gdocId,studyDataSource:study, outcomeType:name, outcomeDescription:description)
+					//add outcome group
+					def outcomeData = new Outcome(subjectId:gdocId,studyDataSource:study, outcomeType:name, outcomeDescription:description,outcomeGroup:group)
 					if(!outcomeData.save(flush: true)){
 						log.error outcomeData.errors
 					}
 				}
 			}
 		}else{
-			log.debug "No patient ids found for: $query"
+			log.debug "No subject ids found for: $query"
 		}
 	}
 

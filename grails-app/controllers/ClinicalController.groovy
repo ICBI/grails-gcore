@@ -164,11 +164,12 @@ class ClinicalController {
 		def patientIds = request.JSON['ids']
 		if(request.JSON['study']){
 			def shortName = request.JSON['study']
-			log.debug "set study to $shortName"
 			def study = Study.findByShortName(shortName)
 			StudyContext.setStudy(study.schemaName)
+			loadSubjectTypes()
+			log.debug "set study to $shortName"
 		}
-		log.debug "PATIENT IDS: $patientIds"
+		log.debug "SUBJECT IDS: $patientIds"
 		def cleanedIds = patientIds.collect {
 			def temp = it.toString().replace("\"", "")
 			temp.trim()
@@ -190,12 +191,13 @@ class ClinicalController {
 		def patientIds = request.JSON['ids']
 		if(request.JSON['study']){
 			def shortName = request.JSON['study']
-			log.debug "set study to $shortName"
 			def study = Study.findByShortName(shortName)
 			session.study = study
 			StudyContext.setStudy(study.schemaName)
+			loadSubjectTypes()
+			log.debug "set study to $shortName"
 		}
-		log.debug "PATIENT IDS: $patientIds"
+		log.debug "SUBJECT IDS: $patientIds"
 		def cleanedIds = patientIds.collect {
 			def temp = it.toString().replace("\"", "")
 			temp.trim()
