@@ -132,8 +132,8 @@
 	  
 	 
 	</div>
-	<div class="canvas" style="margin:0 auto;width:100%">
-      <canvas class="a" id="canvas3" width="600" height="600"></canvas>
+	<div class="canvas" style="margin:0 auto;width:100%;">
+      <canvas class="a" id="canvas3" width="850" height="600"></canvas>
       <br><br>
     </div>
 

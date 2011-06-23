@@ -91,15 +91,16 @@
 					</g:if>
 					
 					<div id="${userListInstance.id}_title" style="border:0px solid black;height: 30px;">
-					<div style="border:0px solid black;width:40%;float:left">	
+					<div style="border:0px solid black;float:left;">	
 	<span class="${userListInstance.id}_name" id="${userListInstance.id}_name" style="font-weight:bold;padding-left:5px;padding-right:5px">${fieldValue(bean:userListInstance, field:'name').encodeAsHTML()} </span>
-	<span>(${userListInstance.listItems.size()} items)</span>
+	
 						
 							
 					</div>
 					<g:if test="${userListInstance.listItems.size() <= 100}">
-					<div id="${userListInstance.id}_toggleContainer" style="border:0px solid black;margin-left:45px;float:left;vertical-align: top">
-						<div id="${userListInstance.id}_tog" style="border:0px solid black;height:20px; cursor: pointer;"
+					<div id="${userListInstance.id}_toggleContainer" style="border:0px solid black;vertical-align: top">
+						<span>(${userListInstance.listItems.size()} items)</span>
+						<div id="${userListInstance.id}_tog" style="float:right;border:0px solid black;height:20px; cursor: pointer;"
 						onclick="toggle('${userListInstance.id}');">
 						<img class="${userListInstance.id}_toggle"src="${createLinkTo(dir: 'images', file: 'expand.gif')}"
 						width="13"
@@ -111,16 +112,21 @@
 						width="13"
 						height="14" border="0" alt="Show/Hide" title="Show/Hide" style="display:none" />
 						<span id="${userListInstance.id}_toggle_pageSpinner" style="visibility:hidden;display:inline"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
+						<span style="border:0px solid black;">
+
+							<g:formatDate date="${userListInstance.dateCreated}" format="h:mm M/dd/yyyy"/>
+						</span>
 						</div>
 					</div>
 					</g:if>
 					<g:else>
 						* <g:message code="userList.exceeds"/> *
+						<span style="float:right;border:0px solid black;">
+
+							<g:formatDate date="${userListInstance.dateCreated}" format="h:mm M/dd/yyyy"/>
+						</span>
 					</g:else>
-					<span style="float:right">
-						
-						<g:formatDate date="${userListInstance.dateCreated}" format="h:mm M/dd/yyyy"/>
-					</span>
+					
 					</div>
 					<g:if test="${session.userId.equals(userListInstance.author.username)}">
 					<div style="border:0px solid black;width:20%;float:right">
