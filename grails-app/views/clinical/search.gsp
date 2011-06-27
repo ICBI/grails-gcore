@@ -83,6 +83,18 @@
 					//setSelectAll();
 					selectSaved();
 					bindCheckboxes();
+					$('a[href*="annotationLink"]').each(function() {
+						$(this).parent("td").removeAttr("title");
+						console.log($("#" + this.innerHTML.replace(/ /g, "_")));
+						this.title = $("#" + this.innerHTML.replace(/ /g, "_")).html();
+					});
+					$('a[href*="annotationLink"]').click(function(event) {
+						event.preventDefault();
+					});
+					$('a[href*="annotationLink"]').tooltip({
+						showURL: false,
+						extraClass: 'annotationTooltip'
+					});
 				},
 				onSortCol: function() {
 					//selectAll = false;
@@ -260,6 +272,16 @@
 		}
 	</g:javascript>
 	<br/>
+	<g:each in="${session.annotations}">
+		<g:if test="${it.value}">
+			<div id="${it.key.replace(' ', '_')}" style="display: none;" align="left">
+				Cell Line Details:<br/>
+				<g:each in="${it.value.data.sort { it.type }}" var="ann">
+					${ann.type}: ${ann.value}<br/>
+				</g:each>
+			</div>
+		</g:if>
+	</g:each>
 	<p style="font-size:14pt"><g:message code="clinical.searchResults" /></p>
 	<div id="centerContent">
 		<br/>

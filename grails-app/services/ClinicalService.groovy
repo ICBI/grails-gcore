@@ -11,7 +11,8 @@ class ClinicalService {
 					  ' and v.value = \'${value}\' and c.short_name = \'${key}\')'
 	def rangeQueryString = '(select /*+ index(v,SUBJECT_ATTRIBUTE_VALUE_INDEX1) */ distinct p.subject_id from ${schema}.subject p, common.attribute_type c, ${schema}.subject_attribute_value v ' +
 		 			  	   'where p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
-					  	   ' and c.short_name = \'${key}\' and v.value BETWEEN ${value.min} and ${value.max} )'					
+					  	   ' and c.short_name = \'${key}\' and v.value BETWEEN ${value.min} and ${value.max} )'	
+	def timepointQuery = '(select p.subject_id from ${schema}.Subject p where p.type = \'${subjectType}\' and p.timepoint = \'${timepoint}\') '
 	
 	def patientIdQuery = 'select s.parent_id from ${schema}.subject s where s.subject_id in (${ids})'
     boolean transactional = true
@@ -26,6 +27,7 @@ class ClinicalService {
 		def engine = new SimpleTemplateEngine()
 		def queryTemplate = engine.createTemplate(queryString)
 		def rangeQueryTemplate = engine.createTemplate(rangeQueryString)
+		def timepointQueryTemplate = engine.createTemplate(timepointQuery)
 		def selects = []
 		
 		// get patient ids for biospecimens
@@ -51,7 +53,10 @@ class ClinicalService {
 			temp.value = entry.value
 			temp.schema = StudyContext.getStudy()
 			temp.type = subjectType
-			if(temp.value instanceof java.util.Map) {
+			if(temp.key == "timepoint") {
+				return
+			}
+			else if(temp.value instanceof java.util.Map) {
 				selects << rangeQueryTemplate.make(temp)
 			} 
 			else if(temp.value instanceof java.util.ArrayList) {
@@ -63,7 +68,10 @@ class ClinicalService {
 			}
 			
 		}
+		if(criteria.timepoint)
+			selects << timepointQueryTemplate.make([timepoint: criteria.timepoint, subjectType: subjectType, schema: StudyContext.getStudy()])
 		def query = selects.join(" INTERSECT ")
+
 		log.debug query
 		def ids = jdbcTemplate.queryForList(query)
 		def patientIds = ids.collect { id ->

@@ -3,6 +3,7 @@ class QueryBuilder {
 	static def build = { params, formKey, dataTypes ->
 		def criteria = [:]
 		params.each { key, value ->
+			println key
 			if(key.contains(formKey) && value) {
 				if(key.contains("range_")) {
 					def minMax = [:]
@@ -31,6 +32,9 @@ class QueryBuilder {
 					value = value.replace("'", "")
 					criteria[key.replace(formKey, "")] = value
 				}
+			} else if(key == "timepoint" && value) {
+				println "adding timepoint $value"
+				criteria[key] = value
 			}
 		}
 		return criteria

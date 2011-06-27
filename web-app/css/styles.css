@@ -527,3 +527,7 @@ z-index:21;
 	height:29px;
 	background: url('../images/bgTitles.png') repeat;
 }
+
+.annotationTooltip {
+	text-align: left;
+}

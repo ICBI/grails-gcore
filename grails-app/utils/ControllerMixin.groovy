@@ -122,6 +122,17 @@ class ControllerMixin {
 			else 
 				subjectTypes["child"] = it[0]
 		}
+		criteria = Subject.createCriteria()
+		results = criteria {
+			projections {
+				distinct("timepoint")
+			}
+		}
+		results.removeAll([null])
+		if(results) {
+			results.sort(new TimepointComparator())
+			subjectTypes["timepoints"] = results
+		}
 		self.session.subjectTypes = subjectTypes
 	}
 }

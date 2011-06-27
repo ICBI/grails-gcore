@@ -73,7 +73,7 @@ class ClinicalController {
 		def sortedResults = searchResults.sort { r1, r2 ->
 			def val1 
 			def val2
-			if(sortColumn == "id" || sortColumn == "dataSourceInternalId") {
+			if(sortColumn == "id" || sortColumn == "dataSourceInternalId" || sortColumn == "timepoint") {
 				val1 = r1[sortColumn]
 				val2 = r2[sortColumn]
 			} else {
@@ -113,9 +113,10 @@ class ClinicalController {
 		sortedResults.getAt(startIndex..<endIndex).each { patient ->
 			def cells = []
 			cells << patient.gdocId
-			//cells << patient.dataSourceInternalId
+			if(session.subjectTypes.timepoints)
+				cells << patient.timepoint
 			columns.each { item ->
-				if(item != "GDOC ID" && item != "PATIENT ID")
+				if(item != "GDOC ID" && item != "PATIENT ID" && item != "TIMEPOINT")
 					cells << patient.clinicalData[item]
 			}
 			results << [id: patient.gdocId, cell: cells]
@@ -238,14 +239,21 @@ class ClinicalController {
 		def allParentIds = [:]
 		def allChildIds = [:]
 		def columns = []
+		def annotations = [:]
 		columns << [index: "id", name: "GDOC ID", sortable: true, width: '100']
-		//columns << [index: "dataSourceInternalId", name: "PATIENT ID", sortable: true, width: '70']
+		if(session.subjectTypes.timepoints)
+			columns << [index: "timepoint", name: "TIMEPOINT", sortable: true, width: '100']
 		def columnNames = []
 		log.debug searchResults
 		searchResults.each { patient ->
 			patient.clinicalData.each { key, value ->
 				if(!columnNames.contains(key)) {
 					columnNames << key
+				}
+				if(key == "PARENT_CELL_LINE") {
+					def annotation = Annotation.findByName(value)
+					println annotation
+					annotations[value] = annotation
 				}
 			}
 			allParentIds[patient.id] = patient.id
@@ -255,15 +263,23 @@ class ClinicalController {
 		}
 		columnNames.sort()
 		columnNames.each {
+			println it
 			def column = [:]
 			column["index"] = it
 			column["name"] = it
 			column["width"] = '80'
 			column["sortable"] = true
+			if(it == "PARENT_CELL_LINE") {
+				def formatOptions = [baseLinkUrl: 'annotationLink', idName: 'id', ]
+				column["formatter"] = 'showlink'
+				column["formatoptions"] = formatOptions
+			}
 			columns << column
 		}
 		session.columnJson = columns as JSON
 		def sortedColumns = ["GDOC ID"]//, "PATIENT ID"]
+		if(session.subjectTypes.timepoints)
+			sortedColumns << "TIMEPOINT"
 		columnNames.sort()
 		sortedColumns.addAll(columnNames)
 		session.results = searchResults
@@ -271,6 +287,7 @@ class ClinicalController {
 		session.columnNames = sortedColumns as JSON
 		session.allParentIds = allParentIds as JSON
 		session.allChildIds = allChildIds as JSON
+		session.annotations = annotations
 		setupBiospecimens()
 	}
 	

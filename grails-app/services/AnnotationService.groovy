@@ -192,4 +192,24 @@ class AnnotationService {
 		}
 		return platform[0]
 	}
+	
+	def loadAnnotation(annotation, values) {
+		def ann = new Annotation(annotation)
+		if(!ann.save(flush: true)) {
+			log.error ann.errors
+			throw new Exception("Could not load annotations: ${ann.errors}")
+		}
+		values.each {
+			if(it.value) {
+				def annData = new AnnotationData()
+				annData.type = it.key
+				annData.value = it.value
+				annData.annotation = ann
+				if(!annData.save(flush:true)) {
+					log.error annData.errors
+					throw new Exception("Could not load annotations: ${annData.errors}")
+				}
+			}
+		}
+	}
 }

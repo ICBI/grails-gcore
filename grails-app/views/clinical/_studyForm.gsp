@@ -44,6 +44,35 @@
 <g:if test="${session.study}">
 
 <g:form name="searchForm" action="search">
+	<g:if test="${session.subjectTypes.timepoints}">
+	<div class="clinicalSearch">
+		<div style="float: left">
+			Timepoint
+			<img class="info" title="Timepoint" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
+		</div>
+	<div style="float: right; vertical-align: middle">
+		<img class="close"src="${createLinkTo(dir:'images',file:'cross.png')}" border="0" />
+	</div>
+	<br/>
+	<br/>
+		<div align="left">
+			<g:if test="${flash.params}">
+				<g:select name="timepoint" 
+						noSelection="${['':'Select One...']}" value="${flash.params['timepoint']}"
+						from="${session.subjectTypes.timepoints}" >
+				</g:select>
+			</g:if>
+			<g:else>
+				
+				<g:select name="timepoint" 
+						noSelection="${['':'Select One...']}"
+						from="${session.subjectTypes.timepoints}" >
+				</g:select>
+			</g:else>
+		</div>
+		<br/>
+	</div>
+	</g:if>
 	<g:each in="${session.dataTypes}">
 		<g:if test="${it.target == session.subjectTypes.parent.value()}">
 			<g:set var="type" value="parent"/>
