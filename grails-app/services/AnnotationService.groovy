@@ -201,13 +201,16 @@ class AnnotationService {
 		}
 		values.each {
 			if(it.value) {
-				def annData = new AnnotationData()
-				annData.type = it.key
-				annData.value = it.value
-				annData.annotation = ann
-				if(!annData.save(flush:true)) {
-					log.error annData.errors
-					throw new Exception("Could not load annotations: ${annData.errors}")
+				def parsed = it.value.split(/\|\|/)
+				parsed.each { val ->
+					def annData = new AnnotationData()
+					annData.type = it.key
+					annData.value = val
+					annData.annotation = ann
+					if(!annData.save(flush:true)) {
+						log.error annData.errors
+						throw new Exception("Could not load annotations: ${annData.errors}")
+					}
 				}
 			}
 		}

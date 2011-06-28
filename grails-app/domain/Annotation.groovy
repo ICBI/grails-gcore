@@ -10,4 +10,19 @@ class Annotation {
 	
 	String name
 	AnnotationType type
+	
+	public Map organizedData() {
+		def temp = [:]
+		data.each {
+			if(temp[it.type]) {
+				def values = []
+				values.addAll(temp[it.type])
+				values.addAll(it.value)
+				temp[it.type] = values
+			} else {
+				temp[it.type] = it.value
+			}
+		}
+		return temp
+	}
 }

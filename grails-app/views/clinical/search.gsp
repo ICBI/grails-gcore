@@ -61,7 +61,12 @@
 				rowNum:25, 
 				rowList:[25,50], 
 				pager: jQuery('#pager'), 
+				<g:if test="${session.subjectTypes.timepoints}">
+				sortname: 'timepoint', 
+				</g:if>
+				<g:else>
 				sortname: 'id', 
+				</g:else>
 				viewrecords: true, 
 				sortorder: "desc", 
 				multiselect: true, 
@@ -85,8 +90,8 @@
 					bindCheckboxes();
 					$('a[href*="annotationLink"]').each(function() {
 						$(this).parent("td").removeAttr("title");
-						console.log($("#" + this.innerHTML.replace(/ /g, "_")));
-						this.title = $("#" + this.innerHTML.replace(/ /g, "_")).html();
+						console.log($("#" + this.innerHTML.replace(/ /g, "_").replace(/\./, '')));
+						this.title = $("#" + this.innerHTML.replace(/ /g, "_").replace(/\./, '')).html();
 					});
 					$('a[href*="annotationLink"]').click(function(event) {
 						event.preventDefault();
@@ -274,10 +279,10 @@
 	<br/>
 	<g:each in="${session.annotations}">
 		<g:if test="${it.value}">
-			<div id="${it.key.replace(' ', '_')}" style="display: none;" align="left">
+			<div id="${it.key.replace(' ', '_').replace('.', '')}" style="display: none;" align="left">
 				Cell Line Details:<br/>
-				<g:each in="${it.value.data.sort { it.type }}" var="ann">
-					${ann.type}: ${ann.value}<br/>
+				<g:each in="${it.value.organizedData().sort { it.key }}" var="ann">
+					${ann.key}: ${ann.value}<br/>
 				</g:each>
 			</div>
 		</g:if>

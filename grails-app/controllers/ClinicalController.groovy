@@ -73,9 +73,16 @@ class ClinicalController {
 		def sortedResults = searchResults.sort { r1, r2 ->
 			def val1 
 			def val2
-			if(sortColumn == "id" || sortColumn == "dataSourceInternalId" || sortColumn == "timepoint") {
+			if(sortColumn == "id" || sortColumn == "dataSourceInternalId") {
 				val1 = r1[sortColumn]
 				val2 = r2[sortColumn]
+			} else if(sortColumn == "timepoint") {
+				def comparator = new TimepointComparator()
+				if(params.sord != 'asc') {
+					return comparator.compare(r1[sortColumn], r2[sortColumn])
+				} else {
+					return comparator.compare(r2[sortColumn], r1[sortColumn])
+				}
 			} else {
 				val1 = r1.clinicalData[sortColumn]
 				val2 = r2.clinicalData[sortColumn]
@@ -252,7 +259,6 @@ class ClinicalController {
 				}
 				if(key == "PARENT_CELL_LINE") {
 					def annotation = Annotation.findByName(value)
-					println annotation
 					annotations[value] = annotation
 				}
 			}
