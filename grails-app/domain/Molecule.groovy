@@ -6,7 +6,6 @@ class Molecule {
 	
 	String name
 	String formula
-	String description
 	String smiles
 	Double weight
 	Double ic50
@@ -86,6 +85,7 @@ class Molecule {
 			ic50(nullable: true)
 			ec50(nullable: true)
 			ed50(nullable: true)
+			otherAssay(nullable: true)
 	}
 	
 	static searchable = {

@@ -24,6 +24,7 @@ class MoleculeTarget{
 	static constraints = {
 		molecule(nullable:false)
 		protein(nullable:false)
+		bindingData(nullable:true)
 	}
 	
 	public String toString() {
