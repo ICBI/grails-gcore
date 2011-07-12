@@ -35,10 +35,24 @@ class Subject {
 						it.term == value.value
 					}
 					if(vocab) {
-						this.@clinicalData[value.type.shortName] = vocab.termMeaning
+						if(!this.@clinicalData[value.type.shortName]) {
+							this.@clinicalData[value.type.shortName] = vocab.termMeaning
+						} else {
+							def temp = []
+							temp.addAll(this.@clinicalData[value.type.shortName])
+							temp << vocab.termMeaning
+							this.@clinicalData[value.type.shortName] = temp
+						}
 					}
 				} else {
-					this.@clinicalData[value.type.shortName] = value.value
+					if(!this.@clinicalData[value.type.shortName]) {
+						this.@clinicalData[value.type.shortName] = value.value
+					} else {
+						def temp = []
+						temp.addAll(this.@clinicalData[value.type.shortName])
+						temp << value.value
+						this.@clinicalData[value.type.shortName] = temp
+					}
 				}
 			}
 		}

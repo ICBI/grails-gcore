@@ -35,18 +35,21 @@ class SubjectService {
 			return
 		values.each { name, value ->
 			if(value){
-				println "Attempting to load $name $value"
-				def type = CommonAttributeType.findByShortName(name)
-				if(!type)
-					throw new Exception("Attribute Type ${name} not found.  Unable to load data.")
-				def attValue = new AttributeValue()
-				attValue.commonType = type
-				attValue.value = value
-				attValue.insertDate = auditInfo.insertDate
-				attValue.subject = subject
-				subject.addToValues(attValue)
-				if(!attValue.save(flush:true))
-					log.debug attValue.errors
+				def parsed = value.split(/\|\|/)
+				parsed.each { val ->
+					println "Attempting to load $name $val"
+					def type = CommonAttributeType.findByShortName(name)
+					if(!type)
+						throw new Exception("Attribute Type ${name} not found.  Unable to load data.")
+					def attValue = new AttributeValue()
+					attValue.commonType = type
+					attValue.value = val
+					attValue.insertDate = auditInfo.insertDate
+					attValue.subject = subject
+					subject.addToValues(attValue)
+					if(!attValue.save(flush:true))
+						log.debug attValue.errors
+				}
 			}else{
 				log.debug "no value found for attribute ${name}"
 			}

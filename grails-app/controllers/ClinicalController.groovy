@@ -123,8 +123,12 @@ class ClinicalController {
 			if(session.subjectTypes.timepoints)
 				cells << patient.timepoint
 			columns.each { item ->
-				if(item != "GDOC ID" && item != "PATIENT ID" && item != "TIMEPOINT")
-					cells << patient.clinicalData[item]
+				if(item != "GDOC ID" && item != "PATIENT ID" && item != "TIMEPOINT") {
+					if(patient.clinicalData[item] && patient.clinicalData[item].metaClass.respondsTo(patient.clinicalData[item], "max"))
+						cells << patient.clinicalData[item].join(",</br>")
+					else
+						cells << patient.clinicalData[item]
+				}
 			}
 			results << [id: patient.gdocId, cell: cells]
 		}
@@ -154,7 +158,10 @@ class ClinicalController {
 				cells << specimen.dataSourceInternalId
 				session.specimenColumns.each {
 					if(it != "ID") {
-						cells << specimen.clinicalData[it]
+						if(specimen.clinicalData[it] && specimen.clinicalData[it].metaClass.respondsTo(specimen.clinicalData[it], "max"))
+							cells << specimen.clinicalData[it].join(",</br>")
+						else
+							cells << specimen.clinicalData[it]
 					}
 				}
 				rows << ["id": specimen.id, cell: cells]
