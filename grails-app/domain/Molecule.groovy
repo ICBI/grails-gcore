@@ -9,6 +9,11 @@ class Molecule {
 	String description
 	String smiles
 	Double weight
+	Double ic50
+	Double ec50
+	Double ed50
+	String otherAssay
+	String function
 	String idnumber
 	Long mCluster
 	Long clSize
@@ -45,7 +50,7 @@ class Molecule {
 	static fetchMode = [bindings: 'eager',structures:'eager']
 	
 	static constraints = {
-	        name(nullable: false)
+	        name(nullable: true)
 			smiles(nullable: false)
 			weight(nullable: true)
 			formula(nullable: true)
@@ -77,7 +82,10 @@ class Molecule {
 			ph(nullable: true)
 			chiral(nullable: true)
 			chemicalName(nullable: true)
-			description(nullable: true)
+			function(nullable: true)
+			ic50(nullable: true)
+			ec50(nullable: true)
+			ed50(nullable: true)
 	}
 	
 	static searchable = {
@@ -115,7 +123,10 @@ class Molecule {
 		sw index: 'no'
 		pka index: 'no'
 		saltdata index: 'no'
-		description index: 'analyzed'
+		function index: 'analyzed'
+	 	ic50 index: "not_analyzed", format: "000000000"
+		ec50 index: "not_analyzed", format: "000000000"
+		ed50 index: "not_analyzed", format: "000000000"
 	}
 	
 	
