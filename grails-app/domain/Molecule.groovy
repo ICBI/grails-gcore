@@ -6,6 +6,7 @@ class Molecule {
 	
 	String name
 	String formula
+	String description
 	String smiles
 	Double weight
 	String idnumber
@@ -76,6 +77,7 @@ class Molecule {
 			ph(nullable: true)
 			chiral(nullable: true)
 			chemicalName(nullable: true)
+			description(nullable: true)
 	}
 	
 	static searchable = {
@@ -113,6 +115,7 @@ class Molecule {
 		sw index: 'no'
 		pka index: 'no'
 		saltdata index: 'no'
+		description index: 'analyzed'
 	}
 	
 	

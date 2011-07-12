@@ -27,7 +27,6 @@ class StructureFile{
 		structure(nullable:true)
 		fileSize(nullable:true)
 		fileType(nullable:true)
-		fileFormat(nullable:true)
 	}
 	
 

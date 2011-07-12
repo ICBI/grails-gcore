@@ -7,6 +7,7 @@ class Annotation {
 		type column: 'annotation_type'
 	}
 	static hasMany = [data: AnnotationData]
+	static fetchMode = [data:'eager']
 	
 	String name
 	AnnotationType type
