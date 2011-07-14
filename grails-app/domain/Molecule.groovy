@@ -13,6 +13,7 @@ class Molecule {
 	Double ed50
 	String otherAssay
 	String function
+	String targetFreetext
 	String idnumber
 	Long mCluster
 	Long clSize
@@ -82,6 +83,7 @@ class Molecule {
 			chiral(nullable: true)
 			chemicalName(nullable: true)
 			function(nullable: true)
+			targetFreetext(nullable:true)
 			ic50(nullable: true)
 			ec50(nullable: true)
 			ed50(nullable: true)
@@ -124,6 +126,7 @@ class Molecule {
 		pka index: 'no'
 		saltdata index: 'no'
 		function index: 'analyzed'
+		targetFreetext index: 'analyzed'
 	 	ic50 index: "not_analyzed", format: "000000000"
 		ec50 index: "not_analyzed", format: "000000000"
 		ed50 index: "not_analyzed", format: "000000000"
