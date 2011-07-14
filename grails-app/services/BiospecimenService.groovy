@@ -113,7 +113,10 @@ class BiospecimenService {
 		def subject = Subject.findByDataSourceInternalId(params.subjectId)
 		if(!subject)
 			throw new Exception("No Subject with DataSourceInternalId: ${params.subjectId} found!")
-		def biospecimen = new Biospecimen(params)
+		def biospecimen = Biospecimen.findByName(params.name)
+		if(biospecimen)
+			return biospecimen
+		biospecimen = new Biospecimen(params)
 		biospecimen.subject = subject
 		if(!biospecimen.save(flush:true))
 			log.debug biospecimen.errors

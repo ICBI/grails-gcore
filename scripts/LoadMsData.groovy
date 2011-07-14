@@ -30,13 +30,7 @@ target(main: "Load Mass Spec Data") {
 		return
 	}
 	
-	def sessionFactory = appCtx.getBean("sessionFactory")
-
-	def session = sessionFactory.getCurrentSession()
-	def trans = session.beginTransaction()
-	
 	loadPeaks(projectName, peakFile)
-	trans.commit()
 	
 	println "Mass spec data loading for $projectName was successful"
 }
