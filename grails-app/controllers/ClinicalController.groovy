@@ -10,6 +10,7 @@ class ClinicalController {
 	def middlewareService
 	
     def index = { 
+		session.biospecimenIds = null
 		if(session.study) {
 			StudyContext.setStudy(session.study.schemaName)
 			session.dataTypes = AttributeType.findAll().sort { it.longName }
@@ -37,6 +38,7 @@ class ClinicalController {
 				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
+					session.biospecimenIds = biospecimenIds
 					log.debug "GOT IDS ${biospecimenIds.size()}"
 					if(!biospecimenIds){
 						log.debug "no biospecimens found for criteria, return no results"
@@ -153,6 +155,8 @@ class ClinicalController {
 		def specimens = [:]
 		def rows = []
 		patient.children.each { specimen ->
+			if(session.biospecimenIds && !session.biospecimenIds.contains(specimen.id))
+				return
 			if(specimen.values) {
 				def cells = []
 				cells << specimen.dataSourceInternalId
@@ -272,6 +276,12 @@ class ClinicalController {
 			allParentIds[patient.id] = patient.id
 			patient.children.each { child ->
 				allChildIds[child.id] = child.id
+			}
+		}
+		if(session.biospecimenIds) {
+			allChildIds = [:]
+			session.biospecimenIds.each {
+				allChildIds[it] = it
 			}
 		}
 		columnNames.sort()

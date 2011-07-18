@@ -72,4 +72,5 @@ class Subject {
 	public Long getGdocId() {
 		return this.@id
 	}
+	
 }
