@@ -195,7 +195,7 @@
 											<td>
 												<g:each in="${item.value.availableData}" var="nameAndImage">
 													<g:each in="${nameAndImage}" var="n">
-														<g:if test="${n.key != 'BIOSPECIMEN'}">
+														<g:if test="${n.key != 'BIOSPECIMEN' && n.key != 'REPLICATE'}">
 														<img src="${resource(dir: 'images', file: n.value)}" alt="${n.key}" class="info" title="${n.key}" />	
 														</g:if>
 													</g:each>
@@ -275,7 +275,7 @@
 											</g:if>
 											<tr>
 											<td>
-												<div valign="top" style="text-align:top">${key} &nbsp;&nbsp;<img src="${resource(dir: 'images', file: data.key.replace(" ","_") + '_icon.gif')}" alt="${key}" style="margin-bottom:-5px" class="info" title="${key}"/></div></td>
+												<div valign="top" style="text-align:top">${key} &nbsp;&nbsp;<img src="${resource(dir: 'images', file: key.replace(" ","_") + '_icon.gif')}" alt="${key}" style="margin-bottom:-5px" class="info" title="${key}"/></div></td>
 											<td>${data.value}</td>
 											</tr>
 											</g:if>

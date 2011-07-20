@@ -35,7 +35,8 @@ class UserListController {
 			gene: message(code:"userList.filterAllGene"),
 			reporter: message(code:"userList.filterAllReporter"),
 			patient: message(code:"userList.filterAllPatient"),
-			onlyShared: message(code:"userList.filterShared")]
+			onlyShared: message(code:"userList.filterShared"),
+			findings: message(code:"userList.filterFindings")]
 		def filteredLists = []
 		def searchTerm = params.searchTerm
 		def pagedLists = []

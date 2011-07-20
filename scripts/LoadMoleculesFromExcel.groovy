@@ -21,8 +21,8 @@ target(main: "Load data into the DB from Excel file") {
 def load(){
 	def moleculeService = appCtx.getBean("moleculeService")
 	try {
-		println "load data"
-		moleculeService.createMolecules("/Users/kmr75/Documents/gu/gdocRelated/DDG-Schema/FAIBS/Complete_List_prog_v2.xls")
+		println "load data from Complete_List_FINAL_with_images.xls"
+		moleculeService.createMolecules("/Users/kmr75/Documents/gu/gdocRelated/DDG-Schema/FAIBS/Complete_List_FINAL_with_images.xls")
 	} catch (Exception e) {
 		e.printStackTrace()
 	}

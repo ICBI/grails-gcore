@@ -25,6 +25,9 @@ def extensionService
 		    filter = filter.split("_")
 			pagedLists = filterByType(filter[1],null,userId,offset)
 			break;
+		   case ['findings']:
+			pagedLists = filterByFindingsLists(offset)
+			break;
 		   case "onlyShared":
 			pagedLists = getSharedListsOnly(sharedIds,offset)
 		  	log.debug "only shared"
@@ -327,6 +330,39 @@ def extensionService
 		}
 		pagedLists["snapshot"] = snapshotMaps
 		log.debug "user lists only over past $timePeriod days-> $pagedLists as Paged set"
+		return pagedLists
+	}
+	
+	def filterByFindingsLists(offset){
+		def pagedLists = [:]
+		def results = []
+		def snapshots = []
+		def snapshotMaps = []
+		def count = 0
+		def listHQL = "SELECT distinct list FROM UserList list,Evidence evidence " + 
+		"WHERE list.id = evidence.userList " +
+		"ORDER BY list.dateCreated desc"
+	    results = UserList.executeQuery(listHQL, [max:10, offset:offset])
+		pagedLists["results"] = results
+		def listCountHQL = "SELECT count(distinct list.id) FROM UserList list,Evidence evidence " + 
+		"WHERE list.id = evidence.userList "
+		count = UserList.executeQuery(listCountHQL)
+		pagedLists["count"] = count
+		//add query to populate tools list with non-paginated snap-shot
+		String listHQL3 = "SELECT distinct list.id, list.name, list.dateCreated FROM UserList list,Evidence evidence " + 
+		"WHERE list.id = evidence.userList " +
+		"ORDER BY list.dateCreated desc"
+		snapshots = UserList.executeQuery(listHQL3)
+		if(snapshots){
+			snapshots.each{
+				def snapMap = [:]
+				snapMap["id"] = it[0]
+				snapMap["name"] = it[1]
+				snapshotMaps << snapMap
+			}
+		}
+		pagedLists["snapshot"] = snapshotMaps
+		log.debug "findings-based user lists returned"
 		return pagedLists
 	}
 	

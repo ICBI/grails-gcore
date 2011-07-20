@@ -1,14 +1,14 @@
 <html>
     <head>
-        <meta name="layout" content="main" />
+        <meta name="layout" content="maxSpaceLayout" />
 		</script>
         <title>${currStudy.shortName} <g:message code="study.details"/></title>         
     </head>
     <body>
 	<p style="font-size:14pt">${currStudy.shortName} <g:message code="study.details"/></p>
 	<br/>
-	<div id="centerContent" class="welcome">
-		<g:panel id="studyPanel" title="Study Details" styleClass="welcome" >
+	<div id="centerContent" style="margin-right:45px">
+		<g:panel id="studyPanel" title="Study Details" styleClass="welcome">
 		<table class="studyTable" width="100%">
 			<tr>
 				<td class="label" width="20%"><g:message code="study.name"/></td>

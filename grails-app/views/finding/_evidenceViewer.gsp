@@ -4,6 +4,7 @@
 	<g:set var="uiId" value="${evidence.id+'_principal'}" />
 	<g:if test="${evidence.userList}">
 		<div>
+		
 		<span> 
 		<%--g:if test="${(session.sharedListIds.contains(evidence.userList.id)) || evidence.userList.author.username == session.userId}"--%>
 			<g:set var="listItems" value="${evidence.userList.listItems.collect{it.value}}" />
@@ -29,6 +30,7 @@
 		<span><i>*${evidence.description}</i></span>
 		</div>
 	</g:if>
+	
 </g:if>
 <g:else>
 	<g:set var="uiId" value="${evidence.id}" />
@@ -38,6 +40,13 @@
  	<div style="float:middle"><b><g:message code="findings.article" />:</b>
 	<span><a href="${evidence.url}" target="_blank">${evidence.url}</a></span>
 	</div>
+</g:if>
+
+<g:if test="${evidence.userList?.studies}">
+	<b><g:message code="findings.associatedStudies" /> </b>
+	<g:each in="${evidence.userList.studies}" var="study">
+		<g:link controller="studyDataSource" action="show" id="${study.id}">${study.shortName}</g:link>
+	</g:each>
 </g:if>
 
 

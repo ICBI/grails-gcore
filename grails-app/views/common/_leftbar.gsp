@@ -20,7 +20,7 @@ jQuery(document).ready(function()
 			<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows" />
 		</li>
 		<li>
-			<g:navigationLink name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource" />
+			<g:link name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.studies', args: [appTitle()])}</g:link>
 		</li>
 		<li>
 			<a class="sf-with-ul" href="#"><g:message code="nav.search" /><span class="sf-sub-indicator"> »</span></a>

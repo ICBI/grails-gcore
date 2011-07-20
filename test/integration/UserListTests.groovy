@@ -17,6 +17,14 @@ class UserListTests extends GroovyTestCase {
 		
 	}
 	
+	void testGetFindingsLists(){
+		def listHQL = "SELECT distinct list FROM UserList list,Finding finding JOIN finding.evidence evidence " + 
+		"WHERE list.id = evidence.userList " +
+		"ORDER BY list.dateCreated desc"
+		def results = UserList.executeQuery(listHQL, [max:10, offset:offset])
+		println results
+	}
+	
 	/**void testSnapshot(){
 		def pagedLists = userListService.getUsersLists(10,"kmr75")
 		println pagedLists["results"]
