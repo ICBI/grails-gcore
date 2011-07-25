@@ -14,19 +14,20 @@ target(main: "Load data into the DB from Excel file") {
 	// Load up grails contexts to be able to use GORM
 	loadApp()
 	configureApp()
-	load()
-	
-}
-
-def load(){
+	println "Please specify a drug-containig file name:"
+	def fileName = new InputStreamReader(System.in).readLine().toUpperCase()
+	def drugFile = new File("dataImport/DRUGS/${fileName}")
+	if(!drugFile.exists()) {
+		println "Cannot find drug-containg file at dataImport/${DRUGS}/${fileName}.  Please check the file name and try again."
+		return
+	}
 	def moleculeService = appCtx.getBean("moleculeService")
 	try {
-		println "load data from Complete_List_FINAL_with_images.xls"
-		moleculeService.createMolecules("/Users/kmr75/Documents/gu/gdocRelated/DDG-Schema/FAIBS/Complete_List_FINAL_with_images.xls")
+		println "loading data"
+		moleculeService.createMolecules("dataImport/DRUGS/${fileName}")
 	} catch (Exception e) {
 		e.printStackTrace()
 	}
-	
 	
 }
 
