@@ -9,7 +9,6 @@ class Evidence {
 		alias "evidence"
 	    finding component: true
 		userList component: true
-		savedAnalysis component: true
 		relatedFinding component: true
 	}
 	

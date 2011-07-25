@@ -195,8 +195,12 @@
 											<td>
 												<g:each in="${item.value.availableData}" var="nameAndImage">
 													<g:each in="${nameAndImage}" var="n">
-														<g:if test="${n.key != 'BIOSPECIMEN' && n.key != 'REPLICATE'}">
-														<img src="${resource(dir: 'images', file: n.value)}" alt="${n.key}" class="info" title="${n.key}" />	
+														<g:if test="${n.key != 'BIOSPECIMEN' && n.key != 'CELL_LINE'}">
+														<g:set var="okey" value="${n.key}" />
+														<g:if test="${n.key == 'REPLICATE'}">
+															<g:set var="okey" value="CELL LINE" />
+														</g:if>
+														<img src="${resource(dir: 'images', file: okey.replace(" ","_") + '_icon.gif')}" alt="${okey}" class="info" title="${okey}" />	
 														</g:if>
 													</g:each>
 												</g:each>
