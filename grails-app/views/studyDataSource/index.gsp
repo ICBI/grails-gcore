@@ -13,6 +13,7 @@
 				<table class="studyTable">
 					<tr>
 						<th><g:message code="study.name"/></th>
+						<th style="width:5%"><g:message code="study.id"/></th>
 						<th style="width:25%"><g:message code="study.description"/></th>
 						<th><g:message code="study.pi"/></th>
 						<th><g:message code="study.disease"/></th>
@@ -22,6 +23,7 @@
 					<g:each in="${myStudies}" var="study">
 					<tr>
 						<td><g:link action="show" id="${study.id}">${study.shortName}</g:link></td>
+						<td>${study.id}</td>
 						<td>${study.longName}</td>
 						<td>
 							<g:each in="${study.pis}" var="pi">

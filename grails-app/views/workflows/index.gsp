@@ -9,6 +9,9 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'scrollable-navig.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'dialog.css')}"/>
 		<STYLE type="text/css">
+		A:link {color:#336699}
+		A:visited {color:#336699}
+		A:hover {color:#334477}
 		   #tooltip {
 		text-align:left;
 		font-size: 100%;
@@ -61,6 +64,7 @@
 				
 				<g:if test="${flash.message}">
 					<div class="message" style="width:75%">${flash.message}</div>
+					${flash.message = null}
 				</g:if>
 				<g:if test="${inviteMessage && requestMessage}">
 					<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage} and ${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>

@@ -242,15 +242,16 @@ class GDOCUserController {
 				redirect(action:show,id:newUser.id)
 			}
 			else{
-				flash.message = message(code:"users.notCreated")
+				flash.error = message(code:"users.notCreated")
 	            redirect(action:create)
 			}
             
         }
         else {
-			GDOCUserInstance.errors().each{
+			GDOCUserInstance.errors.each{
 				log.debug it
 			}
+			flash.error = message(code:"users.notCreated")
             render(view:'create',model:[GDOCUserInstance:GDOCUserInstance])
         }
     }

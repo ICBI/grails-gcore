@@ -12,7 +12,7 @@
 		<table class="studyTable" width="100%">
 			<tr>
 				<td class="label" width="20%"><g:message code="study.name"/></td>
-				<td>${currStudy.shortName}</td>
+				<td>${currStudy.shortName}&nbsp;&nbsp;&nbsp;(<g:message code="study.id"/>:${currStudy.id})</td>
 			</tr>
 			<tr>
 				<td class="label" ><g:message code="study.abstract"/></td>
