@@ -479,7 +479,7 @@ class SecurityService{
 				 membership.collaborationGroup.name == 'PUBLIC' &&
 					membership.role){
 						if(membership.role.name == GDOC_ADMIN){
-							log.debug "$userId is a GDOC Administrator"
+							//log.debug "$userId is a GDOC Administrator"
 							isUserGDOCAdmin = true
 						}
 			}

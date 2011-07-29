@@ -54,6 +54,9 @@ class MembershipController {
         def membershipInstance = Membership.get( params.id )
         if(membershipInstance) {
             try {
+				def user = membershipInstance.user
+				user.removeFromMemberships(membershipInstance)
+				log.debug "$user removed membership $membershipInstance"
                 membershipInstance.delete(flush:true)
                 flash.message = message(code:"membership.deleted",args:[params.id])
                 redirect(action:list)

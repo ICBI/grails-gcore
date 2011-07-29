@@ -52,7 +52,7 @@ class SecurityFilters {
 							|| controllerName.equals('userOption') || controllerName.equals('role'))){
 				//REFACTOR---isUserGDOCAdmin(currentUser.username)
 				 def currentUser = springSecurityService.getPrincipal() 
-				log.debug currentUser.username + " is user an admin?" 
+				//log.debug currentUser.username + " is user an admin?" 
 				if(!securityService.isUserGDOCAdmin(currentUser.username)){
 					redirect(controller:'home', action:'index')
 					log.debug currentUser.username + " is trying to access admin section(s) but is not an Administrator" 

@@ -76,7 +76,7 @@ params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB
 		</g:if>
 		<g:if test="${analysis.tags.size()>0}">
 		<g:if test="${analysis.tags.contains('_temporary')}">
-			<span style="color:red;padding:3px"><g:message code="userList.note" args="${[appTitle()]}"/></span>
+			<span style="color:red;padding:3px"><g:message code="savedAnalysis.note" args="${[appTitle()]}"/></span>
 		</g:if>
 		<g:else>
 		${analysis.tags[2]}
