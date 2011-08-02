@@ -4,6 +4,7 @@ class UserListService{
 
 def securityService
 def extensionService
+def idService
 	
 	def getPaginatedLists(filter,sharedIds,offset,userId,searchTerm){
 		def pagedLists = [:]
@@ -756,4 +757,21 @@ def listIsTemporary(listName,author){
 		return !itemsOne.isEmpty()
 	}
 
+	def checkGroupSizes(comparison, baseline, dataFile) {
+		def samples = idService.samplesForListName(comparison)
+		def allIds = idService.sampleIdsForFile(dataFile)
+		samples = allIds.intersect(samples)
+		
+		def baselineSamples = idService.samplesForListName(baseline)
+		baselineSamples = allIds.intersect(baselineSamples)
+		
+		if(baselineSamples.size < 3 && samples.size < 3) {
+			return "custom.groupSize"
+		} else if(baselineSamples.size < 3) {
+			return "custom.baselineGroupSize"
+		} else if(samples.size < 3) {
+			return "custom.comparisonGroupSize"
+		}
+		return
+	}
 }
