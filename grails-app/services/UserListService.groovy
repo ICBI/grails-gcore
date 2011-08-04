@@ -757,21 +757,15 @@ def listIsTemporary(listName,author){
 		return !itemsOne.isEmpty()
 	}
 
-	def checkGroupSizes(comparison, baseline, dataFile) {
-		def samples = idService.samplesForListName(comparison)
+	def checkGroupSizes(groups, dataFile) {
+		def groupHash = [:]
 		def allIds = idService.sampleIdsForFile(dataFile)
-		samples = allIds.intersect(samples)
-		
-		def baselineSamples = idService.samplesForListName(baseline)
-		baselineSamples = allIds.intersect(baselineSamples)
-		
-		if(baselineSamples.size < 3 && samples.size < 3) {
-			return "custom.groupSize"
-		} else if(baselineSamples.size < 3) {
-			return "custom.baselineGroupSize"
-		} else if(samples.size < 3) {
-			return "custom.comparisonGroupSize"
+		groups.each { groupName ->
+			def samples = idService.samplesForListName(groupName)
+			samples = allIds.intersect(samples)
+			groupHash[groupName] = samples.size
 		}
-		return
+		
+		return groupHash
 	}
 }
