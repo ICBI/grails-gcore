@@ -70,6 +70,9 @@
 				viewrecords: true, 
 				sortorder: "desc", 
 				multiselect: true, 
+				beforeSelectRow: function() {
+					return false;
+				},
 				subGrid: ${session.subgridModel != [:]},
 				subGridUrl: 'biospecimen',
 				subGridModel: ${session.subgridModel},
