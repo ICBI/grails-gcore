@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title><g:message code="home.teamTitle" /></title>
+        <title><g:message code="home.teamTitle" args="${[appTitle()]}" /></title>
 		<meta name="layout" content="splash" />
 		<g:javascript library="jquery"/>
 		

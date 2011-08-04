@@ -418,7 +418,7 @@ class CollaborationGroupsController {
 	def requestAccess = {
 		if(params.collaborationGroupName){
 			def manager = securityService.findCollaborationManager(params.collaborationGroupName)
-			if(invitationService.requestAccess(session.userId,manager.username,params.collaborationGroupName)){
+			if(manager && invitationService.requestAccess(session.userId,manager.username,params.collaborationGroupName)){
 				log.debug session.userId + " is requesting access to " + params.collaborationGroupName 
 				def sessUser = GDOCUser.findByUsername(session.userId)
 				def userName = buildUserNameForInvite(sessUser)
@@ -427,6 +427,10 @@ class CollaborationGroupsController {
 					sendEmail(manager,subject)
 				}
 				flash.message = message(code:"collaborationGroups.requestEmailMessage",args: [params.collaborationGroupName])
+				redirect(action:"index")
+			}
+			else{
+				flash.error = message(code:"collaborationGroups.noManagerFound")
 				redirect(action:"index")
 			}
 		}else{

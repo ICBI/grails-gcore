@@ -1,4 +1,8 @@
-
+<STYLE type="text/css">
+A:link {color:#336699}
+A:visited {color:#336699}
+A:hover {color:#334477}
+</style>
 <div style="background: #f2f2f2 url(/gdoc/images/border_bottom.gif) top repeat-x;height:100%;" align="center"><br />
 	<div style="border:0px solid black">
 		<span size="6" style="vertical-align:20px;font-size: 11px; font-family: arial,helvetica,sans-serif; color: #1c2674;border:0px solid black">
