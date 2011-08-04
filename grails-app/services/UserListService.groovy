@@ -596,7 +596,11 @@ def idService
             }
 			if(list.tags){
 				list.tags.each{ tag ->
-					unitedTags << tag
+					tag = tag.trim()
+					def clTag = tag.stripIndent()
+					if(clTag != Constants.TEMPORARY){
+						unitedTags << clTag
+					}
 				}
 			}
 			list.studies.each {

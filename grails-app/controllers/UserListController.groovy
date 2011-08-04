@@ -415,8 +415,12 @@ class UserListController {
 		}
 		def tags = []
 		if(params["tags"]){
-			params['tags'].tokenize(",").each{
-				tags << it
+			params['tags'].tokenize(",").each{ tag->
+				tag = tag.trim()
+				def clTag = tag.stripIndent()
+				if(clTag != Constants.TEMPORARY){
+					tags << clTag
+				}
 			}
 		}
 		def userListInstance = userListService.createList(session.userId, params.name, ids, [StudyContext.getStudy()], tags)
