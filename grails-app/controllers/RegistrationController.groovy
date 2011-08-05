@@ -192,7 +192,7 @@ class RegistrationController {
 						return
 					}
 				}else{
-					log.debug cmd.netId + " is an invalid Net-Id. Contact Georgetown University Administration to obtain Net-Id."
+					log.debug cmd.netId + " is an invalid Net-Id."
 					flash.error = message(code: "registration.invalidNetId", args: [cmd.netId])
 					redirect(action:'index')
 					return

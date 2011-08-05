@@ -34,6 +34,7 @@
 		cleanup();
 	}
 	
+	
 	</g:javascript>
 	<g:javascript>
 	$(document).ready( function () {
@@ -53,10 +54,13 @@
 			$("[class*='_name']").each(function(index){
 				//$(this).contentEditable="true";
 			});
+
+	} );
+	$(document).ready( function () {
 			$('.checkall').click(function () {
 					$(this).parents('fieldset:eq(0)').find(':checkbox').attr('checked', this.checked);
 				});
-			
+
 
 	} );
 	

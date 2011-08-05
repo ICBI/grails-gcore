@@ -93,7 +93,7 @@
 					bindCheckboxes();
 					$('a[href*="annotationLink"]').each(function() {
 						$(this).parent("td").removeAttr("title");
-						console.log($("#" + this.innerHTML.replace(/ /g, "_").replace(/\./, '')));
+						//console.log($("#" + this.innerHTML.replace(/ /g, "_").replace(/\./, '')));
 						this.title = $("#" + this.innerHTML.replace(/ /g, "_").replace(/\./, '')).html();
 					});
 					$('a[href*="annotationLink"]').click(function(event) {

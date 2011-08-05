@@ -23,7 +23,7 @@
 </div>
 
 <g:if test="${flash.error}">
-	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.error}</div>
+	<div class="errorDetail" style="width:85%;margin:0 auto;">${flash.error.encodeAsHTML()}</div>
 </g:if>
 
 
