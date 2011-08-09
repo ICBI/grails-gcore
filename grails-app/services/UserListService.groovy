@@ -767,7 +767,7 @@ def listIsTemporary(listName,author){
 		groupsIds.each { groupId ->
 			def samples = idService.samplesForListId(groupId)
 			samples = allIds.intersect(samples)
-			groupHash[groupName] = samples.size
+			groupHash[groupId] = samples.size
 		}
 		
 		return groupHash
