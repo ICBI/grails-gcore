@@ -6,7 +6,7 @@
 		<g:javascript src="deployJava.js"/>
 		<g:javascript src="BrowserDetect.js"/>
 		<g:javascript src="detect.js"/>
-		<meta name="layout" content="splash" />
+		<meta name="layout" content="noHeaderLayout" />
 		<g:javascript library="jquery"/>
 		
 		<!-- styling -->

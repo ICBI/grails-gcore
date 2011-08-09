@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>${g.appTitle()} - Release Notes</title>
-		<meta name="layout" content="splash" />
+		<meta name="layout" content="noHeaderLayout" />
 		<g:javascript library="jquery"/>
 		
     </head>

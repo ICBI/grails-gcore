@@ -218,9 +218,9 @@
 							</td>
 							<td valign="top" rowspan="2" style="width:450px">
 									<div style="display:block;margin-left:30px;">
-										<table border="0">
+										<table border="0" cellspacing="0">
 											<tr>
-											<td style="width:10%" valign="top">
+											<td style="width:10%;" valign="top">
 												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:0px;border-left:1px solid #334477;background-color:#fff"><g:message code="home.findings" /></div>
 												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:1px solid #334477;border-left:1px solid #334477;background-color:#EBF1FF"><g:message code="home.news" /></div>
 												<div class="sel" style="padding:25px;border-top:1px solid #334477;border-right:1px solid #334477;border-left:1px solid #334477;background-color:#EBF1FF;border-bottom:1px solid #334477;"><g:message code="home.publications" /></div>
