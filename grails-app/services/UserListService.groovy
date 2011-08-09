@@ -739,9 +739,9 @@ def decorateListItems(userList){
 	return metadata
 }
 	
-def listIsTemporary(listName,author){
-	log.debug "find if $listName is temporary"
-	def compList = UserList.get(listName)
+def listIsTemporary(listId,author){
+	log.debug "find if $listId is temporary"
+	def compList = UserList.get(listId)
 	if(compList && compList.tags?.contains(Constants.TEMPORARY)){
 		return true
 	}
