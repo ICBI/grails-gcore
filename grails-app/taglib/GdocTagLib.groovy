@@ -164,7 +164,7 @@ class GdocTagLib {
 	}
 	
 	def listNameForId = { attrs ->
-		return userListService.getListNameForId(attrs.id)
+		return userListService.getListNameForId(attrs)
 	}
 	
 }
