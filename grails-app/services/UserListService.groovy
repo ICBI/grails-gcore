@@ -751,9 +751,9 @@ def listIsTemporary(listName,author){
 	return false
 }	
 
-	def doListsOverlap(listOne, listTwo) {
-		def one = UserList.findByName(listOne) 
-		def two = UserList.findByName(listTwo)
+	def doListsOverlap(listIdOne, listIdTwo) {
+		def one = UserList.get(listIdOne) 
+		def two = UserList.get(listIdTwo)
 		def itemsOne = one.listItems.collect { it.value }
 		def itemsTwo = two.listItems.collect { it.value }
 		itemsOne.retainAll(itemsTwo)
@@ -761,11 +761,11 @@ def listIsTemporary(listName,author){
 		return !itemsOne.isEmpty()
 	}
 
-	def checkGroupSizes(groups, dataFile) {
+	def checkGroupSizes(groupsIds, dataFile) {
 		def groupHash = [:]
 		def allIds = idService.sampleIdsForFile(dataFile)
-		groups.each { groupName ->
-			def samples = idService.samplesForListName(groupName)
+		groupsIds.each { groupId ->
+			def samples = idService.samplesForListId(groupId)
 			samples = allIds.intersect(samples)
 			groupHash[groupName] = samples.size
 		}

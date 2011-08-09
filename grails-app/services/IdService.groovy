@@ -2,14 +2,14 @@ class IdService {
 	
 	def patientService
 	
-	def samplesForListName(listName) {
-		def listValues = getGdocIdsForList(listName)
+	def samplesForListId(listId) {
+		def listValues = getGdocIdsForList(listId)
 		
 		return sampleNamesForGdocIds(listValues)
 	}
 	
-	def reportersForListName(listName) {
-		def list = UserList.findByName(listName)
+	def reportersForListId(listId) {
+		def list = UserList.get(listId)
 		
 		def listValues = list.listItems.collect {item ->
 			item.value
@@ -52,8 +52,8 @@ class IdService {
 		return samples
 	}
 	
-	def getGdocIdsForList(listName) {
-		def list = UserList.findByName(listName)
+	def getGdocIdsForList(listId) {
+		def list = UserList.get(listId)
 		
 		def listValues = list.listItems.collect {item ->
 			item.value.toLong()

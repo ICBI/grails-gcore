@@ -33,8 +33,8 @@ class AnnotationService {
 		return platformReporters
 	}
 	
-	def findReportersForGeneListAndFile(listName, file) { 
-		def reporters = findReportersForGeneList(listName)
+	def findReportersForGeneListAndFile(listId, file) { 
+		def reporters = findReportersForGeneList(listId)
 		log.debug "GOT REPORTERS FOR GENE LIST $reporters"
 		def platform = findPlatformForFile(file)
 		log.debug "PLATFORM: $platform"
@@ -53,8 +53,8 @@ class AnnotationService {
 			return null
 	}
 	
-	def findReportersForGeneList(listName) {
-		def list = UserList.findByName(listName)
+	def findReportersForGeneList(listId) {
+		def list = UserList.get(listId)
 		
 		def listValues = list.listItems.collect {item ->
 			item.value
@@ -62,8 +62,8 @@ class AnnotationService {
 		return findAllReportersForGenes(listValues)
 	}
 	
-	def getReportersForGeneList(listName) {
-		def list = UserList.findByName(listName)
+	def getReportersForGeneList(listId) {
+		def list = UserList.get(listId)
 		
 		def listValues = list.listItems.collect {item ->
 			item.value
@@ -71,8 +71,8 @@ class AnnotationService {
 		return getAllReportersForGenes(listValues)
 	}
 	
-	def findReportersForReporterList(listName) {
-		def list = UserList.findByName(listName)
+	def findReportersForReporterList(listId) {
+		def list = UserList.get(listId)
 
 		def listValues = list.listItems.collect {item ->
 			item.value
@@ -80,8 +80,8 @@ class AnnotationService {
 		return listValues
 	}
 	
-	def getReportersForReporterList(listName) {
-		def reporterIds = findReportersForReporterList(listName)
+	def getReportersForReporterList(listId) {
+		def reporterIds = findReportersForReporterList(listId)
 		return findReportersByName(reporterIds)
 	}
 	
