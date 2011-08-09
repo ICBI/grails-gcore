@@ -772,4 +772,9 @@ def listIsTemporary(listName,author){
 		
 		return groupHash
 	}
+	
+	def getListNameForId(listId) {
+		def list = UserList.get(listId)
+		return list.name
+	}
 }

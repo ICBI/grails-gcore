@@ -7,6 +7,7 @@ class GdocTagLib {
 	static returnObjectForTags = ['workflows']
 	
 	def extensionService
+	def userListService
 	
 	def navigationLink = { attrs, body ->
 		if (attrs.controller == params.controller && !attrs.id){
@@ -160,6 +161,10 @@ class GdocTagLib {
 		def items = extensionService.getWorkflowsForType(attrs.type)
 		println items
 		return items
+	}
+	
+	def listNameForId = { attrs ->
+		return userListService.getListNameForId(attrs.id)
 	}
 	
 }
