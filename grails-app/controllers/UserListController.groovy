@@ -534,6 +534,7 @@ class UserListController {
 			return
 		}
 		else{
+			flash['cmd'] = cmd
 			if(isListAccessible(cmd.id)){
 				log.debug "rename list: "+params
 				if(cmd.newName && cmd.id){
