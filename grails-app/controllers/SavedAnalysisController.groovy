@@ -153,4 +153,12 @@ class SavedAnalysisController{
 		}
 	}
 	
+	def invalidAnalysis = {
+		
+	}
+	
+	def insufficientData = {
+		
+	}
+	
 }
