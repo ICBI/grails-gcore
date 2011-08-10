@@ -775,6 +775,11 @@ def listIsTemporary(listId,author){
 	
 	def getListNameForId(listId) {
 		def list = UserList.get(listId)
-		return list.name
+		if(list){
+			return list.name
+		}else{
+			return null
+		}
+		
 	}
 }
