@@ -164,7 +164,7 @@ class GdocTagLib {
 	}
 	
 	def listNameForId = { listId ->
-		if(listId.isLong()) {
+		if(listId && listId.isLong()) {
 			def listName = userListService.getListNameForId(listId)
 			if(listName){
 				return listName
