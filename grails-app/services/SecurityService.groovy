@@ -587,7 +587,7 @@ class SecurityService{
 			}
 
 			else{
-				def aIds
+				def aIds = []
 				if(artifacts){
 					aIds = artifacts.collect{new Long(it.objectId)}.unique()
 				}
@@ -671,8 +671,7 @@ class SecurityService{
 					
 				}
 				log.debug "retain only accesible ids and public ids $type $ids"
-				if(accessibleIds && ids)
-					accessibleIds.retainAll(ids)
+				accessibleIds.retainAll(ids)
 				return accessibleIds
 			}
 	
