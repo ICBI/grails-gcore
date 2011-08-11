@@ -10,7 +10,7 @@
 		<div id="centerContent" style="width:65%;padding:15px">
 			<p style="font-size:14pt"><g:message code="savedAnalysis.invalidAnalysis" /></p>
 			   <div style="font:1em;font-weight:bold"><g:message code="savedAnalysis.invalidAnalysis.explanation" args="${[appTitle(),appVersion()]}" /></div><br /><br />
-				<g:each in="${params}" var="param">
+				<g:each in="${flash.analysisQuery}" var="param">
 					<g:if test="${param.key!='action' && param.key!='controller'}">
 					${param.key}:
 					<g:if test="${param.value.metaClass.respondsTo(params.value, 'max')}">
