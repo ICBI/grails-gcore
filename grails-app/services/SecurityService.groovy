@@ -670,8 +670,9 @@ class SecurityService{
 					}
 					
 				}
-				log.debug "retain only accesible ids and public ids"
-				accessibleIds.retainAll(ids)
+				log.debug "retain only accesible ids and public ids $type $ids"
+				if(accessibleIds && ids)
+					accessibleIds.retainAll(ids)
 				return accessibleIds
 			}
 	
