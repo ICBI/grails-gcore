@@ -782,4 +782,16 @@ def listIsTemporary(listId,author){
 		}
 		
 	}
+	
+	def findByNameAndUserId(listName, userId) {
+		def listHQL = "SELECT distinct list.id FROM UserList list JOIN list.author author  " + 
+		"WHERE author.username = :userId  and name = :listName"
+		println "LISTNAME: $listName $userId"
+		def id = UserList.executeQuery(listHQL,[userId: userId, listName: listName])
+		println "ID: $id"
+		if(!id[0])
+			return -1
+		else
+			return id[0]
+	}
 }

@@ -14,7 +14,7 @@
 					<g:each in="${flash.analysisQuery}" var="param">
 						<g:if test="${param.key!='action' && param.key!='controller'}">
 						${param.key}:
-						<g:if test="${param.value.metaClass.respondsTo(params.value, 'max')}">
+						<g:if test="${param.value && param.value.metaClass.respondsTo(params.value, 'max')}">
 							<g:each in="${param.value}" var="list">
 								${list}&nbsp;&nbsp;
 							</g:each>
