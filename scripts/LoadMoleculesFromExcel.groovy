@@ -18,7 +18,7 @@ target(main: "Load data into the DB from Excel file") {
 	def fileName = new InputStreamReader(System.in).readLine().toUpperCase()
 	def drugFile = new File("dataImport/DRUGS/${fileName}")
 	if(!drugFile.exists()) {
-		println "Cannot find drug-containg file at dataImport/${DRUGS}/${fileName}.  Please check the file name and try again."
+		println "Cannot find drug-containing file at dataImport/DRUGS/${fileName}.  Please check the file name and try again."
 		return
 	}
 	def moleculeService = appCtx.getBean("moleculeService")
