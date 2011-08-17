@@ -15,7 +15,7 @@ target(main: "Load data into the DB from Excel file") {
 	loadApp()
 	configureApp()
 	println "Please specify a drug-containig file name:"
-	def fileName = new InputStreamReader(System.in).readLine().toUpperCase()
+	def fileName = new InputStreamReader(System.in).readLine()
 	def drugFile = new File("dataImport/DRUGS/${fileName}")
 	if(!drugFile.exists()) {
 		println "Cannot find drug-containing file at dataImport/DRUGS/${fileName}.  Please check the file name and try again."

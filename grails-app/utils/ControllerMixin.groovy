@@ -137,8 +137,9 @@ class ControllerMixin {
 	}
 	
 	static lookupListIds(self, ids, params) {
-		def listIds = []
+		def listIds
 		for(def listId : ids) {
+			listIds = []
 			// check if list is old, identified by string name
 			// if so, attempt to lookup by name and author
 			if(listId && !listId.equals(null) && !listId.isLong()){
@@ -152,7 +153,7 @@ class ControllerMixin {
 					self.log.debug "one or more lists used in this analysis has been deleted"
 					self.flash.analysisQuery = params
 					self.redirect(controller:'savedAnalysis', action:'insufficientData')
-					return
+					return false
 				}
 				listId = list.id
 				listIds << listId
