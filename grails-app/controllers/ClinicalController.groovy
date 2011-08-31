@@ -181,8 +181,12 @@ class ClinicalController {
 		log.debug "GOT PARAMS: " + params
 		
 		def patientIds = request.JSON['ids']
-		if(request.JSON['study']){
-			def shortName = request.JSON['study']
+		if(request.JSON['study'] || session.study){
+			def shortName
+			if(request.JSON['study'])
+				shortName = request.JSON['study']
+			if(session.study)
+				shortName = session.study.shortName
 			def study = Study.findByShortName(shortName)
 			StudyContext.setStudy(study.schemaName)
 			loadSubjectTypes()
@@ -204,17 +208,20 @@ class ClinicalController {
 	
 	def qsPatientReport = {
 		def returnVal = [:]
-		log.debug "GOT REQUEST: " + request.JSON
+		log.debug "GOT REQUEST (QS): " + request.JSON
 		log.debug "GOT PARAMS: " + params
 		
 		def patientIds = request.JSON['ids']
-		if(request.JSON['study']){
-			def shortName = request.JSON['study']
+		if(request.JSON['study'] || session.study){
+			def shortName
+			if(request.JSON['study'])
+				shortName = request.JSON['study']
+			if(session.study)
+				shortName = session.study.shortName
 			def study = Study.findByShortName(shortName)
-			session.study = study
 			StudyContext.setStudy(study.schemaName)
 			loadSubjectTypes()
-			log.debug "set study to $shortName"
+			log.debug "setting study to $shortName"
 		}
 		log.debug "SUBJECT IDS: $patientIds"
 		def cleanedIds = patientIds.collect {

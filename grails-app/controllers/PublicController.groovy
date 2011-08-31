@@ -33,20 +33,21 @@ class PublicController {
 		def dataBreakdown = [:]
 		def totalPatient = 0
 		def totalStudies = 0
+		def totalBiospecimen = 0
 		def totalData = new HashSet()
 		def studies = Study.list();
 		def da = dataAvailableService.getMyDataAvailability(studies)
 		if(da["dataAvailability"]){
 			totalStudies = da["dataAvailability"].size()
 		da["dataAvailability"].each{ study ->
-			def disease = study["CANCER"]
+			def disease = study["DISEASE"]
 			//log.debug "disease: " + disease
 			study.each{ key,value ->
 				if(!diseaseBreakdown[disease]){
 					diseaseBreakdown[disease] = [:]
 					diseaseBreakdown[disease]["availableData"] = new HashSet()
 				}
-					if(key == 'CANCER'){
+					if(key == 'DISEASE'){
 					if(diseaseBreakdown[disease]["studyNumber"]){
 						diseaseBreakdown[disease]["studyNumber"] += 1
 						//log.debug "add another $disease study: $study.STUDY"
@@ -54,7 +55,7 @@ class PublicController {
 						diseaseBreakdown[disease]["studyNumber"] = 1
 					}
 					}
-					if(key == 'CLINICAL'){
+					if(key == 'PATIENT'){
 						if(diseaseBreakdown[disease]["patientNumber"]){
 								diseaseBreakdown[disease]["patientNumber"] += value
 						}else{
@@ -62,9 +63,18 @@ class PublicController {
 						}
 						totalPatient += value
 					}
+					if(key == 'BIOSPECIMEN'){
+						if(diseaseBreakdown[disease]["biospecimenNumber"]){
+								diseaseBreakdown[disease]["biospecimenNumber"] += value
+						}else{
+								diseaseBreakdown[disease]["biospecimenNumber"] = value
+						}
+						totalBiospecimen += value
+					}
+					//add map values below
 					
 				
-				if(key != "STUDY" &&  key != "CANCER"){
+				if(key != "STUDY" &&  key != "DISEASE" && key != "subjectType"){
 					if(value > 0){
 						//log.debug  "$disease has $key available"
 						def nameAndImage = [:]

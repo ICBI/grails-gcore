@@ -82,6 +82,7 @@ class ControllerMixin {
 			loadPatientLists(self)
 			loadReporterLists(self)
 			loadGeneLists(self)
+			loadSubjectTypes(self)
 			self.session.endpoints = KmAttribute.findAll()
 			self.session.files = self.htDataService.getHTDataMap()
 			self.session.dataSetType = self.session.files.keySet()

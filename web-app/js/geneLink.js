@@ -19,16 +19,13 @@
 			switch(settings.menuType) {
 				case 'gene':
 					if(settings.advancedMenu) {
-						if(settings.kmData.length > 1) {
+						if(settings.kmData.length > 0) {
 							menu += "<li><a>Perform Gene Expression KM</a><ul>";
 							$(settings.kmData).each(function() {
 								menu += "<li><a href='#' class='contextItem' id='KM'>Endpoint: " + this[0] + "</a></li>";
 							});
 							menu += "</ul></li>";
-						} else {
-							menu += "<li><a href='#' class='contextItem' id='KM'>Perform Gene Expression KM</a></li>";
-						}
-
+						} 
 						menu += "<li><a href='#' class='contextItem' id='GENEEXPRESSION'>Perform Gene Expression Search</a></li>";
 					}
 					menu += "<li><a href='#' class='contextItem' id='ENTREZ'>Search in Entrez</a></li>	\
