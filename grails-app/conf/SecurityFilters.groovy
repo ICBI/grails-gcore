@@ -42,6 +42,14 @@ class SecurityFilters {
 						 && !controllerName.equals('registration') && !controllerName.equals('activation')
 							&& !controllerName.equals('contact')
 								&& !controllerName.equals('policies')) {
+				  if(request.forwardURI-request.contextPath){
+					def targetUrl = (request.forwardURI-request.contextPath)
+					if(request.getQueryString()){
+						targetUrl += "?" + request.getQueryString()
+					}
+					redirect(controller:'home', action:'index', params:[url:targetUrl])
+					return false
+				  }
 				  redirect(controller:'home', action:'index')
                   return false
               }

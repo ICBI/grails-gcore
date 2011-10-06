@@ -82,8 +82,8 @@ class WorkflowsController {
 		}
 		def pendingInvites = invitationService.getInvitesThatRequireAction(session.userId,lastLogin)
 		if(params.desiredPage){
-			log.debug "done with profile loading, user has requested another view"
-			redirect(controller:params.desiredPage)
+			log.debug "profile loaded, send user to requested url, $params.desiredPage"
+			redirect(uri:params.desiredPage)
 		}
 		
 		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"]]

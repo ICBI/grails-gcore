@@ -7,12 +7,13 @@ import javax.jms.QueueConnectionFactory
 import org.springframework.context.ApplicationContext
 import org.apache.commons.logging.LogFactory
 import org.apache.commons.lang.StringUtils
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 class GcoreGrailsPlugin {
 	
 	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
-    def version = "0.4.9"
+    def version = "0.5.0"
 	// groupName
 	def groupId = "edu.georgetown.gcore"
     // the version or versions of Grails the plugin is designed for
@@ -46,7 +47,7 @@ Brief description of the plugin.
 	
 		//config = getConfiguration(parentCtx, application)
 		
-		println "Configuring gcore ..."
+		println "Configuring gcore resources ..."
 		
 		ldapUserDetailsMapper(CustomLdapUserDetailsMapper) {}
 		
@@ -69,6 +70,16 @@ Brief description of the plugin.
 			targetBeanName="securityServiceProxy"
 			proxyTargetClass=true
 		} 
+		
+		authenticationSuccessHandler(AuthSuccessHandler) {
+		        def conf = SpringSecurityUtils.securityConfig
+		        requestCache = ref('requestCache')
+		        defaultTargetUrl = conf.successHandler.defaultTargetUrl
+		        alwaysUseDefaultTargetUrl = conf.successHandler.alwaysUseDefault
+		        targetUrlParameter = conf.successHandler.targetUrlParameter
+		        useReferer = conf.successHandler.useReferer
+		        redirectStrategy = ref('redirectStrategy')
+		}
     }
 
     def doWithDynamicMethods = { ctx ->

@@ -59,7 +59,7 @@
 <form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
 <input type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="${message(code: 'header.userName')}" />
 <input type='password' name='j_password' id='password' size="15" />
-<g:hiddenField name="desiredPage" value="${params.desiredPage}" />
+<g:hiddenField name="desiredPage" value="${params.url}" />
 <input type='submit' value="${message(code: 'header.login')}" />
 </form>
 

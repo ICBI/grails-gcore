@@ -24,8 +24,6 @@ class HomeController implements ApplicationContextAware{
 	def springSecurityService
 	
     def index = { 
-		log.info("The application context is : " + applicationContext) 
-		
 		def sconfig = SpringSecurityUtils.securityConfig
 
 		if (springSecurityService.isLoggedIn()) {
@@ -34,9 +32,8 @@ class HomeController implements ApplicationContextAware{
 		}
 		
 		//get LCCC feed
-		println "get feed"
+		log.debug "get feed"
 		def feedMap = feedService.getFeed()
-		println "does this bean exist?"
 		//get patient counts for each study
 		def studies = Study.list();
 		def findings = findingService.getAllFindings()

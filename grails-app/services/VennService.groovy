@@ -346,8 +346,8 @@ def createIntersection3ListDictionary(lists){
 		//log.debug "$c.name now has size of " + listCOnly.size() + ", removed  bc intersect"
 		dictionary["C"] = listCOnly
 	}
-	//log.debug "$c.name is $listCOnly"
-
+	
+	
 	
 	
 	if(dictionary[a.name+b.name].size() > 0){
@@ -361,6 +361,21 @@ def createIntersection3ListDictionary(lists){
 				//log.debug "found intersection beetween $a.name and $b.name and $c.name"
 				//log.debug "3 lists now have intersection data of $listABC.size()"
 				dictionary[a.name+b.name+c.name] = listABC
+				//new code
+				log.debug "remove abc from ab "+dictionary[a.name+b.name]
+				dictionary[a.name+b.name].removeAll(listABC)
+				log.debug "done removing "+dictionary[a.name+b.name]
+				if(dictionary[a.name+c.name].size() > 0){
+					log.debug "remove abc from ac "+dictionary[a.name+c.name]
+					dictionary[a.name+c.name].removeAll(listABC)
+					log.debug "done removing "+dictionary[a.name+c.name]
+				}
+				if(dictionary[b.name+c.name].size() > 0){
+					log.debug "remove abc from bc "+dictionary[b.name+c.name]
+					dictionary[b.name+c.name].removeAll(listABC)
+					log.debug "done removing "+dictionary[b.name+c.name]
+				}
+				//end new code
 				def vennInfo = finalizeGroupsForVennDisplay(dictionary,a,b,c,null)
 				vennData = vennInfo[0]
 				graphData = vennInfo[1]
@@ -550,7 +565,34 @@ def createIntersection4ListDictionary(lists){
 		dictionary[d.name] = listDOnly
 	}
 	//log.debug "$c.name is $listCOnly"
-
+	
+	//NEW CODE for doubles
+	//for each pair ab, ac, ad, bc, bd, cd -- remove abc, abd, acd, bcd
+	if(dictionary[a.name+b.name] && dictionary[a.name+b.name].size() > 0){
+		dictionary[a.name+b.name].removeAll(a_b_cMap.dictionary[a.name+b.name+c.name])
+		dictionary[a.name+b.name].removeAll(a_b_dMap.dictionary[a.name+b.name+d.name])
+	}
+	if(dictionary[a.name+c.name] && dictionary[a.name+c.name].size() > 0){
+		dictionary[a.name+c.name].removeAll(a_b_cMap.dictionary[a.name+b.name+c.name])
+		dictionary[a.name+c.name].removeAll(a_c_dMap.dictionary[a.name+c.name+d.name])
+	}
+	if(dictionary[a.name+d.name] && dictionary[a.name+d.name].size() > 0){
+		dictionary[a.name+d.name].removeAll(a_b_dMap.dictionary[a.name+b.name+d.name])
+		dictionary[a.name+d.name].removeAll(a_c_dMap.dictionary[a.name+c.name+d.name])
+	}
+	if(dictionary[b.name+c.name] && dictionary[b.name+c.name].size() > 0){
+		dictionary[b.name+c.name].removeAll(a_b_cMap.dictionary[a.name+b.name+c.name])
+		dictionary[b.name+c.name].removeAll(b_c_dMap.dictionary[b.name+c.name+d.name])
+	}
+	if(dictionary[b.name+d.name] && dictionary[b.name+d.name].size() > 0){
+		dictionary[b.name+d.name].removeAll(a_b_dMap.dictionary[a.name+b.name+d.name])
+		dictionary[b.name+d.name].removeAll(b_c_dMap.dictionary[b.name+c.name+d.name])
+	}
+	if(dictionary[c.name+d.name] && dictionary[c.name+d.name].size() > 0){
+		dictionary[c.name+d.name].removeAll(a_c_dMap.dictionary[a.name+c.name+d.name])
+		dictionary[c.name+d.name].removeAll(b_c_dMap.dictionary[b.name+c.name+d.name])
+	}
+	//end new code for doubles
 	
 	
 	if(a_b_cMap.dictionary[a.name+b.name+c.name] && a_b_cMap.dictionary[a.name+b.name+c.name].size() > 0){
@@ -566,6 +608,27 @@ def createIntersection4ListDictionary(lists){
 				//log.debug "4 lists now have intersection data of $listABCD.size()"
 				dictionary[a.name+b.name+c.name+d.name] = listABCD
 				//finalize for venn display
+				
+				//NEW CODE for triplets
+				//remove abcd from abc, abd, acd, bcd 
+				if(dictionary[a.name+b.name+c.name] && dictionary[a.name+b.name+c.name].size() > 0){
+					log.debug "remove 4some from abc"
+					dictionary[a.name+b.name+c.name].removeAll(dictionary[a.name+b.name+c.name+d.name])
+				}
+				if(dictionary[a.name+b.name+d.name] && dictionary[a.name+b.name+d.name].size() > 0){
+					log.debug "remove 4some from abd"
+					dictionary[a.name+b.name+d.name].removeAll(dictionary[a.name+b.name+c.name+d.name])
+				}
+				if(dictionary[a.name+c.name+d.name] && dictionary[a.name+c.name+d.name].size() > 0){
+					log.debug "remove 4some from acd"
+					dictionary[a.name+c.name+d.name].removeAll(dictionary[a.name+b.name+c.name+d.name])
+				}
+				if(dictionary[b.name+c.name+d.name] && dictionary[b.name+c.name+d.name].size() > 0){
+					log.debug "remove 4some from bcd"
+					dictionary[b.name+c.name+d.name].removeAll(dictionary[a.name+b.name+c.name+d.name])
+				}
+				//END NEW CODE for triplets
+				
 				def vennInfo = finalizeGroupsForVennDisplay(dictionary,a,b,c,d)
 				vennData = vennInfo[0]
 				graphData = vennInfo[1]
