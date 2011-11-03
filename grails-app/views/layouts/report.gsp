@@ -23,14 +23,14 @@
 <div id="doc3" class="yui-t1">
 <div id="hd" style="overflow:hidden;">
     <!-- Header start -->
-    <g:render template="/common/header" plugin="gcore"/>
+    <g:render template="/common/header" />
 
     <!-- Header end -->
 </div>
 <div class="c" style="background:#fff;border:1px solid #000;padding:3px;">
 	<div style="padding:5px">
 	<g:if test="${controllerName != 'admin'}">
-		<g:render template="/common/nav_top" plugin="gcore" />
+		<g:render template="/common/nav_top"  />
 	</g:if>
 	
 <br/>
@@ -40,7 +40,7 @@
 
 <div id="ft">
     <!-- Footer start -->
-    <g:render template="/common/footer" plugin="gcore"/>
+    <g:render template="/common/footer" />
     <!-- Footer end -->
 </div>
 </div>

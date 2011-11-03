@@ -46,7 +46,7 @@
 
 
 <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-<a href="/${appName()}"><img src="${resource(dir:'images',file:appLogo(), plugin: 'gcore')}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
+<a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
 </td><td valign="bottom" style="text-align:right;padding:7px">
 <span style="color:#f2f2f2"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 
