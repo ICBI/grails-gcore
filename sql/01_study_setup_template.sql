@@ -1,40 +1,9 @@
-
-CREATE ROLE read_${projectName};
-CREATE ROLE insert_${projectName};
-CREATE ROLE edit_${projectName};
-CREATE ROLE create_${projectName};
-
-GRANT CREATE MATERIALIZED VIEW TO create_${projectName};
-GRANT CREATE PROCEDURE TO create_${projectName};
-GRANT CREATE PUBLIC SYNONYM TO create_${projectName};
-GRANT CREATE SEQUENCE TO create_${projectName};
-GRANT CREATE SESSION TO create_${projectName};
-GRANT CREATE SYNONYM TO create_${projectName};
-GRANT CREATE TABLE TO create_${projectName};
-GRANT CREATE VIEW TO create_${projectName};
-GRANT CREATE TRIGGER to create_${projectName};
-
-GRANT read_${projectName} TO create_${projectName}; 
-GRANT read_${projectName} TO insert_${projectName};
-GRANT read_${projectName} TO edit_${projectName};
-
-GRANT insert_${projectName} TO create_${projectName}; 
-GRANT insert_${projectName} TO edit_${projectName};
-
-
 CREATE USER ${projectName} 
   IDENTIFIED BY cur34c4nc3r
   DEFAULT TABLESPACE USERS
   TEMPORARY TABLESPACE TEMP
   QUOTA UNLIMITED ON USERS;
 GRANT CREATE SESSION TO ${projectName};
-GRANT create_${projectName} to ${projectName};
-GRANT create_${projectName} to mcgdoc;
-GRANT edit_${projectName} to mcgdoc;
-GRANT insert_${projectName} to mcgdoc;
-
-GRANT read_common to ${projectName};
-GRANT READ_${projectName} to guidoc;
 
 GRANT REFERENCES ON COMMON.ATTRIBUTE_TYPE to ${projectName};
 GRANT REFERENCES ON COMMON.ATTRIBUTE_VOCABULARY to ${projectName};
