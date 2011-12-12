@@ -240,12 +240,9 @@
 					} else {
 						if(selectedParentIds[id])
 							delete selectedParentIds[id];
-						console.log("deleting");
 						if(${session.subgridModel != [:]}) {
 							// remove children
-							console.log(parentChildMap[id]);
 							$.each(parentChildMap[id], function(index, childId) {
-								console.log("deleting: " + childId + " " + selectedChildIds);
 								if(selectedChildIds[childId])
 									delete selectedChildIds[childId];
 							});
