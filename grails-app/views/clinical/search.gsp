@@ -51,6 +51,7 @@
 		var selectAll = false;
 		var allParentIds = ${session.allParentIds};
 		var allChildIds = ${session.allChildIds};
+		var parentChildMap = ${session.parentChildMap};
 		$(document).ready(function(){
 			jQuery("#searchResults").jqGrid({ 
 				url:'view', 
@@ -215,6 +216,12 @@
 						selectedChildIds[id] = id;
 					} else {
 						selectedParentIds[id] = id;
+						if(${session.subgridModel != [:]}) {
+							// Add children
+							$.each(parentChildMap[id], function(index, childId) {
+								selectedChildIds[childId] = childId;
+							});
+						}
 					}
 					parent.addClass("ui-state-highlight");
 					if(sub.hasClass("ui-subgrid")) {
@@ -231,7 +238,18 @@
 					if($(this).hasClass("subcbox")) {
 						delete selectedChildIds[id];
 					} else {
-						delete selectedParentIds[id];
+						if(selectedParentIds[id])
+							delete selectedParentIds[id];
+						console.log("deleting");
+						if(${session.subgridModel != [:]}) {
+							// remove children
+							console.log(parentChildMap[id]);
+							$.each(parentChildMap[id], function(index, childId) {
+								console.log("deleting: " + childId + " " + selectedChildIds);
+								if(selectedChildIds[childId])
+									delete selectedChildIds[childId];
+							});
+						}
 					}
 					parent.removeClass("ui-state-highlight");
 					if(sub.hasClass("ui-subgrid")) {

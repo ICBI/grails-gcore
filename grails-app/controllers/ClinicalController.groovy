@@ -38,7 +38,6 @@ class ClinicalController {
 				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
-					session.biospecimenIds = biospecimenIds
 					log.debug "GOT IDS ${biospecimenIds.size()}"
 					if(!biospecimenIds){
 						log.debug "no biospecimens found for criteria, return no results"
@@ -49,7 +48,7 @@ class ClinicalController {
 			}
 			log.debug "CRITERIA: " + criteria
 			searchResults = clinicalService.queryByCriteria(criteria, session.subjectTypes["parent"], biospecimenIds)
-			processResults(searchResults)
+			processResults(searchResults, biospecimenIds)
 	}
 	
 	def searchFromAnalysis = {
@@ -260,9 +259,14 @@ class ClinicalController {
 	}
 	
 	private processResults(searchResults) {
+		processResults(searchResults, [])
+	}
+	
+	private processResults(searchResults, childIds) {
 		//log.debug searchResults
 		def allParentIds = [:]
 		def allChildIds = [:]
+		def parentChildMap = [:]
 		def columns = []
 		def annotations = [:]
 		columns << [index: "id", name: "GDOC ID", sortable: true, width: '100']
@@ -282,15 +286,17 @@ class ClinicalController {
 			}
 			allParentIds[patient.id] = patient.id
 			patient.children.each { child ->
-				allChildIds[child.id] = child.id
+				if(childIds.contains(child.id)) {
+					allChildIds[child.id] = child.id
+					if(!parentChildMap[patient.id]) {
+						parentChildMap[patient.id] = []
+					}
+					parentChildMap[patient.id] << child.id
+				}
 			}
 		}
-		if(session.biospecimenIds) {
-			allChildIds = [:]
-			session.biospecimenIds.each {
-				allChildIds[it] = it
-			}
-		}
+		session.biospecimenIds = allChildIds.keySet()
+		
 		columnNames.sort()
 		columnNames.each {
 			println it
@@ -318,6 +324,7 @@ class ClinicalController {
 		session.allParentIds = allParentIds as JSON
 		session.allChildIds = allChildIds as JSON
 		session.annotations = annotations
+		session.parentChildMap = parentChildMap as JSON
 		setupBiospecimens()
 	}
 	
