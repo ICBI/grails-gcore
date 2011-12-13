@@ -13,7 +13,7 @@ class GcoreGrailsPlugin {
 	
 	static LOG = LogFactory.getLog("GcoreGrailsPlugin")
     // the plugin version
-    def version = "0.5.1"
+    def version = "0.5.2"
 	// groupName
 	def groupId = "edu.georgetown.gcore"
     // the version or versions of Grails the plugin is designed for
