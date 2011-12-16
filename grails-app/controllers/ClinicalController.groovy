@@ -276,7 +276,7 @@ class ClinicalController {
 		log.debug searchResults
 		searchResults.each { patient ->
 			patient.clinicalData.each { key, value ->
-				if(!columnNames.contains(key)) {
+				if(columnNames && !columnNames.contains(key)) {
 					columnNames << key
 				}
 				if(key == "PARENT_CELL_LINE") {
@@ -286,7 +286,7 @@ class ClinicalController {
 			}
 			allParentIds[patient.id] = patient.id
 			patient.children.each { child ->
-				if(childIds.contains(child.id)) {
+				if(childIds && childIds.contains(child.id)) {
 					allChildIds[child.id] = child.id
 					if(!parentChildMap[patient.id]) {
 						parentChildMap[patient.id] = []
