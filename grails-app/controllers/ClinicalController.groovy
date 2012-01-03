@@ -276,7 +276,7 @@ class ClinicalController {
 		log.debug searchResults
 		searchResults.each { patient ->
 			patient.clinicalData.each { key, value ->
-				if(columnNames && !columnNames.contains(key)) {
+				if(!columnNames.contains(key)) {
 					columnNames << key
 				}
 				if(key == "PARENT_CELL_LINE") {
@@ -299,7 +299,7 @@ class ClinicalController {
 		
 		columnNames.sort()
 		columnNames.each {
-			println it
+			//println it
 			def column = [:]
 			column["index"] = it
 			column["name"] = it
