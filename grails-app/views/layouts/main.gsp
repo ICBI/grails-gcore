@@ -19,6 +19,7 @@
 		
 		<g:javascript library="jquery"/>
 		<g:layoutHead/>
+		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		
 		
 		

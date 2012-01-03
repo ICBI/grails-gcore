@@ -18,6 +18,7 @@
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
 		<g:javascript library="jquery"/>
 		<g:layoutHead/>
+		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		
 </head>
 <body style="background-color:#334477">
