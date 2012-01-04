@@ -113,6 +113,17 @@ class ClinicalService {
 		return selectStmnt
 	}
 	
+	def getExistingSubjectsIdsForChildIds(biospecimenIds){
+		def parentsId = []
+		parentsId = getSubjectsIdsForChildIds(biospecimenIds)
+		if(parentsId){
+			//log.debug "remove nulls $parentsId"
+			parentsId.removeAll([null])
+			//log.debug "removed nulls $parentsId"
+		}
+		return parentsId
+	}
+	
 	def getSubjectsIdsForChildIds(biospecimenIds) { 
 		
 		def engine = new SimpleTemplateEngine()

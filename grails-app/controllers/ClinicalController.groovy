@@ -198,7 +198,16 @@ class ClinicalController {
 			return temp
 		}
 		log.debug "CLEANED : $cleanedIds"
-		def results = clinicalService.getPatientsForGdocIds(cleanedIds)
+		log.debug "Are these patients or samples?"
+		def results
+		def parentsId = clinicalService.getExistingSubjectsIdsForChildIds(cleanedIds)
+		if(parentsId){
+			log.debug "these are samples ids, lets get subjects"
+			results = clinicalService.getPatientsForGdocIds(parentsId)
+		}else{
+			log.debug "these are patient ids"
+			results = clinicalService.getPatientsForGdocIds(cleanedIds)
+		}
 		log.debug "RESULTS: $results"
 		processResults(results)
 		render(view:"search")
