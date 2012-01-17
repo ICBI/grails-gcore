@@ -148,6 +148,9 @@
 														<p><a href="${feedItem.value}" target="_blank">${feedItem.key}</a></p>
 													</g:each>
 													</g:if>
+													<g:else>
+													<g:message code="home.noFeedMessage" />
+													</g:else>
 													</div>
 												</div>
 												
