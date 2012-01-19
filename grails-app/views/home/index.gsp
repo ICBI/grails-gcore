@@ -143,8 +143,8 @@
 												
 												<div id="news" class="parts" style="padding:15px;border-bottom:1px solid #334477;height:330px;border-right:1px solid #334477;height:330px;border-top:1px solid #334477;height:330px;overflow: scroll;display:none">
 													<div class="partDiv">
-													<g:if test="${feedMap}">
-													<g:each in="${feedMap}" var="feedItem">
+													<g:if test="${newsFeedMap}">
+													<g:each in="${newsFeedMap}" var="feedItem">
 														<p><a href="${feedItem.value}" target="_blank">${feedItem.key}</a></p>
 													</g:each>
 													</g:if>
@@ -156,7 +156,14 @@
 												
 												<div id="pub" class="parts" style="padding:15px;border-bottom:1px solid #334477;height:330px;border-right:1px solid #334477;height:330px;border-top:1px solid #334477;height:330px;overflow: scroll;display:none">
 													<div class="partDiv">
-									<g:message code="home.pubMessage" args="${[appTitle()]}"/>
+														<g:if test="${pubFeedMap}">
+														<g:each in="${pubFeedMap}" var="feedItem">
+															<p><a href="${feedItem.value}" target="_blank">${feedItem.key}</a></p>
+														</g:each>
+														</g:if>
+														<g:else>
+														<g:message code="home.noPubFeedMessage" />
+														</g:else>
 													</div>
 												</div>
 											</td>

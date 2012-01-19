@@ -1,12 +1,9 @@
-import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 
 class FeedService{
 	
-	def getFeed(){
+	def getFeed(feedURL){
 		def feedMap = [:]
-		def feedURL = ""
 		try{
-			feedURL = CH.config.grails.feedURL
 			if(feedURL){
 		    	def xmlFeed = new XmlParser().parse(feedURL);
 				if(xmlFeed.entry){

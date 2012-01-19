@@ -32,8 +32,9 @@ class HomeController implements ApplicationContextAware{
 		}
 		
 		//get LCCC feed
-		log.debug "get feed"
-		def feedMap = feedService.getFeed()
+		log.debug "get feeds"
+		def newsFeedMap = feedService.getFeed(CH.config.grails.newsFeedURL)
+		def pubFeedMap = feedService.getFeed(CH.config.grails.pubFeedURL)
 		//get patient counts for each study
 		def studies = Study.list();
 		def findings = findingService.getAllFindings()
@@ -111,7 +112,7 @@ class HomeController implements ApplicationContextAware{
 
 		String postUrl = "${request.contextPath}${sconfig.apf.filterProcessesUrl}"
 		
-		[postUrl: postUrl,diseaseBreakdown:diseaseBreakdown, dataBreakdown:dataBreakdown, feedMap:feedMap, findings:findings]
+		[postUrl: postUrl,diseaseBreakdown:diseaseBreakdown, dataBreakdown:dataBreakdown, newsFeedMap:newsFeedMap,pubFeedMap:pubFeedMap, findings:findings]
 	}
 	
 	def workflows = {
