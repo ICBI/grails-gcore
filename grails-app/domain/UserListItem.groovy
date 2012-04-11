@@ -6,11 +6,11 @@ class UserListItem {
 	}
 	
 	static searchable = {
-	    list reference: true
+	    parentList reference: true
 	}
 
 	static belongsTo = UserList
-	UserList list
+	UserList parentList
 	String value
 
 }

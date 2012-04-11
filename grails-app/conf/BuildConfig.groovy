@@ -27,14 +27,15 @@ grails.project.dependency.resolution = {
 	}
 	
 	plugins {
-		build ':recaptcha:0.5.2'
-		build ':searchable:0.5.5'
-		build ':taggable:0.6.1'
-		build ':jquery:1.3.2.4'
-		build ':mail:0.9'
-		build ':quartz:0.4.1'
-		build ':spring-security-core:1.1.2'
-		build ':spring-security-ldap:1.0.3'
+		compile ':recaptcha:0.5.2'
+		compile ':searchable:0.5.5'
+		compile ':taggable:0.6.1'
+		compile ':jquery:1.3.2.4'
+		compile ':mail:0.9'
+		compile ':quartz:0.4.1'
+		compile ':spring-security-core:1.2.7.3'
+		compile ':spring-security-ldap:1.0.5'
+		compile ':tomcat:2.0.3'
 		build(':svn:1.0.2') {
 			export = false
 		}
