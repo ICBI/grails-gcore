@@ -3,6 +3,7 @@ class UserListItem {
 	
 	static mapping = {
 		table 'USER_LIST_ITEM'
+		parentList column: 'LIST_ID'
 	}
 	
 	static searchable = {
