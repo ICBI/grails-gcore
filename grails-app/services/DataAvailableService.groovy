@@ -44,7 +44,7 @@ class DataAvailableService implements InitializingBean {
 					def studyDA = []
 					studyDA = DataAvailable.findAllByStudyName(study.shortName)
 					studyDA.each{ da->
-						result[da.dataType] = da.count
+						result[da.dataType] = da.dataTypeCount
 					}
 					results << result
 				}
@@ -90,12 +90,12 @@ class DataAvailableService implements InitializingBean {
 											if(key != "STUDY" && key != "DISEASE"){
 												def exists = DataAvailable.findByStudyNameAndDataType(result["STUDY"],key)
 												if(!exists){
-													def da = new DataAvailable(studyName:result["STUDY"],diseaseType:result["DISEASE"],dataType:key,count:value)
+													def da = new DataAvailable(studyName:result["STUDY"],diseaseType:result["DISEASE"],dataType:key,dataTypeCount:value)
 													if(da.save(flush:true)){
 														log.debug "saved $key data for " + result["STUDY"]
 													}
 												}else{
-													exists.count = value
+													exists.dataTypeCount = value
 													if(exists.save(flush:true)){
 														log.debug "updated $key data for " + result["STUDY"]
 													}

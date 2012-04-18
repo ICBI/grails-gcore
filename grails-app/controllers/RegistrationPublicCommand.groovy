@@ -1,4 +1,6 @@
+import org.codehaus.groovy.grails.validation.Validateable
 
+@Validateable
 class RegistrationPublicCommand {
 
 	String userId

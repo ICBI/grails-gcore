@@ -443,7 +443,7 @@ class CollaborationGroupsController {
 		def baseUrl = CH.config.grails.serverURL
 		log.debug "my base is " + baseUrl
 		def token = sendTo.username + "||" + System.currentTimeMillis()
-		def collabUrl = baseUrl+"/${g.appName()}/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+		def collabUrl = baseUrl+"/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
 		//log.debug collabUrl
 		mailService.sendMail{
 			to sendTo.email

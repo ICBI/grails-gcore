@@ -1,3 +1,6 @@
+import org.codehaus.groovy.grails.validation.Validateable
+
+@Validateable
 class CreateCollabCommand {
 
 	String collaborationGroupName

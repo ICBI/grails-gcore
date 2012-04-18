@@ -14,8 +14,8 @@ class UserListController {
 	def htDataService
 	
     def index = { 
-		log.debug params
-		redirect(action:list,params:params) 
+		redirect(action:'list',params:params) 
+		
 	}
 
     def list = {
