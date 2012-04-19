@@ -65,16 +65,25 @@ class SavedAnalysisService {
 		def user = GDOCUser.findByUsername(userId)
 		log.debug notification.item.taskId
 		def params = command.properties
-		log.debug "PARAMS: " + params
-		params.keySet().removeAll( ['errors', 'class', 'metaClass', 'annotationService', 'requestType', 'idService', 'userListService', 'constraints'] as Set )
-		def json = params as JSON
-		def newAnalysis = new SavedAnalysis(type: command.requestType, query: params,  analysis: notification , author:user, status: notification.status, taskId: notification.item.taskId)
+		def queryData = [:]
+		params.each { k, v ->
+			if(!['errors', 'class', 'metaClass', 'annotationService', 'requestType', 'idService', 'userListService', 'constraints'].contains(k)) {
+				queryData[k] = v
+			}
+		}
+		def newAnalysis = new SavedAnalysis()
+		newAnalysis.type = command.requestType
+		newAnalysis.query = queryData
+		newAnalysis.analysis = notification
+		newAnalysis.author = user
+		newAnalysis.status = notification.status
+		newAnalysis.taskId = notification.item.taskId
 		def study = Study.findBySchemaName(command.study)
 		newAnalysis.addToStudies(study)
 		newAnalysis.save(flush:true)
 		if(tags){
 			tags.each {
-				//log.debug "add tag, $it to analysis"
+				log.debug "add tag, $it to analysis $newAnalysis"
 				newAnalysis.addTag(it)
 			}
 		}
@@ -86,13 +95,20 @@ class SavedAnalysisService {
 	
 	def saveAnalysisResult(userId, result, command, tags){
 		def user = GDOCUser.findByUsername(userId)
-		//log.debug ("THE RESULT:")
-		//log.debug result
-		//log.debug ("THE COMMAND PARAMS:")
 		def params = command.properties
-		params.keySet().removeAll( ['errors', 'class', 'metaClass', 'requestType', 'annotationService', 'userListService', 'constraints'] as Set )
+		def queryData = [:]
+		params.each { k, v ->
+			if(!['errors', 'class', 'metaClass', 'annotationService', 'requestType', 'idService', 'userListService', 'constraints'].contains(k)) {
+				queryData[k] = v
+			}
+		}
 		log.debug "going to send: " + command.requestType + ", " + params + ", " + result + ", " + user
-		def newAnalysis = new SavedAnalysis(type: command.requestType, query: params,  analysisData: result , author:user, status: "Complete")
+		def newAnalysis = new SavedAnalysis()
+		newAnalysis.type = command.requestType
+		newAnalysis.query = queryData
+		newAnalysis.analysisData = result
+		newAnalysis.author = user
+		newAnalysis.status = "Complete"
 		def study = Study.findBySchemaName(command.study)
 		newAnalysis.addToStudies(study)
 		newAnalysis.save(flush:true)
