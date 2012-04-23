@@ -13,6 +13,7 @@ class SavedAnalysis implements Taggable {
 	
 	static constraints = {
 		taskId nullable: true
+		analysisData maxSize: 1024 * 1024 * 10  //10 MB
 	}
 	
 	static hasMany = [studies:Study,evidence:Evidence]
