@@ -475,14 +475,20 @@ class CollaborationGroupsController {
 			if(permitted){
 				log.debug("permission granted to delete $cmd.users from $cmd.collaborationGroupName")
 				def manager = securityService.findCollaborationManager(cmd.collaborationGroupName)
-				def delString = ""
-				cmd.users.each{ user ->
-					invitationService.revokeAccess(manager.username, user, cmd.collaborationGroupName)
-					log.debug "$user has been removed from " + cmd.collaborationGroupName 
-					delString += user + ", "
+				if(manager){
+					def delString = ""
+					cmd.users.each{ user ->
+						invitationService.revokeAccess(manager.username, user, cmd.collaborationGroupName)
+						log.debug "$user has been removed from " + cmd.collaborationGroupName 
+						delString += user + ", "
+					}
+					flash.message = message(code:"collaborationGroups.deletedUsers",args:[delString, cmd.collaborationGroupName])
+					redirect(action:'index')
 				}
-				flash.message = message(code:"collaborationGroups.deletedUsers",args:[delString, cmd.collaborationGroupName])
-				redirect(action:'index')
+				else{
+					flash.error = message(code:"collaborationGroups.noManagerFound")
+					redirect(action:"index")
+				}
 			}
 			else{
 				log.debug "user CANNOT delete users from the $cmd.collaborationGroupName"

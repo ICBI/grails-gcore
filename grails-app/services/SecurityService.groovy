@@ -427,7 +427,9 @@ class SecurityService{
 		if(isUserGroupManager(username, groupName)) {
 			def user =  GDOCUser.findByUsername(targetUser)
 			def collabGroup = CollaborationGroup.findByName(groupName.toUpperCase())
+			log.debug "got collab group $collabGroup"
 			def memberships = Membership.findAllByUserAndCollaborationGroup(user,collabGroup)
+			log.debug "got memberships group $memberships"
 			if(memberships){
 				def ids = []
 				memberships.each{
@@ -456,6 +458,8 @@ class SecurityService{
 		}
 		if(managerMem){
 			return managerMem.user
+		}else{
+			log.debug "NO manager?"
 		}
 		
 	}
@@ -577,6 +581,7 @@ class SecurityService{
 			def artifactHQL = "SELECT distinct artifact FROM ProtectedArtifact artifact JOIN artifact.groups groups " + 
 			"WHERE artifact.type = :type " + 
 			"AND groups IN (:groups) "
+			log.debug "grabbed $itemType from " + groups
 			artifacts = ProtectedArtifact.executeQuery(artifactHQL, [type: itemType, groups: groups])
 			artifacts.flatten()
 			def ids = []
@@ -654,13 +659,23 @@ class SecurityService{
 					def artifactHQL = "SELECT distinct list.id FROM UserList list JOIN list.studies studies " + 
 					"WHERE studies IN (:studies) "
 					accessibleIds = UserList.executeQuery(artifactHQL, [studies: studies])
+					def listsNoStudy = []
+					def listHQL = "SELECT distinct list.id FROM UserList list WHERE list.id IN (:ids) and size(list.studies) = 0"
+					log.debug "get ids have no study "
+					listsNoStudy = UserList.executeQuery(listHQL, [ids:ids])
+					if(listsNoStudy){ 
+						listsNoStudy.each{ lnsId->
+							accessibleIds << new Long(lnsId)
+						}
+					}
+					log.debug "the following " + ids.size + " ids have no study " + listsNoStudy + "now add them"
 				}
 				if(type == SavedAnalysis.class.name){
 					def artifactHQL = "SELECT distinct analysis.id FROM SavedAnalysis analysis JOIN analysis.studies studies " + 
 					"WHERE studies IN (:studies) "
 					accessibleIds = SavedAnalysis.executeQuery(artifactHQL, [studies: studies])
 				}
-				log.debug "grab all public ids of type $type"
+				log.debug "grab all public ids and group of type $type in $groups"
 				def publicHQL = "SELECT distinct artifact.objectId FROM ProtectedArtifact artifact JOIN artifact.groups groups " + 
 				"WHERE artifact.type = :type AND groups IN (:groups) "
 				def publicIds = ProtectedArtifact.executeQuery(publicHQL, [type: type, groups: groups])
@@ -671,6 +686,7 @@ class SecurityService{
 					
 				}
 				log.debug "retain only accesible ids and public ids $type $ids"
+				//ids.retainAll(accessibleIds)
 				accessibleIds.retainAll(ids)
 				return accessibleIds
 			}
