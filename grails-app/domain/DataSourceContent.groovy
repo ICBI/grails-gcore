@@ -11,7 +11,7 @@ class DataSourceContent {
 
     static constraints = {
     }
-
+	static belongsTo = Study
 	Study studyDataSource
 	String type
 	Integer showInGui
