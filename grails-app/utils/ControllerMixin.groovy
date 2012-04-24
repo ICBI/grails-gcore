@@ -140,24 +140,27 @@ class ControllerMixin {
 	static lookupListIds(self, ids, params) {
 		def listIds = []
 		for(def listId : ids) {
+			println "IDDDD: $listId CLASS: ${listId.class}"
 			// check if list is old, identified by string name
 			// if so, attempt to lookup by name and author
-			if(listId && !listId.equals(null) && !listId.isLong()){
+			if (listId && ((listId instanceof Integer) || (listId instanceof Long) || listId.toLong())) {
+				//make sure lists have not been deleted
+				if(listId && !listId.equals(null)){
+					def list = UserList.get(listId)
+					if(!list) {
+						self.log.debug "one or more lists used in this analysis has been deleted"
+						self.flash.analysisQuery = params
+						self.redirect(controller:'savedAnalysis', action:'insufficientData')
+						return
+					}
+					listId = list.id
+					listIds << listId
+				}
+			} else if(listId && !listId.equals(null)){
 				self.log.debug "list is legacy and is not identified by numeric id -- Attempting to lookup by name"
 				listId = self.userListService.findByNameAndUserId(listId, self.session.userId)
 			}
-			//make sure lists have not been deleted
-			if(listId && !listId.equals(null)){
-				def list = UserList.get(listId)
-				if(!list) {
-					self.log.debug "one or more lists used in this analysis has been deleted"
-					self.flash.analysisQuery = params
-					self.redirect(controller:'savedAnalysis', action:'insufficientData')
-					return
-				}
-				listId = list.id
-				listIds << listId
-			}
+
 		}
 		return (listIds.size == 1) ? listIds[0] : listIds 
 	}

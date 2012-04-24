@@ -186,4 +186,9 @@ class GdocTagLib {
 		}
 	}
 	
+	def securityToken = { attrs ->
+		def token = attrs.username + "||" + System.currentTimeMillis()
+		out << URLEncoder.encode(EncryptionUtil.encrypt(token))
+	}
+	
 }
