@@ -443,7 +443,7 @@ class CollaborationGroupsController {
 		def baseUrl = CH.config.grails.serverURL
 		log.debug "my base is " + baseUrl
 		def token = sendTo.username + "||" + System.currentTimeMillis()
-		def collabUrl = baseUrl+"/${g.appName()}/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
+		def collabUrl = baseUrl+"/collaborationGroups?token=" + URLEncoder.encode(EncryptionUtil.encrypt(token), "UTF-8")
 		//log.debug collabUrl
 		mailService.sendMail{
 			to sendTo.email
@@ -475,14 +475,20 @@ class CollaborationGroupsController {
 			if(permitted){
 				log.debug("permission granted to delete $cmd.users from $cmd.collaborationGroupName")
 				def manager = securityService.findCollaborationManager(cmd.collaborationGroupName)
-				def delString = ""
-				cmd.users.each{ user ->
-					invitationService.revokeAccess(manager.username, user, cmd.collaborationGroupName)
-					log.debug "$user has been removed from " + cmd.collaborationGroupName 
-					delString += user + ", "
+				if(manager){
+					def delString = ""
+					cmd.users.each{ user ->
+						invitationService.revokeAccess(manager.username, user, cmd.collaborationGroupName)
+						log.debug "$user has been removed from " + cmd.collaborationGroupName 
+						delString += user + ", "
+					}
+					flash.message = message(code:"collaborationGroups.deletedUsers",args:[delString, cmd.collaborationGroupName])
+					redirect(action:'index')
 				}
-				flash.message = message(code:"collaborationGroups.deletedUsers",args:[delString, cmd.collaborationGroupName])
-				redirect(action:'index')
+				else{
+					flash.error = message(code:"collaborationGroups.noManagerFound")
+					redirect(action:"index")
+				}
 			}
 			else{
 				log.debug "user CANNOT delete users from the $cmd.collaborationGroupName"

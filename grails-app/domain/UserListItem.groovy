@@ -3,14 +3,15 @@ class UserListItem {
 	
 	static mapping = {
 		table 'USER_LIST_ITEM'
+		parentList column: 'LIST_ID'
 	}
 	
 	static searchable = {
-	    list reference: true
+	    parentList reference: true
 	}
 
 	static belongsTo = UserList
-	UserList list
+	UserList parentList
 	String value
 
 }

@@ -113,7 +113,7 @@
 		
 		<%--g:message code="study.study"/>:--%>
 		<g:select name="study" 
-				noSelection="${['': message(code: 'study.selectStudy')]}">
+				noSelection="${['': message(code: 'study.selectStudy')]}" from="${[]}">
 				
 		</g:select>
 		<%--from="${myStudies}"

@@ -222,11 +222,13 @@ class ClinicalController {
 		def patientIds = request.JSON['ids']
 		if(request.JSON['study'] || session.study){
 			def shortName
-			if(request.JSON['study'])
-				shortName = request.JSON['study']
 			if(session.study)
 				shortName = session.study.shortName
+			if(request.JSON['study']){
+				shortName = request.JSON['study']
+			}
 			def study = Study.findByShortName(shortName)
+			session.study = study
 			StudyContext.setStudy(study.schemaName)
 			loadSubjectTypes()
 			log.debug "setting study to $shortName"

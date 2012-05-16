@@ -1,6 +1,8 @@
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import org.codehaus.groovy.grails.validation.Validateable
 
+@Validateable
 class ActivationCommand {
 
 	String userId

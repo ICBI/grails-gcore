@@ -60,7 +60,7 @@ def idService
 		if(ids){
 			log.debug "search by term $term"
 			def listHQL = "SELECT distinct list FROM UserList list,UserListItem item JOIN list.author author " + 
-			"WHERE list = item.list " +
+			"WHERE list = item.parentList " +
 			"AND (author.username = :username " +
 			"OR list.id IN (:ids)) " + 
 			"AND (item.value like :term " +
@@ -69,7 +69,7 @@ def idService
 			results = UserList.executeQuery(listHQL, [term:"%"+term+"%", ids:ids, username: userName,max:10, offset:offset])
 			pagedLists["results"] = results
 			def listCountHQL = "SELECT count(distinct list.id) FROM UserList list,UserListItem item JOIN list.author author " + 
-			"WHERE list = item.list " +
+			"WHERE list = item.parentList " +
 			"AND (author.username = :username " +
 			"OR list.id IN (:ids)) " + 
 			"AND (item.value like :term " +
@@ -81,7 +81,7 @@ def idService
 		}
 		else{
 			def listHQL = "SELECT distinct list FROM UserList list,UserListItem item JOIN list.author author " + 
-			"WHERE list = item.list " +
+			"WHERE list = item.parentList " +
 			"AND author.username = :username " +
 			"AND (item.value like :term " +
 			"OR list.name like :term)"
@@ -89,7 +89,7 @@ def idService
 			results = UserList.executeQuery(listHQL, [term:'%'+term+'%', username: userName,max:10, offset:offset])
 			pagedLists["results"] = results
 			def listCountHQL = "SELECT count(distinct list.id) FROM UserList list,UserListItem item JOIN list.author author " + 
-			"WHERE list = item.list " +
+			"WHERE list = item.parentList " +
 			"AND author.username = :username " + 
 			"AND (item.value like :term " +
 			"OR list.name like :term)"

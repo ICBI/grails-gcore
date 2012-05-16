@@ -76,13 +76,13 @@ class Study {
 			def subjectType = "N/A"
 			def da = DataAvailable.findAllByStudyName(this.@shortName)
 			da.each{ 
-				if(it.dataType == SubjectType.PATIENT.value() && it.count >0){
+				if(it.dataType == SubjectType.PATIENT.value() && it.dataTypeCount >0){
 					subjectType = SubjectType.PATIENT.value()
 				}
-				else if((it.dataType == SubjectType.CELL_LINE.value() && it.count >0) || (it.dataType == SubjectType.REPLICATE.value() && it.count >0)){
+				else if((it.dataType == SubjectType.CELL_LINE.value() && it.dataTypeCount >0) || (it.dataType == SubjectType.REPLICATE.value() && it.dataTypeCount >0)){
 					subjectType = SubjectType.CELL_LINE.value()
 				}
-				else if(it.dataType == SubjectType.ANIMAL_MODEL.value() && it.count >0){
+				else if(it.dataType == SubjectType.ANIMAL_MODEL.value() && it.dataTypeCount >0){
 					subjectType = SubjectType.ANIMAL_MODEL.value()
 				}
 			}

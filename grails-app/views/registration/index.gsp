@@ -19,7 +19,7 @@
 
 <div id="userCatDiv" align="center" style="padding:10px">
 <span style="font-size:13pt;"><g:message code="registration.category"/></span><br />
-<g:select id="userCat" from="${categoryList}" noSelection="${['null': message(code:'registration.selectOne')]}" />
+<g:select id="userCat" name="userCat" from="${categoryList}" noSelection="${['null': message(code:'registration.selectOne')]}" />
 </div>
 
 <g:if test="${flash.error}">
@@ -62,8 +62,9 @@
 	$('#publicReg').css('display','block');
 	</g:javascript>
 	</g:if>
+	
 	<fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-	    <legend style="padding:7px"><g:message code="registration.request" args="${[appTitle()]}"/>:</legend>
+	    <legend style="padding:7px"><g:message code="registration.register" args="${[appTitle()]}"/>:</legend>
 		<div style="padding:10px;float:left">
 			<g:if test="${flash.cmd instanceof RegistrationPublicCommand}">
 				<div class="errorDetail">
