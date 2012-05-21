@@ -535,7 +535,7 @@ class UserListController {
 		}
 		else{
 			flash['cmd'] = cmd
-			if(isListAccessible(cmd.id)){
+			if(isListAuthor(cmd.id)){
 				log.debug "rename list: "+params
 				if(cmd.newName && cmd.id){
 					def author = GDOCUser.findByUsername(session.userId)

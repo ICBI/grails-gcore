@@ -15,6 +15,8 @@ class SavedAnalysis implements Taggable {
 		taskId nullable: true
 		analysisData maxSize: 1024 * 1024 * 10  //10 MB
 		queryData maxSize: 1024 * 1024 * 10  //10 MB
+		name nullable: true
+		description nullable: true
 	}
 	
 	static hasMany = [studies:Study,evidence:Evidence]
@@ -31,6 +33,8 @@ class SavedAnalysis implements Taggable {
 	static belongsTo = [author:GDOCUser]
 	Date dateCreated
 	Date lastUpdated
+	String name
+	String description
 	
 	public Object getAnalysis() {
 		if(this.@analysis) {

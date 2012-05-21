@@ -9,13 +9,15 @@ class SavedAnalysisController{
 	def index = {
 		def myAnalyses = []
 		def timePeriods = [
-			30: message(code: "gcore.filter30"), 
-			90: message(code: "gcore.filter90"), 
-			180: message(code: "gcore.filter6months"),
+			30: message(code:"userList.filter30"),
+			90: message(code:"userList.filter90"),
+			180: message(code:"userList.filter6months"),
 			hideShared: message(code: "gcore.filterMyAnalysis"),
+			search: message(code:"savedAnalysis.searchMy"),
 			all: message(code: "gcore.filterAllAnalysis")]
-		def pagedAnalyses = [:]
-		
+		def pagedAnalyses
+		log.debug params
+		def searchTerm = params.searchTerm
 		if(params.analysisFilter){
 			session.analysisFilter = params.analysisFilter
 		}
@@ -26,14 +28,27 @@ class SavedAnalysisController{
 			session.analysisFilter = "all"
 		}
 		if(params.offset){
-			pagedAnalyses = savedAnalysisService.getPaginatedAnalyses(session.analysisFilter,session.sharedAnalysisIds,params.offset.toInteger(),session.userId)
+			pagedAnalyses = savedAnalysisService.getPaginatedAnalyses(session.analysisFilter,session.sharedAnalysisIds,params.offset.toInteger(),session.userId,searchTerm)
 		}
 		else{
-			pagedAnalyses = savedAnalysisService.getPaginatedAnalyses(session.analysisFilter,session.sharedAnalysisIds,0,session.userId)	
+			pagedAnalyses = savedAnalysisService.getPaginatedAnalyses(session.analysisFilter,session.sharedAnalysisIds,0,session.userId,searchTerm)	
 		}
-		
-		log.debug "the count is " + pagedAnalyses.totalCount
-        [ savedAnalysis: pagedAnalyses, allAnalysesSize:pagedAnalyses.totalCount, timePeriods: timePeriods]
+		def allAnalysesSize
+		log.debug pagedAnalyses.metaClass?.hasProperty(pagedAnalyses, "totalCount")
+		if(pagedAnalyses.metaClass?.hasProperty(pagedAnalyses, "totalCount")){
+			allAnalysesSize = pagedAnalyses.totalCount
+			
+		}
+		else if(pagedAnalyses["sa_count"]){
+			//log.debug "searched by term"
+			allAnalysesSize = pagedAnalyses["sa_count"][0]
+			pagedAnalyses = pagedAnalyses["results"]
+		}
+		else{
+			allAnalysesSize = 0;
+		}
+		log.debug "the count is " + allAnalysesSize
+        [ savedAnalysis: pagedAnalyses, allAnalysesSize:allAnalysesSize, timePeriods: timePeriods]
     }
 
 	def delete = {
@@ -158,6 +173,72 @@ class SavedAnalysisController{
 	}
 	
 	def insufficientData = {
+		
+	}
+	
+	def analysisModify = {
+		def name
+		def id
+		def description
+		if(flash['cmd']?.newName)
+			name = flash['cmd'].newName
+		if(params?.name)
+			name = params.name
+		if(flash['cmd']?.id)
+			id = flash['cmd'].id
+		if(params?.id)
+			id = params.id
+		def analysisDescription = SavedAnalysis.get(id)?.description
+		log.debug "got description="+analysisDescription
+			
+		[name:name,id:id,description:analysisDescription]
+		
+	}
+	
+	def modifyAnalysisAttributes = { ModifyAnalysisAttributesCommand cmd ->
+		if(cmd.hasErrors()) {
+			flash['cmd'] = cmd
+			log.debug cmd.errors
+			redirect(action:'analysisModify')
+			return
+		}
+		else{
+			flash['cmd'] = cmd
+			if(isAnalysisAuthor(cmd.id)){
+				log.debug "rename analysis: "+params
+				if(cmd.id && cmd.userId){
+					/**if(savedAnalysisService.isDuplicateAnalysis(session.userId,cmd.id,cmd.newName) ) {
+						log.debug "Analysis not modified. $cmd.newName already exists"
+						flash.error = message(code: "savedAnalysis.rename", args: [cmd.newName])
+						redirect(action:'analysisModify')
+						return
+					}else{**/
+						flash['cmd'] = cmd
+						log.debug "update name and/or description"
+						def analysisInstance = SavedAnalysis.get(cmd.id)
+						analysisInstance.name = cmd.newName?.trim()
+						analysisInstance.description = cmd.description?.trim()
+						if(analysisInstance.save()){
+							flash.message = message(code: "savedAnalysis.updated", args: [cmd.id])
+							redirect(action:'analysisModify')
+							return
+						}else{
+							log.debug "not saved " + analysisInstance.errors
+						}
+					//}
+				}else{
+					log.debug "no user id or id passed in"
+					redirect(action:'analysisModify')
+					return
+				}
+			}
+			else{
+				log.debug "user is NOT permitted to rename list"
+				redirect(controller:'policies',action:'deniedAccess')
+				return
+			}
+		}
+		
 		
 	}
 	

@@ -7,6 +7,7 @@
 	<jq:plugin name="ui"/>
 	<jq:plugin name="styledButton"/>
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox-compressed.js')}"></script>
+	<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'dialog.css')}"/>
 	<script type="text/javascript">
 		function toggle(element){
 			$('#'+element+'_content').slideToggle();
@@ -18,11 +19,26 @@
 <body>
 	<g:javascript>
 	$(document).ready( function () {
-		 	$('#analysisFilter').change(function() {
-				if($('#analysisFilter').val()) {
+			$('#analysisFilter').change(function() {
+				if($('#analysisFilter').val() && $('#analysisFilter').val() == 'search') {
+					$('#analysisFilter').val("search");
+					showSearchForm(true);
+				}
+				if($('#analysisFilter').val() && $('#analysisFilter').val() != 'search'){
 					$('#filterForm').submit();
 				}
 	 		});
+	
+			$('#filterSearchForm').submit(function() {
+				if($('#searchTerm').val() == ""){
+					alert("please enter a search term");
+					return false;
+				}else{
+					return true;
+				}
+			});
+			
+		 	
 		});
 		
 		$(document).ready( function () {
@@ -32,6 +48,15 @@
 
 
 		} );
+		
+		function showSearchForm(show){
+			if(show){
+				$("#searchBox").css("display","block");
+			}
+			else{
+				$("#searchBox").css("display","none");
+			}
+		}
 
 		
 	</g:javascript>
@@ -59,8 +84,21 @@
 				from="${timePeriods}"
 				optionKey="key" optionValue="value">
 			</g:select>
+		
+			</span>
+			
+			<g:if test="${session.analysisFilter!='search'}">
+			<div id="searchBox" style="display:none;padding-top:8px">
+			</g:if>
+			<g:else>
+			<div id="searchBox" style="padding-top:8px">
+			</g:else>
+			<g:message code="savedAnalysis.search"/><br />
+			<g:textField name="searchTerm" id="searchTerm" size="15" />
+			<g:submitButton value="search" name="searchButton"/>
+			</div>
 			</g:form>
-			</span></td>
+		</td>
 
 		<td><g:form name="delAnalysisForm" action="deleteMultipleAnalyses">
 		<span class="controlBarUpload" id="controlBarDelete">
@@ -82,7 +120,7 @@
 	    </g:if>
 	    <g:else>
 	        <g:paginate controller="savedAnalysis" action="index" 
-	                    total="${savedAnalysis.totalCount}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
+	                    total="${allAnalysesSize}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
 	    </g:else>
 		</div>
 		
@@ -101,7 +139,7 @@
 	    </g:if>
 	    <g:else>
 	        <g:paginate controller="savedAnalysis" action="index" 
-	                    total="${savedAnalysis.totalCount}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
+	                    total="${allAnalysesSize}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
 	    </g:else>
 		</div>
 		</fieldset>

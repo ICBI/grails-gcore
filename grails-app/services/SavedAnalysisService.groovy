@@ -206,21 +206,128 @@ class SavedAnalysisService {
 		
 	}
 	
-	def getPaginatedAnalyses(filter,sharedIds,offset,userId){
-		def pagedAnalyses = []
+	def getPaginatedAnalyses(filter,sharedIds,offset,userId,searchTerm){
+		log.debug "get paginates ANALYSIS search term $searchTerm"
+		def pagedAnalyses
 		def user = GDOCUser.findByUsername(userId)
-		if(filter == "all"){
-			pagedAnalyses = getAllAnalyses(sharedIds,offset,user)
-		}else if(filter == "hideShared"){
-			pagedAnalyses = getUsersAnalyses(offset,user)
-		}else{
-			pagedAnalyses = getUsersAnalysesByTimePeriod(filter,offset,user)
+		switch (filter) {
+			case "hideShared":
+				pagedAnalyses = getUsersAnalyses(offset,user)
+			break;
+			case "all":
+				pagedAnalyses = getAllAnalyses(sharedIds,offset,user)
+			break;
+			case ['30','90','180']:
+	            pagedAnalyses = getUsersAnalysesByTimePeriod(filter,offset,user)
+			break;
+			case "search":
+				if(!searchTerm){
+					pagedAnalyses = getUsersAnalyses(offset,user)
+				}
+				else{
+					pagedAnalyses = searchAnalysesByTerm(searchTerm,sharedIds,user.username,offset)
+				}
+			break;
+			default: pagedAnalyses = getUsersAnalyses(offset,user)
 		}
+		
+		return pagedAnalyses
+	}
+	
+	def searchAnalysisByTerm(term,sharedIds, user,offset){
+		log.debug "use criteria ..."+"GENE_EXPRESSIONs"
+		def pagedAnalyses = []
+		if(sharedIds){
+			def ids =[]
+			sharedIds.each{
+				ids << new Long(it)
+			}
+			pagedAnalyses = SavedAnalysis.createCriteria().list(max:10,offset:offset)
+				{
+					or{
+						'ilike'('name', "%"+term+"%")
+						'ilike'("description", "%"+term+"%")
+						'ilike'("type", AnalysisType.fromValue("GENE_EXPRESSION"))
+					}
+					or {
+						eq("author", user)
+						'in'('id',ids)
+					}
+				}
+			log.debug "all analysis -> $pagedAnalyses as Paged set"
+		}else{
+			pagedAnalyses = SavedAnalysis.createCriteria().list(max:10,offset:offset)
+				{
+					or{
+						'ilike'('name', "%"+term+"%")
+						'ilike'("description", "%"+term+"%")
+						'ilike'("type", term)
+					}
+					or {
+						eq("author", user)
+					}
+				}
+		}
+		return pagedAnalyses
+	}
+	
+	def searchAnalysesByTerm(term,sharedIds, userName,offset){
+		def pagedAnalyses = [:]
+		def ids = []
+		def results = []
+		def snapshotMaps = []
+		def count = 0
+		if(sharedIds){
+			sharedIds.each{
+				ids << new Long(it)
+			}
+		}
+		if(ids){
+			//log.debug "search by the term "+"$term"
+			def analysisHQL = "SELECT analysis FROM SavedAnalysis analysis JOIN analysis.author author " + 
+			"WHERE (author.username = :username " +
+			"OR analysis.id IN (:ids)) " + 
+			"AND (lower(analysis.description) like lower(:term) " +
+			"OR lower(analysis.name) like lower(:term) " +
+			"OR lower(analysis.type) like lower(:term))"
+			"ORDER BY analysis.dateCreated desc"
+			results = SavedAnalysis.executeQuery(analysisHQL, [term:"%"+term+"%", ids:ids, username: userName,max:10, offset:offset])
+			pagedAnalyses["results"] = results
+			log.debug "the resukts"+results
+			def analysisCountHQL = "SELECT count(distinct analysis.id) FROM SavedAnalysis analysis JOIN analysis.author author " + 
+			"WHERE (author.username = :username " +
+			"OR analysis.id IN (:ids)) " + 
+			"AND (lower(analysis.description) like lower(:term) " +
+			"OR lower(analysis.name) like lower(:term) " +
+			"OR lower(analysis.type) like lower(:term))" 
+			count = SavedAnalysis.executeQuery(analysisCountHQL,[term:"%"+term+"%", ids:ids, username: userName])
+			pagedAnalyses["sa_count"] = count
+			log.debug "paged analyses $pagedAnalyses"
+		}
+		else{
+			def analysisHQL = "SELECT distinct analysis FROM SavedAnalysis analysis JOIN analysis.author author " + 
+			"WHERE author.username = :username " +
+			"AND (lower(analysis.description) like lower(:term) " +
+			"OR lower(analysis.name) like lower(:term) " +
+			"OR lower(analysis.type) like lower(:term))"
+			"ORDER BY analysis.dateCreated desc"
+			results = SavedAnalysis.executeQuery(analysisHQL, [term:'%'+term+'%', username: userName,max:10, offset:offset])
+			pagedAnalyses["results"] = results
+			def analysisCountHQL = "SELECT count(distinct analysis.id) FROM SavedAnalysis analysis JOIN list.author author " + 
+			"WHERE author.username = :username " + 
+			"AND (lower(analysis.description) like lower(:term) " +
+			"OR lower(analysis.name) like lower(:term) " +
+			"OR lower(analysis.type) like lower(:term))"
+			count = SavedAnalysis.executeQuery(analysisCountHQL,[term:'%'+term+'%', username: userName])
+			pagedAnalyses["sa_count"] = count
+		}
+		
 		return pagedAnalyses
 	}
 		
 	
 	def getAllAnalyses(sharedIds,offset,user){
+		log.debug "in get all"
 		def pagedAnalyses = []
 		if(sharedIds){
 			def ids =[]
@@ -313,6 +420,28 @@ class SavedAnalysisService {
 		}
 		log.debug "got savedAnalysis ids $savedAnalysisIds"
 		return savedAnalysisIds
+	}
+	
+	def isDuplicateAnalysis(userId, analysisId, analysisName){
+		def name = analysisName.trim()
+		def analysisIds = []
+		def analysisHQL
+		analysisHQL = "SELECT distinct analysis.id FROM SavedAnalysis analysis JOIN analysis.author author " + 
+		"WHERE author.username = :username and analysis.name = :name"
+		analysisIds = SavedAnalysis.executeQuery(analysisHQL,[username:userId, name:name])
+		if(analysisIds.size() == 1){
+			log.debug "found analysisIds="+analysisIds[0]
+			if(analysisIds[0] == analysisId.toLong()){
+				log.debug "assert same analysis"
+				return false
+			}
+			else{
+				log.debug "analysis name already exists"
+				return true
+			}
+		}
+		log.debug "analysis exists by that name, naming can continue"
+		return false
 	}
 	
 
