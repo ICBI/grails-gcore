@@ -126,13 +126,12 @@
 			<g:if test="${allLists > 0 && userListInstanceList.size() >0}">
 			<div id="pager1" style="text-align:right;padding:2px 10px 3px 0px">
 			<g:set var="totalPages" value="${Math.ceil(allLists / userListInstanceList.size())}" />
-
 		    <g:if test="${totalPages == 1}">
 		        <span class="currentStep">1</span>
 		    </g:if>
 		   	<g:else>
     			<g:paginate controller="userList" action="list"
-                total="${allLists}" prev="&lt; previous" next="next &gt;"/>
+                total="${allLists}" prev="&lt; previous" next="next &gt;" params="[searchTerm:params?.searchTerm]"/>
 			</g:else>
 			</div>
 	
@@ -148,7 +147,7 @@
     			</g:if>
     			<g:else>
         			<g:paginate controller="userList" action="list" 
-                    total="${allLists}" prev="&lt; previous" next="next &gt;"/>
+                    total="${allLists}" prev="&lt; previous" next="next &gt;" params="[searchTerm:params?.searchTerm]"/>
     			</g:else>
 			</div>
 			</g:if>

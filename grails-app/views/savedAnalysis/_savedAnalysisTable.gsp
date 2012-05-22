@@ -13,7 +13,7 @@
 				});
 			});
 			$('.editWindow').openDOMWindow({ 
-				    height:300, 
+				    height:350, 
 					width:400, 
 					eventType:'click', 
 					windowSource:'iframe', 
@@ -94,19 +94,15 @@
 					</g:else>
 				</g:else>
 				&nbsp;&nbsp;<span><g:formatDate date="${analysis.dateCreated}" format="h:mm M/dd/yyyy"/></span>
-				<g:if test="${analysis.description}">
-					&nbsp;&nbsp;
-						<g:link action="analysisModify" params="[id:analysis.id,name:analysis.name,mode:'View']" style="padding-right:5px" class="editWindow">	
-							<img alt="view analysis description" title="View Analysis" src="${createLinkTo(dir:'images',file:'zoom_in.png')}" border="0" ></g:link>
-					</img>
-				</g:if>
+				
 			</div>
 				<g:if test="${session.userId.equals(analysis.author.username)}">
+				
 				<div style="border:0px solid black;width:20%;float:right">	
 						
 					<g:if test="${(!analysis.tags.contains('_temporary')) && (analysis.query?.geAnalysisId?.toString() != 'null')}">
-					<g:link action="analysisModify" params="[id:analysis.id,name:analysis.name,mode:'Modify']" style="padding-right:5px" class="editWindow">	
-						<img alt="edit analysis" title="Modify Analysis" src="${createLinkTo(dir: 'images', file: 'pencil.png')}"  border="0" /></g:link>
+					<g:link action="analysisModify" params="[id:analysis.id,name:analysis.name,mode:'View']" style="padding-right:5px" class="editWindow">	
+						<img alt="edit analysis" title="View/Modify Analysis" src="${createLinkTo(dir: 'images', file: 'zoom_in.png')}"  border="0" /></g:link>
 					<g:link class="thickbox" name="Share &nbsp; analysis &nbsp; with collaboration groups?" action="share" controller="share" 
 params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB_iframe:'true',height:'375',width:'450',title:'someTitle']"><img alt="share list" style="height: 18px;padding-right:20px" src="${createLinkTo(dir: 'images', file: 'share.png')}" border="0"/></a></g:link>
 					</g:if>	

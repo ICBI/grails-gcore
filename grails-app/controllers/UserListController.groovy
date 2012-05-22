@@ -63,7 +63,7 @@ class UserListController {
 		else{
 			allLists = 0;
 		}
-       [ userListInstanceList: pagedLists["results"], allLists: allLists, timePeriods: timePeriods, toolsLists:listSnapShots]
+       [ userListInstanceList: pagedLists["results"], allLists: allLists, timePeriods: timePeriods, toolsLists:listSnapShots, searchTerm:searchTerm]
     }
 
 	def checkName(name){
@@ -524,38 +524,46 @@ class UserListController {
 		
 	}
 	
-	def listModify = {}
+	def listModify = {
+		def name
+		def id
+		def description
+		if(flash['cmd']?.newName)
+			name = flash['cmd'].newName
+		if(params?.name)
+			name = params.name
+		if(flash['cmd']?.id)
+			id = flash['cmd'].id
+		if(params?.id)
+			id = params.id
+		def listDescription = UserList.get(id)?.description
+			
+		[name:name,id:id,description:listDescription]
+		
+	}
 	
-	def renameList = { RenameListCommand cmd ->
+	def modifyListAttributes = { RenameListCommand cmd ->
 		if(cmd.hasErrors()) {
 			flash['cmd'] = cmd
 			log.debug cmd.errors
-			redirect(action:'listModify')
+			redirect(action:'listModify',params:[mode:'Modify'])
 			return
 		}
 		else{
 			flash['cmd'] = cmd
 			if(isListAuthor(cmd.id)){
-				log.debug "rename list: "+params
-				if(cmd.newName && cmd.id){
-					def author = GDOCUser.findByUsername(session.userId)
-					def listDup = author.lists.find {
-						it.name == cmd.newName.trim()
-					}
-					if(listDup) {
-						log.debug "List not saved. $cmd.newName already exists"
-						flash.error = message(code: "userList.rename", args: [cmd.newName])
-						redirect(action:'listModify')
+				log.debug "modify list: "+params
+				if(cmd.userId && cmd.id){
+					log.debug "update list name and/or description"
+					def listInstance = UserList.get(cmd.id)
+					listInstance.name = cmd.newName?.trim()
+					listInstance.description = cmd.description?.trim()
+					if(listInstance.save()){
+						flash.message = message(code: "userList.updated", args: [cmd.id])
+						redirect(action:'listModify',params:[mode:'View'])
 						return
 					}else{
-						flash['cmd'] = cmd
-						def userListInstance = UserList.get(cmd.id)
-						userListInstance.name = cmd.newName.trim()
-						if(userListInstance.save()){
-							flash.message = message(code: "userList.updated", args: [cmd.id, cmd.newName])
-							redirect(action:'listModify')
-							return
-						}
+						log.debug "not saved " + listInstance.errors
 					}
 				}
 			}

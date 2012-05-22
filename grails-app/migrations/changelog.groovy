@@ -9,5 +9,12 @@ databaseChangeLog = {
 					constraints(nullable: 'true')
 				}
 			}
-	    }
+	 }
+	changeSet(author: "kmr75 (generated)", id: "1337700794087-62") {
+			addColumn(schemaName: 'GUIPERSIST', tableName: 'USER_LIST') {
+				column(name: 'description', type: 'varchar2(600)') {
+					constraints(nullable: 'true')
+				}
+			}
+   }
 }

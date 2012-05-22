@@ -63,8 +63,9 @@ def idService
 			"WHERE list = item.parentList " +
 			"AND (author.username = :username " +
 			"OR list.id IN (:ids)) " + 
-			"AND (item.value like :term " +
-			"OR list.name like :term)"
+			"AND (lower(item.value) like lower(:term) " +
+			"OR lower(list.name) like lower(:term) " + 
+			"OR lower(list.description) like lower(:term)) " +
 			"ORDER BY list.dateCreated desc"
 			results = UserList.executeQuery(listHQL, [term:"%"+term+"%", ids:ids, username: userName,max:10, offset:offset])
 			pagedLists["results"] = results
@@ -72,9 +73,9 @@ def idService
 			"WHERE list = item.parentList " +
 			"AND (author.username = :username " +
 			"OR list.id IN (:ids)) " + 
-			"AND (item.value like :term " +
-			"OR list.name like :term)"
-			"AND item.value like :term "
+			"AND (lower(item.value) like lower(:term) " +
+			"OR lower(list.name) like lower(:term) " + 
+			"OR lower(list.description) like lower(:term)) "
 			count = UserList.executeQuery(listCountHQL,[term:"%"+term+"%", ids:ids, username: userName])
 			pagedLists["count"] = count
 			log.debug "paged lists $pagedLists"
@@ -83,16 +84,18 @@ def idService
 			def listHQL = "SELECT distinct list FROM UserList list,UserListItem item JOIN list.author author " + 
 			"WHERE list = item.parentList " +
 			"AND author.username = :username " +
-			"AND (item.value like :term " +
-			"OR list.name like :term)"
+			"AND (lower(item.value) like lower(:term) " +
+			"OR lower(list.name) like lower(:term) " + 
+			"OR lower(list.description) like lower(:term)) " +
 			"ORDER BY list.dateCreated desc"
 			results = UserList.executeQuery(listHQL, [term:'%'+term+'%', username: userName,max:10, offset:offset])
 			pagedLists["results"] = results
 			def listCountHQL = "SELECT count(distinct list.id) FROM UserList list,UserListItem item JOIN list.author author " + 
 			"WHERE list = item.parentList " +
 			"AND author.username = :username " + 
-			"AND (item.value like :term " +
-			"OR list.name like :term)"
+			"AND (lower(item.value) like lower(:term) " +
+			"OR lower(list.name) like lower(:term) " + 
+			"OR lower(list.description) like lower(:term)) "
 			count = UserList.executeQuery(listCountHQL,[term:'%'+term+'%', username: userName])
 			pagedLists["count"] = count
 		}
@@ -793,5 +796,27 @@ def listIsTemporary(listId,author){
 			return -1
 		else
 			return id[0]
+	}
+	
+	def isDuplicateList(userId, listId, listName){
+		def name = listName.trim()
+		def listIds = []
+		def listHQL
+		listHQL = "SELECT distinct list.id FROM UserList list JOIN list.author author " + 
+		"WHERE author.username = :username and list.name = :name"
+		listIds = UserList.executeQuery(listHQL,[username:userId, name:name])
+		if(listIds.size() == 1){
+			log.debug "found listIds="+listIds[0]
+			if(listIds[0] == listId.toLong()){
+				log.debug "assert same list"
+				return false
+			}
+			else{
+				log.debug "list name already exists"
+				return true
+			}
+		}
+		log.debug "list exists by that name, naming can continue"
+		return false
 	}
 }

@@ -34,7 +34,7 @@ class SavedAnalysisController{
 			pagedAnalyses = savedAnalysisService.getPaginatedAnalyses(session.analysisFilter,session.sharedAnalysisIds,0,session.userId,searchTerm)	
 		}
 		def allAnalysesSize
-		log.debug pagedAnalyses.metaClass?.hasProperty(pagedAnalyses, "totalCount")
+		//log.debug pagedAnalyses.metaClass?.hasProperty(pagedAnalyses, "totalCount")
 		if(pagedAnalyses.metaClass?.hasProperty(pagedAnalyses, "totalCount")){
 			allAnalysesSize = pagedAnalyses.totalCount
 			
@@ -48,7 +48,7 @@ class SavedAnalysisController{
 			allAnalysesSize = 0;
 		}
 		log.debug "the count is " + allAnalysesSize
-        [ savedAnalysis: pagedAnalyses, allAnalysesSize:allAnalysesSize, timePeriods: timePeriods]
+        [ savedAnalysis: pagedAnalyses, allAnalysesSize:allAnalysesSize, timePeriods: timePeriods,searchTerm:searchTerm]
     }
 
 	def delete = {
@@ -189,7 +189,6 @@ class SavedAnalysisController{
 		if(params?.id)
 			id = params.id
 		def analysisDescription = SavedAnalysis.get(id)?.description
-		log.debug "got description="+analysisDescription
 			
 		[name:name,id:id,description:analysisDescription]
 		
@@ -199,20 +198,13 @@ class SavedAnalysisController{
 		if(cmd.hasErrors()) {
 			flash['cmd'] = cmd
 			log.debug cmd.errors
-			redirect(action:'analysisModify')
+			redirect(action:'analysisModify',params:[mode:'Modify'])
 			return
 		}
 		else{
 			flash['cmd'] = cmd
 			if(isAnalysisAuthor(cmd.id)){
-				log.debug "rename analysis: "+params
 				if(cmd.id && cmd.userId){
-					/**if(savedAnalysisService.isDuplicateAnalysis(session.userId,cmd.id,cmd.newName) ) {
-						log.debug "Analysis not modified. $cmd.newName already exists"
-						flash.error = message(code: "savedAnalysis.rename", args: [cmd.newName])
-						redirect(action:'analysisModify')
-						return
-					}else{**/
 						flash['cmd'] = cmd
 						log.debug "update name and/or description"
 						def analysisInstance = SavedAnalysis.get(cmd.id)
@@ -220,12 +212,11 @@ class SavedAnalysisController{
 						analysisInstance.description = cmd.description?.trim()
 						if(analysisInstance.save()){
 							flash.message = message(code: "savedAnalysis.updated", args: [cmd.id])
-							redirect(action:'analysisModify')
+							redirect(action:'analysisModify',params:[mode:'View'])
 							return
 						}else{
 							log.debug "not saved " + analysisInstance.errors
 						}
-					//}
 				}else{
 					log.debug "no user id or id passed in"
 					redirect(action:'analysisModify')

@@ -39,7 +39,7 @@
 	<g:javascript>
 	$(document).ready( function () {
 			$('.editWindow').openDOMWindow({ 
-				    height:300, 
+				    height:350, 
 					width:400, 
 					eventType:'click', 
 					windowSource:'iframe', 
@@ -134,8 +134,8 @@
 					</div>
 					<g:if test="${session.userId.equals(userListInstance.author.username)}">
 					<div style="border:0px solid black;width:20%;float:right">
-						<g:link action="listModify" params="[id:userListInstance.id,name:userListInstance.name]" style="padding-right:5px" class="editWindow">	
-							<img alt="edit list" title="Rename list" src="${createLinkTo(dir: 'images', file: 'pencil.png')}"  border="0" /></g:link>
+						<g:link action="listModify" params="[id:userListInstance.id,name:userListInstance.name,mode:'View']" style="padding-right:5px" class="editWindow">	
+							<img alt="edit analysis" title="View/Modify List" src="${createLinkTo(dir: 'images', file: 'zoom_in.png')}"  border="0" /></g:link>
 						
 						<g:if test="${!userListInstance.tags.contains('_temporary')}">
 						<g:link class="thickbox" name="Share &nbsp; ${userListInstance.name}" action="share" controller="share" 

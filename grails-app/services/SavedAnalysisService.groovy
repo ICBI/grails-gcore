@@ -305,7 +305,7 @@ class SavedAnalysisService {
 			log.debug "paged analyses $pagedAnalyses"
 		}
 		else{
-			def analysisHQL = "SELECT distinct analysis FROM SavedAnalysis analysis JOIN analysis.author author " + 
+			def analysisHQL = "SELECT analysis FROM SavedAnalysis analysis JOIN analysis.author author " + 
 			"WHERE author.username = :username " +
 			"AND (lower(analysis.description) like lower(:term) " +
 			"OR lower(analysis.name) like lower(:term) " +

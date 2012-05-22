@@ -14,6 +14,13 @@
 	<div style="background-color:#f2f2f2;width:100%">
 		<p style="font-size:1em;display:inline-table">
 				<g:message code="savedAnalysis.modifyAnalysis" args="${ [params.mode] }" />
+				<g:if test="${params?.mode=='View'}">
+					<span>
+					<g:link action="analysisModify" params="[id:params.id,name:params.name,mode:'Modify']" style="padding-right:5px">
+					<g:message code="gcore.edit" />
+					</g:link>
+					</span>	
+				</g:if>
 		</p>	
 	</div><br />
 <div id="editNameContent" align="left" class="clinicalSearch"> 
@@ -41,7 +48,12 @@
 				
 					<g:hiddenField name="id" value="${id}" />
 					<g:if test="${params?.mode=='View'}">
-						<span>${name}</span>
+						<g:if test="${name}">
+							<div style="width:200px;white-space: wrap;overflow:auto">${name}</div>
+						</g:if>
+						<g:else>
+							<g:message code="savedAnalysis.noName"/>
+						</g:else>
 					</g:if>
 					<g:else>
 						<g:textField name="newName" size="15" maxlength="15" value="${name}"/>
@@ -56,7 +68,12 @@
 			<td colspan="2" style="width:25%">
 				
 				<g:if test="${params?.mode=='View'}">
-						<div style="width:200px;white-space: wrap;overflow:auto">${description}</div>
+						<g:if test="${description}">
+							<div style="width:200px;white-space: wrap;overflow:auto">${description}</div>
+						</g:if>
+						<g:else>
+							<g:message code="savedAnalysis.noDescription"/>
+						</g:else>
 				</g:if>
 				<g:else>
 					<g:textArea name="description" rows="8" columns="40" value="${description}" />

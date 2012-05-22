@@ -11,6 +11,7 @@ class UserList implements Taggable{
 	String name 
 	Date dateCreated
 	Date lastUpdated
+	String description
 	
 	static searchable = {
 	    listItems component: true
@@ -21,6 +22,7 @@ class UserList implements Taggable{
 	static constraints = {
 		name(blank:false)
 		author(blank:false)
+		description nullable: true
 	}
 	
 	static transients = ["groups"]

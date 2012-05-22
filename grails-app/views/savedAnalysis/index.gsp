@@ -120,7 +120,7 @@
 	    </g:if>
 	    <g:else>
 	        <g:paginate controller="savedAnalysis" action="index" 
-	                    total="${allAnalysesSize}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
+	                    total="${allAnalysesSize}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;" params="[searchTerm:params?.searchTerm]" />
 	    </g:else>
 		</div>
 		
@@ -139,7 +139,7 @@
 	    </g:if>
 	    <g:else>
 	        <g:paginate controller="savedAnalysis" action="index" 
-	                    total="${allAnalysesSize}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
+	                    total="${allAnalysesSize}" prev="&lt; ${message(code:'search.previous')}" next="${message(code: 'search.next')} &gt;" params="[searchTerm:params?.searchTerm]"/>
 	    </g:else>
 		</div>
 		</fieldset>
