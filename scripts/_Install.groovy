@@ -49,10 +49,10 @@ Ant.sequential {
     	fileset(dir: "${pluginBasedir}/sql")
 	}
 	
-	//migrations
+	/**migrations
 	copy(todir: "${basedir}/grails-app/migrations", overwrite: true) {
     	fileset(dir: "${pluginBasedir}/grails-app/migrations")
-	}
+	}**/
 	
 	//config file
 	event("StatusUpdate", ["add security filters"])
