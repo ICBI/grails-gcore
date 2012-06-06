@@ -25,7 +25,7 @@
 				rowList:[25,50], 
 				width: 700,
 				pager: jQuery('#pager'), 
-				sortname: 'pvalue', 
+				sortname: 'pvalues', 
 				viewrecords: true, 
 				sortorder: "desc", 
 				multiselect: false, 
