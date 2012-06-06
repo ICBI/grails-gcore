@@ -34,7 +34,6 @@
 		cleanup();
 	}
 	
-	
 	</g:javascript>
 	<g:javascript>
 	$(document).ready( function () {
@@ -49,11 +48,7 @@
 					loaderHeight:16, 
 					loaderWidth:17
 			    });
-			    return false; 
 			$('.closeEditWindow').closeDOMWindow({eventType:'click'});
-			$("[class*='_name']").each(function(index){
-				//$(this).contentEditable="true";
-			});
 
 	} );
 	$(document).ready( function () {
@@ -146,7 +141,10 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 						</g:link>
 						
 						<g:if test="${userListInstance.tags.contains('gene')}">
-						<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
+							<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
+							<g:link class="enrich" action="enrichGeneList" controller="geneEnrichment" style="padding-right:5px;" id="${userListInstance.id}" >
+								<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
+							</g:link>
 						</g:if>
 		<%--a href="javascript:void(0)" onclick="if(confirm('Are you sure?')){var classn ='${userListInstance.id}_toggle';${remoteFunction(action:'deleteList',onLoading:'showPageSpinner(true,classn)',onComplete:'showPageSpinner(false,classn)', id:userListInstance.id,update:'allLists',onSuccess:'finishDelete(\''+userListInstance.id+'\')')}return false;}">
 						<img alt="delete list" title="Delete list" src="${createLinkTo(dir: 'images', file: 'cross.png')}"/></a--%>
@@ -160,6 +158,9 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 						</g:link>
 						<g:if test="${userListInstance.tags.contains('gene')}">
 						<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
+						<g:link class="enrich" action="enrichGeneList" controller="geneEnrichment" style="padding-right:5px;" id="${userListInstance.id}" >
+							<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
+						</g:link>
 						</g:if>
 					</div>
 					</g:else>
@@ -194,6 +195,11 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 </tr>
 </table>
 </g:panel>
+<div id="enrichmentResults" style="display:none"> 
+	<div style="color:#000"> 
+	<p style="text-align:center; line-height:80px">Drag Me! Click html page behind me to close me.</p> 
+	</div>
+</div>
 
 <g:javascript library="jquery"/>
 </fieldset>
