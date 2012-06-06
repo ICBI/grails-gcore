@@ -9,16 +9,15 @@ import org.apache.commons.httpclient.methods.StringRequestEntity
 import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import java.text.DecimalFormat
 
-
 class GeneEnrichmentController {
 	
 	def enrichGeneList = {
-		session.enrichResults = null
+		session.gridData = null
 		render(view:"results")
 	}
 	
 	def view = {
-		if(!session.enrichResults) {
+		if(!session.gridData) {
 			def geneList = UserList.get(params.id)
 			def symbols = geneList.listItems.collect { it.value }
 			log.debug(symbols)
@@ -45,42 +44,30 @@ class GeneEnrichmentController {
 			} catch (Exception e) {
 				log.debug e
 			}
-			session.enrichResults = JSON.parse(response as String)
-			print session.enrichResults
-		}
-		def rows = params.rows.toInteger()
-		def currPage = params.page.toInteger()
-		def startIndex = ((currPage - 1) * rows)
-		def endIndex = (currPage * rows)
-		def sortColumn = params.sidx
-		def analysisResults = session.enrichResults
-		if(endIndex > analysisResults.size()) {
-			endIndex = analysisResults.size()
-		}
-		def data = []
-		if(analysisResults instanceof JSONObject) {
-			def cell = [id: "error", cell: [analysisResults.error, "", ""]]
-			data << cell
-		} else {
-			analysisResults.each {
-				def pathwayName = it.pathwayNames.split("--")[0]
-				def overlapGenes = it.overlaps.split(",")
+			def columns = [
+				[name: "pathwayNames", title: "Pathway", converter: {item -> item.split("--")[0] }],
+				[name: "pvalues", title: "p-value", converter: {item ->  item.toDouble() }],
+				[name: "overlaps", title: "Overlapping Genes", converter: {item -> item.split(",") }]
+			]
+			def gridWrapper = new GridWrapper(columns, JSON.parse(response as String), { dataItem ->
+				def pathwayName = dataItem.pathwayNames
+				def overlapGenes = dataItem.overlaps
 				def sciFormatter = new DecimalFormat("0.000E0")
-				def pvalue = sciFormatter.format(it.pvalues.toDouble()).replace('E', ' x 10<sup>') + '</sup>'
+				def pvalue = sciFormatter.format(dataItem.pvalues.toDouble()).replace('E', ' x 10<sup>') + '</sup>'
 				def genes = []
 				overlapGenes.each { gene ->
 					genes << "<a href=\"#\" class=\"geneLink\">${gene}</a>"
 				}
-				def cell = [id: it.pathwayNames, cell: [pathwayName, pvalue, genes.join(", ")]]
-				data << cell
-			}
+				def cell = [id: dataItem.pathwayNames, cell: [pathwayName, pvalue, genes.join(", ")]]
+				return cell
+			})
+			session.gridData = gridWrapper
 		}
-		def jsonObject = [
-			page: 1,
-			total: 1,
-			records: session.enrichResults.size(),
-			rows:data
-		]
-		render jsonObject as JSON
+
+		render session.gridData.getData(params)
+	}
+	
+	def download = {
+		session.gridData.export(response)
 	}
 }
