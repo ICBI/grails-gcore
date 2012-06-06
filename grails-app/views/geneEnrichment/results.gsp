@@ -16,9 +16,9 @@
 				datatype: "json", 
 				colNames: ["Pathway", "p-value", "Overlapping Genes"], 
 				colModel: [
-			   		{name:'pathway',index:'pathway'},
-			   		{name:'pvalue',index:'pvalue'},
-					{name: 'overlaps', index: 'overlaps', sortable: false }
+			   		{name:'pathway',index:'pathway', width: '300'},
+			   		{name:'pvalue',index:'pvalue', width: '100'},
+					{name: 'overlaps', index: 'overlaps', width: '300', sortable: false }
 				], 
 				height: 400, 
 				rowNum:50, 
