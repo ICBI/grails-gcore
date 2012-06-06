@@ -128,7 +128,7 @@
 					
 					</div>
 					<g:if test="${session.userId.equals(userListInstance.author.username)}">
-					<div style="border:0px solid black;width:20%;float:right">
+					<div style="border:0px solid black;width:25%;float:right">
 						<g:link action="listModify" params="[id:userListInstance.id,name:userListInstance.name,mode:'View']" style="padding-right:5px" class="editWindow">	
 							<img alt="edit analysis" title="View/Modify List" src="${createLinkTo(dir: 'images', file: 'zoom_in.png')}"  border="0" /></g:link>
 						
@@ -143,7 +143,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 						<g:if test="${userListInstance.tags.contains('gene')}">
 							<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
 							<g:link class="enrich" action="enrichGeneList" controller="geneEnrichment" style="padding-right:5px;" id="${userListInstance.id}" >
-								<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
+								<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'enrich.png')}" />
 							</g:link>
 						</g:if>
 		<%--a href="javascript:void(0)" onclick="if(confirm('Are you sure?')){var classn ='${userListInstance.id}_toggle';${remoteFunction(action:'deleteList',onLoading:'showPageSpinner(true,classn)',onComplete:'showPageSpinner(false,classn)', id:userListInstance.id,update:'allLists',onSuccess:'finishDelete(\''+userListInstance.id+'\')')}return false;}">
@@ -159,7 +159,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 						<g:if test="${userListInstance.tags.contains('gene')}">
 						<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
 						<g:link class="enrich" action="enrichGeneList" controller="geneEnrichment" style="padding-right:5px;" id="${userListInstance.id}" >
-							<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
+							<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'enrich.png')}" />
 						</g:link>
 						</g:if>
 					</div>
