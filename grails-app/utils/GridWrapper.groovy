@@ -87,8 +87,13 @@ class GridWrapper {
 			columns.each {
 				if(!data[it.name])
 					temp << ''
-				else
-					temp << "\"" + data[it.name] + "\""
+				else {
+					def tempData = data[it.name]
+					if(data[it.name].class.isArray()) {
+						tempData = data[it.name].join(",")
+					}
+					temp << "\"" + tempData + "\""
+				}
 			}
 			outs << temp.join(",")
 		    outs << "\n"
