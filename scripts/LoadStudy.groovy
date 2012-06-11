@@ -12,10 +12,18 @@ target(main: "Load a new study into the database") {
 	depends(clean, compile, classpath)
 	
 	// Load up grails contexts to be able to use GORM
+	println argsMap
+	println args?.tokenize()
 	loadApp()
 	configureApp()
-	println "Please specify a project name:"
-	def projectName = new InputStreamReader(System.in).readLine().toUpperCase()
+	def projectName
+	if(argsMap['params'] && argsMap['params'][0]) {
+		projectName =  argsMap['params'][0].toUpperCase()
+	}
+	if(!projectName) {
+		println "Please specify a project name:"
+		projectName = new InputStreamReader(System.in).readLine().toUpperCase()
+	}
 	def studyFile = new File("dataImport/${projectName}/${projectName}_study_table.txt")
 	if(!studyFile.exists()) {
 		println "Cannot find study metadata file at dataImport/${projectName}/${projectName}_study_table.txt.  Please check the study name and try again."
@@ -23,15 +31,18 @@ target(main: "Load a new study into the database") {
 	}
 	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
-	while(study) {
-		println "Project with name: $projectName already exists.  Would you like to reload it? (y/n)"
-		def answer = new InputStreamReader(System.in).readLine().toUpperCase()
-		if(answer == 'Y') {
+	if(study) {
+		def toReload = argsMap['reload']
+		if(!argsMap['reload']) {
+			println "Project with name: $projectName already exists.  Would you like to reload it? (y/n)"
+			def answer = new InputStreamReader(System.in).readLine().toUpperCase()
+			toReload = (answer == 'Y')
+		}
+		if(toReload) {
 			println "Deleting $projectName...."
 			executeScript("${gcorePluginDir}/sql/delete_study.sql", [id: study.id])
-			break
 		} else {
-			println "Not reloading data."
+			println "Not realoading data"
 			return
 		}
 	}
@@ -43,7 +54,7 @@ target(main: "Load a new study into the database") {
 		executeScript("${gcorePluginDir}/sql/01_study_setup_template.sql", [projectName: projectName])
 		println "Creating schema for project ${projectName}...."
 		executeScript("${gcorePluginDir}/sql/02_study_schema_template.sql", [projectName: projectName])
-
+		
 		def sql = groovy.sql.Sql.newInstance(CH.config.dataSource.url, projectName,
 		                     "cur34c4nc3r", CH.config.dataSource.driverClassName)
 	
@@ -60,7 +71,7 @@ target(main: "Load a new study into the database") {
 		println "Loading study information for $projectName...."
 		isPublic = loadStudyData(projectName)
 		println "Loading clinical attributes for $projectName...."
-		loadClinicalData(projectName)
+		loadSimpleClinicalData(projectName)
 		println "Loading patient data for $projectName...."
 		loadSubjectData(projectName)
 	} catch (Throwable e) {
@@ -85,7 +96,11 @@ def executeScript(script, optionsHash, continueError = false) {
 	Writable writable = template.make(optionsHash)
 	
 	def resource = new org.springframework.core.io.ByteArrayResource(writable.toString().getBytes())
-	org.springframework.test.jdbc.SimpleJdbcTestUtils.executeSqlScript(new org.springframework.jdbc.core.simple.SimpleJdbcTemplate(dataSource), resource, continueError)
+	try {
+		org.springframework.test.jdbc.SimpleJdbcTestUtils.executeSqlScript(new org.springframework.jdbc.core.simple.SimpleJdbcTemplate(dataSource), resource, continueError)
+	} catch (Exception e) {
+		e.printStackTrace()
+	}
 	
 }
 
@@ -157,6 +172,35 @@ def loadStudyData(projectName) {
 	return isPublic
 }
 
+def loadSimpleClinicalData(projectName) {
+	def clinicalTypes = new File("dataImport/${projectName}/${projectName}_clinical_type.txt")
+	def sessionFactory = appCtx.getBean("sessionFactory")
+	def attributeService = appCtx.getBean("attributeService")
+	
+	try {
+		def attributes = []
+		clinicalTypes.eachLine { line, number ->
+			if(number != 1) {
+				def data = line.split("\t", -1)
+				def params = [:]
+				params.shortName = data[0]
+				params.longName = data[1]
+				params.definition = data[2]
+				params.semanticGroup = data[3]
+				params.gdocPreferred = data[4]
+				params.insertUser = "acs224"
+				params.insertDate = new Date()
+				params.insertMethod = "load-data"
+				attributes << params
+			}
+		}
+		attributeService.createAll(attributes)
+		
+	} catch (Exception e) {
+		throw e
+	}
+}
+/*
 def loadClinicalData(projectName) {
 	def clinicalTypes = new File("dataImport/${projectName}/${projectName}_clinical_type.txt")
 	def clinicalVocabs = new File("dataImport/${projectName}/${projectName}_clinical_vocab.txt")
@@ -215,7 +259,7 @@ def loadClinicalData(projectName) {
 	} catch (Exception e) {
 		throw e
 	}
-}
+}*/
 
 def loadSubjectData(projectName) {
 	def subjectData = new File("dataImport/${projectName}/${projectName}_subject_table.txt")

@@ -10,6 +10,17 @@ class CommonAttributeType {
 	static constraints = {
         upperRange(nullable: true)
         lowerRange(nullable: true)
+		value(nullable: true)
+		semanticGroup(nullable: true)
+		gdocPreferred(nullable: true)
+		qualitative(nullable: true)
+		continuous(nullable: true)
+		vocabulary(nullable: true)
+		oracleDatatype(nullable: true)
+		cadsrId(nullable: true)
+		evsId(nullable: true)
+		unit(nullable: true)
+		
     }
     
 	static fetchMode = [vocabs:"eager"]

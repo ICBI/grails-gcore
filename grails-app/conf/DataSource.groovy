@@ -23,8 +23,8 @@ environments {
 	development {
 		dataSource {
 			url = "jdbc:oracle:thin:@localhost:1521:gdoc"
-			username = "guidoc"
-			password = "cure4cancer"
+			username = "gdocadmin"
+			password = "C4nc3rD4t4b453"
 			logSql = true
 		}
 	}

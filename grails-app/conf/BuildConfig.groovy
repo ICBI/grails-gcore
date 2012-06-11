@@ -24,6 +24,7 @@ grails.project.dependency.resolution = {
             excludes "jna", "trilead-ssh2", "sqljet"
 			export = false
         }
+		compile("org.liquibase.ext:liquibase-oracle:1.2.0") 
 	}
 	
 	plugins {

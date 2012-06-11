@@ -17,4 +17,15 @@ databaseChangeLog = {
 				}
 			}
    }
+	changeSet(author: "acs224", id: "make-attribute-fields-nullable") {
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  columnName: 'QUALITATIVE')
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  columnName: 'CONTINUOUS')
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  columnName: 'VOCABULARY')
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  columnName: 'ORACLE_DATATYPE')	
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  columnName: 'CLASS')		
+	}
+	
+	changeSet(author: "acs224", id: "drop-check-attribute") {
+		dropCheck(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  constraintName: 'ATT_TYPE_GDOC_PREFERRED_CC')
+	}
 }
