@@ -12,8 +12,6 @@ target(main: "Load a new study into the database") {
 	depends(clean, compile, classpath)
 	
 	// Load up grails contexts to be able to use GORM
-	println argsMap
-	println args?.tokenize()
 	loadApp()
 	configureApp()
 	def projectName
@@ -74,6 +72,7 @@ target(main: "Load a new study into the database") {
 		loadSimpleClinicalData(projectName)
 		println "Loading patient data for $projectName...."
 		loadSubjectData(projectName)
+		inspectClinicalData(projectName)
 	} catch (Throwable e) {
 		e.printStackTrace()
 		"Data loading for $projectName was not successful"
@@ -96,11 +95,7 @@ def executeScript(script, optionsHash, continueError = false) {
 	Writable writable = template.make(optionsHash)
 	
 	def resource = new org.springframework.core.io.ByteArrayResource(writable.toString().getBytes())
-	try {
-		org.springframework.test.jdbc.SimpleJdbcTestUtils.executeSqlScript(new org.springframework.jdbc.core.simple.SimpleJdbcTemplate(dataSource), resource, continueError)
-	} catch (Exception e) {
-		e.printStackTrace()
-	}
+	org.springframework.test.jdbc.SimpleJdbcTestUtils.executeSqlScript(new org.springframework.jdbc.core.simple.SimpleJdbcTemplate(dataSource), resource, continueError)
 	
 }
 
@@ -200,7 +195,18 @@ def loadSimpleClinicalData(projectName) {
 		throw e
 	}
 }
-/*
+
+def inspectClinicalData(projectName) {
+	def sessionFactory = appCtx.getBean("sessionFactory")
+	def attributeService = appCtx.getBean("attributeService")
+	
+	try {
+		attributeService.inspectAttributes(projectName)
+	} catch (Exception e) {
+		throw e
+	}
+}
+
 def loadClinicalData(projectName) {
 	def clinicalTypes = new File("dataImport/${projectName}/${projectName}_clinical_type.txt")
 	def clinicalVocabs = new File("dataImport/${projectName}/${projectName}_clinical_vocab.txt")
@@ -259,7 +265,7 @@ def loadClinicalData(projectName) {
 	} catch (Exception e) {
 		throw e
 	}
-}*/
+}
 
 def loadSubjectData(projectName) {
 	def subjectData = new File("dataImport/${projectName}/${projectName}_subject_table.txt")

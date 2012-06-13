@@ -23,7 +23,6 @@ class CommonAttributeType {
 		
     }
     
-	static fetchMode = [vocabs:"eager"]
 	static hasMany = [vocabs : AttributeVocabulary]
 	
 	String shortName

@@ -28,4 +28,12 @@ databaseChangeLog = {
 	changeSet(author: "acs224", id: "drop-check-attribute") {
 		dropCheck(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE',  constraintName: 'ATT_TYPE_GDOC_PREFERRED_CC')
 	}
+	
+	changeSet(author: "acs224", id: "update-vocabs") {
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_VOCABULARY',  columnName: 'DEFINITION')
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_VOCABULARY',  columnName: 'INSERT_USER')
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_VOCABULARY',  columnName: 'INSERT_DATE')
+		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_VOCABULARY',  columnName: 'INSERT_METHOD')
+		
+	}
 }
