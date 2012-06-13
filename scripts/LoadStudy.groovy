@@ -74,8 +74,8 @@ target(main: "Load a new study into the database") {
 		loadSubjectData(projectName)
 		inspectClinicalData(projectName)
 	} catch (Throwable e) {
-		e.printStackTrace()
-		"Data loading for $projectName was not successful"
+		println e
+		println "Data loading for $projectName was not successful"
 		return
 	}
 	def jmxService =  appCtx.getBean('jmxService')
