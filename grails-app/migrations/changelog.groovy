@@ -36,4 +36,9 @@ databaseChangeLog = {
 		dropNotNullConstraint(schemaName: 'COMMON', tableName: 'ATTRIBUTE_VOCABULARY',  columnName: 'INSERT_METHOD')
 		
 	}
+	
+	changeSet(author: "acs224", id: "modify-vocab") {
+		modifyDataType(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE', columnName: "SHORT_NAME", newDataType: "VARCHAR2(100)") 
+	}
+	
 }
