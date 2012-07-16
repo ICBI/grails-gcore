@@ -5,6 +5,7 @@ class AttributeType {
 		id column:'attribute_type_id'
 		vocabs column: 'attribute_type_id'
 		value column: 'class'
+		attributeGroup column: 'semantic_group'
 	}
 	
 	static fetchMode = [vocabs:"eager"]
@@ -20,4 +21,5 @@ class AttributeType {
 	Boolean vocabulary
 	Double upperRange
 	Double lowerRange
+	String attributeGroup
 }

@@ -1,9 +1,8 @@
 class QueryBuilder {
 
-	static def build = { params, formKey, dataTypes ->
+	static def build = { params, formKey, dataTypes, advancedQuery ->
 		def criteria = [:]
 		params.each { key, value ->
-			println key
 			if(key.contains(formKey) && value) {
 				if(key.contains("range_")) {
 					def minMax = [:]
@@ -13,9 +12,27 @@ class QueryBuilder {
 					def range = dataTypes.find {
 						it.shortName == attrName
 					}
-					if(minMax["min"] != range.lowerRange.toInteger() || minMax["max"] != range.upperRange.toInteger()) {
+					if(advancedQuery){
+						if(minMax["min"] != range.lowerRange.toInteger() || minMax["max"] != range.upperRange.toInteger()) {
+							criteria[key.replace(formKey + "range_", "")] = minMax
+						}
+					}else{
 						criteria[key.replace(formKey + "range_", "")] = minMax
 					}
+						
+				} else if (key.contains("vocab_")){
+						if(value.metaClass.respondsTo(value, 'join')){
+							def values = []
+							value.each{
+								values << it
+							}
+							criteria[key.replace(formKey + "vocab_", "")] = values 
+						}
+						else{
+							value = value.replace("'", "")
+							criteria[key.replace(formKey + "vocab_", "")] = value
+						}
+						
 				} else if (value.metaClass.respondsTo(value, 'join')) {
 					if(value[0] || value[1]) {
 						def minMax = [:]

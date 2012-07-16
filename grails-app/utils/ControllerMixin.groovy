@@ -95,17 +95,37 @@ class ControllerMixin {
 		def results = criteria {
 			projections {
 				distinct(["type.id", "value"])
+				property("type")
 			}
 		}
 		
+		def attNamesMap = [:]
+		def attTypeMap = [:]
 		def usedVocabMap = [:]
+		def vocabList = new HashSet()
 		results.each {
+			if(it[2].vocabulary){
+				vocabList << it[2]
+			}
+			if(!attNamesMap[it[2].shortName])
+				attNamesMap[it[2].shortName] = it[2].longName
+			if(it[2].attributeGroup){
+				if(!(attTypeMap[it[2].attributeGroup])){
+					attTypeMap[it[2].attributeGroup] = new HashSet()
+					attTypeMap[it[2].attributeGroup] << it[2]
+				}
+				else{
+					attTypeMap[it[2].attributeGroup] << it[2]
+				}
+			}	
 			if(!usedVocabMap[it[0]])
 				usedVocabMap[it[0]] = []
 			usedVocabMap[it[0]] << it[1]
 				
 		}
-		
+		self.session.vocabList = vocabList?.sort{it.shortName}
+		self.session.attNamesMap = attNamesMap
+		self.session.attTypeMap = attTypeMap
 		self.session.usedVocabs = usedVocabMap
 	}
 	

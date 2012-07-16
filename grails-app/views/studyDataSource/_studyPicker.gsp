@@ -79,8 +79,8 @@
 			$("#studyPageSpinner").css("visibility","visible");
 		}
 		</g:javascript>
-		<p style="font-size:12pt"><g:message code="gcore.currentStudy"/>: 
-			<span id="label" style="display:inline-table">
+		<span style="font-size:12pt"><g:message code="gcore.currentStudy"/>: 
+			<span id="label" >
 				<g:if test="${!session.study}"><g:message code="gcore.noStudy"/></g:if>
 				${session.study?.shortName}</span>
 			<span style="display:inline-table;font-size:.8em">
@@ -91,7 +91,8 @@
 					<a href="#" id="changeStudy" style="display:none;margin-left:26px"><g:message code="study.change"/></a>
 				</g:else>
 			</span>
-		</p>
+			<br /><br />
+		</span>
 		<g:if test="${!session.study}">
 		<div id="studyFieldset">
 		</g:if>

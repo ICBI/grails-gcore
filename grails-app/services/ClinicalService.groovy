@@ -15,7 +15,23 @@ class ClinicalService {
 	def timepointQuery = '(select p.subject_id from ${schema}.Subject p where p.type = \'${subjectType}\' and p.timepoint = \'${timepoint}\') '
 	
 	def patientIdQuery = 'select s.parent_id from ${schema}.subject s where s.subject_id in (${ids})'
+	
     boolean transactional = true
+	
+	//-----------new feature--------------
+	def getSummary(criteria, subjectType, childIds) {
+		//log.debug "querying by criteria"
+		def patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
+		def patients = Subject.getAll(patientIds)
+		return patients
+	}
+	
+	def getBreakdowns(criteria, patientIds){
+		def breakdown = [:]
+		return breakdown
+	}
+	//-----------------------------------
+	
 	
 	def queryByCriteria(criteria, subjectType, childIds) {
 		log.debug "querying by criteria"
@@ -61,7 +77,7 @@ class ClinicalService {
 			} 
 			else if(temp.value instanceof java.util.ArrayList) {
 				//log.debug "its an array create an or string and add to select statements"
-				selects << createORQueryString(temp.value)
+				selects << createORQueryString(temp)
 			} 
 			else {
 				selects << queryTemplate.make(temp)
@@ -85,26 +101,20 @@ class ClinicalService {
 		return patientIds
 	}
 	
+	
 	def createORQueryString(attributes){
+		//log.debug "parse " + attributes.value
+		def key = attributes.key
 		def schema = StudyContext.getStudy()
-		def selectStmnt = '(select /*+ index(v,PATIENT_ATTRIBUTE_VALUE_INDEX1) */ unique (p.subject_id) from ' + schema + '.subject p, common.attribute_type c, ' + schema + '.patient_attribute_value v ' +
+		def selectStmnt = '(select /*+ index(v,SUBJECT_ATTRIBUTE_VALUE_INDEX1) */ unique (p.subject_id) from ' + schema + '.subject p, common.attribute_type c, ' + schema + '.subject_attribute_value v ' +
 			 			  'where p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
 						  ' and ('
 		//log.debug "iterate over array and add each mapped criteria, depending on range or regular value"
 		def addendum = []
 		def addendumString = ""
-		attributes.each{ att ->
-			att.each{ key, value ->
-				if(value instanceof java.util.Map){
-					//value.each{ mapKey, mapVal ->
-						//log.debug "this value for $key is a map, rangeify it for $value.min , $value.max"
-						addendum << "(c.short_name = \'${key}\' and v.value BETWEEN ${value.min} and ${value.max} )"
-					//}
-				}else{
-					//log.debug "this value for $key is not a map"
-					addendum << "(c.short_name = \'${key}\' and v.value = \'${value}\' )"
-				}
-			}
+		attributes.value.each{ att ->
+			addendum << "(c.short_name = \'${key}\' and v.value = \'${att}\' )"
+			log.debug addendum
 		}
 		addendumString = addendum.join(" OR ")
 		selectStmnt += addendumString
@@ -203,5 +213,112 @@ class ClinicalService {
 		def results = middlewareService.sparqlQuery(attributesQuery)
 		return results;
 	}
+	
+	//move to service
+	def handleCriteria(breakdowns,criteria,filterSubjects, toAddCriteria,toDeleteCriteria,medians,atttributeLabel) {
+		criteria.each{ k,v ->
+			//log.debug "find by $k"
+			if(v instanceof Map){
+				def attCount = []
+				def attCountN = []
+				def max = v.max.toLong()
+				def min = v.min.toLong()
+				if(medians[k]){
+					//log.debug "found median for $k of "+medians[k]
+					def upperLabel = k+":"+"UPPER"+"("+medians[k]+"-"+v.max+")"
+					def lowerLabel = k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"
+					breakdowns[atttributeLabel][upperLabel] = []
+					breakdowns[atttributeLabel][lowerLabel] = []
+					toAddCriteria[k]=["UPPER"+"("+medians[k]+"-"+v.max+")","LOWER"+"("+v.min+"-"+medians[k]+")"]
+				}
+				else{
+					//log.debug "no median found median for $k"
+					breakdowns[atttributeLabel][k] = []
+				}
+				//add median if not defined earlier and group into upper and lower for each, then Re-modify combo
+				//code to account for this classification
+				filterSubjects.each{
+					def val = it.clinicalDataValues[k].toLong()
+					//log.debug it.clinicalDataValues[k].toLong() + "?"
+					if(medians[k]){
+						if( (val <= medians[k])){
+							breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
+						}else if( (val > medians[k])){
+							breakdowns[atttributeLabel][k+":"+"UPPER"+"("+medians[k]+"-"+v.max+")"] << it.id
+						}
+					}else{
+						if( (val <= max) && (val >= min)){
+							breakdowns[atttributeLabel][k] << it.id
+						}
+					}
+
+				}
+				
+				//add to delete criteria
+				toDeleteCriteria[k]=v.toMapString()
+			}
+			if(v.metaClass?.respondsTo(v, 'join')){
+				v.each{ attValue ->
+					def attCount = []
+					attCount = filterSubjects.findAll{
+						//log.debug it.clinicalDataValues
+						it.clinicalDataValues[k] == attValue
+					}
+					breakdowns[atttributeLabel][k+":"+attValue] = [:]
+					breakdowns[atttributeLabel][k+":"+attValue] = attCount.collect{it.id}
+				}
+			}else{
+				def attCount = []
+				attCount = filterSubjects.findAll{
+					it.clinicalDataValues[k] == v
+				}
+				breakdowns[atttributeLabel][k+":"+v] = [:]
+				breakdowns[atttributeLabel][k+":"+v] = attCount.collect{it.id}
+			}
+			log.debug "breakdowns now: "+breakdowns
+		}
+		
+	
+	
+	//criteria ends
+	return [breakdowns:breakdowns,toAddCriteria:toAddCriteria,toDeleteCriteria:toDeleteCriteria]
+	}
+	
+	public static <K,V> void combinations( Map<K,Set<V>> map, List<Map<K,V>> list ) {
+	        recurse( map, new LinkedList<K>( map.keySet() ).listIterator(), new HashMap<K,V>(), list );
+	 }
+	
+	// helper method to do the recursion
+	private static <K,V> void recurse( Map<K,Set<V>> map, ListIterator<K> iter, Map<K,V> cur, List<Map<K,V>> list ) {
+	            // we're at a leaf node in the recursion tree, add solution to list
+	        if( !iter.hasNext() ) {
+	            Map<K,V> entry = new HashMap<K,V>();
+
+	            for( K key : cur.keySet() ) {
+	                entry.put( key, cur.get( key ) );
+	            }
+
+	            list.add( entry );
+	        } else {
+	            K key = iter.next();
+				Set<V> set = new HashSet();
+				if(map.get( key ) instanceof String){
+					set.add(map.get( key ) );
+				}else{
+					set = map.get( key );
+				}
+	            
+
+	            for( V value : set ) {
+	                cur.put( key, value );
+	                recurse( map, iter, cur, list );
+	                cur.remove( key );
+	            }
+
+	            iter.previous();
+	        }
+	}
+	
+	
 	
 }
