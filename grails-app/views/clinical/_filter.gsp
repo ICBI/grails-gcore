@@ -10,6 +10,9 @@
 		$('.close').click(function() {
 			$(this).parents('.clinicalSearch').hide('slow');
 		});
+		$('#sfSubmit').click(function() {
+			$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
+		});
 		$('.splitAtt').change(function() {
 			var splitAtt = $(this).val();
 			console.log(splitAtt);

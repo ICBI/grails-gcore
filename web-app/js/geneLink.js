@@ -4,6 +4,7 @@
 		'advancedMenu': false,
 		'kmForm': "#geneExpressionKm",
 		'geneExpressionForm': "#geneExpression",
+		'clinicalForm':"#clinicalForm",
 		'multiple': false,
 		'menuType': 'gene'
 	};
@@ -45,6 +46,10 @@
 					break;
 				case 'copynumber':
 					menu += "<li><a href='#' class='contextItem' id='UCSCGenomeBrowser'>View in UCSC Genome Browser</a></li></ul>";
+					break;
+				case 'clinical':
+					menu += "<li><a href='#' class='contextItem' id='CLINICALREPORT'>View Detailed Report</a></li>";
+					menu += "<li><a href='#' class='contextItem' id='SAVELIST'>Save ids as list</a></li></ul>";
 					break;
 				default:
 					break;
@@ -122,7 +127,26 @@
 				}
 				$(settings.geneExpressionForm + " > input[name=geneName]").val(id);
 				$(settings.geneExpressionForm).submit();
-				break;						
+				break;
+			case "CLINICALREPORT":
+				$(settings.clinicalForm + " > input[name=ids]").val(jquerycontextmenu.currentTarget.attr('data-ids'));
+				$(settings.clinicalForm).submit();
+				break;
+			case "SAVELIST":
+				console.log("save list modal with "+jquerycontextmenu.currentTarget.attr('data-ids'));
+				$(settings.clinicalForm + " > input[name=ids]").val(jquerycontextmenu.currentTarget.attr('data-ids'));
+				$('#modalIds').val(jquerycontextmenu.currentTarget.attr('data-ids'));
+				$('#saveForm').css("display","block");
+				$.openDOMWindow({ 
+				    height:200,
+			        loader:1, 
+			        loaderImagePath:'animationProcessing.gif', 
+			        loaderHeight:16,
+			        loaderWidth:17, 
+			        windowSourceID:'#listModal' 
+			    }); 
+			    return false;
+				break;
 			default:
 				alert("Error!  Source not found.");
 		}

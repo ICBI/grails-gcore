@@ -229,30 +229,44 @@ class ClinicalController {
 		render specimens as JSON
 	}
 	
+	
 	def patientReport = {
 		def returnVal = [:]
 		log.debug "GOT REQUEST: " + request.JSON
 		log.debug "GOT PARAMS: " + params
-		
-		def patientIds = request.JSON['ids']
-		if(request.JSON['study'] || session.study){
+		def patientIds
+		def cleanedIds = []
+		if(request.JSON){
+			patientIds = request.JSON['ids']
+			cleanedIds = patientIds.collect {
+				def temp = it.toString().replace("\"", "")
+				temp.trim()
+				return temp
+			}		
+		}
+		else if(params.ids){
+			params['ids'].tokenize(",").each{
+				it = it.replace('[','');
+				it = it.replace(']','');
+				cleanedIds << it.trim()
+			}
+			log.debug "flattened ids"+ cleanedIds
+		}
+		log.debug "CLEANED SUBJECT IDZ: $cleanedIds"
+		if(request.JSON['study'] || session.study || params.study){
 			def shortName
 			if(request.JSON['study'])
 				shortName = request.JSON['study']
 			if(session.study)
+				shortName = session.study.shortName
+			if(params.study)
 				shortName = session.study.shortName
 			def study = Study.findByShortName(shortName)
 			StudyContext.setStudy(study.schemaName)
 			loadSubjectTypes()
 			log.debug "set study to $shortName"
 		}
-		log.debug "SUBJECT IDS: $patientIds"
-		def cleanedIds = patientIds.collect {
-			def temp = it.toString().replace("\"", "")
-			temp.trim()
-			return temp
-		}
-		log.debug "CLEANED : $cleanedIds"
+		
 		log.debug "Are these patients or samples?"
 		def results
 		def parentsId = clinicalService.getExistingSubjectsIdsForChildIds(cleanedIds)
@@ -560,18 +574,20 @@ class ClinicalController {
 				def entry = initial[0]+":"+newCombo[initial[0]]
 				def initialIds = []
 				def countMap = [:]
-				aggMap["breakdowns"].each{ bdAttributeLabel, breakdownMap ->
+				aggMap["breakdowns"].eachWithIndex{ bdAttributeLabel, breakdownMap, indexx ->
 					breakdownMap[entry].each{
 						initialIds << it
 					}
-					log.debug "initial ids="+initialIds
+					//log.debug "initial ids="+initialIds
 				    def counts = new HashSet()
 					def resultId = ""
-
+					def separates = []
 					newCombo.eachWithIndex{ comboKey,comboValue,index->
 						def breakdownKey = "$comboKey:$comboValue"
+						log.debug "breakdown "+breakdownKey
 						def ids = []
 						def idsNorm = []
+						separates = []
 						if(breakdownMap[breakdownKey]){
 							ids = breakdownMap[breakdownKey]
 							if(!ids)
@@ -583,10 +599,12 @@ class ClinicalController {
 							if(!ids)
 								ids = []
 						}
-						
 						initialIds.retainAll(ids)
+						
+						initialIds.each{
+							separates << it
+						}
 						countMap[comboKey] = comboValue
-
 						if(newCombo.size()==1){
 							resultId += comboKey+"_"+comboValue
 						}
@@ -597,9 +615,10 @@ class ClinicalController {
 									resultId += comboKey+"_"+comboValue+"--"
 
 						}
-
+						
 					}
-
+					//log.debug "separates=$separates"
+					countMap[bdAttributeLabel+"_ids"] = separates
 					countMap[bdAttributeLabel] = initialIds.size()
 					countMap["resultId"] = resultId
 					
@@ -610,16 +629,30 @@ class ClinicalController {
 			
 			def totalCountMap = [:]
 			resultList.each{ result->
-				result.each{
-					if(it.value.class == Integer){
-						if(totalCountMap[it.key]){
-							totalCountMap[it.key] += it.value
+				result.each{ res->
+					if(res.key.contains("_ids")){
+						if(!totalCountMap[res.key]){
+							totalCountMap[res.key] = []
+							res.value.each{
+								totalCountMap[res.key] << it
+							}	
+						}
+						else{
+							res.value.each{
+								totalCountMap[res.key] << it
+							}
+						}
+					}	
+					if(res.value.class == Integer){
+						if(totalCountMap[res.key]){
+							totalCountMap[res.key] += res.value
 						}else{
-							totalCountMap[it.key] = it.value
+							totalCountMap[res.key] = res.value
 						}
 					}
 				}
 			}
+			
 			log.debug "totalCountMap="+totalCountMap
 			resultList.each{
 				log.debug it
@@ -635,7 +668,11 @@ class ClinicalController {
 			}
 			//log.debug "CRITERIA: " + criteria
 			//log.debug "CRITERIA COUNT: " + comboCounts
-			render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap])
+			def tags = [Constants.SUBJECT_LIST,Constants.PATIENT_LIST]
+			def tagsString = tags.toString()
+			tagsString = tagsString.replace("[","")
+			tagsString = tagsString.replace("]","")
+			render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
 			
 	}
 	

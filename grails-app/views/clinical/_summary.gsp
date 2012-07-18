@@ -2,6 +2,10 @@
 <g:javascript library="jquery"/>
 <jq:plugin name="tooltip"/>
 <jq:plugin name="ui"/>
+<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.contextmenu.css', plugin: 'gcore')}"/>
+<g:javascript src="jquery/jquery.contextmenu.js" plugin="gcore"/>
+<g:javascript src="geneLink.js" plugin="gcore"/>
+<jq:plugin name="DOMWindow"/>
 <g:javascript>
 	$(document).ready(function (){
 		displayFilterTable();
@@ -59,14 +63,14 @@
 					rowspan = rs;
 				}	
 			});
-			console.log("final rowspan of "+classRoot + "="+rowspan);
+			//console.log("final rowspan of "+classRoot + "="+rowspan);
 			//set parent rowspan
 			$("[class*="+classRoot+"_parent]").each(function() {
 				$(this).css("border-bottom","0px solid black");
 				//$(this).attr("rowspan",rowspan);
 			});
 			//remove spanned elements
-			console.log("to remove="+attrArray);
+			//console.log("to remove="+attrArray);
 			if(attrArray.length > 0){
 				//console.log("remove spanned elements");
 				for(var i=0;i<attrArray.length;i++){
@@ -77,11 +81,17 @@
 			}
 			
 		}
+		console.log("add menu");
+		$('.clinicalLink').each(function() {
+			console.log($(this).attr('data-ids'));
+			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
+		});
+		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'}); 
 	}
 </g:javascript>
 
 <g:if test="${countMap}">
-
+${resultMap}
 <g:set var="criteriaSize" value="${comboCounts.keySet().size()}" />
 <% Map valuesMap = new HashMap(); %>
 <table border="0" class="filterTable">
@@ -161,7 +171,7 @@
 					</g:else>
 				</g:if>
 				<g:else>
-					<td><a href="#">${resultMap[name]}</a></td>
+					<td><a href="#" class="clinicalLink" data-ids="${resultMap[name+'_ids']}">${resultMap[name]}</a></td>
 				</g:else>
 			</g:else>	
 		</g:else>
@@ -171,15 +181,59 @@
 </tr>
 </g:each>
 <tr>
-	<td colspan="${columns.size()-countMap.size()}">Total</td>
+	<td colspan="${columns.size()-(countMap.size()/2)}">Total</td>
 	<g:each in="${columns}" var="${name}">
 		<g:if test="${countMap[name]}">
-			<td><a href="#">${countMap[name]}<a/></td>
+			<td><a href="#" class="clinicalLink" data-ids="${countMap[name+'_ids']}">${countMap[name]}<a/></td>
 		</g:if>
 	</g:each>
 </tr>
 </table>
 
+<g:form name="clinicalForm" action="patientReport" controller="clinical">
+	<g:hiddenField name="ids" id="idField" />
+</g:form>
+
+<div id="listModal" align="left" style="display:none;text-align:left;"> 
+	<div id="saveForm">
+		<g:formRemote action="saveFromQuery" controller="userList" name="saveFromQuery" url="${[action:'saveFromQuery',controller:'userList']}" update="updateMe">
+		<p style="font-size:1.1em;display:inline-table">Save your list </p>
+		<table class="studyTable" style="width:55%;background-color:#f2f2f2">
+			<g:if test="${tags}">
+   			<tr>
+				<td><g:message code="userList.listType"/>: 
+				</td>
+				<td style="text-align:left">${tags}
+					<g:hiddenField name="tags" value="${tags}" />
+				</td>
+			</tr>
+		</g:if>
+		<tr>
+			<td><g:message code="userList.listName"/>:
+			</td>
+			<td>
+				<g:textField name="name" size="15" maxlength="15" />
+				<g:textField name="ids" id="modalIds" value="" style="display:none" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align:right">
+				<input type="button" class="example5closeDOMWindow" value="${message(code:'userList.cancel')}" style="padding-right:5px"/>
+				<g:submitButton name="submit" id="submitButton" value="${message(code: 'userList.save')}"/>
+			</td>
+		</tr>
+	</table>
+	</g:formRemote><br />
+	<div id="updateMe">
+		
+	</div>
+	
+	<div id="example8Null" align="left" style="display:none;text-align:left;">
+	 	<p class="errorDetail" style="font-size:1.2em"><g:message code="userList.venn"/></p><br />
+	  </div>
+	  <span class="example5closeDOMWindow" style="float:right;display:inline-table;cursor:pointer;text-decoration:underline"><g:message code="userList.close"/></span>
+	
+  </div>
 	
 </g:if>
 

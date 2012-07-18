@@ -80,7 +80,7 @@ var jquerycontextmenu={
 				}
 			})
 		}
-		if (jQuery.inArray($contextmenu.get(0).id, this.builtcontextmenuids)==-1) //if this context menu hasn't been built yet
+		//if (jQuery.inArray($contextmenu.get(0).id, this.builtcontextmenuids)==-1) //if this context menu hasn't been built yet
 			this.buildcontextmenu($, $contextmenu)
 			$(document).bind("click", function(e){
 				if (e.button==0){ //hide all context menus (and their sub ULs) when left mouse button is clicked
