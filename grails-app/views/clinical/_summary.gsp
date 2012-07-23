@@ -83,7 +83,7 @@
 		}
 		console.log("add menu");
 		$('.clinicalLink').each(function() {
-			console.log($(this).attr('data-ids'));
+			//console.log($(this).attr('data-ids'));
 			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
 		});
 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'}); 
@@ -153,6 +153,9 @@ ${resultMap}
 						<td>${resultMap[name]} </td>
 					</g:if>
 					<g:else>
+						<g:if test="${finalId.contains('.')}">
+							<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
+						</g:if>
 						<td rowspan="1" class="${('rowspan_'+finalId+'_'+valuesMap[finalId]).replace('(','').replace(')','').replace('/','')}">${resultMap[name]}</td>
 					</g:else>
 				</g:if>
@@ -167,6 +170,9 @@ ${resultMap}
 					<% 
 						valuesMap.put(finalId,1);
 					%>
+					<g:if test="${finalId.contains('.')}">
+						<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
+					</g:if>
 					<td rowspan="1" class="${(finalId+'_parent').replace('(','').replace(')','').replace('/','')}">${resultMap[name]}</td>
 					</g:else>
 				</g:if>
@@ -183,7 +189,7 @@ ${resultMap}
 <tr>
 	<td colspan="${columns.size()-(countMap.size()/2)}">Total</td>
 	<g:each in="${columns}" var="${name}">
-		<g:if test="${countMap[name]}">
+		<g:if test="${countMap[name] || countMap[name]==0}">
 			<td><a href="#" class="clinicalLink" data-ids="${countMap[name+'_ids']}">${countMap[name]}<a/></td>
 		</g:if>
 	</g:each>

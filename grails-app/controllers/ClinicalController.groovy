@@ -482,9 +482,11 @@ class ClinicalController {
 			//println "PARAMS: " + queryParams
 			
 			def criteria = QueryBuilder.build(queryParams, "parent_", session.dataTypes,false)
+			log.debug "crteria="+criteria
 			def biospecimenIds
+			def biospecimenCriteria
 			if(session.subjectTypes["child"]) {
-				def biospecimenCriteria = QueryBuilder.build(queryParams, "child_", session.dataTypes,false)
+				biospecimenCriteria = QueryBuilder.build(queryParams, "child_", session.dataTypes,false)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 					log.debug "GOT IDS ${biospecimenIds.size()}"
@@ -496,14 +498,25 @@ class ClinicalController {
 				}
 			}
 			
+			
 
 			def breakdowns = [:]
 			//define columns
 			def columns = []
 			def columnResults = []
+			
+			
+			
 			criteria.keySet().each{
 				columns << it
 			}
+			
+			//NEW for sample
+			biospecimenCriteria?.keySet().each{
+				columns << it
+			}
+			//END NEW for sample
+			
 			def toDeleteCriteria = [:]
 			def toAddCriteria = [:]
 			def aggMap = [:]
@@ -527,14 +540,20 @@ class ClinicalController {
 					def atttributeLabel = splitAttribute.shortName+"_"+splitVocab.term
 					def filterSubjects = []
 					//query on split criteria value (e.g. RECURRENCE-YES)
+					log.debug "get summary from group"
 					filterSubjects = clinicalService.getSummary(splitCriteria, session.subjectTypes["parent"], biospecimenIds)
 					def filterSizeMap = [:]
 					filterSizeMap[atttributeLabel] = filterSubjects.size()
 					breakdowns[atttributeLabel] = [:]
 					columns << atttributeLabel
 					//cycle through criteria and start intersecting groups
-					log.debug "cycle through"
+					log.debug "cycle through $filterSubjects"
+					
 					aggMap = clinicalService.handleCriteria(breakdowns,criteria,filterSubjects,toAddCriteria,toDeleteCriteria,medians,atttributeLabel)
+					
+					//NEW for sample
+					aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
+					//END NEW for sample
 				}
 			}
 			//split each ends
@@ -542,6 +561,7 @@ class ClinicalController {
 				def filterSubjects = []
 				def atttributeLabel = "All Subjects"
 				//query on split criteria value (e.g. RECURRENCE-YES)
+					log.debug "get summary from all"
 				filterSubjects = clinicalService.getSummary(criteria, session.subjectTypes["parent"], biospecimenIds)
 				def filterSizeMap = [:]
 				filterSizeMap[atttributeLabel] = filterSubjects.size()
@@ -550,10 +570,23 @@ class ClinicalController {
 				//cycle through criteria and start intersecting groups
 				aggMap = clinicalService.handleCriteria(breakdowns,criteria,filterSubjects,toAddCriteria,toDeleteCriteria,medians,atttributeLabel)
 				
+				//NEW for sample
+				aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
+				// END NEW for sample
 			}
+			
+			
+			//NEW for sample
+			biospecimenCriteria.each{key, value->
+				criteria[key] = value
+			}	
+			//END NEW for sample
 				
 			criteria = criteria.plus(aggMap["toDeleteCriteria"])
 			criteria = criteria.plus(aggMap["toAddCriteria"])
+			
+			log.debug "criteria="+criteria
+			
 			
 			//recurse
 			List<Map<String,String>> list = new LinkedList<Map<String,String>>();
@@ -632,7 +665,7 @@ class ClinicalController {
 				result.each{ res->
 					if(res.key.contains("_ids")){
 						if(!totalCountMap[res.key]){
-							totalCountMap[res.key] = []
+							totalCountMap[res.key] = new HashSet()
 							res.value.each{
 								totalCountMap[res.key] << it
 							}	
@@ -672,29 +705,40 @@ class ClinicalController {
 			def tagsString = tags.toString()
 			tagsString = tagsString.replace("[","")
 			tagsString = tagsString.replace("]","")
-			render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+			
+			if("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))){
+				log.debug "this is ajax request"
+				render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+			}else{
+				log.debug "this is NOT an ajax request, forward to index action with " + params
+				redirect(action:index,params:params)
+				return
+				//render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+				
+			}
 			
 	}
 	
 	private Map buildQueryParams(params){
 		def medians = [:]
 		def queryParams = [:]
-		//log.debug params
+		log.debug params
 		params.each{ key,value ->
-			log.debug key
-			if(!key.contains("category")){
+			if(!key.contains("category") && !(key.contains("_parent") && !(key.contains("_child")))){
 				key = key.replace("_child","child")
 				key = key.replace("_parent","parent")
 				if(value?.metaClass.respondsTo(value, 'join')){
 					if(key.contains("_range")){
-							log.debug "deal with range arrays"
+							log.debug "deal with range arrays for $key,$value"
 							def sortedValues = []
 							value.each{ v->
+								log.debug "$v"
 								if(v && !"".equals(v)){
 									sortedValues << v.split(" - ")[0].toInteger()
 									sortedValues << v.split(" - ")[1].toInteger()
 								}	
 							}
+							log.debug "sorted values="+sortedValues.size()
 							if(sortedValues && sortedValues.size() == 4){
 								log.debug "dealing with medians...sort this "+sortedValues.sort()
 								queryParams[key] = sortedValues.first().toString() + " - " + sortedValues.last().toString()
@@ -723,8 +767,35 @@ class ClinicalController {
 						}
 					}
 				}else{
-					if(value!=""){
-						queryParams[key]=value
+					log.debug "no respond to join, $key"
+					if(key.contains("_range")){
+							log.debug "deal with one array for $key,$value"
+							def sortedValues = []
+							sortedValues << value.split(" - ")[0].toInteger()
+							sortedValues << value.split(" - ")[1].toInteger()
+							log.debug "sorted values="+sortedValues.size()
+							
+							if(sortedValues && sortedValues.size() == 2){
+								log.debug "dealing with medians...sort this "+sortedValues.sort()
+								queryParams[key] = sortedValues.first().toString() + " - " + sortedValues.last().toString()
+								if(key.contains("child_"))
+									key = key.replace("child_range_", "")
+								if(key.contains("parent_"))
+									key = key.replace("parent_range_", "")
+								log.debug "new criteria as strings " + queryParams[key]
+								def type = AttributeType.findByShortName(key)
+								def median =  (type.lowerRange+type.upperRange)/2
+								log.debug "median for $key is $median"
+								medians[key] = median 
+								log.debug "medians "+ medians
+								
+							}
+							
+					}
+					else{
+						if(value!=""){
+							queryParams[key]=value
+						}
 					}
 
 				}

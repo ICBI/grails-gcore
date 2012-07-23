@@ -18,11 +18,11 @@
 			console.log(splitAtt);
 			if ($('input:checkbox:checked').length == 0){
 				console.log("no checkboxes, refresh page");
-				window.location = "/gdoc/clinical?splitAttribute="+splitAtt;
+				window.location = "${grailsApplication.config.grails.serverURL}/clinical?splitAttribute="+splitAtt;
 			}
 			else{
 				$('#splitAttribute').val($(this).val());
-				var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				//console.log($('#splitAttribute').val());
 				$('#sfSubmit').click();
 			}
@@ -31,7 +31,7 @@
 		//send request based on checbox click
 		$('.cb').click(function() {
 			if($(this).is(":checked")){
-				var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				console.log(pageurl);
 				//then create breadcrumb
 				//console.log($(this).val());
@@ -79,7 +79,7 @@
 		//iterate over checkboxes to pre-check the category (eg....'Male' is checked, so check 'Gender')
 		$('.cb').each(function() {
 			if($(this).is(":checked")){
-				var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				//console.log(pageurl);
 				//then create breadcrumb
 				//console.log($(this).val());
@@ -95,8 +95,9 @@
 		$('.category').click(function() {
 			if($(this).is(":checked")){
 				var substr = $(this).attr('id').split('_category')[0];
+				substr=substr.replace("/","_");
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
-				var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				addToBreadcrumb(substr);
 				$('#sfSubmit').click();
 			}else{
@@ -157,18 +158,47 @@
 		var vars = [], hash;
 		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 		if(hashes.length <= 1){
-			
-			//console.log($("input[name="+targetField+"]"));
 			var targetElem = $("input[name="+targetField+"]");
 			$("input[name=splitAttribute]").val("");
 			targetElem.attr("checked","checked");
 			var substr = targetElem.attr('id').split('_category')[0];
-			console.log("target field is "+substr+"_div");
+			//console.log("target field is "+substr+"_div");
 			$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 			//$("input[name*="+substr+"]").each(function() { 
 				//console.log($(this).attr('name'));
 			//	 $(this).attr('checked', true);
 			// });
+			$('#sfSubmit').click();
+		}else{
+			var rquestArray = window.location.href.split("?");
+			var pageURL = "${grailsApplication.config.grails.serverURL}/clinical/filter?" +rquestArray[1];
+			for(var i=0; i < hashes.length;i++){
+				var elementArray = hashes[i].split("=");
+				console.log(elementArray);
+				var elementName = elementArray[0];
+				var elementValue = elementArray[1];
+				var divName = ""
+				if (elementName.indexOf("range_") >= 0){
+					divName = elementName.split("range_")[1];
+				}
+				if (elementName.indexOf("vocab_") >= 0){
+					divName = elementName.split("vocab_")[1];
+				}
+				var elementValue = elementArray[1];
+				console.log(elementName + " set to "+elementValue);
+				if($("input[name="+elementName+"]").is(':checkbox')){
+					console.log($("input[name="+elementName+"]").val());
+					var elValue = elementValue.replace(/\+/g," ");
+					$("input[name="+elementName+"][value$="+elValue+"]").attr('checked', 'checked');
+					//$("input[name="+elementName+"][value="+elementValue+"]").attr('checked', 'checked');
+					//$('input[name="'+elementName+'"][value="'+elementValue+'"]').attr("checked","checked");
+					$("#"+divName+"_category").attr('checked', 'checked');
+				}
+				else{
+					$("input[name="+elementName+"]").val(elementValue);
+				}
+			}
+			var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 			$('#sfSubmit').click();
 		}
 		
@@ -182,7 +212,7 @@ function check(form){
 	$("input[id*='_category']").each(function() { 
 		$(this).attr('disabled','disabled');
 	});
-	var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 	//console.log(pageurl);
 	window.history.pushState({test:pageurl},'',pageurl);
 	return false;
@@ -192,7 +222,7 @@ function check(form){
 function addToBreadcrumb(termId){
 	//console.log("add to breadcrumb");
 	var formSerialized = $("#sf :input[value]").serialize().split("&");
-	var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 	$.each(formSerialized,function(index){
 		console.log(formSerialized[index]);
 	});
@@ -219,9 +249,9 @@ function removeBreadcrumb(termId){
 	if ($('input:checkbox:checked').length == 0){
 		var splitAtt = $('#splitAttribute').val();
 		console.log("no checkboxes, refresh page");
-		window.location = "/gdoc/clinical?splitAttribute="+splitAtt;
+		window.location = "${grailsApplication.config.grails.serverURL}/clinical?splitAttribute="+splitAtt;
 	}else{
-		var pageurl = "/gdoc/clinical/filter?" + $("#sf :input[value]").serialize();
+		var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 		$('#sfSubmit').click();
 	}
 	
@@ -301,7 +331,7 @@ function cleanUp(){
 						targetField = "${type.replace('_','') + '_category_' + it.shortName}";
 					</g:javascript>
 			</g:else>
-			<div class="clinicalFilter" style="display:${use}" id="${it.shortName+'_div'}">
+			<div class="clinicalFilter" style="display:${use}" id="${it.shortName.replace('/','_')+'_div'}">
 				<div>
 				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="false" id="${it.shortName}_category" class="category"/>
 				<label for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>
@@ -378,14 +408,14 @@ function cleanUp(){
 				</g:elseif--%>
 				<g:else>
 					<g:set var="median" value='${(it.lowerRange+it.upperRange)/2}' />
-						<span style="display:none">
+						<span style="display:block">
 						<span>Low Range</span>
 						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${it.lowerRange + ' - ' +median}" />
 						<label for="${type.replace('_','') + '_' + it.shortName}">${it.lowerRange + ' to ' +median}</label>
 						<br />
 						<span>High Range</span>
-						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${median + ' - ' +it.upperRange}" />
-						<label for="${type.replace('_','') + '_' + it.shortName}">${median + ' to ' +it.upperRange}</label>
+						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${(median +1) + ' - ' +it.upperRange}" />
+						<label for="${type.replace('_','') + '_' + it.shortName}">${(median +1) + ' to ' +it.upperRange}</label>
 						</span>
 						
 						

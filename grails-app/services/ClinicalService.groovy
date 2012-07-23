@@ -21,8 +21,11 @@ class ClinicalService {
 	//-----------new feature--------------
 	def getSummary(criteria, subjectType, childIds) {
 		//log.debug "querying by criteria"
-		def patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
-		def patients = Subject.getAll(patientIds)
+		def patientIds = []
+		def patients = []
+		patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
+		if(patientIds)
+			patients = Subject.getAll(patientIds)
 		return patients
 	}
 	
@@ -90,10 +93,10 @@ class ClinicalService {
 
 		log.debug query
 		def ids = jdbcTemplate.queryForList(query)
+		
 		def patientIds = ids.collect { id ->
 			return id["SUBJECT_ID"]
 		}
-		
 		// filter out patients that do not match biospecimen criteria
 		if(bioPatientIds && bioPatientIds.size() > 0) {
 			patientIds = patientIds.intersect(bioPatientIds)
@@ -216,42 +219,93 @@ class ClinicalService {
 	
 	//move to service
 	def handleCriteria(breakdowns,criteria,filterSubjects, toAddCriteria,toDeleteCriteria,medians,atttributeLabel) {
+		log.debug "handle criteria "+criteria
 		criteria.each{ k,v ->
-			//log.debug "find by $k"
+			log.debug "find by $k"
 			if(v instanceof Map){
 				def attCount = []
 				def attCountN = []
 				def max = v.max.toLong()
 				def min = v.min.toLong()
+				def removeBucket = []
 				if(medians[k]){
-					//log.debug "found median for $k of "+medians[k]
-					def upperLabel = k+":"+"UPPER"+"("+medians[k]+"-"+v.max+")"
+					toAddCriteria[k] = []
+					log.debug "found median for $k of "+medians[k]
+					def upperLabel = k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"
 					def lowerLabel = k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"
-					breakdowns[atttributeLabel][upperLabel] = []
-					breakdowns[atttributeLabel][lowerLabel] = []
-					toAddCriteria[k]=["UPPER"+"("+medians[k]+"-"+v.max+")","LOWER"+"("+v.min+"-"+medians[k]+")"]
+					breakdowns[atttributeLabel][upperLabel] = new HashSet()
+					breakdowns[atttributeLabel][lowerLabel] = new HashSet()
+					if(v.min > medians[k]){
+						log.debug "must have chosen upper quartile"
+						toAddCriteria[k] << "UPPER"+"("+(medians[k]+1)+"-"+v.max+")"
+						removeBucket << lowerLabel
+					}
+					if(v.max == medians[k]){
+						log.debug "must have chosen lower quartile"
+						toAddCriteria[k] << "LOWER"+"("+v.min+"-"+medians[k]+")"
+						removeBucket << upperLabel
+					}
+					if((v.min < medians[k]) && (v.max != medians[k]))
+						toAddCriteria[k]=["UPPER"+"("+(medians[k]+1)+"-"+v.max+")","LOWER"+"("+v.min+"-"+medians[k]+")"]
 				}
 				else{
-					//log.debug "no median found median for $k"
 					breakdowns[atttributeLabel][k] = []
 				}
 				//add median if not defined earlier and group into upper and lower for each, then Re-modify combo
 				//code to account for this classification
 				filterSubjects.each{
-					def val = it.clinicalDataValues[k].toLong()
+					def val = it.clinicalDataValues[k]?.toLong()
+					def vals =[]
 					//log.debug it.clinicalDataValues[k].toLong() + "?"
-					if(medians[k]){
-						if( (val <= medians[k])){
-							breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
-						}else if( (val > medians[k])){
-							breakdowns[atttributeLabel][k+":"+"UPPER"+"("+medians[k]+"-"+v.max+")"] << it.id
-						}
-					}else{
-						if( (val <= max) && (val >= min)){
-							breakdowns[atttributeLabel][k] << it.id
+					
+					//NEW for sample
+					if(!val){
+						log.debug "no clinical field on parent, mjs be child"
+						if(it.children){
+								it.children.each{ subject ->
+									if(subject.clinicalDataValues[k]){
+										def values = []
+										if(subject.clinicalDataValues[k].metaClass?.respondsTo(subject.clinicalDataValues[k], 'join'))
+											values = subject.clinicalDataValues[k]
+										else
+											values << subject.clinicalDataValues[k]
+										values.each{ clinVal->
+												log.debug "make big decimal"
+												clinVal = clinVal.toBigDecimal()
+												log.debug "done big decimal"
+												if(medians[k]){
+													log.debug "found median now compare "+medians[k].class+ " and " +clinVal.class
+													if( (clinVal <= medians[k])){
+														breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
+													}else if( (clinVal > medians[k])){
+														breakdowns[atttributeLabel][k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"] << it.id
+													}
+												}else{
+													if( (clinVal <= max) && (clinVal >= min)){
+														breakdowns[atttributeLabel][k] << it.id
+													}
+												}
+											
+										}
+									}
+										
+								}
 						}
 					}
-
+					//END NEW for sample
+					else{
+						if(medians[k]){
+							if( (val <= medians[k])){
+								breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
+							}else if( (val > medians[k])){
+								breakdowns[atttributeLabel][k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"] << it.id
+							}
+						}else{
+							if( (val <= max) && (val >= min)){
+								breakdowns[atttributeLabel][k] << it.id
+							}
+						}
+					}
 				}
 				
 				//add to delete criteria
@@ -261,9 +315,24 @@ class ClinicalService {
 				v.each{ attValue ->
 					def attCount = []
 					attCount = filterSubjects.findAll{
-						//log.debug it.clinicalDataValues
 						it.clinicalDataValues[k] == attValue
 					}
+					
+					//NEW for sample
+					if(!attCount){
+						log.debug "no subjects found for $k array,trying to find $k"
+						if(filterSubjects.children){
+								filterSubjects.each{ subject ->
+									if(subject.children.clinicalDataValues[k] && subject.children.clinicalDataValues[k].contains(attValue)){
+										if(!attCount.contains(subject))
+											attCount << subject
+									}
+										
+								}
+						}
+					}
+					//END NEW for sample
+					
 					breakdowns[atttributeLabel][k+":"+attValue] = [:]
 					breakdowns[atttributeLabel][k+":"+attValue] = attCount.collect{it.id}
 				}
@@ -272,9 +341,26 @@ class ClinicalService {
 				attCount = filterSubjects.findAll{
 					it.clinicalDataValues[k] == v
 				}
+				
+				//NEW for sample
+				if(!attCount){
+					if(filterSubjects.children){
+							filterSubjects.each{ subject ->
+								if(subject.children.clinicalDataValues[k] && subject.children.clinicalDataValues[k].contains(v)){
+									if(!attCount.contains(subject))
+										attCount << subject
+								}
+									
+							}
+					}
+				}
+				//END NEW for sample
+				
 				breakdowns[atttributeLabel][k+":"+v] = [:]
 				breakdowns[atttributeLabel][k+":"+v] = attCount.collect{it.id}
+				
 			}
+			
 			log.debug "breakdowns now: "+breakdowns
 		}
 		
@@ -283,6 +369,8 @@ class ClinicalService {
 	//criteria ends
 	return [breakdowns:breakdowns,toAddCriteria:toAddCriteria,toDeleteCriteria:toDeleteCriteria]
 	}
+	
+	
 	
 	public static <K,V> void combinations( Map<K,Set<V>> map, List<Map<K,V>> list ) {
 	        recurse( map, new LinkedList<K>( map.keySet() ).listIterator(), new HashMap<K,V>(), list );
