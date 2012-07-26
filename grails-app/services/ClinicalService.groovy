@@ -194,6 +194,7 @@ class ClinicalService {
 		def patients = []
 		def index = 0;
 		log.debug "patient ids $pids"
+		pids=pids?.unique{it}
 		while(index < pids.size()) {
 			def patientsLeft = pids.size() - index
 			def tempPatients
@@ -220,16 +221,56 @@ class ClinicalService {
 	//move to service
 	def handleCriteria(breakdowns,criteria,filterSubjects, toAddCriteria,toDeleteCriteria,medians,atttributeLabel) {
 		log.debug "handle criteria "+criteria
+		log.debug "handle criteria size "+criteria?.size()
+		def removeBucket = []
+		
 		criteria.each{ k,v ->
-			log.debug "find by $k"
-			if(v instanceof Map){
+			log.debug "find by $k and $v"
+			if(v instanceof String){
+				def attCount = []
+				attCount = filterSubjects.findAll{
+					it.clinicalDataValues[k] == v
+				}
+				
+				//NEW for sample
+				if(!attCount){
+					//log.debug "looking at child attr of all "+filterSubjects
+					for(def i=0;i<filterSubjects.size();i++){
+							log.debug "use "+filterSubjects[i]
+							log.debug "__________________________"
+
+							filterSubjects[i].children.each{child ->
+								def vals = child.values//AttributeValue.findAllBySubject(child)
+								vals.each{
+									if(it.type.shortName == k){
+										if(it.value == v){
+											if(!attCount.contains(filterSubjects[i]))
+												attCount << filterSubjects[i]
+										}
+									}
+								}
+							}
+
+					}
+					log.debug "attCount is "+attCount
+				}
+				//END NEW for sample
+				
+				breakdowns[atttributeLabel][k+":"+v] = [:]
+				breakdowns[atttributeLabel][k+":"+v] = attCount?.collect{it.id}
+				
+			}
+			else if(v instanceof Map){
+				log.debug "$k is a map of $v"
 				def attCount = []
 				def attCountN = []
-				def max = v.max.toLong()
-				def min = v.min.toLong()
-				def removeBucket = []
+				def max = v.max.toDouble()
+				def min = v.min.toDouble()
 				if(medians[k]){
+					log.debug "toAdd "+toAddCriteria
 					toAddCriteria[k] = []
+					log.debug medians[k].class
+					
 					log.debug "found median for $k of "+medians[k]
 					def upperLabel = k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"
 					def lowerLabel = k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"
@@ -254,9 +295,9 @@ class ClinicalService {
 				//add median if not defined earlier and group into upper and lower for each, then Re-modify combo
 				//code to account for this classification
 				filterSubjects.each{
-					def val = it.clinicalDataValues[k]?.toLong()
+					def val = it.clinicalDataValues[k]?.toDouble()
 					def vals =[]
-					//log.debug it.clinicalDataValues[k].toLong() + "?"
+					//log.debug it.clinicalDataValues[k].toDouble() + "?"
 					
 					//NEW for sample
 					if(!val){
@@ -269,12 +310,13 @@ class ClinicalService {
 											values = subject.clinicalDataValues[k]
 										else
 											values << subject.clinicalDataValues[k]
+											
 										values.each{ clinVal->
-												log.debug "make big decimal"
-												clinVal = clinVal.toBigDecimal()
-												log.debug "done big decimal"
+												
+												clinVal = clinVal.toDouble()
+												
 												if(medians[k]){
-													log.debug "found median now compare "+medians[k].class+ " and " +clinVal.class
+													//log.debug "found median now compare "+medians[k]+ " and " +clinVal
 													if( (clinVal <= medians[k])){
 														breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
 													}else if( (clinVal > medians[k])){
@@ -307,12 +349,12 @@ class ClinicalService {
 						}
 					}
 				}
-				
 				//add to delete criteria
 				toDeleteCriteria[k]=v.toMapString()
 			}
-			if(v.metaClass?.respondsTo(v, 'join')){
+			else if(v.metaClass?.respondsTo(v, 'join')){
 				v.each{ attValue ->
+					log.debug "look for $attValue"
 					def attCount = []
 					attCount = filterSubjects.findAll{
 						it.clinicalDataValues[k] == attValue
@@ -321,54 +363,43 @@ class ClinicalService {
 					//NEW for sample
 					if(!attCount){
 						log.debug "no subjects found for $k array,trying to find $k"
-						if(filterSubjects.children){
-								filterSubjects.each{ subject ->
-									if(subject.children.clinicalDataValues[k] && subject.children.clinicalDataValues[k].contains(attValue)){
-										if(!attCount.contains(subject))
-											attCount << subject
+						
+						for(def i=0;i<filterSubjects.size();i++){
+								log.debug "use "+filterSubjects[i]
+								log.debug "__________________________"
+
+								filterSubjects[i].children.each{child ->
+									def vals = child.values//AttributeValue.findAllBySubject(child)
+									vals.each{
+										if(it.type.shortName == k){
+											if(it.value == attValue){
+												if(!attCount.contains(filterSubjects[i]))
+													attCount << filterSubjects[i]
+											}
+										}
 									}
-										
 								}
+
 						}
+						
+						
 					}
 					//END NEW for sample
 					
 					breakdowns[atttributeLabel][k+":"+attValue] = [:]
 					breakdowns[atttributeLabel][k+":"+attValue] = attCount.collect{it.id}
 				}
-			}else{
-				def attCount = []
-				attCount = filterSubjects.findAll{
-					it.clinicalDataValues[k] == v
-				}
-				
-				//NEW for sample
-				if(!attCount){
-					if(filterSubjects.children){
-							filterSubjects.each{ subject ->
-								if(subject.children.clinicalDataValues[k] && subject.children.clinicalDataValues[k].contains(v)){
-									if(!attCount.contains(subject))
-										attCount << subject
-								}
-									
-							}
-					}
-				}
-				//END NEW for sample
-				
-				breakdowns[atttributeLabel][k+":"+v] = [:]
-				breakdowns[atttributeLabel][k+":"+v] = attCount.collect{it.id}
-				
 			}
-			
-			log.debug "breakdowns now: "+breakdowns
 		}
 		
-	
+		log.debug "breakdowns after remove: "+breakdowns
 	
 	//criteria ends
 	return [breakdowns:breakdowns,toAddCriteria:toAddCriteria,toDeleteCriteria:toDeleteCriteria]
 	}
+	
+	
+	
 	
 	
 	

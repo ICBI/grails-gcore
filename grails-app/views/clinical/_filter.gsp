@@ -162,7 +162,7 @@
 			$("input[name=splitAttribute]").val("");
 			targetElem.attr("checked","checked");
 			var substr = targetElem.attr('id').split('_category')[0];
-			//console.log("target field is "+substr+"_div");
+			console.log("target field is "+substr+"_div");
 			$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 			//$("input[name*="+substr+"]").each(function() { 
 				//console.log($(this).attr('name'));
@@ -408,6 +408,7 @@ function cleanUp(){
 				</g:elseif--%>
 				<g:else>
 					<g:set var="median" value='${(it.lowerRange+it.upperRange)/2}' />
+						
 						<span style="display:block">
 						<span>Low Range</span>
 						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${it.lowerRange + ' - ' +median}" />
