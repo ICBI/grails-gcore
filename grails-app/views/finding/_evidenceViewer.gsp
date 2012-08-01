@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 
 <g:if test="${principal}">
 	<g:set var="uiId" value="${evidence.id+'_principal'}" />

@@ -2,7 +2,7 @@
     <head>
         <title><g:message code="admin.title" args="${ [appTitle()] }" /></title>
 		<meta name="layout" content="adminLayout" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'scrollable-navig.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'dialog.css')}"/>
 		

@@ -4,7 +4,7 @@
 <head>
 	<meta name="layout" content="listsMain" />
 	<title>User Lists</title>
-	<g:javascript library="jquery"/>
+	<g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="ui"/>
 	<jq:plugin name="styledButton"/>
 	<jq:plugin name="tooltip"/>

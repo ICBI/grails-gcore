@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>Modify Analysis</title>
-	<g:javascript library="jquery"/>
+	<g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="DOMWindow"/>
 	
 	<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>

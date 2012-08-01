@@ -2,7 +2,7 @@
     <head>
         <title><g:message code="policies.publication" args="${[appTitle()]}"/></title>
 		<meta name="layout" content="noHeaderLayout" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		
     </head>
     <body>

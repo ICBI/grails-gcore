@@ -7,7 +7,7 @@
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta name="layout" content="main" />
-	<script type="text/javascript" src="${resource(dir: 'js/jquery', file: 'jquery-1.3.2.js')}"></script>
+	<g:javascript library="jquery" plugin="jquery"/>
 
 		<script type="text/javascript" src="${resource(dir: 'js/jquery', file: 'jquery.ui.js')}"></script>
 	

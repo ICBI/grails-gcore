@@ -2,7 +2,7 @@
     <head>
         <meta name="layout" content="collabLayout" />
 
-	<g:javascript library="jquery"/>
+	<g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="ui"/>
         <title><g:message code="collaborationGroups.title" /></title>         
     </head>

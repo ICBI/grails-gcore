@@ -4,7 +4,7 @@
         <meta name="layout" content="main" />
 		</script>
         <title><g:message code="findings.finding" /> ${params?.id}</title>  
- 		<g:javascript library="jquery"/>
+ 		<g:javascript library="jquery" plugin="jquery"/>
       	<jq:plugin name="tooltip"/>
 		<jq:plugin name="ui"/>
 		<g:javascript>

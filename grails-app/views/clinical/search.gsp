@@ -2,7 +2,7 @@
     <head>
         <meta name="layout" content="report" />
         <title><g:message code="clinical.searchResults" /></title>      
-<g:javascript library="jquery"/>   
+<g:javascript library="jquery" plugin="jquery"/>   
     </head>
     <body>
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>

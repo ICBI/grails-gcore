@@ -2,7 +2,7 @@
     <head>
         <title>${appLongName()}</title>
 		<meta name="layout" content="workflowsLayout" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<g:javascript src="jquery/scrollTable/scrolltable.js"/>
 		<g:javascript src="jquery/scrollTable/jscrolltable.js"/>
 		<!-- styling -->

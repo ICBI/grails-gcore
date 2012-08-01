@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <div style="padding-right:10px">
 <table class="studyTable" style="font-size:.85em;">
 <tr><th style="background-color:#FFFFCC"><g:message code="notifications.invites.heading" /> (<span style="font-style:italic"><g:message code="notifications.invites.last90" /></span>)</th></tr>

@@ -2,7 +2,7 @@
     <head>
         <title><g:message code="policies.denied"/></title>
 		<meta name="layout" content="splash" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		
     </head>
     <body>

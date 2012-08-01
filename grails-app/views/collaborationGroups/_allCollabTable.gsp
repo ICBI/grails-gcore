@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <span style="font-size:.9em;color:red"><g:message code="collaborationGroups.otherGroups" /></span>
 <table class="studyTable" style="font-size:1.05em;width:450px">
 	<tr><th><g:message code="collaborationGroups.name" /></th>

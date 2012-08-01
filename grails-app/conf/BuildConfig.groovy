@@ -31,7 +31,6 @@ grails.project.dependency.resolution = {
 		compile ':recaptcha:0.5.2'
 		compile ':searchable:0.5.5'
 		compile	':taggable:0.6.1'
-		compile	':jquery:1.3.2.4'
 		compile	':mail:0.9'
 		compile ':quartz:0.4.1'
 		compile	':spring-security-core:1.2.7.3'

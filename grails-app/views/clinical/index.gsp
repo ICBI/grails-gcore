@@ -4,7 +4,7 @@
 		<meta http-equiv="cache-control" content="no-cache"> <!-- tells browser not to cache -->
 		<meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
 		<meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
-		<g:javascript library="jquery" />
+		<g:javascript library="jquery" plugin="jquery" />
         <title><g:message code="clinical.title" args="${ [appTitle()] }" /></title>         
     </head>
     <body>

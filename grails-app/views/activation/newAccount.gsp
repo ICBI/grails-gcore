@@ -2,7 +2,7 @@
 <head>
 	<meta name="layout" content="splash" />
 	<title><g:message code="activation.pageTitle" args="${ [appTitle()] }" /></title>
-	<g:javascript library="jquery" />
+	<g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="password"/>
 </head>
 <g:javascript>

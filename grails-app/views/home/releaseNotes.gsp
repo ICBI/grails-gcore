@@ -2,7 +2,7 @@
     <head>
         <title>${g.appTitle()} - Release Notes</title>
 		<meta name="layout" content="noHeaderLayout" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		
     </head>
     <body>

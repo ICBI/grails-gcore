@@ -3,7 +3,7 @@
   <head>
     <title><g:message code="userList.vennTitle"/></title>
 	<meta name="layout" content="report" />
-    <g:javascript library="jquery"/>
+    <g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="DOMWindow"/>
 	
     <style type="text/css">

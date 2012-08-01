@@ -3,7 +3,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="report" />
 
-        <g:javascript library="jquery"/>
+        <g:javascript library="jquery" plugin="jquery"/>
 		<g:jqgrid />
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.contextmenu.css', plugin: 'gcore')}"/>
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>

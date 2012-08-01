@@ -3,7 +3,7 @@
         <meta name="layout" content="report" />
         <title><g:message code="userList.vennTitle"/></title>     
 		<g:render template="/common/flex_header" plugin="gcore"/>
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<jq:plugin name="tooltip"/>
 		<jq:plugin name="ui"/>
     </head>

@@ -1,4 +1,4 @@
-<g:javascript library="jquery" plugin="gcore"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <g:javascript src="jquery/jquery.autocomplete.js" plugin="gcore"/>
 <g:javascript src="jquery/jquery.tooltip.js" plugin="gcore"/>
 

@@ -2,7 +2,7 @@
     <head>
         <title><g:message code="collaborationGroups.title" /></title>
 		<meta name="layout" content="report" />
-		<g:javascript library="jquery"/>   
+		<g:javascript library="jquery" plugin="jquery"/>   
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
 		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
 		<g:jqgrid />
