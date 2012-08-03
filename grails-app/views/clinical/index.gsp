@@ -49,13 +49,13 @@
 			</div>
 		</td>
 		<td valign="top">
-			<div style="border:0px solid black;padding-top:15px;margin-left:10%;" class="breadcrumbs">
+			<div style="border:0px solid black;padding-top:15px;margin-left:10%;width:100%" class="breadcrumbs">
 				&nbsp;&nbsp;
 			</div>
 			<div style="border:0px solid black;padding-top:25px;margin-left:10%;display:inline-table" >
 					<span>Current Split Attribute</span><br>
-					<g:select class="splitAtt" name="user_switchAttribute" 
-							noSelection="${['':'None...']}" value="${session.splitAttribute}"
+					<g:select class="splitAtt" name="user_switchAttribute" id="user_switchAttribute"
+							noSelection="${['NONE':'None...']}" value="${session.splitAttribute}"
 							from="${session.vocabList}" optionKey="shortName" optionValue="longName">
 							
 					</g:select>

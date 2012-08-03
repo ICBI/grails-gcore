@@ -23,7 +23,18 @@ class ClinicalService {
 		//log.debug "querying by criteria"
 		def patientIds = []
 		def patients = []
-		patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
+		if(!criteria){
+			log.debug "no criteria sent, return all parent subjects"
+			def parentCriteria = Subject.createCriteria()
+			patientIds = parentCriteria {
+				projections {
+					distinct(["id"])
+					isNull("parent.id")
+				}
+			}
+		}
+		else
+			patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
 		if(patientIds)
 			patients = Subject.getAll(patientIds)
 		return patients
@@ -236,7 +247,7 @@ class ClinicalService {
 				if(!attCount){
 					//log.debug "looking at child attr of all "+filterSubjects
 					for(def i=0;i<filterSubjects.size();i++){
-							log.debug "use "+filterSubjects[i]
+							log.debug "sample-based, use "+filterSubjects[i]
 							log.debug "__________________________"
 
 							filterSubjects[i].children.each{child ->
@@ -272,13 +283,18 @@ class ClinicalService {
 					log.debug medians[k].class
 					
 					log.debug "found median for $k of "+medians[k]
-					def upperLabel = k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"
+					def upperMed
+					if(medians[k].toString().contains(".5"))
+						upperMed = medians[k]+0.1
+					else
+						upperMed = medians[k] + 1
+					def upperLabel = k+":"+"UPPER"+"("+upperMed+"-"+v.max+")"
 					def lowerLabel = k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"
 					breakdowns[atttributeLabel][upperLabel] = new HashSet()
 					breakdowns[atttributeLabel][lowerLabel] = new HashSet()
 					if(v.min > medians[k]){
-						log.debug "must have chosen upper quartile"
-						toAddCriteria[k] << "UPPER"+"("+(medians[k]+1)+"-"+v.max+")"
+						log.debug "must have chosen upper quartile"+toAddCriteria[k]
+						toAddCriteria[k] << "UPPER"+"("+upperMed+"-"+v.max+")"
 						removeBucket << lowerLabel
 					}
 					if(v.max == medians[k]){
@@ -287,7 +303,7 @@ class ClinicalService {
 						removeBucket << upperLabel
 					}
 					if((v.min < medians[k]) && (v.max != medians[k]))
-						toAddCriteria[k]=["UPPER"+"("+(medians[k]+1)+"-"+v.max+")","LOWER"+"("+v.min+"-"+medians[k]+")"]
+						toAddCriteria[k]=["UPPER"+"("+upperMed+"-"+v.max+")","LOWER"+"("+v.min+"-"+medians[k]+")"]
 				}
 				else{
 					breakdowns[atttributeLabel][k] = []
@@ -336,11 +352,16 @@ class ClinicalService {
 					}
 					//END NEW for sample
 					else{
+						def upperMed
+						if(medians[k].toString().contains(".5"))
+							upperMed = medians[k]+0.1
+						else
+							upperMed = medians[k] + 1
 						if(medians[k]){
 							if( (val <= medians[k])){
 								breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
 							}else if( (val > medians[k])){
-								breakdowns[atttributeLabel][k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"] << it.id
+								breakdowns[atttributeLabel][k+":"+"UPPER"+"("+upperMed+"-"+v.max+")"] << it.id
 							}
 						}else{
 							if( (val <= max) && (val >= min)){
@@ -362,7 +383,7 @@ class ClinicalService {
 					
 					//NEW for sample
 					if(!attCount){
-						log.debug "no subjects found for $k array,trying to find $k"
+						log.debug "sample-based for $k array,trying to find $k"
 						
 						for(def i=0;i<filterSubjects.size();i++){
 								log.debug "use "+filterSubjects[i]

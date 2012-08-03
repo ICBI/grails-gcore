@@ -43,7 +43,7 @@ class ClinicalController {
 					outcome = hs.find{it.vocabulary}
 					session.splitAttribute = outcome.shortName
 				}else{
-					session.splitAttribute = "None"
+					session.splitAttribute = "NONE"
 				}
 			}
 			session.vocabList = session.vocabList.findAll{
@@ -473,8 +473,7 @@ class ClinicalController {
 				log.debug "this is NOT an ajax request, so forward to index action with " + params
 				redirect(action:index,params:params)
 				return
-			}else{	
-				
+			}else{				
 				def errors = validateQuery(params, session.dataTypes)
 				log.debug "Clinical Validation?: " + errors
 				def queryParams = [:]
@@ -482,6 +481,14 @@ class ClinicalController {
 				def paramMap = buildQueryParams(params)
 				queryParams = paramMap["queryParams"]
 				medians = paramMap["medians"]
+				
+				//addd tags
+				def tags = [Constants.SUBJECT_LIST,Constants.PATIENT_LIST]
+				def tagsString = tags.toString()
+				tagsString = tagsString.replace("[","")
+				tagsString = tagsString.replace("]","")
+				
+				
 				log.debug "query Params: " + queryParams
 				if(errors && (errors != [:])) {
 					flash['errors'] = errors
@@ -530,11 +537,14 @@ class ClinicalController {
 				def toDeleteCriteria = [:]
 				def toAddCriteria = [:]
 				def aggMap = [:]
-				if(queryParams.splitAttribute){
-					log.debug "split attribute is "+queryParams.splitAttribute
-					session.splitAttribute = queryParams.splitAttribute
+				if(queryParams.splitAttribute && queryParams.splitAttribute != "NONE"){
+					def splitAttParam = queryParams.splitAttribute
+					if(splitAttParam.contains("#"))
+						splitAttParam = splitAttParam.replace("#","")
+					log.debug "split attribute is "+splitAttParam
+					session.splitAttribute = splitAttParam
 					log.debug "set session split attribute"
-					def splitAttribute = AttributeType.findByShortName(queryParams.splitAttribute)
+					def splitAttribute = AttributeType.findByShortName(splitAttParam)
 					def splitAttributeVocabs1 = []
 					splitAttributeVocabs1 = AttributeVocabulary.findAllByType(splitAttribute)
 					def splitAttributeVocabs = splitAttributeVocabs1.findAll{item -> session.usedVocabs[splitAttribute.id]?.contains(item.term)}
@@ -574,19 +584,61 @@ class ClinicalController {
 					def filterSubjects = []
 					def atttributeLabel = "All Subjects"
 					//query on split criteria value (e.g. RECURRENCE-YES)
-						log.debug "get summary from all"
+					log.debug "get summary from all"
 					filterSubjects = clinicalService.getSummary(criteria, session.subjectTypes["parent"], biospecimenIds)
 					def filterSizeMap = [:]
 					filterSizeMap[atttributeLabel] = filterSubjects.size()
 					breakdowns[atttributeLabel] = [:]
 					columns << atttributeLabel
-					//cycle through criteria and start intersecting groups
-					aggMap = clinicalService.handleCriteria(breakdowns,criteria,filterSubjects,toAddCriteria,toDeleteCriteria,medians,atttributeLabel)
-
-					//NEW for sample
-					if(biospecimenIds)
-						aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
-					// END NEW for sample
+					log.debug "found "+filterSubjects.size() + " subjects before doing criteria"
+					if(!criteria){
+						breakdowns[atttributeLabel] = filterSubjects.size()
+						breakdowns[atttributeLabel+"_ids"] = filterSubjects.collect{it.id}
+						breakdowns["resultId"] = "All Subjects"
+						def resultList = []
+						resultList << breakdowns
+						def totalCountMap = [:]
+						def comboCounts = [:]
+						comboCounts["All_Subjects"]=1
+						columns = []
+						columns << "All Subjects"
+						resultList.each{ result->
+							result.each{ res->
+								if(res.key.contains("_ids")){
+									if(!totalCountMap[res.key]){
+										totalCountMap[res.key] = new HashSet()
+										res.value.each{
+											totalCountMap[res.key] << it
+										}	
+									}
+									else{
+										res.value.each{
+											totalCountMap[res.key] << it
+										}
+									}
+								}	
+								if(res.value.class == Integer){
+									if(totalCountMap[res.key]){
+										totalCountMap[res.key] += res.value
+									}else{
+										totalCountMap[res.key] = res.value
+									}
+								}
+							}
+						}
+						log.debug "total count Searched for ALL with no criteria="+totalCountMap+" others "+columns+"-- "+comboCounts+"-- "+resultList+"-- "+tags
+						render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+						return
+					}
+					else{
+						//cycle through criteria and start intersecting groups
+						aggMap = clinicalService.handleCriteria(breakdowns,criteria,filterSubjects,toAddCriteria,toDeleteCriteria,medians,atttributeLabel)
+						//NEW for sample
+						if(biospecimenIds)
+							aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
+						// END NEW for sample	
+					}
+				
 				}
 
 
@@ -716,11 +768,7 @@ class ClinicalController {
 				}
 				//log.debug "CRITERIA: " + criteria
 				//log.debug "CRITERIA COUNT: " + comboCounts
-				def tags = [Constants.SUBJECT_LIST,Constants.PATIENT_LIST]
-				def tagsString = tags.toString()
-				tagsString = tagsString.replace("[","")
-				tagsString = tagsString.replace("]","")
-
+				
 				log.debug "this is ajax request and return"
 				render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
 			}
@@ -741,8 +789,8 @@ class ClinicalController {
 							value.each{ v->
 								log.debug "$v"
 								if(v && !"".equals(v)){
-									sortedValues << v.split(" - ")[0].toInteger()
-									sortedValues << v.split(" - ")[1].toInteger()
+									sortedValues << v.split(" - ")[0].toDouble()
+									sortedValues << v.split(" - ")[1].toDouble()
 								}	
 							}
 							log.debug "sorted values="+sortedValues.size()
@@ -751,6 +799,7 @@ class ClinicalController {
 								queryParams[key] = sortedValues.first().toString() + " - " + sortedValues.last().toString()
 								log.debug "new criteria as strings " + queryParams[key]
 								def median = (sortedValues.first() + sortedValues.last())/2
+								def medianString = median.toString()
 								log.debug "median for $key is $median"
 								if(key.contains("child_"))
 									key = key.replace("child_range_", "")
@@ -778,8 +827,8 @@ class ClinicalController {
 					if(key.contains("_range")){
 							log.debug "deal with one array for $key,$value"
 							def sortedValues = []
-							sortedValues << value.split(" - ")[0].toInteger()
-							sortedValues << value.split(" - ")[1].toInteger()
+							sortedValues << value.split(" - ")[0].toDouble()
+							sortedValues << value.split(" - ")[1].toDouble()
 							log.debug "sorted values="+sortedValues.size()
 							
 							if(sortedValues && sortedValues.size() == 2){

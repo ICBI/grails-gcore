@@ -12,7 +12,7 @@
 	});
 	
 	function displayFilterTable(){
-		//console.log("display/configure table");
+		console.log("display/configure table");
 		//find all unique classes
 		var uniqueClasses = [];
 		$('[class*="rowspan_"]').each(function() {
@@ -81,17 +81,22 @@
 			}
 			
 		}
-		console.log("add menu");
+		//console.log("add menu");
 		$('.clinicalLink').each(function() {
 			//console.log($(this).attr('data-ids'));
 			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
 		});
 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'}); 
+		
+		//console.log("check width of table="+$(".filterTable").width());
+		if($(".filterTable").width() > 900){
+			//console.log("width is more than 900");
+			//$("#doc3").css("width",$("#filterTable").width()+70);
+		}
 	}
 </g:javascript>
 
 <g:if test="${countMap}">
-${resultMap}
 <g:set var="criteriaSize" value="${comboCounts.keySet().size()}" />
 <% Map valuesMap = new HashMap(); %>
 <table border="0" class="filterTable">
@@ -156,7 +161,7 @@ ${resultMap}
 						<g:if test="${finalId.contains('.')}">
 							<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 						</g:if>
-						<td rowspan="1" class="${('rowspan_'+finalId+'_'+valuesMap[finalId]).replace('(','').replace(')','').replace('/','')}">${resultMap[name]}</td>
+						<td rowspan="1" class="${('rowspan_'+finalId+'_'+valuesMap[finalId]).replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]}</td>
 					</g:else>
 				</g:if>
 				
@@ -173,7 +178,7 @@ ${resultMap}
 					<g:if test="${finalId.contains('.')}">
 						<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 					</g:if>
-					<td rowspan="1" class="${(finalId+'_parent').replace('(','').replace(')','').replace('/','')}">${resultMap[name]}</td>
+					<td rowspan="1" class="${(finalId+'_parent').replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]}</td>
 					</g:else>
 				</g:if>
 				<g:else>

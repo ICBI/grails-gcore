@@ -1,13 +1,14 @@
 class QueryBuilder {
 
 	static def build = { params, formKey, dataTypes, advancedQuery ->
+		log.debug "build query for $formKey"
 		def criteria = [:]
 		params.each { key, value ->
 			if(key.contains(formKey) && value) {
 				if(key.contains("range_")) {
 					def minMax = [:]
-					minMax["min"] = value.split(" - ")[0].toInteger()
-					minMax["max"] = value.split(" - ")[1].toInteger()
+					minMax["min"] = value.split(" - ")[0].toDouble()
+					minMax["max"] = value.split(" - ")[1].toDouble()
 					def attrName = key.substring(key.indexOf("range_") + 6)
 					def range = dataTypes.find {
 						it.shortName == attrName
