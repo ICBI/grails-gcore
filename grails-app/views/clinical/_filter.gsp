@@ -28,6 +28,9 @@
 				var showDivName = $('#splitAttribute').val()+"_div";
 				$('#splitAttribute').val(splitAtt);
 				var hideDivName = splitAtt+"_div";
+				var hideElementId = splitAtt+"_category";
+				console.log("set new target field? "+$("#"+hideElementId).attr("name"));
+				targetField = $("#"+hideElementId).attr("name");
 				$("#"+showDivName).css('display','block');
 				$("#"+hideDivName).css('display','none');
 				console.log("split attribute is "+$('#splitAttribute').val());
@@ -162,7 +165,7 @@ function check(form){
 
 //add criteria to breadcrumb TODO: make this cleaner
 function addToBreadcrumb(name,value,removal){
-	console.log("add "+name+"&"+" to breadcrumb");
+	console.log("add "+name+"&"+value+" to breadcrumb");
 	var formSerialized = $("#sf :input[value]").serialize().split("&");
 	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 	var crumbId = (name+"--"+value).replace(/ /g,"__");
@@ -240,7 +243,14 @@ function addToBreadcrumb(name,value,removal){
 				history.replaceState(null, null, pageurl);
 				//console.log("split page attribute");
 				var sa = pageurl.split("splitAttribute=")[1];
-				//console.log("set users-split attribute to "+sa);
+				console.log("show will be"+$("#user_switchAttribute").val());
+				var showDivName = $("#user_switchAttribute").val()+"_div";
+				var hideDivName = sa+"_div";
+				var hideElementId = sa+"_category";
+				console.log("succes,set new target field? "+$("#"+hideElementId).attr("name"));
+				targetField = $("#"+hideElementId).attr("name");
+				$("#"+showDivName).css('display','block');
+				$("#"+hideDivName).css('display','none');
 				$("#user_switchAttribute").val(sa);
 				verifyURLParams(pageurl);
 	          }
@@ -400,7 +410,10 @@ function cleanUp(){
 		//console.log($(this).attr('name'));
 		 $(this).attr('checked', false);
 	 });
+	console.log("target field ="+targetField);
+	console.log("split attribute currently set to "+$("input[name=splitAttribute]").val());
 	$("input[name=splitAttribute]").val(substr);
+	console.log("split attribute is set to "+substr+", and actual value is ="+$("input[name=splitAttribute]").val());
 }
 
 function verifyURLParams(pageUrl){
@@ -425,6 +438,7 @@ function verifyURLParams(pageUrl){
 
 </g:javascript>
 
+<g:javascript>document.write(targetField);</g:javascript>
 <g:if test="${session.study}">
 <g:formRemote id="sf" name="searchForm" url="[controller: 'clinical', action:'filter']" before="check(this)" update="filterResults" onComplete="cleanUp()">
 	<g:if test="${session.subjectTypes.timepoints}">
@@ -488,16 +502,7 @@ function verifyURLParams(pageUrl){
 				</div>
 				<g:if test="${it.vocabulary}">
 					<div align="left">
-						<g:if test="${flash.params}">
-							<g:select class="att" name="${type + '_vocab_' + it.shortName}" 
-									noSelection="${['':'Select One...']}" value="${flash.params[type + '_' + it.shortName]}"
-									from="${it.vocabs.findAll{item -> session.usedVocabs[it.id]?.contains(item.term)}.sort{it.term}}" optionKey="term" optionValue="termMeaning" multiple="true">
-							</g:select>
-						</g:if>
-						<g:else>
-							
-							
-							<g:each in="${it.vocabs.findAll{item -> session.usedVocabs[it.id]?.contains(item.term)}.sort{it.term}}" var="v" status="j">
+						<g:each in="${it.vocabs.findAll{item -> session.usedVocabs[it.id]?.contains(item.term)}.sort{it.term}}" var="v" status="j">
 							    <span style="display:block">
 								<g:if test="${outcome && it.shortName==outcome}">
 							    &nbsp;
@@ -507,10 +512,7 @@ function verifyURLParams(pageUrl){
 							    <label for="${type.replace('_','') + '_vocab_' + it.shortName}">${v.termMeaning}</label>
 								</g:else>
 								</span>
-							</g:each>
-							
-							
-						</g:else>
+							</g:each>						
 					</div>
 					<br/>
 				</g:if>
