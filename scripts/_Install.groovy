@@ -44,8 +44,8 @@ Ant.sequential {
 	}
 
 	//sql
-	mkdir(dir: "${gcorePluginDir}/sql")
-	copy(todir: "${gcorePluginDir}/sql", overwrite: true) {
+	mkdir(dir: "${basedir}/sql")
+	copy(todir: "${basedir}/sql", overwrite: true) {
     	fileset(dir: "${pluginBasedir}/sql")
 	}
 	
