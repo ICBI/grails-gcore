@@ -15,6 +15,7 @@
 			if(options.multiple) {
 				$('#contextmenu' + settings.menuType).remove();
 			}
+			jquerycontextmenu.builtcontextmenuids = [];
 			var menu = "<ul id='contextmenu" + settings.menuType + "' class='jqcontextmenu'>";
 			switch(settings.menuType) {
 				case 'gene':
@@ -45,6 +46,10 @@
 					break;
 				case 'copynumber':
 					menu += "<li><a href='#' class='contextItem' id='UCSCGenomeBrowser'>View in UCSC Genome Browser</a></li></ul>";
+					break;
+				case 'snp':
+					menu += "<li><a href='#' class='contextItem' id='DBSNP'>Search in dbSNP</a></li>	\
+						<li><a href='#' class='contextItem' id='ENSEMBL_SNP'>Search in Ensembl Variation</a></li></ul>";
 					break;
 				default:
 					break;
@@ -90,6 +95,12 @@
 				break;
 			case "MIRBASE":
 				window.open("http://www.mirbase.org/cgi-bin/query.pl?terms=" + id);
+				break;
+			case "ENSEMBL_SNP":
+				window.open("http://useast.ensembl.org/Homo_sapiens/Variation/Summary?v=" + id + ";source=dbSNP");
+				break;
+			case "DBSNP":
+				window.open("http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=" + id);
 				break;
 			case "UCSCGenomeBrowser":
 				if (id.indexOf('p') == -1 && id.indexOf('q') == -1) {
