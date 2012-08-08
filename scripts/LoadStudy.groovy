@@ -15,12 +15,13 @@ target(main: "Load a new study into the database") {
 	loadApp()
 	configureApp()
 	def projectName
-	if(argsMap['params'] && argsMap['params'][0]) {
-		projectName =  argsMap['params'][0].toUpperCase()
+	if(argsMap['study']) {
+		projectName =  argsMap['study'].toUpperCase()
 	}
+	print "Preparing to load study: $projectName"
 	if(!projectName) {
-		println "Please specify a project name:"
-		projectName = new InputStreamReader(System.in).readLine().toUpperCase()
+		println "Please run this script and specify a project name.  ex. grails load-study --study=STUDY_NAME --reload"
+		return
 	}
 	def studyFile = new File("dataImport/${projectName}/${projectName}_study_table.txt")
 	if(!studyFile.exists()) {
@@ -31,16 +32,12 @@ target(main: "Load a new study into the database") {
 	def study = dataSourceClass.findBySchemaName(projectName)
 	if(study) {
 		def toReload = argsMap['reload']
-		if(!argsMap['reload']) {
-			println "Project with name: $projectName already exists.  Would you like to reload it? (y/n)"
-			def answer = new InputStreamReader(System.in).readLine().toUpperCase()
-			toReload = (answer == 'Y')
-		}
-		if(toReload) {
+		if(argsMap['reload']) {
+			println "Project with name: $projectName already exists.  Reloading."
 			println "Deleting $projectName...."
 			executeScript("${gcorePluginDir}/sql/delete_study.sql", [id: study.id])
 		} else {
-			println "Not realoading data"
+			println "Project with name: $projectName already exists.  Please specify the --reload param to reload."
 			return
 		}
 	}
