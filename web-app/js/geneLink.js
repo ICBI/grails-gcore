@@ -52,6 +52,9 @@
 					menu += "<li><a href='#' class='contextItem' id='DBSNP'>Search in dbSNP</a></li>	\
 						<li><a href='#' class='contextItem' id='ENSEMBL_SNP'>Search in Ensembl Variation</a></li></ul>";
 					break;
+				case 'cosmic_snp':
+					menu += "<li><a href='#' class='contextItem' id='COSMIC'>Search in COSMIC</a></li></ul>";
+					break;
 				case 'clinical':
 					menu += "<li><a href='#' class='contextItem' id='CLINICALREPORT'>View Detailed Report</a></li>";
 					menu += "<li><a href='#' class='contextItem' id='SAVELIST'>Save ids as list</a></li></ul>";
@@ -106,6 +109,11 @@
 				break;
 			case "DBSNP":
 				window.open("http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=" + id);
+				break;
+			case "COSMIC":
+				var newId = id.replace('cosmic:', "");
+				console.log(newId);
+				window.open("http://www.sanger.ac.uk/perl/genetics/CGP/cosmic?action=mut_summary&id=" + newId);
 				break;
 			case "UCSCGenomeBrowser":
 				if (id.indexOf('p') == -1 && id.indexOf('q') == -1) {
