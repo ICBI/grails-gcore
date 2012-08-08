@@ -14,8 +14,10 @@ target(main: "Load High Throughput Data") {
 	loadApp()
 	configureApp()
 	
-	println "Please specify a project name:"
-	def projectName = new InputStreamReader(System.in).readLine().toUpperCase()
+	if(!argsMap['study']) {
+		print "Please specify a project name using the --study parameter."
+	}
+	def projectName = argsMap['study']
 	
 	def optionMap = [scripts: []] 
 
