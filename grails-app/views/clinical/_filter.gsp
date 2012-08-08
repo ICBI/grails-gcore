@@ -1,6 +1,8 @@
 
 
 <jq:plugin name="tooltip"/>
+<g:javascript src="jquery/jquery.cluetip.min.js" plugin="gcore"/>
+<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.cluetip.css', plugin: 'gcore')}"/>
 <jq:plugin name="ui"/>
 <g:javascript>
 	var count = 0;
@@ -9,7 +11,7 @@
 	$(document).ready(function (){
 		$('.info').tooltip({showURL: false});
 		$('.close').click(function() {
-			$(this).parents('.clinicalSearch').hide('slow');
+			$(this).parents('.clinicalFilter').hide('slow');
 		});
 		
 		//submit the form
@@ -42,7 +44,7 @@
 		});
 		
 		//send request based on checbox click
-		$('.cb').click(function() {
+		$('.cb').bind('click',function() {
 			console.log("checked a cb box");
 			if($(this).is(":checked")){
 				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
@@ -106,16 +108,12 @@
 		
 		//show attributes that are hidden from view
 		$('.more').click(function() {
-			var elId = $(this).attr('id');
-			if($("#"+elId+"_div").css('display') == 'none'){
-				//console.log(elId+"_div");
-				//$("#"+elId+"_div").css('display','block');
-				$("#"+elId+"_div").css('display','block');
-			}
-			else{
-				//console.log("hide "+elId);
-				$("#"+elId+"_div").css('display','none');
-			}
+			//console.log($(this).attr("rel"));
+			var targetClass = $(this).attr("rel");
+			$("."+targetClass).slideToggle('slow', function() {
+			    // Animation complete.
+			 });
+			return false;
 		});
 		
 		
@@ -131,6 +129,47 @@
 	       		}
 	      	});
 		});
+		
+		
+		$('.clueLink').click(function() {
+			console.log($(this).attr("rel"));
+			var targetClass = $(this).attr("rel");
+			$("."+targetClass).toggle( "blind", null, 500 );
+			return false;
+		});
+		
+		//console.log("add menu");
+		// $('.clueLink').each(function() {
+		// 			//console.log($(this).attr('data-ids'));
+		// 			$(this).cluetip({local: true, hideLocal: false, 
+		// 			multiple:false,
+		// 			mouseOutClose:true,
+		// 			cluetipClass: 'rounded',
+		// 			sticky:true,
+		// 			closePosition:'bottom',
+		// 			showTitle:false,
+		// 			activation:'click',
+		// 			onShow: function(ct, ci){
+		// 										ci.children(0).css("opacity","1.0");
+		// 										console.log($("."+ci.children(0).attr("class")).css("display"));
+		// 										var innerDiv = ci.children(0);
+		// 										var copy_elements = $(innerDiv).find(':input');
+		// 										var original = $("."+ci.children(0).attr("class"));
+		// 										var original_elements = $(original).find(':input');
+		// 										for (k = 0; k < copy_elements.length; k++)
+		// 										{
+		// 											$(copy_elements[k]).unbind('click');
+		// 											$(copy_elements[k]).click(function(){
+		// 												console.log($(this).val());
+		// 												$(original_elements[k]).trigger("click");
+		// 											});
+		// 											//console.log("unbound"+$(copy_elements[k]).attr("class"));
+		// 											//console.log($(copy_elements[k]).data('events'));
+		// 										}
+		// 									}
+		// 			});
+		// 		});
+		// 		
 		
 		//on page load provide deeplinks...look at checked fields based on url and submit form
 		var vars = [], hash;
@@ -207,7 +246,7 @@ function addToBreadcrumb(name,value,removal){
 		crumbId = crumbId + "_x_" + (existingNumberBC);
 	}
 	
-	$(".breadcrumbs").append("<span style='padding-right:10px;border:1px solid black' class='crumb' id='"+crumbId+"_crumb'"+"><a href='' style='cursor:pointer'>"+crumbLabel+"</a></span>");
+	$(".breadcrumbs").append("<span style='padding-right:10px;border:0px solid black' class='crumb' id='"+crumbId+"_crumb'"+"><a href='' style='cursor:pointer;text-decoration:none;color:#666666'>"+crumbLabel+"</a></span>");
 	breadcrumbs.push(crumbId);
 	//console.log("added "+crumbId+" to breadcrumbs "+breadcrumbs+" with a page url of "+pageurl);
 	$("#"+crumbId+"_crumb").click(function(){
@@ -438,14 +477,13 @@ function verifyURLParams(pageUrl){
 
 </g:javascript>
 
-<g:javascript>document.write(targetField);</g:javascript>
 <g:if test="${session.study}">
 <g:formRemote id="sf" name="searchForm" url="[controller: 'clinical', action:'filter']" before="check(this)" update="filterResults" onComplete="cleanUp()">
 	<g:if test="${session.subjectTypes.timepoints}">
-	<div class="clinicalSearch">
+	<div class="clinicalFilter">
 		<div style="float: left">
 			Timepoint
-			<img class="info" title="Timepoint" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
+			<img class="info" title="Timepoint" src="${createLinkTo(dir:'images',file:'help.png')}" border="0" />
 		</div>
 	
 	<br/>
@@ -469,7 +507,7 @@ function verifyURLParams(pageUrl){
 	</div>
 	</g:if>
 	<g:each in="${session.groups}" var="types">
-		<span style="font-weight:bold;cursor:pointer" class="group" >${types.key}</span><br/>
+		<span class="group" >${types.key}</span><br/>
 		<g:set var="divId" value="${types.key.replaceAll(' ','_').replaceAll('\\(','_').replaceAll('\\)','_')}"/>
 		<g:each in="${types.value}" status="i" var="it">
 			<g:set var="use" value="false"/>
@@ -481,9 +519,8 @@ function verifyURLParams(pageUrl){
 				<g:set var="type" value="child" />
 			</g:else>
 			<g:if test="${i == 3}">
-				<span class="more" id="${divId}" style="cursor:pointer">${types.value.size()-3} more...<br /></span>
-				<span id="${divId+'_div'}" style="display:none" >
-				<br />
+				<span class="more" rel="${divId+'_div'}">view all (${types.value.size()-3} more ...)<br /></span>
+				<span class="${divId+'_div'}" style="display:none" >
 			</g:if>
 			<g:if test="${(session.splitAttribute && session.splitAttribute!=it.shortName)}">
 					<g:set var="use" value="block"/>
@@ -498,8 +535,10 @@ function verifyURLParams(pageUrl){
 				<div>
 				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>
 				<label for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>
-				<img class="info" title="${it.definition}" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
+				<img class="info" title="${it.definition}" src="${createLinkTo(dir:'images',file:'help.png')}" width="13" height="13" border="0" />
+				<a href="#" class="clueLink" rel="${it.shortName.replace('/','_')+'_details'}" ><img src="${createLinkTo(dir:'images',file:'application_form_magnify.png')}" alt="view ${it.shortName} values" width="15" height="15" border="0" /></a>
 				</div>
+				<div class="${it.shortName.replace('/','_')+'_details'}" style="border:0px solid blue;display:none;padding:4px;color:#999999;font-size:.9em">
 				<g:if test="${it.vocabulary}">
 					<div align="left">
 						<g:each in="${it.vocabs.findAll{item -> session.usedVocabs[it.id]?.contains(item.term)}.sort{it.term}}" var="v" status="j">
@@ -514,7 +553,6 @@ function verifyURLParams(pageUrl){
 								</span>
 							</g:each>						
 					</div>
-					<br/>
 				</g:if>
 				<g:elseif test="${it.qualitative}">
 					<g:if test="${flash.params}">
@@ -547,7 +585,7 @@ function verifyURLParams(pageUrl){
 						
 						
 				</g:else>
-				
+				</div>
 			</div>
 	
 			<g:if test="${i == types.value.size()-1}">
@@ -567,7 +605,4 @@ function verifyURLParams(pageUrl){
 </g:formRemote>
 </g:if>
 
-<g:else>
-<p><g:message code="gcore.noStudy" /></p>
-</g:else>
 

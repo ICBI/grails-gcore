@@ -288,22 +288,22 @@ class ClinicalService {
 						upperMed = medians[k]+0.1
 					else
 						upperMed = medians[k] + 1
-					def upperLabel = k+":"+"UPPER"+"("+upperMed+"-"+v.max+")"
-					def lowerLabel = k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"
+					def upperLabel = k+":"+"UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"
+					def lowerLabel = k+":"+"LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"
 					breakdowns[atttributeLabel][upperLabel] = new HashSet()
 					breakdowns[atttributeLabel][lowerLabel] = new HashSet()
 					if(v.min > medians[k]){
 						log.debug "must have chosen upper quartile"+toAddCriteria[k]
-						toAddCriteria[k] << "UPPER"+"("+upperMed+"-"+v.max+")"
+						toAddCriteria[k] << "UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"
 						removeBucket << lowerLabel
 					}
 					if(v.max == medians[k]){
 						log.debug "must have chosen lower quartile"
-						toAddCriteria[k] << "LOWER"+"("+v.min+"-"+medians[k]+")"
+						toAddCriteria[k] << "LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"
 						removeBucket << upperLabel
 					}
 					if((v.min < medians[k]) && (v.max != medians[k]))
-						toAddCriteria[k]=["UPPER"+"("+upperMed+"-"+v.max+")","LOWER"+"("+v.min+"-"+medians[k]+")"]
+						toAddCriteria[k]=["UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")","LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"]
 				}
 				else{
 					breakdowns[atttributeLabel][k] = []
@@ -334,9 +334,9 @@ class ClinicalService {
 												if(medians[k]){
 													//log.debug "found median now compare "+medians[k]+ " and " +clinVal
 													if( (clinVal <= medians[k])){
-														breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
+														breakdowns[atttributeLabel][k+":"+"LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"] << it.id
 													}else if( (clinVal > medians[k])){
-														breakdowns[atttributeLabel][k+":"+"UPPER"+"("+(medians[k]+1)+"-"+v.max+")"] << it.id
+														breakdowns[atttributeLabel][k+":"+"UPPER_QUARTILE"+"("+(medians[k]+1)+"-"+v.max+")"] << it.id
 													}
 												}else{
 													if( (clinVal <= max) && (clinVal >= min)){
@@ -359,9 +359,9 @@ class ClinicalService {
 							upperMed = medians[k] + 1
 						if(medians[k]){
 							if( (val <= medians[k])){
-								breakdowns[atttributeLabel][k+":"+"LOWER"+"("+v.min+"-"+medians[k]+")"] << it.id
+								breakdowns[atttributeLabel][k+":"+"LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"] << it.id
 							}else if( (val > medians[k])){
-								breakdowns[atttributeLabel][k+":"+"UPPER"+"("+upperMed+"-"+v.max+")"] << it.id
+								breakdowns[atttributeLabel][k+":"+"UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"] << it.id
 							}
 						}else{
 							if( (val <= max) && (val >= min)){

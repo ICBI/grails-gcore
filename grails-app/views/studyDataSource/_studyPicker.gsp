@@ -79,10 +79,10 @@
 			$("#studyPageSpinner").css("visibility","visible");
 		}
 		</g:javascript>
-		<span style="font-size:12pt"><g:message code="gcore.currentStudy"/>: 
-			<span id="label" >
-				<g:if test="${!session.study}"><g:message code="gcore.noStudy"/></g:if>
-				${session.study?.shortName}</span>
+		<div style="font-size:1em;margin-left:15px">
+			<span id="label">
+				<g:if test="${!session.study}"><br><g:message code="gcore.noStudy"/></g:if>
+				<g:else><g:message code="gcore.currentStudy"/>: ${session.study?.shortName}</g:else></span>
 			<span style="display:inline-table;font-size:.8em">
 				<g:if test="${session.study}">
 					<a href="#" id="changeStudy" style="display:block;margin-left:26px"><g:message code="study.change"/></a>
@@ -92,14 +92,14 @@
 				</g:else>
 			</span>
 			<br /><br />
-		</span>
+		</div>
 		<g:if test="${!session.study}">
 		<div id="studyFieldset">
 		</g:if>
 		<g:else>
 		<div id="studyFieldset" style="display:none">
 		</g:else>
-		<fieldset style="border:1px solid #336699;margin:10px;padding:8px;background-color:beige"><legend style="margin:8px"><g:message code="study.choose"/></legend>
+		<fieldset class="studyPicker"><legend style="margin:8px"><g:message code="study.choose"/></legend>
 			<g:formRemote name="setStudyForm" url="[controller:'studyDataSource',action:'setStudy']" update="label" onLoading="showSpinner();" onSuccess="reload();">
 		<%--g:message code="study.disease"/>:--%>
 		<g:select name="disease" 
