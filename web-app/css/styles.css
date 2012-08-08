@@ -202,6 +202,16 @@ p
 	-moz-border-radius-bottomleft:3px;
 }
 
+.clinicalFilter {
+	background: #f2f2f2 none repeat scroll 0 0;
+	border: 1px solid #CCCCCC;
+	padding:2px;
+	-moz-border-radius-topright:1px;
+	-moz-border-radius-bottomright:1px;
+	-moz-border-radius-topleft:1px;
+	-moz-border-radius-bottomleft:1px;
+}
+
 .adminForm {
 	background: #f2f2f2 none repeat scroll 0 0;
 	border: 1px solid #CCCCCC;
@@ -530,4 +540,21 @@ z-index:21;
 
 .annotationTooltip {
 	text-align: left;
+}
+
+.filterTable {
+	font-size: 1.1em;
+	border: 1px solid #CCCCCC;
+	border-collapse: collapse; 
+}
+.filterTable td {
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+}
+
+.filterTable th {
+	font-size: 1.1em;
+	font-weight:bold;
+	padding: 7px;
+	background:#f2f2f2;
 }

@@ -11,14 +11,72 @@ class ClinicalController {
 	
     def index = { 
 		session.biospecimenIds = null
+		def outcome = ""
+		session.splitAttribute = ""
 		if(session.study) {
 			StudyContext.setStudy(session.study.schemaName)
 			session.dataTypes = AttributeType.findAll().sort { it.longName }
+			session.groups = [:]
+			session.dataTypes.each{ type->
+				if(type.attributeGroup){
+					if(session.groups[type.attributeGroup]){
+						session.groups[type.attributeGroup] << type
+					}else{
+						session.groups[type.attributeGroup] = []
+						session.groups[type.attributeGroup] << type
+					}
+				}else{
+					session.groups["NONE"] = []
+					session.groups["NONE"] << type
+				}
+			}
+			loadUsedVocabs()
+			loadSubjectTypes()
+			if(params.splitAttribute){
+				log.debug "got split attr $params.splitAttribute"
+				session.splitAttribute = params.splitAttribute
+			}
+			else if(!params.splitAttribute){
+				if(session.attTypeMap["Outcome"]){
+					def hs = []
+					hs = session.attTypeMap["Outcome"] as List
+					outcome = hs.find{it.vocabulary}
+					session.splitAttribute = outcome.shortName
+				}else{
+					session.splitAttribute = "NONE"
+				}
+			}
+			session.vocabList = session.vocabList.findAll{
+				it.target == session.subjectTypes.parent.value()	
+			}
+		}
+		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes()]
+		
+	}
+	
+	def advanced = {
+		session.biospecimenIds = null
+		if(session.study) {
+			StudyContext.setStudy(session.study.schemaName)
+			session.dataTypes = AttributeType.findAll().sort { it.longName }
+			session.groups = [:]
+			session.dataTypes.each{ type->
+				if(type.attributeGroup){
+					if(session.groups[type.attributeGroup]){
+						session.groups[type.attributeGroup] << type
+					}else{
+						session.groups[type.attributeGroup] = []
+						session.groups[type.attributeGroup] << type
+					}
+				}else{
+					session.groups["NONE"] = []
+					session.groups["NONE"] << type
+				}
+			}
 			loadUsedVocabs()
 			loadSubjectTypes()
 		}
 		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes()]
-		
 	}
 	
 	def search = {
@@ -32,10 +90,10 @@ class ClinicalController {
 				return
 			}
 			println "PARAMS: " + params
-			def criteria = QueryBuilder.build(params, "parent_", session.dataTypes)
+			def criteria = QueryBuilder.build(params, "parent_", session.dataTypes,true)
 			def biospecimenIds
 			if(session.subjectTypes["child"]) {
-				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes)
+				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes,true)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 					log.debug "GOT IDS ${biospecimenIds.size()}"
@@ -174,30 +232,45 @@ class ClinicalController {
 		render specimens as JSON
 	}
 	
+	
 	def patientReport = {
 		def returnVal = [:]
 		log.debug "GOT REQUEST: " + request.JSON
 		log.debug "GOT PARAMS: " + params
-		
-		def patientIds = request.JSON['ids']
-		if(request.JSON['study'] || session.study){
+		def patientIds
+		def cleanedIds = []
+		if(request.JSON){
+			patientIds = request.JSON['ids'] as Set
+			cleanedIds = patientIds.collect {
+				def temp = it.toString().replace("\"", "")
+				temp.trim()
+				return temp
+			}		
+		}
+		else if(params.ids){
+			params['ids'].tokenize(",").each{
+				it = it.replace('[','');
+				it = it.replace(']','');
+				if(!cleanedIds.contains(it.trim()))
+					cleanedIds << it.trim()
+			}
+			log.debug "flattened ids"+ cleanedIds
+		}
+		log.debug "CLEANED SUBJECT IDZ: $cleanedIds"
+		if(request.JSON['study'] || session.study || params.study){
 			def shortName
 			if(request.JSON['study'])
 				shortName = request.JSON['study']
 			if(session.study)
+				shortName = session.study.shortName
+			if(params.study)
 				shortName = session.study.shortName
 			def study = Study.findByShortName(shortName)
 			StudyContext.setStudy(study.schemaName)
 			loadSubjectTypes()
 			log.debug "set study to $shortName"
 		}
-		log.debug "SUBJECT IDS: $patientIds"
-		def cleanedIds = patientIds.collect {
-			def temp = it.toString().replace("\"", "")
-			temp.trim()
-			return temp
-		}
-		log.debug "CLEANED : $cleanedIds"
+		
 		log.debug "Are these patients or samples?"
 		def results
 		def parentsId = clinicalService.getExistingSubjectsIdsForChildIds(cleanedIds)
@@ -391,6 +464,420 @@ class ClinicalController {
 		}
 		outs.flush()
 		outs.close()
+	}
+	
+	
+	
+	def filter = {
+			if(!("XMLHttpRequest".equals(request.getHeader("X-Requested-With")))){
+				log.debug "this is NOT an ajax request, so forward to index action with " + params
+				redirect(action:index,params:params)
+				return
+			}else{				
+				def errors = validateQuery(params, session.dataTypes)
+				log.debug "Clinical Validation?: " + errors
+				def queryParams = [:]
+				def medians = [:]
+				def paramMap = buildQueryParams(params)
+				queryParams = paramMap["queryParams"]
+				medians = paramMap["medians"]
+				
+				//addd tags
+				def tags = [Constants.SUBJECT_LIST,Constants.PATIENT_LIST]
+				def tagsString = tags.toString()
+				tagsString = tagsString.replace("[","")
+				tagsString = tagsString.replace("]","")
+				
+				
+				log.debug "query Params: " + queryParams
+				if(errors && (errors != [:])) {
+					flash['errors'] = errors
+					flash['params'] = params
+					redirect(action:'index',id:session.study.id)
+					return
+				}
+				//println "PARAMS: " + queryParams
+
+				def criteria = QueryBuilder.build(queryParams, "parent_", session.dataTypes,false)
+				log.debug "crteria="+criteria
+				def biospecimenIds
+				def biospecimenCriteria
+				if(session.subjectTypes["child"]) {
+					biospecimenCriteria = QueryBuilder.build(queryParams, "child_", session.dataTypes,false)
+					if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
+						biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
+						log.debug "GOT IDS ${biospecimenIds.size()}"
+						if(!biospecimenIds){
+							log.debug "no biospecimens found for criteria, return no results"
+							searchResults = []
+							return processResults(searchResults)
+						}
+					}
+				}
+
+
+
+				def breakdowns = [:]
+				//define columns
+				def columns = []
+				def columnResults = []
+
+
+
+				criteria.keySet().each{
+					columns << it
+				}
+
+				//NEW for sample
+				biospecimenCriteria?.keySet().each{
+					columns << it
+				}
+				//END NEW for sample
+
+				def toDeleteCriteria = [:]
+				def toAddCriteria = [:]
+				def aggMap = [:]
+				if(queryParams.splitAttribute && queryParams.splitAttribute != "NONE"){
+					def splitAttParam = queryParams.splitAttribute
+					if(splitAttParam.contains("#"))
+						splitAttParam = splitAttParam.replace("#","")
+					log.debug "split attribute is "+splitAttParam
+					session.splitAttribute = splitAttParam
+					log.debug "set session split attribute"
+					def splitAttribute = AttributeType.findByShortName(splitAttParam)
+					def splitAttributeVocabs1 = []
+					splitAttributeVocabs1 = AttributeVocabulary.findAllByType(splitAttribute)
+					def splitAttributeVocabs = splitAttributeVocabs1.findAll{item -> session.usedVocabs[splitAttribute.id]?.contains(item.term)}
+					log.debug "vocabs="+splitAttributeVocabs.collect{it.term}
+					splitAttributeVocabs.each{ splitVocab ->
+						log.debug splitVocab.term
+						//create criteria
+						def splitCriteria = [:]
+						criteria.each{ key,val->
+							splitCriteria[key] = val
+						}
+						splitCriteria[splitAttribute.shortName] = splitVocab.term
+						def atttributeLabel = splitAttribute.shortName+"_"+splitVocab.term
+						def filterSubjects = []
+						//query on split criteria value (e.g. RECURRENCE-YES)
+						log.debug "get summary from group"
+						filterSubjects = clinicalService.getSummary(splitCriteria, session.subjectTypes["parent"], biospecimenIds)
+						def filterSizeMap = [:]
+						filterSizeMap[atttributeLabel] = filterSubjects.size()
+						breakdowns[atttributeLabel] = [:]
+						columns << atttributeLabel
+						filterSubjects = filterSubjects.unique{it.id}
+						//cycle through criteria and start intersecting groups
+						log.debug "cycle through $filterSubjects"
+
+						aggMap = clinicalService.handleCriteria(breakdowns,criteria,filterSubjects,toAddCriteria,toDeleteCriteria,medians,atttributeLabel)
+
+						//NEW for sample
+						if(biospecimenIds)
+							aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
+						//END NEW for sample
+						log.debug "----------------------------------------"
+					}
+				}
+				//split each ends
+				else{
+					def filterSubjects = []
+					def atttributeLabel = "All Subjects"
+					//query on split criteria value (e.g. RECURRENCE-YES)
+					log.debug "get summary from all"
+					filterSubjects = clinicalService.getSummary(criteria, session.subjectTypes["parent"], biospecimenIds)
+					def filterSizeMap = [:]
+					filterSizeMap[atttributeLabel] = filterSubjects.size()
+					breakdowns[atttributeLabel] = [:]
+					columns << atttributeLabel
+					log.debug "found "+filterSubjects.size() + " subjects before doing criteria"
+					if(!criteria){
+						breakdowns[atttributeLabel] = filterSubjects.size()
+						breakdowns[atttributeLabel+"_ids"] = filterSubjects.collect{it.id}
+						breakdowns["resultId"] = "All Subjects"
+						def resultList = []
+						resultList << breakdowns
+						def totalCountMap = [:]
+						def comboCounts = [:]
+						comboCounts["All_Subjects"]=1
+						columns = []
+						columns << "All Subjects"
+						resultList.each{ result->
+							result.each{ res->
+								if(res.key.contains("_ids")){
+									if(!totalCountMap[res.key]){
+										totalCountMap[res.key] = new HashSet()
+										res.value.each{
+											totalCountMap[res.key] << it
+										}	
+									}
+									else{
+										res.value.each{
+											totalCountMap[res.key] << it
+										}
+									}
+								}	
+								if(res.value.class == Integer){
+									if(totalCountMap[res.key]){
+										totalCountMap[res.key] += res.value
+									}else{
+										totalCountMap[res.key] = res.value
+									}
+								}
+							}
+						}
+						log.debug "total count Searched for ALL with no criteria="+totalCountMap+" others "+columns+"-- "+comboCounts+"-- "+resultList+"-- "+tags
+						render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+						return
+					}
+					else{
+						//cycle through criteria and start intersecting groups
+						aggMap = clinicalService.handleCriteria(breakdowns,criteria,filterSubjects,toAddCriteria,toDeleteCriteria,medians,atttributeLabel)
+						//NEW for sample
+						if(biospecimenIds)
+							aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
+						// END NEW for sample	
+					}
+				
+				}
+
+
+				//NEW for sample
+				biospecimenCriteria.each{key, value->
+					criteria[key] = value
+				}	
+				//END NEW for sample
+
+				criteria = criteria.plus(aggMap["toDeleteCriteria"])
+				criteria = criteria.plus(aggMap["toAddCriteria"])
+
+				log.debug "criteria="+criteria
+
+
+				//recurse
+				List<Map<String,String>> list = new LinkedList<Map<String,String>>();
+				clinicalService.combinations( criteria, list );
+				log.debug list
+				def resultList = []
+				def someMap = [:]
+				for( Map<String,String> combination : list ) {
+					def newCombo = [:]
+					criteria.keySet().each{ c->
+						combination.each{
+							if(it.key == c)
+							 	newCombo[it.key] = it.value
+						}
+					}
+
+					def initial = newCombo.keySet() as List
+					def entry = initial[0]+":"+newCombo[initial[0]]
+					def initialIds = []
+					def countMap = [:]
+					aggMap["breakdowns"].eachWithIndex{ bdAttributeLabel, breakdownMap, indexx ->
+						breakdownMap[entry].each{
+							initialIds << it
+						}
+						//log.debug "initial ids="+initialIds
+					    def counts = new HashSet()
+						def resultId = ""
+						def separates = []
+						newCombo.eachWithIndex{ comboKey,comboValue,index->
+							def breakdownKey = "$comboKey:$comboValue"
+							log.debug "breakdown "+breakdownKey
+							def ids = []
+							def idsNorm = []
+							separates = []
+							if(breakdownMap[breakdownKey]){
+								ids = breakdownMap[breakdownKey]
+								if(!ids)
+									ids = []
+							}
+
+							else{
+								ids = breakdownMap[comboKey]
+								if(!ids)
+									ids = []
+							}
+							log.debug "intersect! "+initialIds+" with "+ids
+							initialIds = initialIds.intersect(ids)
+
+							initialIds.each{
+								separates << it
+							}
+							countMap[comboKey] = comboValue
+							if(newCombo.size()==1){
+								resultId += comboKey+"_"+comboValue
+							}
+							if(index+1<newCombo.size()){
+									if(index+2==newCombo.size())
+										resultId += comboKey+"_"+comboValue
+									else
+										resultId += comboKey+"_"+comboValue+"--"
+
+							}
+
+						}
+						//log.debug "separates=$separates"
+						countMap[bdAttributeLabel+"_ids"] = separates
+						countMap[bdAttributeLabel] = initialIds.size()
+						countMap["resultId"] = resultId
+
+					}
+					resultList << countMap
+					//log.debug "count map "+countMap
+				 }
+
+				def totalCountMap = [:]
+				resultList.each{ result->
+					result.each{ res->
+						if(res.key.contains("_ids")){
+							if(!totalCountMap[res.key]){
+								totalCountMap[res.key] = new HashSet()
+								res.value.each{
+									totalCountMap[res.key] << it
+								}	
+							}
+							else{
+								res.value.each{
+									totalCountMap[res.key] << it
+								}
+							}
+						}	
+						if(res.value.class == Integer){
+							if(totalCountMap[res.key]){
+								totalCountMap[res.key] += res.value
+							}else{
+								totalCountMap[res.key] = res.value
+							}
+						}
+					}
+				}
+
+				log.debug "totalCountMap="+totalCountMap
+				resultList.each{
+					log.debug it
+				}
+				def comboCounts = [:]
+				criteria.keySet().each{crit ->
+					comboCounts[crit] = 0
+					def count = breakdowns.keySet().findAll{
+						if(it.contains(crit+":"))
+							return it
+					}
+					comboCounts[crit] = count.size()
+				}
+				//log.debug "CRITERIA: " + criteria
+				//log.debug "CRITERIA COUNT: " + comboCounts
+				
+				log.debug "this is ajax request and return"
+				render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+			}
+	}
+	
+	private Map buildQueryParams(params){
+		def medians = [:]
+		def queryParams = [:]
+		log.debug params
+		params.each{ key,value ->
+			if(!key.contains("category") && !(key.contains("_parent") && !(key.contains("_child")))){
+				key = key.replace("_child","child")
+				key = key.replace("_parent","parent")
+				if(value?.metaClass.respondsTo(value, 'join')){
+					if(key.contains("_range")){
+							log.debug "deal with range arrays for $key,$value"
+							def sortedValues = []
+							value.each{ v->
+								log.debug "$v"
+								if(v && !"".equals(v)){
+									sortedValues << v.split(" - ")[0].toDouble()
+									sortedValues << v.split(" - ")[1].toDouble()
+								}	
+							}
+							log.debug "sorted values="+sortedValues.size()
+							if(sortedValues && sortedValues.size() == 4){
+								log.debug "dealing with medians...sort this "+sortedValues.sort()
+								queryParams[key] = sortedValues.first().toString() + " - " + sortedValues.last().toString()
+								log.debug "new criteria as strings " + queryParams[key]
+								def median = (sortedValues.first() + sortedValues.last())/2
+								def medianString = median.toString()
+								log.debug "median for $key is $median"
+								if(key.contains("child_"))
+									key = key.replace("child_range_", "")
+								if(key.contains("parent_"))
+									key = key.replace("parent_range_", "")
+								medians[key] = median 
+								log.debug "medians "+ medians
+								
+							}
+							
+					}
+					else{
+						def valueArray = []
+						value.each{ v ->
+							if(v && !"".equals(v)){
+								valueArray << v
+							}
+						}
+						if(valueArray){
+							queryParams[key] = valueArray
+						}
+					}
+				}else{
+					log.debug "no respond to join, $key"
+					if(key.contains("_range")){
+							log.debug "deal with one array for $key,$value"
+							def sortedValues = []
+							sortedValues << value.split(" - ")[0].toDouble()
+							sortedValues << value.split(" - ")[1].toDouble()
+							log.debug "sorted values="+sortedValues.size()
+							
+							if(sortedValues && sortedValues.size() == 2){
+								log.debug "dealing with medians...sort this "+sortedValues.sort()
+								queryParams[key] = sortedValues.first().toString() + " - " + sortedValues.last().toString()
+								if(key.contains("child_"))
+									key = key.replace("child_range_", "")
+								if(key.contains("parent_"))
+									key = key.replace("parent_range_", "")
+								log.debug "new criteria as strings " + queryParams[key]
+								def type = AttributeType.findByShortName(key)
+								def median =  (type.lowerRange+type.upperRange)/2
+								log.debug "median for $key is $median"
+								medians[key] = median
+								log.debug "medians "+ medians
+								
+							}
+							
+					}
+					else{
+						if(value!=""){
+							queryParams[key]=value
+						}
+					}
+
+				}
+			}
+			
+				
+	
+		}
+		def splitAttr = queryParams["splitAttribute"]
+		log.debug "verify split attribute "+splitAttr+ " is  not in "+queryParams
+		if(splitAttr){
+			def matchingKey
+			queryParams.keySet().each{key ->
+				if(key.contains("parent_vocab_"))
+					key = key.replace("parent_vocab_", "")
+				if(key.contains("child_vocab_"))
+					key = key.replace("child_vocab_", "")
+				if(key == splitAttr)
+					matchingKey = key
+			}
+			if(matchingKey){
+				log.debug "remove "+splitAttr+" from "+queryParams
+				queryParams.remove("splitAttribute")
+			}
+		}
+		return [queryParams:queryParams,medians:medians]
 	}
 	
 }

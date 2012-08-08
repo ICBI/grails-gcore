@@ -1,92 +1,81 @@
 <html>
     <head>
-        <meta name="layout" content="main" />
-		<meta http-equiv="cache-control" content="no-cache"> <!-- tells browser not to cache -->
-		<meta http-equiv="expires" content="0"> <!-- says that the cache expires 'now' -->
-		<meta http-equiv="pragma" content="no-cache"> <!-- says not to use cached stuff, if there is any -->
-		<g:javascript library="jquery" plugin="jquery" />
-        <title><g:message code="clinical.title" args="${ [appTitle()] }" /></title>         
+        <meta name="layout" content="report" />
+        <title><g:message code="clinical.searchResults" /></title>  
+    	<style type="text/css">
+	  	.aParent div {
+		  float: left;
+		  clear: none; 
+		}
+		.bParent div {
+		  float: none;
+		  clear: none; 
+		}
+	  </style>
+		<g:javascript library="jquery" plugin="jquery"/>   
     </head>
     <body>
-		<jq:plugin name="tooltip"/>
-		<jq:plugin name="ui"/>
-		<g:javascript>
-			$(document).ready(function (){
-				$('.info').tooltip({showURL: false});
-				$('.close').click(function() {
-					$(this).parents('.clinicalSearch').hide('slow');
-				});
-				$('.slider-range').each(function() {
-					var upper = parseInt(jQuery(this).data("maxval"));
-					var lower = parseInt(jQuery(this).data("minval"));
-					var lowerVal = lower;
-					var upperVal = upper;
-					var rangeInput = jQuery(this).parents('div').children('.rangeValue');
-					if(rangeInput.val()) {
-						var values = rangeInput.val().split(' - ');
-						lowerVal = values[0];
-						upperVal = values[1];
-					} else {
-						rangeInput.val(lower + ' - ' + upper);
-					}
-					jQuery(this).slider({
-						range: true,
-						min: lower,
-						max: upper,
-						values: [lowerVal, upperVal],
-						slide: function(event, ui) {
-										rangeInput.val(ui.values[0] + ' - ' + ui.values[1]);
-						}
-					});
-				});
-				
-				$(":input").each(function(index){
-					$(this).keypress(function(e){
-			      		if(e.which == 13){
-							//alert($('#searchForm') + "  submit");
-							$(this).blur();
-							e.preventDefault();
-			       			$('#submit').focus().click();
-							
-			       		}
-			      	});
-				});
-				
-				
-			});
-			
-			
-		</g:javascript>
-	<p style="font-size:14pt"><g:message code="clinical.heading" /></p>
-		
-		<div id="studyPicker">
-			<g:render template="/studyDataSource/studyPicker" plugin="gcore"/>
-		</div>
-		
-	<div id="centerContent">
-		
-		<g:if test="${flash['errors']}">
-			<br/>
-				<div class="errorDetail">
-					<ul>
-				<g:each in="${flash['errors']}">
-					<li style="list-style-type: disc"><g:message code="${it.value['message']}" args="${it.value['field']}" /></li>
-				</g:each>
-					</ul>
+		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
+		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+		<g:jqgrid />
+	<g:javascript>
+	
+	function showSaveSpinner(show) {
+			if(show == true){
+				$("#saveSpinner").css("visibility","visible");
+				success();
+			}else{
+				$("#saveSpinner").css("visibility","hidden");
+				jQuery('#message').css("display","block");
+				success(); 
+			}
+	}
+	</g:javascript>
+	
+	<br/>
+	
+	<div class="bParent">
+	
+	<table border="0">
+	<tr>
+		<td style="width:300px;border:0px solid black">
+			<div style="border:0px solid black;" class="bParent">
+				<div id="studyPicker">
+					<g:render template="/studyDataSource/studyPicker" plugin="gcore"/>
 				</div>
+				<div>
+					<g:render template="/clinical/filter" plugin="gcore"/>
+				</div>
+			</div>
+		</td>
+		<td valign="top">
+			<div style="border:0px solid black;padding-top:15px;margin-left:10%;width:100%" class="breadcrumbs">
+				&nbsp;&nbsp;
+			</div>
+			<div style="border:0px solid black;padding-top:25px;margin-left:10%;display:inline-table" >
+					<span>Current Split Attribute</span><br>
+					<g:select class="splitAtt" name="user_switchAttribute" id="user_switchAttribute"
+							noSelection="${['NONE':'None...']}" value="${session.splitAttribute}"
+							from="${session.vocabList}" optionKey="shortName" optionValue="longName">
+							
+					</g:select>
+			</div>
 			<br/>
-			<br/>
-		</g:if>
-				
-		
-		
-		
-		<div id="searchDiv">
-			<g:render template="/clinical/studyForm" plugin="gcore"/>
-		</div>
-		
-		
+			<div style="border:0px solid black;width:100%;margin-left:10%;">
+				<table border="0">
+					
+					<tr>
+						<td id="filterResults">&nbsp;
+							
+						</td>
+					</tr>
+				</table>
+			</div>
+		</td>
+	</tr>
+	</table>
 	</div>
+
 	</body>
 	
-</hmtl>
+</html>

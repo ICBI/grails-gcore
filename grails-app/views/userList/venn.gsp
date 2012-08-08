@@ -44,7 +44,14 @@
 			$('#example8Null').css("display","none");
 			$('#saveForm').css("display","block");
 			var test =$('#ids').val().replace(",","--");
-			$('#itemsDiv').html('<span>'+dictionary[vennCircleName]+'</span>');
+			console.log(dictionary[vennCircleName].length);
+			var vennHtml = "";
+			for(var i=0;i < dictionary[vennCircleName].length;i++){
+				vennHtml = vennHtml+dictionary[vennCircleName][i]+'<br />';
+			}
+			$('#itemsDiv').css("text-align","left");
+			$('#itemsDiv').css("font-size",".8em");
+			$('#itemsDiv').html(vennHtml);
 		}
 		$('.example8DOMWindow').trigger('click');
 	}
