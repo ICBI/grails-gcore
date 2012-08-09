@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <jq:plugin name="tooltip"/>
 <jq:plugin name="ui"/>
 <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.contextmenu.css', plugin: 'gcore')}"/>

@@ -49,7 +49,7 @@
 						</div>
 					</g:if>
 				</div>
-				<div style="border-right:1px solid #999999">
+				<div style="border:0px solid #999999;">
 					<g:render template="/clinical/filter" plugin="gcore"/>
 				</div>
 			</div>

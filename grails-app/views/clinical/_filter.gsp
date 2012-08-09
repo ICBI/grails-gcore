@@ -1,8 +1,4 @@
-
-
 <jq:plugin name="tooltip"/>
-<g:javascript src="jquery/jquery.cluetip.min.js" plugin="gcore"/>
-<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.cluetip.css', plugin: 'gcore')}"/>
 <jq:plugin name="ui"/>
 <g:javascript>
 	var count = 0;
@@ -16,6 +12,7 @@
 		
 		//submit the form
 		$('#sfSubmit').click(function() {
+			$(':input[value=""]').attr('disabled', true);
 			$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
 		});
 		$('.splitAtt').change(function() {
@@ -110,9 +107,12 @@
 		$('.more').click(function() {
 			//console.log($(this).attr("rel"));
 			var targetClass = $(this).attr("rel");
-			$("."+targetClass).slideToggle('slow', function() {
-			    // Animation complete.
-			 });
+			if($("."+targetClass).css("display")=="none"){
+				$("."+targetClass).css("display","block");
+			}
+			else{
+				$("."+targetClass).css( "display","none" );
+			}
 			return false;
 		});
 		
@@ -173,18 +173,23 @@
 		
 		//on page load provide deeplinks...look at checked fields based on url and submit form
 		var vars = [], hash;
-		//console.log("split the href");
-		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-		if(hashes.length <= 1){
-			var targetElem = $("input[name="+targetField+"]");
-			$("input[name=splitAttribute]").val("");
-			targetElem.attr("checked","checked");
-			var substr = targetElem.attr('id').split('_category')[0];
-			console.log("target field is "+substr+"_div");
-			$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
-			$('#sfSubmit').click();
-			$("#sf :input").attr("disabled", true);
-		}
+		console.log("split the href and serialize arrayz");
+		
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			if(hashes.length <= 1){
+				var targetElem = $("input[name="+targetField+"]");
+				$("input[name=splitAttribute]").val("");
+				targetElem.attr("checked","checked");
+				var substr = targetElem.attr('id').split('_category')[0];
+				console.log("target field is "+substr+"_div");
+				$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
+				$("#sf :input[value][value!='']").serialize();
+				//console.log(dataString);
+				$('#sfSubmit').click();
+				$("#sf :input").attr("disabled", true);
+			}	
+		
+		
 		
 		
 		
@@ -205,8 +210,9 @@ function check(form){
 //add criteria to breadcrumb TODO: make this cleaner
 function addToBreadcrumb(name,value,removal){
 	console.log("add "+name+"&"+value+" to breadcrumb");
-	var formSerialized = $("#sf :input[value]").serialize().split("&");
-	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
+	//var formSerialized = $("#sf :input[value][val]").serialize().split("&");
+	
+	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value][value!='']").serialize();
 	var crumbId = (name+"--"+value).replace(/ /g,"__");
 	crumbId = crumbId.replace(/\./g,"_dot_");
 	var nameTrunc = ""
@@ -265,7 +271,7 @@ function addToBreadcrumb(name,value,removal){
 			console.log("tbd crumbs "+tbdCrumbs);
 			for(var r=0;r<tbdCrumbs.length;r++){
 				//$("#"+tbdCrumbs[r]+"_crumb").remove();
-				//console.log("removed "+"#"+tbdCrumbs[r]+"_crumb");
+				console.log("removed "+"#"+tbdCrumbs[r]+"_crumb");
 				var delElementArray = tbdCrumbs[r].split("--");
 				var delName = delElementArray[0];
 				var delValue = delElementArray[1];
@@ -280,7 +286,7 @@ function addToBreadcrumb(name,value,removal){
 				$("#filterResults").html(msg);
 				displayFilterTable();
 				history.replaceState(null, null, pageurl);
-				//console.log("split page attribute");
+				console.log("split page attribute");
 				var sa = pageurl.split("splitAttribute=")[1];
 				console.log("show will be"+$("#user_switchAttribute").val());
 				var showDivName = $("#user_switchAttribute").val()+"_div";
@@ -310,7 +316,7 @@ function removeBreadcrumb(name,value){
 	}else{
 		//clean name
 		if(name.indexOf("_category_")!=-1){
-			//console.log("it's a category,clean name");
+			console.log("it's a category,clean name");
 			var cleanedName = name.split("_category_")[1];
 			//console.log("is "+cleanedName+" now equal to "+value+"?");
 			if(cleanedName == value){
@@ -337,14 +343,14 @@ function removeBreadcrumb(name,value){
 		//clean value
 		value = value.replace(/__/g," ");
 		value = value.replace(/_dot_/g,".");
-		//console.log("split the value _x_");
+		console.log("split the value _x_");
 		var valueArray = value.split("_x_");
 		var finalValue = valueArray[0];
 		
 		//console.log("remove "+finalValue+" from "+name);
 		$("input[name='"+name+"']").each(function() {
 			if(finalValue == "All"){
-				//console.log(name + " split");
+				console.log(name + " split");
 				var substr = name.split('category_')[1];
 				//console.log("remove the checkboxes in "+"#"+substr+"_div");
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', false);
@@ -443,7 +449,7 @@ function cleanUp(){
 	displayFilterTable();
 	var targetElem = $("input[name="+targetField+"]");
 	targetElem.attr("checked","checked");
-	//console.log("split category in clean up");
+	console.log("split category in clean up");
 	var substr = targetElem.attr('id').split('_category')[0];
 	$("input[name*="+substr+"]").each(function() { 
 		//console.log($(this).attr('name'));
