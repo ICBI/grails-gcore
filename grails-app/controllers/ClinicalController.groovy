@@ -9,11 +9,14 @@ class ClinicalController {
 	def searchResults
 	def middlewareService
 	def patientService
+	def dataAvailableService
 	
     def index = { 
 		session.biospecimenIds = null
 		def outcome = ""
 		session.splitAttribute = ""
+		def da = dataAvailableService.getMyDataAvailability(session.myStudies)
+		def breakdowns = dataAvailableService.getBreakdowns(da)
 		if(session.study) {
 			StudyContext.setStudy(session.study.schemaName)
 			session.dataTypes = AttributeType.findAll().sort { it.longName }
@@ -33,6 +36,7 @@ class ClinicalController {
 			}
 			loadUsedVocabs()
 			loadSubjectTypes()
+			
 			if(params.splitAttribute){
 				log.debug "got split attr $params.splitAttribute"
 				session.splitAttribute = params.splitAttribute
@@ -51,7 +55,7 @@ class ClinicalController {
 				it.target == session.subjectTypes.parent.value()	
 			}
 		}
-		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes()]
+		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes(),diseaseBreakdown:breakdowns["disease"], dataBreakdown:breakdowns["data"]]
 		
 	}
 	

@@ -203,13 +203,83 @@ p
 }
 
 .clinicalFilter {
-	background: #f2f2f2 none repeat scroll 0 0;
-	border: 1px solid #CCCCCC;
-	padding:2px;
-	-moz-border-radius-topright:1px;
-	-moz-border-radius-bottomright:1px;
-	-moz-border-radius-topleft:1px;
-	-moz-border-radius-bottomleft:1px;
+	background: #fff none repeat scroll 0 0;
+	padding:1px;
+	-moz-border-radius:12px; 
+	-webkit-border-radius:12px;
+	color:#666666;
+	font-size:1em;
+}
+
+.group {
+	color:#444444;
+	cursor:pointer;
+	font-family:sans-serif;
+	font-size:1.1em;
+}
+
+.more {
+	cursor:pointer;
+	color:#999999;
+	font-size:.9em;
+}
+
+.filterTable {
+	font-size: 1em;
+	border: 1px solid #999999;
+	border-collapse: collapse; 
+}
+.filterTable td {
+	padding: 4px;
+	border: 1px solid #999999;
+	font-family:sans-serif;
+	font-size: 1em;
+}
+
+.totalsLine {
+	background-color:#FFFAE5;
+}
+
+.filterInstructions {
+	background-color:#FFFAE5;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px; 
+	border-radius:8px;
+	border:1px solid #ffcc00;
+	padding:8px;
+	color:#444444;
+	font-family:sans-serif;
+}
+
+.filterTable th {
+	color:#444444;
+	font-family:sans-serif;
+	padding:5px;
+	font-weight:normal;
+	background:url(../images/overlay.png) repeat-x center #FFEB99;background-color:rgba(255,204,0,1);
+	border:1px solid #ffcc00;
+	border-bottom:1px solid #9f9f9f;
+	-moz-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);box-shadow:inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.breadcrumbs {
+	color:#666666;
+	font-family:sans-serif;
+	font-size:1em;
+	padding-top:15px;
+	width:100%;
+	margin-left:15px;
+	text-decoration:none;
+}
+
+.studyPicker {
+	border:1px solid #336699;
+	margin:10px;
+	padding:8px;
+	background-color:beige;
+	-webkit-border-radius:8px;
+	-moz-border-radius:8px; 
+	border-radius:8px; 
 }
 
 .adminForm {
@@ -542,19 +612,3 @@ z-index:21;
 	text-align: left;
 }
 
-.filterTable {
-	font-size: 1.1em;
-	border: 1px solid #CCCCCC;
-	border-collapse: collapse; 
-}
-.filterTable td {
-	padding: 5px;
-	border: 1px solid #CCCCCC;
-}
-
-.filterTable th {
-	font-size: 1.1em;
-	font-weight:bold;
-	padding: 7px;
-	background:#f2f2f2;
-}

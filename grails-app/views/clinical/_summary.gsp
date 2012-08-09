@@ -81,7 +81,7 @@
 			}
 			
 		}
-		//console.log("add menu");
+		console.log("add menu");
 		$('.clinicalLink').each(function() {
 			//console.log($(this).attr('data-ids'));
 			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
@@ -130,7 +130,7 @@
 					
 				%>
 			</g:if>
-			<td rowspan="1" class="${(finalId+'_parent').replace('(','').replace(')','').replace('/','')}">${resultMap[name]}</td>
+			<td rowspan="1" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 		</g:if>
 		<g:else>
 			<%
@@ -155,13 +155,13 @@
 					
 					%>
 					<g:if test="${(i+1 == criteriaSize)}">
-						<td>${resultMap[name]} </td>
+						<td>${resultMap[name]?.toString().replace("_"," ")} </td>
 					</g:if>
 					<g:else>
 						<g:if test="${finalId.contains('.')}">
 							<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 						</g:if>
-						<td rowspan="1" class="${('rowspan_'+finalId+'_'+valuesMap[finalId]).replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]}</td>
+						<td rowspan="1" class="${('rowspan_'+finalId+'_'+valuesMap[finalId])?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:else>
 				</g:if>
 				
@@ -169,7 +169,7 @@
 			<g:else>
 				<g:if test="${comboCounts.keySet().contains(name)}">
 					<g:if test="${(i+1 == criteriaSize)}">
-						<td>${resultMap[name]}</td>
+						<td>${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:if>
 					<g:else>
 					<% 
@@ -178,7 +178,7 @@
 					<g:if test="${finalId.contains('.')}">
 						<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 					</g:if>
-					<td rowspan="1" class="${(finalId+'_parent').replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]}</td>
+					<td rowspan="1" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:else>
 				</g:if>
 				<g:else>
@@ -192,10 +192,10 @@
 </tr>
 </g:each>
 <tr>
-	<td colspan="${columns.size()-(countMap.size()/2)}">Total</td>
+	<td colspan="${columns.size()-(countMap.size()/2)}" style="background-color:#FFFAE5">Total</td>
 	<g:each in="${columns}" var="${name}">
 		<g:if test="${countMap[name] || countMap[name]==0}">
-			<td><a href="#" class="clinicalLink" data-ids="${countMap[name+'_ids']}">${countMap[name]}<a/></td>
+			<td style="background-color:#FFFAE5"><a href="#" class="clinicalLink" data-ids="${countMap[name+'_ids']}">${countMap[name]}<a/></td>
 		</g:if>
 	</g:each>
 </tr>
