@@ -9,6 +9,7 @@ class ClinicalController {
 	def searchResults
 	def middlewareService
 	def dataAvailableService
+	def patientService
 	
     def index = { 
 		session.biospecimenIds = null
@@ -242,6 +243,7 @@ class ClinicalController {
 		log.debug "GOT REQUEST: " + request.JSON
 		log.debug "GOT PARAMS: " + params
 		def patientIds
+		def idType
 		def cleanedIds = []
 		if(request.JSON){
 			patientIds = request.JSON['ids'] as Set
@@ -250,6 +252,7 @@ class ClinicalController {
 				temp.trim()
 				return temp
 			}		
+			idType = request.JSON['idType']
 		}
 		else if(params.ids){
 			params['ids'].tokenize(",").each{
@@ -258,6 +261,7 @@ class ClinicalController {
 				if(!cleanedIds.contains(it.trim()))
 					cleanedIds << it.trim()
 			}
+			idType = params['idType']
 			log.debug "flattened ids"+ cleanedIds
 		}
 		log.debug "CLEANED SUBJECT IDZ: $cleanedIds"
@@ -277,13 +281,17 @@ class ClinicalController {
 		
 		log.debug "Are these patients or samples?"
 		def results
-		def parentsId = clinicalService.getExistingSubjectsIdsForChildIds(cleanedIds)
-		if(parentsId){
-			log.debug "these are samples ids, lets get subjects"
-			results = clinicalService.getPatientsForGdocIds(parentsId)
-		}else{
-			log.debug "these are patient ids"
-			results = clinicalService.getPatientsForGdocIds(cleanedIds)
+		if(idType && idType == "biospecimen") {
+			results = patientService.patientsForSampleIds(cleanedIds)
+		} else {
+			def parentsId = clinicalService.getExistingSubjectsIdsForChildIds(cleanedIds)
+			if(parentsId){
+				log.debug "these are samples ids, lets get subjects"
+				results = clinicalService.getPatientsForGdocIds(parentsId)
+			}else{
+				log.debug "these are patient ids"
+				results = clinicalService.getPatientsForGdocIds(cleanedIds)
+			}
 		}
 		log.debug "RESULTS: $results"
 		processResults(results)

@@ -12,7 +12,7 @@
 		  clear: none; 
 		}
 	  </style>
-<g:javascript library="jquery"/>   
+		<g:javascript library="jquery" plugin="jquery"/>   
     </head>
     <body>
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>

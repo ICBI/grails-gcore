@@ -2,7 +2,7 @@
 <head>
 	<meta name="layout" content="noHeaderLayout" />
 	<title><g:message code="registration.public" args="${[appTitle()]}"/></title>
-	<g:javascript library="jquery" />
+	<g:javascript library="jquery" plugin="jquery" />
 </head>
 
 <div class="clinicalSearch" style="width:85%;margin:0 auto">

@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta name="layout" content="main" />
-	<g:javascript library="jquery"/>
+	<g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="tooltip"/>
 	<title><g:message code="notifications.heading" /></title>         
 </head>

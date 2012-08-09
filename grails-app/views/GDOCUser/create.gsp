@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="adminLayout" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<g:javascript>
 			$(document).ready(function(){
 				$("#username").blur(function() {

@@ -14,10 +14,10 @@ target(main: "Load a new study into the database") {
 	// Load up grails contexts to be able to use GORM
 	loadApp()
 	configureApp()
-	def projectName
-	if(argsMap['study']) {
-		projectName =  argsMap['study'].toUpperCase()
+	if(!argsMap['study']) {
+		print "Please specify a study name using the --study parameter."
 	}
+	def projectName =  argsMap['study'].toUpperCase()
 	print "Preparing to load study: $projectName"
 	if(!projectName) {
 		println "Please run this script and specify a project name.  ex. grails load-study --study=STUDY_NAME --reload"

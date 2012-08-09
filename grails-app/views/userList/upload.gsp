@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <g:javascript library="jquery"/>
+        <g:javascript library="jquery" plugin="jquery"/>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox.js')}"></script>
         <title>Upload List</title>  
        <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>

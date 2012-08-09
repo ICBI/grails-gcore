@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <jq:plugin name="DOMWindow"/>
 	<g:javascript>
 	function showToolsSpinner(show) {
@@ -201,7 +201,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 	</div>
 </div>
 
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 </fieldset>
 </g:if>
 <g:else>

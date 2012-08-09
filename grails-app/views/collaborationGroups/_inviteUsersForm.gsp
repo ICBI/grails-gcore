@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <g:javascript src="jquery/scrollTable/scrolltable.js"/>
 <g:javascript src="jquery/scrollTable/jscrolltable.js"/>
 <jq:plugin name="ui"/>

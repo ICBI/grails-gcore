@@ -71,6 +71,12 @@ class Study {
 		}
 	}
 	
+	def hasWgsData() {
+		return content.find {
+			it.type == "WGS"
+		}
+	}
+	
 	public String getSubjectType(){
 		if(this.@shortName){
 			def subjectType = "N/A"

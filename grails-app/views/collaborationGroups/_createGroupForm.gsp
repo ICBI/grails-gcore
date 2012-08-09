@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <g:form action="createCollaborationGroup">
 <g:if test="${flash.cmd instanceof CreateCollabCommand}">
 	<div class="errorDetail" ><g:renderErrors bean="${flash.cmd?.errors}" field="collaborationGroupName" /></div>

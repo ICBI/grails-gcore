@@ -3,7 +3,7 @@
 <head>
 	<meta name="layout" content="main" />
 	<title><g:message code="savedAnalysis.title"/></title>
-	<g:javascript library="jquery"/>
+	<g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="ui"/>
 	<jq:plugin name="styledButton"/>
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox-compressed.js')}"></script>

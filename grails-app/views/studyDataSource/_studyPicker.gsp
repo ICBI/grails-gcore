@@ -1,5 +1,5 @@
 
-		<g:javascript library="jquery" plugin="gcore" />
+		<g:javascript library="jquery" plugin="jquery" />
 		<g:javascript dir="js/jquery" file="jquery.tooltip.js" plugin="gcore"/>
 		<g:javascript dir="js/jquery" file="jquery.ui.js" plugin="gcore"/>
 		<g:javascript>

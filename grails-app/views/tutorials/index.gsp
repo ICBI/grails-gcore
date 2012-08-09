@@ -2,7 +2,7 @@
     <head>
         <title><g:message code="tutorial.title" args="${[appLongName()]}"/></title>
 		<meta name="layout" content="main" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<g:javascript src="jquery/scrollTable/scrolltable.js"/>
 		<g:javascript src="jquery/scrollTable/jscrolltable.js"/>
 		<!-- styling -->

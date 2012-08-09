@@ -2,7 +2,7 @@
     <head>
         <title><g:message code="savedAnalysis.invalidAnalysis" args="${[appTitle()]}"/></title>
 		<meta name="layout" content="report" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		
     </head>
     <body>

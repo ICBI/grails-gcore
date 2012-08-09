@@ -4,10 +4,9 @@
 		<g:render template="/common/flex_header" plugin="gcore"/>
 		<g:javascript src="swfobject.js"/>
 		<meta name="layout" content="splash" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<g:javascript src="jquery/scrollTable/scrolltable.js"/>
 		<g:javascript src="jquery/scrollTable/jscrolltable.js"/>
-		<jq:plugin name="tooltip" />
 		<g:javascript src="deployJava.js" />
 		<g:javascript src="BrowserDetect.js"/>
 		<g:javascript src="detect.js"/>

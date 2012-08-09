@@ -16,7 +16,7 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		<g:layoutHead/>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		

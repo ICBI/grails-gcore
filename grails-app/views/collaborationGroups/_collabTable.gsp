@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <g:if test="${flash.cmd instanceof DeleteCollabUserCommand}">
 	<div class="errorDetail"><g:renderErrors bean="${flash.cmd?.errors}" field="users" /></div>
 </g:if>

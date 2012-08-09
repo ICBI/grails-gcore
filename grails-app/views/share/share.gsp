@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<title><g:message code="share.title"/></title>
-	<g:javascript library="jquery"/>
+	<g:javascript library="jquery" plugin="jquery"/>
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'thickbox.js')}"></script>
 	<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>
 	

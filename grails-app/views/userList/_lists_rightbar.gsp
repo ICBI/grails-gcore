@@ -1,5 +1,5 @@
 <br/>
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <g:javascript>
 	function showOption(){
 		if($("#listAction option:selected").val()=='venn'){

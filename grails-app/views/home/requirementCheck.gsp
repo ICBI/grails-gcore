@@ -7,7 +7,7 @@
 		<g:javascript src="BrowserDetect.js"/>
 		<g:javascript src="detect.js"/>
 		<meta name="layout" content="noHeaderLayout" />
-		<g:javascript library="jquery"/>
+		<g:javascript library="jquery" plugin="jquery"/>
 		
 		<!-- styling -->
 		<g:javascript>

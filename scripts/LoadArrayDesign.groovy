@@ -14,8 +14,10 @@ target(main: "Load High Throughput Data") {
 	loadApp()
 	configureApp()
 	
-	println "Please specify the name of a design file to load:"
-	def fileName = new InputStreamReader(System.in).readLine()
+	if(!argsMap['file']) {
+		println "Please specify the name of a design file to load with the --file parameter."
+	}
+	def fileName = argsMap['file']
 	
 	def metadataFile = new File("dataImport/designs/${fileName}")
 	def reporterFileName = fileName.substring(0, fileName.indexOf(".txt"))

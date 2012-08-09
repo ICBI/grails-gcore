@@ -1,4 +1,4 @@
-<g:javascript library="jquery"/>
+<g:javascript library="jquery" plugin="jquery"/>
 <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.contextmenu.css')}"/>
 <jq:plugin name="contextmenu"/>
 <g:javascript src="geneLink.js"/>

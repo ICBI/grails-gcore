@@ -215,4 +215,17 @@ class AnnotationService {
 			}
 		}
 	}
+	
+	def searchGeneSymbols(term) {
+		def criteria = GeneAlias.createCriteria()
+		def list = criteria {
+			like("symbol", term + "%")
+			eq("official", true)
+			projections {
+				distinct('symbol')
+			}
+			order('symbol','asc')
+		}
+		return list
+	}
 }
