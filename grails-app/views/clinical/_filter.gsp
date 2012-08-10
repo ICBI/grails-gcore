@@ -23,18 +23,18 @@
 				window.location = "${grailsApplication.config.grails.serverURL}/clinical?splitAttribute="+splitAtt;
 			}
 			else{
-				console.log("split attribute was "+$('#splitAttribute').val());
+				//console.log("split attribute was "+$('#splitAttribute').val());
 				var showDivName = $('#splitAttribute').val()+"_div";
 				$('#splitAttribute').val(splitAtt);
 				var hideDivName = splitAtt+"_div";
 				var hideElementId = splitAtt+"_category";
-				console.log("set new target field? "+$("#"+hideElementId).attr("name"));
+				//console.log("set new target field? "+$("#"+hideElementId).attr("name"));
 				targetField = $("#"+hideElementId).attr("name");
 				$("#"+showDivName).css('display','block');
 				$("#"+hideDivName).css('display','none');
-				console.log("split attribute is "+$('#splitAttribute').val());
+				//console.log("split attribute is "+$('#splitAttribute').val());
 				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
-				console.log(pageurl);
+				//console.log(pageurl);
 				$('#sfSubmit').click();
 			}
 			
@@ -42,7 +42,7 @@
 		
 		//send request based on checbox click
 		$('.cb').bind('click',function() {
-			console.log("checked a cb box");
+			//console.log("checked a cb box");
 			if($(this).is(":checked")){
 				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				var substr = "";
@@ -52,6 +52,7 @@
 				if($(this).attr('id').indexOf("range_") !=-1){
 					substr = $(this).attr('id').split('range_')[1];
 				}
+				substr=substr.replace(/\//g,"\\/");
 				$("input[id*="+substr+"_category]").attr('checked', true);
 				//then create breadcrumb
 				//console.log($(this).val());
@@ -86,19 +87,20 @@
 		//select/unselect all under appropriate category and do a query 
 		$('.category').click(function() {
 			if($(this).is(":checked")){
-				console.log("checked a category");
+				//console.log("checked a category");
 				var substr = $(this).attr('id').split('_category')[0];
-				substr=substr.replace("/","_");
+				substr=substr.replace(/\//g,"\\/");
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				addToBreadcrumb($(this).attr("name"),"All",false);
 				$('#sfSubmit').click();
 				$("#sf :input").attr("disabled", true);
 			}else{
-				console.log("unchecked a category");
+				//console.log("unchecked a category");
 				var substr = $(this).attr('id').split('_category')[0];
+				substr=substr.replace(/\//g,"\\/");
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', false);
-				removeBreadcrumb($(this).attr("name"),$(this).val());
+				removeBreadcrumb($(this).attr("name"),"All",true);
 				$('#sfSubmit').click();
 			}	
 		});
@@ -132,48 +134,16 @@
 		
 		
 		$('.clueLink').click(function() {
-			console.log($(this).attr("rel"));
+			//console.log($(this).attr("rel"));
 			var targetClass = $(this).attr("rel");
 			$("."+targetClass).toggle( "blind", null, 500 );
 			return false;
 		});
 		
-		//console.log("add menu");
-		// $('.clueLink').each(function() {
-		// 			//console.log($(this).attr('data-ids'));
-		// 			$(this).cluetip({local: true, hideLocal: false, 
-		// 			multiple:false,
-		// 			mouseOutClose:true,
-		// 			cluetipClass: 'rounded',
-		// 			sticky:true,
-		// 			closePosition:'bottom',
-		// 			showTitle:false,
-		// 			activation:'click',
-		// 			onShow: function(ct, ci){
-		// 										ci.children(0).css("opacity","1.0");
-		// 										console.log($("."+ci.children(0).attr("class")).css("display"));
-		// 										var innerDiv = ci.children(0);
-		// 										var copy_elements = $(innerDiv).find(':input');
-		// 										var original = $("."+ci.children(0).attr("class"));
-		// 										var original_elements = $(original).find(':input');
-		// 										for (k = 0; k < copy_elements.length; k++)
-		// 										{
-		// 											$(copy_elements[k]).unbind('click');
-		// 											$(copy_elements[k]).click(function(){
-		// 												console.log($(this).val());
-		// 												$(original_elements[k]).trigger("click");
-		// 											});
-		// 											//console.log("unbound"+$(copy_elements[k]).attr("class"));
-		// 											//console.log($(copy_elements[k]).data('events'));
-		// 										}
-		// 									}
-		// 			});
-		// 		});
-		// 		
 		
 		//on page load provide deeplinks...look at checked fields based on url and submit form
 		var vars = [], hash;
-		console.log("split the href and serialize arrayz");
+		//console.log("split the href and serialize arrayz");
 		
 			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 			if(hashes.length <= 1){
@@ -181,7 +151,7 @@
 				$("input[name=splitAttribute]").val("");
 				targetElem.attr("checked","checked");
 				var substr = targetElem.attr('id').split('_category')[0];
-				console.log("target field is "+substr+"_div");
+				//console.log("target field is "+substr+"_div");
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 				$("#sf :input[value][value!='']").serialize();
 				//console.log(dataString);
@@ -199,20 +169,20 @@
 function check(form){
 	console.log("check before submit");
 	$("#sf").attr('method','GET');
-	$("input[id*='_category']").each(function() { 
-		$(this).attr('disabled','disabled');
-	});
-	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
+	// $("input[id*='_category']").each(function() { 
+	// 		$(this).attr('disabled','disabled');
+	// 	});
+	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value][value!='']").serialize();
 	window.history.pushState({test:pageurl},'',pageurl);
 	return false;
 }
 
 //add criteria to breadcrumb TODO: make this cleaner
 function addToBreadcrumb(name,value,removal){
-	console.log("add "+name+"&"+value+" to breadcrumb");
 	//var formSerialized = $("#sf :input[value][val]").serialize().split("&");
 	
 	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value][value!='']").serialize();
+	//console.log("add "+name+"&"+value);
 	var crumbId = (name+"--"+value).replace(/ /g,"__");
 	crumbId = crumbId.replace(/\./g,"_dot_");
 	var nameTrunc = ""
@@ -255,8 +225,35 @@ function addToBreadcrumb(name,value,removal){
 	$(".breadcrumbs").append("<span style='padding-right:10px;border:0px solid black' class='crumb' id='"+crumbId+"_crumb'"+"><a href='' style='cursor:pointer;text-decoration:none;color:#666666'>"+crumbLabel+"</a></span>");
 	breadcrumbs.push(crumbId);
 	//console.log("added "+crumbId+" to breadcrumbs "+breadcrumbs+" with a page url of "+pageurl);
-	$("#"+crumbId+"_crumb").click(function(){
-	        var tbdCrumbs = [];
+	
+	var findCrumb = crumbId;
+	findCrumb=findCrumb.replace(/\//g,"\\/");
+	$("#"+findCrumb+"_crumb").click(function(){
+	        
+	        $.ajax({
+	          type: "POST",
+	          url: pageurl,
+	          success: function(msg){
+	            //console.log(msg);
+				//console.log("request and replaceState the url with"+pageurl);
+				$("#filterResults").html(msg);
+				displayFilterTable();
+				history.replaceState(null, null, pageurl);
+				//console.log("split page attribute");
+				var sa = pageurl.split("splitAttribute=")[1];
+				//console.log("show will be"+$("#user_switchAttribute").val());
+				var showDivName = $("#user_switchAttribute").val()+"_div";
+				var hideDivName = sa+"_div";
+				var hideElementId = sa+"_category";
+				//console.log("succes,set new target field? "+$("#"+hideElementId).attr("name"));
+				targetField = $("#"+hideElementId).attr("name");
+				$("#"+showDivName).css('display','block');
+				$("#"+hideDivName).css('display','none');
+				$("#user_switchAttribute").val(sa);
+				verifyURLParams(pageurl);
+	          }
+	       });
+			var tbdCrumbs = [];
 			var startAdding = false;
 			for(var b=0;b<breadcrumbs.length;b++){
 				//console.log(breadcrumbs[b]);
@@ -268,38 +265,17 @@ function addToBreadcrumb(name,value,removal){
 					startAdding = true;
 				}
 			}
-			console.log("tbd crumbs "+tbdCrumbs);
+			//console.log("tbd crumbs "+tbdCrumbs);
 			for(var r=0;r<tbdCrumbs.length;r++){
 				//$("#"+tbdCrumbs[r]+"_crumb").remove();
-				console.log("removed "+"#"+tbdCrumbs[r]+"_crumb");
+				var tbdcrumb=tbdCrumbs[r];
+				tbdcrumb=tbdcrumb.replace(/\//g,"\\/");
+				//console.log("removed "+"#"+tbdcrumb+"_crumb");
 				var delElementArray = tbdCrumbs[r].split("--");
 				var delName = delElementArray[0];
 				var delValue = delElementArray[1];
-				removeBreadcrumb(delName,delValue);
+				removeBreadcrumb(delName,delValue,false);
 			}
-	        $.ajax({
-	          type: "POST",
-	          url: pageurl,
-	          success: function(msg){
-	            //console.log(msg);
-				//console.log("replaceState the url and clean");
-				$("#filterResults").html(msg);
-				displayFilterTable();
-				history.replaceState(null, null, pageurl);
-				console.log("split page attribute");
-				var sa = pageurl.split("splitAttribute=")[1];
-				console.log("show will be"+$("#user_switchAttribute").val());
-				var showDivName = $("#user_switchAttribute").val()+"_div";
-				var hideDivName = sa+"_div";
-				var hideElementId = sa+"_category";
-				console.log("succes,set new target field? "+$("#"+hideElementId).attr("name"));
-				targetField = $("#"+hideElementId).attr("name");
-				$("#"+showDivName).css('display','block');
-				$("#"+hideDivName).css('display','none');
-				$("#user_switchAttribute").val(sa);
-				verifyURLParams(pageurl);
-	          }
-	       });
 			$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
 			return false;
 	   });
@@ -307,8 +283,8 @@ function addToBreadcrumb(name,value,removal){
 }
 
 //remove criteria from breadcrumb
-function removeBreadcrumb(name,value){
-	console.log("remove "+name+" and "+value+", from "+breadcrumbs);
+function removeBreadcrumb(name,value,refreshData){
+	//console.log("remove "+name+" and "+value);//+", from "+breadcrumbs);
 	if ($('input:checkbox:checked').length == 0){
 		var splitAtt = $('#splitAttribute').val();
 		//console.log("no checkboxes, refresh page");
@@ -316,7 +292,7 @@ function removeBreadcrumb(name,value){
 	}else{
 		//clean name
 		if(name.indexOf("_category_")!=-1){
-			console.log("it's a category,clean name");
+			//console.log("it's a category,clean name");
 			var cleanedName = name.split("_category_")[1];
 			//console.log("is "+cleanedName+" now equal to "+value+"?");
 			if(cleanedName == value){
@@ -324,6 +300,7 @@ function removeBreadcrumb(name,value){
 			}
 		}
 		var crumbId = (name+"--"+value).replace(/ /g,"__");
+		crumbId=crumbId.replace(/\//g,"\\/");
 		//console.log("remove "+crumbId+"_crumb");
 		$("#"+crumbId+"_crumb").remove();
 		var delIndex = null;
@@ -343,22 +320,27 @@ function removeBreadcrumb(name,value){
 		//clean value
 		value = value.replace(/__/g," ");
 		value = value.replace(/_dot_/g,".");
-		console.log("split the value _x_");
+		//console.log("split the value _x_");
 		var valueArray = value.split("_x_");
 		var finalValue = valueArray[0];
-		
+		name=name.replace(/\//g,"\\/");
 		//console.log("remove "+finalValue+" from "+name);
 		$("input[name='"+name+"']").each(function() {
 			if(finalValue == "All"){
-				console.log(name + " split");
-				var substr = name.split('category_')[1];
+				var attName = $(this).attr("name");
+				//console.log(attName + " split");
+				var substr = attName.split('category_')[1];
+				var tmpCrumb = substr;
+				substr=substr.replace(/\//g,"\\/");
+				var crumbName = tmpCrumb;
 				//console.log("remove the checkboxes in "+"#"+substr+"_div");
+				//console.log("will now look for crumbs with "+crumbName);
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', false);
 				$(this).attr('checked', false);
 				var tbdCrumbs = [];
 				var delIndices = [];
 				for(var b=0;b<breadcrumbs.length;b++){
-					var desired = "_"+substr+"--";
+					var desired = "_"+crumbName+"--";
 					//console.log("check if "+desired +" found in "+breadcrumbs[b]);
 					if(breadcrumbs[b].indexOf(desired)!=-1){
 						//console.log("add "+breadcrumbs[b]+ " to remove stack");
@@ -368,7 +350,9 @@ function removeBreadcrumb(name,value){
 				}
 				//console.log("tbd crumbs will be removed with similar names"+tbdCrumbs+ " and indices "+delIndices);
 				for(var r=0;r<tbdCrumbs.length;r++){
-					$("#"+tbdCrumbs[r]+"_crumb").remove();
+					var tbdname = tbdCrumbs[r];
+					tbdname = tbdname.replace(/\//g,"\\/");
+					$("#"+tbdname+"_crumb").remove();
 				}
 				if(delIndices.length > 0){
 					for(var i=0;i<delIndices.length;i++){
@@ -379,7 +363,7 @@ function removeBreadcrumb(name,value){
 			}
 			else{
 				if($(this).is(":checkbox") && $(this).val() == finalValue){
-				console.log("got in here for spliy");
+				//console.log("got in here for spliy");
 				$(this).attr('checked', false);
 				var substr = "";
 				if($(this).attr('id').indexOf("vocab_") !=-1){
@@ -389,6 +373,7 @@ function removeBreadcrumb(name,value){
 					substr = $(this).attr('id').split('range_')[1];
 				}
 				var remaining = [];
+				substr=substr.replace(/\//g,"\\/");
 				$("#"+substr+"_div").find('input:checkbox').each(function(){
 					if($(this).is(':checked') && $(this).attr('class')=="cb"){
 						//console.log($(this).attr("name") + " and "+ $(this).attr("value") + " is checked");
@@ -405,16 +390,18 @@ function removeBreadcrumb(name,value){
 		});
 		//console.log("breadcrumbs cleaned, should now be "+breadcrumbs);
 		var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
-		$('#sfSubmit').click();
-		$("#sf :input").attr("disabled", true);
+		if(refreshData){
+			$('#sfSubmit').click();
+		}
+		//$("#sf :input").attr("disabled", true);
 	}
 	
 }
 
 function evaluateUnchecked(element){
-	console.log("evaluate unchecked of "+simName+" with value of "+value);
 	var simName = $(element).attr("name");
 	var value = $(element).val();
+	//console.log("evaluate the unchecked of "+simName+" with value of "+value);
 	var substr = "";
 	if($(element).attr('id').indexOf("vocab_") !=-1){
 		substr = $(element).attr('id').split('vocab_')[1];
@@ -423,6 +410,8 @@ function evaluateUnchecked(element){
 		substr = $(element).attr('id').split('range_')[1];
 	}
 	var arr = [];
+	simName=simName.replace(/\//g,"\\/");
+	substr=substr.replace(/\//g,"\\/");
 	$("input[name="+simName+"]").each(function() { 
 		//console.log($(this).attr('type'));
 		 if($(this).attr('type')=='checkbox' && $(this).is(':checked')){
@@ -434,40 +423,44 @@ function evaluateUnchecked(element){
 	if(arr.length < 1){
 		var parentElement = $("input[id="+substr+"_category]");
 		parentElement.attr('checked', false);
-		removeBreadcrumb(parentElement.attr('name'),"All");
+		removeBreadcrumb(parentElement.attr('name'),"All",true);
 	}else{
 		$("input[id="+substr+"_category]").attr('checked', true);
-		addToBreadcrumb(simName,value,true);
+		addToBreadcrumb($(element).attr("name"),value,true);
 		$('#sfSubmit').click();
 		$("#sf :input").attr("disabled", true);
 	}
 }
 
 function cleanUp(){
-	console.log('clean up');
-	$("#sf :input").attr("disabled", false);
+	//console.log('clean up');
+	$(" :input").attr("disabled", false);
 	displayFilterTable();
 	var targetElem = $("input[name="+targetField+"]");
 	targetElem.attr("checked","checked");
-	console.log("split category in clean up");
+	//console.log("split category in clean up");
 	var substr = targetElem.attr('id').split('_category')[0];
 	$("input[name*="+substr+"]").each(function() { 
 		//console.log($(this).attr('name'));
 		 $(this).attr('checked', false);
 	 });
-	console.log("target field ="+targetField);
-	console.log("split attribute currently set to "+$("input[name=splitAttribute]").val());
+	//console.log("target field ="+targetField);
+	//console.log("split attribute currently set to "+$("input[name=splitAttribute]").val());
 	$("input[name=splitAttribute]").val(substr);
-	console.log("split attribute is set to "+substr+", and actual value is ="+$("input[name=splitAttribute]").val());
+	//console.log("split attribute is set to "+substr+", and actual value is ="+$("input[name=splitAttribute]").val());
 }
 
 function verifyURLParams(pageUrl){
-	console.log("verify url params");
+	//console.log("verify url params");
 	var hashes = pageUrl.slice(pageUrl.indexOf('?') + 1).split('&');
 	for(var i=0;i<hashes.length;i++){
 		var elementArray = hashes[i].split("=");
 		var name = elementArray[0];
 		var value = elementArray[1];
+		name=name.replace(/%2F/g,"/");
+		name=name.replace(/\//g,"\\/");
+		value=value.replace(/%2F/g,"/");
+		value=value.replace(/\//g,"\\/");
 		//console.log("setting "+name+" to "+value);
 		$("input[name="+name+"]").each(function() { 
 			if(name.indexOf("range_")!=-1){
@@ -537,7 +530,7 @@ function verifyURLParams(pageUrl){
 						targetField = "${type.replace('_','') + '_category_' + it.shortName}";
 					</g:javascript>
 			</g:else>
-			<div class="clinicalFilter" style="display:${use}" id="${it.shortName.replace('/','_')+'_div'}">
+			<div class="clinicalFilter" style="display:${use}" id="${it.shortName+'_div'}">
 				<div>
 				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>
 				<label for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>

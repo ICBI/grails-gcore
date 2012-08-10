@@ -12,7 +12,7 @@
 	});
 	
 	function displayFilterTable(){
-		console.log("display/configure table");
+		//console.log("display/configure table");
 		//find all unique classes
 		var uniqueClasses = [];
 		$('[class*="rowspan_"]').each(function() {
@@ -81,7 +81,7 @@
 			}
 			
 		}
-		console.log("add menu");
+		
 		$('.clinicalLink').each(function() {
 			//console.log($(this).attr('data-ids'));
 			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
@@ -130,7 +130,10 @@
 					
 				%>
 			</g:if>
-			<td rowspan="1" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+			<g:if test="${finalId.contains('.')}">
+				<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
+			</g:if>
+			<td rowspan="1" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 		</g:if>
 		<g:else>
 			<%

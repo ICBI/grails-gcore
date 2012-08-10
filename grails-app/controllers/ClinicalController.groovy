@@ -485,9 +485,10 @@ class ClinicalController {
 				log.debug "this is NOT an ajax request, so forward to index action with " + params
 				redirect(action:index,params:params)
 				return
-			}else{				
+			}else{		
+				log.debug "-----------BEGIN AJAX REQUEST--------------"		
 				def errors = validateQuery(params, session.dataTypes)
-				log.debug "Clinical Validation?: " + errors
+				//log.debug "Clinical Validation?: " + errors
 				def queryParams = [:]
 				def medians = [:]
 				def paramMap = buildQueryParams(params)
@@ -588,7 +589,7 @@ class ClinicalController {
 						if(biospecimenIds)
 							aggMap = clinicalService.handleCriteria(aggMap["breakdowns"],biospecimenCriteria,filterSubjects,aggMap["toAddCriteria"],aggMap["toDeleteCriteria"],medians,atttributeLabel)
 						//END NEW for sample
-						log.debug "----------------------------------------"
+						//log.debug "-------------------------------------"
 					}
 				}
 				//split each ends
@@ -781,8 +782,10 @@ class ClinicalController {
 				//log.debug "CRITERIA: " + criteria
 				//log.debug "CRITERIA COUNT: " + comboCounts
 				
-				log.debug "this is ajax request and return"
+				log.debug "this is ajax request and return add"
+				log.debug "------------END RETURN---------------------"
 				render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+				return
 			}
 	}
 	
