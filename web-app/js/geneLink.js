@@ -31,6 +31,7 @@
 						menu += "<li><a href='#' class='contextItem' id='GENEEXPRESSION'>Perform Gene Expression Search</a></li>";
 					}
 					menu += "<li><a href='#' class='contextItem' id='ENTREZ'>Search in Entrez</a></li>	\
+						<li><a href='#' class='contextItem' id='UCSCGenomeBrowser'>View in UCSC Genome Browser</a></li>	\
 						<li><a href='#' class='contextItem' id='IHOP'>Search in iHOP</a></li>	\
 						<li><a href='#' class='contextItem' id='PIR'>Search in PIR</a></li>	\
 						<li><a href='#' class='contextItem' id='ENSEMBL'>Search in Ensembl Gene View</a></li>	\
@@ -49,8 +50,7 @@
 					menu += "<li><a href='#' class='contextItem' id='UCSCGenomeBrowser'>View in UCSC Genome Browser</a></li></ul>";
 					break;
 				case 'snp':
-					menu += "<li><a href='#' class='contextItem' id='DBSNP'>Search in dbSNP</a></li>	\
-						<li><a href='#' class='contextItem' id='ENSEMBL_SNP'>Search in Ensembl Variation</a></li></ul>";
+					menu += "<li><a href='#' class='contextItem' id='DBSNP'>Search in dbSNP</a></li></ul>";
 					break;
 				case 'cosmic_snp':
 					menu += "<li><a href='#' class='contextItem' id='COSMIC'>Search in COSMIC</a></li></ul>";
@@ -58,6 +58,9 @@
 				case 'clinical':
 					menu += "<li><a href='#' class='contextItem' id='CLINICALREPORT'>View Detailed Report</a></li>";
 					menu += "<li><a href='#' class='contextItem' id='SAVELIST'>Save ids as list</a></li></ul>";
+					break;
+				case 'location':
+					menu += "<li><a href='#' class='contextItem' id='UCSCGenomeBrowserLoc'>View in UCSC Genome Browser</a></li>";
 					break;
 				default:
 					break;
@@ -116,10 +119,14 @@
 				window.open("http://www.sanger.ac.uk/perl/genetics/CGP/cosmic?action=mut_summary&id=" + newId);
 				break;
 			case "UCSCGenomeBrowser":
-				if (id.indexOf('p') == -1 && id.indexOf('q') == -1) {
-					id = "chr"+id
-				}
-				window.open('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=mammal&org=Human&db=hg18&position=' + id + '&hgt.suggest=&pix=800&Submit=submit');
+				// if (id.indexOf('p') == -1 && id.indexOf('q') == -1) {
+				// 	id = "chr"+id
+				// }
+				window.open('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=mammal&org=Human&db=hg18&position=' + id + '&singleSearch=knownCanonical&hgt.suggest=&Submit=submit');
+				break;
+			case "UCSCGenomeBrowserLoc":
+				var id = jquerycontextmenu.currentTarget.attr('data-ids');
+				window.open('http://genome.ucsc.edu/cgi-bin/hgTracks?clade=mammal&org=Human&db=hg19&position=' + id + '&hgt.suggest=&Submit=submit');
 				break;
 			case "KM":
 				if(settings.spinner) {
