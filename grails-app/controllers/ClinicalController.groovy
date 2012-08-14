@@ -10,6 +10,7 @@ class ClinicalController {
 	def middlewareService
 	def dataAvailableService
 	def patientService
+	def extensionService
 	
     def index = { 
 		session.biospecimenIds = null
@@ -123,6 +124,7 @@ class ClinicalController {
 	}
 	
 	def view = {
+
 		searchResults = session.results
 		def columns = session.columns
 		def results = []
@@ -245,6 +247,7 @@ class ClinicalController {
 		def patientIds
 		def idType
 		def cleanedIds = []
+		
 		if(request.JSON){
 			patientIds = request.JSON['ids'] as Set
 			cleanedIds = patientIds.collect {
@@ -253,6 +256,7 @@ class ClinicalController {
 				return temp
 			}		
 			idType = request.JSON['idType']
+			session.query = request.JSON
 		}
 		else if(params.ids){
 			params['ids'].tokenize(",").each{
@@ -262,6 +266,7 @@ class ClinicalController {
 					cleanedIds << it.trim()
 			}
 			idType = params['idType']
+			session.query = params
 			log.debug "flattened ids"+ cleanedIds
 		}
 		log.debug "CLEANED SUBJECT IDZ: $cleanedIds"
@@ -365,6 +370,8 @@ class ClinicalController {
 		def parentChildMap = [:]
 		def columns = []
 		def annotations = [:]
+		def fromVariant = session.query['fromVariant']
+		
 		columns << [index: "id", name: "GDOC ID", sortable: true, width: '100']
 		if(session.subjectTypes.timepoints)
 			columns << [index: "timepoint", name: "TIMEPOINT", sortable: true, width: '100']
@@ -408,12 +415,28 @@ class ClinicalController {
 			}
 			columns << column
 		}
-		session.columnJson = columns as JSON
+		
 		def sortedColumns = ["GDOC ID"]//, "PATIENT ID"]
 		if(session.subjectTypes.timepoints)
 			sortedColumns << "TIMEPOINT"
 		columnNames.sort()
 		sortedColumns.addAll(columnNames)
+		
+		//add in variant data
+		if(fromVariant) {
+			def dataExtensions = extensionService.getDataExtensionLabelsForType(DataExtensionType.CLINICAL)
+			dataExtensions.each {
+				def data = extensionService.getDataFromExtension(it, session.query)
+				def returnedData = extensionService.addDataToTable(it, [columns: columns, columnNames: sortedColumns, results: searchResults, data: data])
+				print returnedData
+				columns = returnedData['columns']
+				sortedColumns = returnedData['columnNames']
+				searchResults = returnedData['results']
+			}
+		}
+		
+		session.columnJson = columns as JSON
+
 		session.results = searchResults
 		session.columns = sortedColumns
 		session.columnNames = sortedColumns as JSON

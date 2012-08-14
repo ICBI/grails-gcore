@@ -2,7 +2,7 @@ import java.lang.annotation.*
 import static java.lang.annotation.RetentionPolicy.*
 import static java.lang.annotation.ElementType.*
 
-enum DataExtensionType { GENE }
+enum DataExtensionType { GENE, CLINICAL }
 
 @Retention(RUNTIME)
 @Target([TYPE])
