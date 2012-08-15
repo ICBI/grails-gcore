@@ -1,5 +1,4 @@
 import grails.converters.*
-
 @Mixin(ControllerMixin)
 @Extension(type=ExtensionType.SEARCH, menu="Studies")
 class ClinicalController {
@@ -10,6 +9,7 @@ class ClinicalController {
 	def middlewareService
 	def dataAvailableService
 	def patientService
+	def attributeValueService
 	
     def index = { 
 		session.biospecimenIds = null
@@ -36,20 +36,17 @@ class ClinicalController {
 			}
 			loadUsedVocabs()
 			loadSubjectTypes()
-			
+			loadAttributeRanges()
 			if(params.splitAttribute){
 				log.debug "got split attr $params.splitAttribute"
 				session.splitAttribute = params.splitAttribute
 			}
 			else if(!params.splitAttribute){
-				if(session.attTypeMap["Outcome"]){
-					def hs = []
-					hs = session.attTypeMap["Outcome"] as List
-					outcome = hs.find{it.vocabulary}
-					session.splitAttribute = outcome.shortName
-				}else{
-					session.splitAttribute = "NONE"
-				}
+				def splitAtts = []
+				splitAtts = AttributeType.findAllWhere(splitAttribute: true,target:"PATIENT")
+				log.debug "got splitAtts "+splitAtts.collect{it.target}
+				if(splitAtts)
+					session.splitAttribute = splitAtts[0].shortName
 			}
 			session.vocabList = session.vocabList.findAll{
 				it.target == session.subjectTypes.parent.value()	
@@ -80,6 +77,7 @@ class ClinicalController {
 			}
 			loadUsedVocabs()
 			loadSubjectTypes()
+			loadAttributeRanges()
 		}
 		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes()]
 	}
@@ -95,10 +93,10 @@ class ClinicalController {
 				return
 			}
 			println "PARAMS: " + params
-			def criteria = QueryBuilder.build(params, "parent_", session.dataTypes,true)
+			def criteria = QueryBuilder.build(params, "parent_", session.dataTypes,session.attributeRanges,true)
 			def biospecimenIds
 			if(session.subjectTypes["child"]) {
-				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes,true)
+				def biospecimenCriteria = QueryBuilder.build(params, "child_", session.dataTypes,session.attributeRanges,true)
 				if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 					biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 					log.debug "GOT IDS ${biospecimenIds.size()}"
@@ -511,12 +509,12 @@ class ClinicalController {
 				}
 				//println "PARAMS: " + queryParams
 
-				def criteria = QueryBuilder.build(queryParams, "parent_", session.dataTypes,false)
+				def criteria = QueryBuilder.build(queryParams, "parent_", session.dataTypes,session.attributeRanges,false)
 				log.debug "crteria="+criteria
 				def biospecimenIds
 				def biospecimenCriteria
 				if(session.subjectTypes["child"]) {
-					biospecimenCriteria = QueryBuilder.build(queryParams, "child_", session.dataTypes,false)
+					biospecimenCriteria = QueryBuilder.build(queryParams, "child_", session.dataTypes,session.attributeRanges,false)
 					if(biospecimenCriteria && biospecimenCriteria.size() > 0) {
 						biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 						log.debug "GOT IDS ${biospecimenIds.size()}"
@@ -854,8 +852,8 @@ class ClinicalController {
 								if(key.contains("parent_"))
 									key = key.replace("parent_range_", "")
 								log.debug "new criteria as strings " + queryParams[key]
-								def type = AttributeType.findByShortName(key)
-								def median =  (type.lowerRange+type.upperRange)/2
+								
+								def median =  (session.attributeRanges[key]["lowerRange"]+session.attributeRanges[key]["upperRange"])/2
 								log.debug "median for $key is $median"
 								medians[key] = median
 								log.debug "medians "+ medians

@@ -550,7 +550,9 @@ function verifyURLParams(pageUrl){
 							    <label for="${type.replace('_','') + '_vocab_' + it.shortName}">${v.termMeaning}</label>
 								</g:else>
 								</span>
-							</g:each>						
+							</g:each>
+							
+										
 					</div>
 				</g:if>
 				<g:elseif test="${it.qualitative}">
@@ -564,7 +566,9 @@ function verifyURLParams(pageUrl){
 				</g:elseif>
 				
 				<g:else>
-					<g:set var="median" value='${(it.lowerRange+it.upperRange)/2}' />
+					<g:set var="upperRange" value='${session.attributeRanges[it.shortName]["upperRange"]}' />
+					<g:set var="lowerRange" value='${session.attributeRanges[it.shortName]["lowerRange"]}' />
+					<g:set var="median" value='${(lowerRange+upperRange)/2}' />
 					<g:if test="${median.toString().contains('.5')}">
 						<g:set var="upperMed" value='${(median.toDouble()) + 0.1}' />
 					</g:if>
@@ -574,15 +578,13 @@ function verifyURLParams(pageUrl){
 					<g:set var="upper" value='${0})' />
 						<span style="display:block">
 						<span>Low Range</span>
-						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${it.lowerRange + ' - ' +median}" checked="${params[type + '_range_' + it.shortName] == it.lowerRange.intValue() + ' - ' +median.intValue() || params[type + '_range_' + it.shortName]?.contains(it.lowerRange.intValue() + ' - ' +median.intValue())}"/>
-						<label for="${type.replace('_','') + '_' + it.shortName}">${it.lowerRange + ' to ' +median}</label>
+						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${lowerRange + ' - ' +median}" checked="${params[type + '_range_' + it.shortName] == lowerRange.intValue() + ' - ' +median.intValue() || params[type + '_range_' + it.shortName]?.contains(lowerRange.intValue() + ' - ' +median.intValue())}"/>
+						<label for="${type.replace('_','') + '_' + it.shortName}">${lowerRange + ' to ' +median}</label>
 						<br />
 						<span>High Range</span>
-						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${upperMed + ' - ' +it.upperRange}" checked="${params[type + '_range_' + it.shortName] == (median +1).intValue() + ' - ' +it.upperRange.intValue() || params[type + '_range_' + it.shortName]?.contains((median +1).intValue() + ' - ' +it.upperRange.intValue()) || params[type + '_range_' + it.shortName] == upperMed + ' - ' +it.upperRange || params[type + '_range_' + it.shortName]?.contains(upperMed + ' - ' +it.upperRange.intValue())}"/>
-						<label for="${type.replace('_','') + '_' + it.shortName}">${upperMed + ' to ' +it.upperRange}</label>
+						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" checked="${params[type + '_' + it.shortName]}" class="cb" value="${upperMed + ' - ' +upperRange}" checked="${params[type + '_range_' + it.shortName] == (median +1).intValue() + ' - ' +upperRange.intValue() || params[type + '_range_' + it.shortName]?.contains((median +1).intValue() + ' - ' +upperRange.intValue()) || params[type + '_range_' + it.shortName] == upperMed + ' - ' +upperRange || params[type + '_range_' + it.shortName]?.contains(upperMed + ' - ' +upperRange.intValue())}"/>
+						<label for="${type.replace('_','') + '_' + it.shortName}">${upperMed + ' to ' +upperRange}</label>
 						</span>
-						
-						
 				</g:else>
 				</div>
 			</div>

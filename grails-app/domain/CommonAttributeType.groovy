@@ -6,6 +6,7 @@ class CommonAttributeType {
 		id column:'attribute_type_id', generator: 'native', params: [sequence: 'ATTRIBUTE_TYPE_SEQUENCE']
 		vocabs column: 'attribute_type_id'
 		value column: 'class'
+		splitAttribute column: 'split_attribute'
 	}
 	static constraints = {
         upperRange(nullable: true)
@@ -20,6 +21,7 @@ class CommonAttributeType {
 		cadsrId(nullable: true)
 		evsId(nullable: true)
 		unit(nullable: true)
+		splitAttribute(nullable: true)
 		
     }
     
@@ -43,4 +45,5 @@ class CommonAttributeType {
 	String insertUser
 	Date insertDate
 	String insertMethod
+	Boolean splitAttribute
 }

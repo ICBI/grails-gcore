@@ -6,6 +6,7 @@ class AttributeType {
 		vocabs column: 'attribute_type_id'
 		value column: 'class'
 		attributeGroup column: 'semantic_group'
+		splitAttribute column: 'split_attribute'
 	}
 	
 	static fetchMode = [vocabs:"eager"]
@@ -22,4 +23,6 @@ class AttributeType {
 	Double upperRange
 	Double lowerRange
 	String attributeGroup
+	Boolean splitAttribute
+	
 }

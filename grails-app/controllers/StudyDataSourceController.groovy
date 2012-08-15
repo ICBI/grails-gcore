@@ -1,5 +1,4 @@
 import grails.converters.*
-
 @Mixin(ControllerMixin)
 //@Extension(type=ExtensionType.SEARCH, menu="Studies")
 class StudyDataSourceController {
@@ -12,6 +11,7 @@ class StudyDataSourceController {
 	def userListService
 	def middlewareService
 	def htDataService
+	def attributeValueService
 	
     def index = { 
 		def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,false)
@@ -50,6 +50,7 @@ class StudyDataSourceController {
 				loadGeneLists()
 				loadUsedVocabs()
 				loadSubjectTypes()
+				loadAttributeRanges()
 				session.endpoints = KmAttribute.findAll()
 				session.files = htDataService.getHTDataMap()
 				session.dataSetType = session.files.keySet()

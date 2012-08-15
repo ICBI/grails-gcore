@@ -1,3 +1,4 @@
+
 class ControllerMixin {
 	
 	static isAccessible(self, id){
@@ -83,11 +84,32 @@ class ControllerMixin {
 			loadReporterLists(self)
 			loadGeneLists(self)
 			loadSubjectTypes(self)
+			loadAttributeRanges(self)
 			self.session.endpoints = KmAttribute.findAll()
 			self.session.files = self.htDataService.getHTDataMap()
 			self.session.dataSetType = self.session.files.keySet()
 		}
 			
+	}
+	
+	static loadAttributeRanges(self){
+		def schemaName = StudyContext.getStudy()
+		self.session.attributeRanges = [:]
+		def rangeAtts = []
+		rangeAtts = AttributeType.findAllWhere(vocabulary: false)
+		def rangeAttsMap = [:]
+		rangeAtts.each {
+			if(it.upperRange!=null && it.lowerRange!=null){
+				def rangeName = it.shortName
+				def rangeId = it.id
+				rangeAttsMap[rangeName] = [:]
+				def upperVal = self.attributeValueService.findUpperRange(rangeId,schemaName)
+				def lowerVal = self.attributeValueService.findLowerRange(rangeId,schemaName)
+				rangeAttsMap[rangeName]["upperRange"] = upperVal
+				rangeAttsMap[rangeName]["lowerRange"] = lowerVal
+			}
+		}
+		self.session.attributeRanges = rangeAttsMap
 	}
 	
 	static loadUsedVocabs(self) {
