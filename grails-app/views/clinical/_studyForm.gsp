@@ -118,6 +118,8 @@
 				<br/>
 			</g:elseif>
 			<g:elseif test="${it.lowerRange != null && it.upperRange != null}">
+				<g:set var="upperRange" value='${session.attributeRanges[it.shortName]["upperRange"]}' />
+				<g:set var="lowerRange" value='${session.attributeRanges[it.shortName]["lowerRange"]}' />
 				<div align="center">
 					<label for="rangeValue" style="padding-left: 130px">Range:</label>
 					<g:if test="${flash.params}">
@@ -130,11 +132,11 @@
 					<br/>
 					<table>
 						<tr>
-							<td style="padding-right: 10px">${it.lowerRange}</td>
+							<td style="padding-right: 10px">${lowerRange}</td>
 							<td>
 								<div class="slider-range" style="width: 250px"></div>
 							</td>
-							<td style="padding-left: 10px">${it.upperRange}</td>
+							<td style="padding-left: 10px">${upperRange}</td>
 						</tr>
 					</table>
 				</div>
@@ -143,8 +145,8 @@
 					//console.log(count);
 					var item = jQuery('.slider-range').get(count - 1); 
 					//console.log(jQuery('.slider-range').size() - 1);
-					jQuery(item).data("minval", "${it.lowerRange}");
-					jQuery(item).data("maxval", "${it.upperRange}");
+					jQuery(item).data("minval", "${lowerRange}");
+					jQuery(item).data("maxval", "${upperRange}");
 				</script>
 				<br/>
 			</g:elseif>

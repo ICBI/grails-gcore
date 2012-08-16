@@ -1,6 +1,6 @@
 class QueryBuilder {
 
-	static def build = { params, formKey, dataTypes, advancedQuery ->
+	static def build = { params, formKey, dataTypes, ranges, advancedQuery ->
 		log.debug "build query for $formKey"
 		def criteria = [:]
 		params.each { key, value ->
@@ -14,9 +14,12 @@ class QueryBuilder {
 						it.shortName == attrName
 					}
 					if(advancedQuery){
-						if(minMax["min"] != range.lowerRange.toInteger() || minMax["max"] != range.upperRange.toInteger()) {
+						def lowerRange = ranges[attrName]["lowerRange"]
+						def upperRange = ranges[attrName]["upperRange"]
+						if(minMax["min"] != lowerRange.toInteger() || minMax["max"] != upperRange.toInteger()) {
 							criteria[key.replace(formKey + "range_", "")] = minMax
 						}
+						log.debug "advanced criterai " + criteria
 					}else{
 						criteria[key.replace(formKey + "range_", "")] = minMax
 					}
