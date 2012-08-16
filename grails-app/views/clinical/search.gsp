@@ -324,6 +324,9 @@
 				</g:if>
 				<g:form name="download" action="download">
 				</g:form>
+				
+				<g:clinicalView label="Genotype"/>
+				
 				<div style="margin:5px 5px 5px 50px">
 					<span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
 						<g:textField name="list_name" size="15" maxlength="15"/>

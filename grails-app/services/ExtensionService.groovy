@@ -110,6 +110,10 @@ class ExtensionService implements InitializingBean, ApplicationContextAware {
 		return dataExtensionMap[label].addDataToTable(dataMap)
 	}
 	
+	def getClinicalView(label) {
+		return dataExtensionMap[label].getClinicalView()
+	}
+	
 	private def buildLinks(type) {
 		def links = [:]
 		extensionMap.each { key, value ->

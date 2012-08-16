@@ -137,6 +137,11 @@ class GdocTagLib {
 		out << extensionService.getAnalysisView(attrs.type)
 	}
 	
+	def clinicalView = { attrs, body ->
+		def renderParams = extensionService.getClinicalView(attrs.label)
+		out << render(template: renderParams['template'], bean: [body: body, attrs: attrs], plugin: renderParams['plugin'])
+	}
+	
 	def jqgrid = {
 		out << javascript(src: "jquery/jqGrid/grid.locale-en.js", plugin: "gcore")
 		out << javascript(src: "jquery/jqGrid/grid.base.js", plugin: "gcore")

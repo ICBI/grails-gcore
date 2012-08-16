@@ -422,15 +422,17 @@ class ClinicalController {
 		
 		//add in variant data
 		if(fromVariant) {
+			def extensionData = [:]
 			def dataExtensions = extensionService.getDataExtensionLabelsForType(DataExtensionType.CLINICAL)
 			dataExtensions.each {
 				def data = extensionService.getDataFromExtension(it, session.query)
 				def returnedData = extensionService.addDataToTable(it, [columns: columns, columnNames: sortedColumns, results: searchResults, data: data])
-				print returnedData
 				columns = returnedData['columns']
 				sortedColumns = returnedData['columnNames']
 				searchResults = returnedData['results']
+				extensionData[it] = returnedData['data']
 			}
+			session.extensionData = extensionData
 		}
 		
 		session.columnJson = columns as JSON
