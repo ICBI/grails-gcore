@@ -5,95 +5,112 @@
 <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.contextmenu.css', plugin: 'gcore')}"/>
 <g:javascript src="jquery/jquery.contextmenu.js" plugin="gcore"/>
 <g:javascript src="geneLink.js" plugin="gcore"/>
+<g:javascript src="jquery/jquery.blockUI.js" plugin="gcore"/>
 <jq:plugin name="DOMWindow"/>
 <g:javascript>
 	$(document).ready(function (){
-		displayFilterTable();
+		//displayFilterTable();
 	});
 	
 	function displayFilterTable(){
-		//console.log("display/configure table");
-		//find all unique classes
-		var uniqueClasses = [];
 		$('[class*="rowspan_"]').each(function() {
-			var myClass = $(this).attr("class");
-			var myClassArray = myClass.split("_");
-			var classRootName = ""
-			for(var j=0;j<myClassArray.length-1;j++){
-				if(myClassArray[j]!="rowspan"){
-					if (j==1){
-						classRootName = classRootName+myClassArray[j];
-					}else{
-						classRootName = classRootName+"_"+myClassArray[j];
-					}
-					
-				}
-			}
-			var alreadyPresent = false;
-			for(var i=0;i<uniqueClasses.length;i++){
-				if(classRootName == uniqueClasses[i]){
-					alreadyPresent = true;
-					break;
-				}
-			}
-			if(!(alreadyPresent)){
-				uniqueClasses.push(classRootName);
-			}
+			$(this).css("border-bottom","0px solid red").css("border-top","0px solid blue").html("");
 		});
-		for(var i=0;i<uniqueClasses.length;i++){
-			//console.log(uniqueClasses[i]);
-		}
-		var attrArray = [];
-		for(var j=0;j<uniqueClasses.length;j++) {
-		   var classRoot = uniqueClasses[j];
-		   var find = "rowspan_"+classRoot;
-			//console.log("find "+find);
-			
-			var rowspan = 1;
-			$("[class*='"+find+"']").each(function() {
-				//split and find rowspan
-				var thisClass = $(this).attr("class");
-				//put elements in array
-				attrArray.push(thisClass);
-				var thisArray = thisClass.split("_");
-				var this_rowspan = thisArray[thisArray.length-1];
-				var rs = parseInt(this_rowspan);
-				//console.log(thisArray);
-				if(rs > rowspan){
-					rowspan = rs;
-				}	
-			});
-			//console.log("final rowspan of "+classRoot + "="+rowspan);
-			//set parent rowspan
-			$("[class*="+classRoot+"_parent]").each(function() {
-				$(this).css("border-bottom","0px solid black");
-				//$(this).attr("rowspan",rowspan);
-			});
-			//remove spanned elements
-			//console.log("to remove="+attrArray);
-			if(attrArray.length > 0){
-				//console.log("remove spanned elements");
-				for(var i=0;i<attrArray.length;i++){
-					$("."+attrArray[i]).css("border-top","0px solid blue");
-					$("."+attrArray[i]).css("border-bottom","0px solid blue");
-					$("."+attrArray[i]).html("");
-				}
-			}
-			
-		}
-		
-		$('.clinicalLink').each(function() {
-			//console.log($(this).attr('data-ids'));
-			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
-		});
-		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'}); 
-		
-		//console.log("check width of table="+$(".filterTable").width());
-		if($(".filterTable").width() > 900){
-			//console.log("width is more than 900");
-			//$("#doc3").css("width",$("#filterTable").width()+70);
-		}
+		$('.clinicalLink').geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
+		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'});
+		$.unblockUI();
 	}
+	
+	// function displayFilterTableTBD(){
+	// 		console.log("display/configure table");
+	// 		//find all unique classes
+	// 		var uniqueClasses = [];
+	// 		$('[class*="rowspan_"]').each(function() {
+	// 			var myClass = $(this).attr("class");
+	// 			var myClassArray = myClass.split("_");
+	// 			var classRootName = ""
+	// 			for(var j=0;j<myClassArray.length-1;j++){
+	// 				if(myClassArray[j]!="rowspan"){
+	// 					if (j==1){
+	// 						classRootName = classRootName+myClassArray[j];
+	// 					}else{
+	// 						classRootName = classRootName+"_"+myClassArray[j];
+	// 					}
+	// 					
+	// 				}
+	// 			}
+	// 			var alreadyPresent = false;
+	// 			for(var i=0;i<uniqueClasses.length;i++){
+	// 				if(classRootName == uniqueClasses[i]){
+	// 					alreadyPresent = true;
+	// 					break;
+	// 				}
+	// 			}
+	// 			if(!(alreadyPresent)){
+	// 				uniqueClasses.push(classRootName);
+	// 			}
+	// 		});
+	// 		/**for(var i=0;i<uniqueClasses.length;i++){
+	// 			console.log(uniqueClasses[i]);
+	// 		}**/
+	// 		var attrArray = [];
+	// 		for(var j=0;j<uniqueClasses.length;j++) {
+	// 		   var classRoot = uniqueClasses[j];
+	// 			var find = "rowspan_"+classRoot;
+	// 			//console.log($("[class*='"+classRoot+"']"));
+	// 			$("[class*='"+find+"']").css("border-bottom","0px solid red").css("border-top","0px solid blue").html("");
+	// 			//$("."+attrArray[i]).css("border-top","0px solid blue");
+	// 			// $("."+attrArray[i]).css("border-bottom","0px solid blue");
+	// 			// $("."+attrArray[i]).html("");
+	// 		   // var find = "rowspan_"+classRoot;
+	// 		   // 			//console.log("find "+find);
+	// 		   // 			
+	// 		   // 			var rowspan = 1;
+	// 		   // 			$("[class*='"+find+"']").each(function() {
+	// 		   // 				//split and find rowspan
+	// 		   // 				var thisClass = $(this).attr("class");
+	// 		   // 				//put elements in array
+	// 		   // 				attrArray.push(thisClass);
+	// 		   // 				var thisArray = thisClass.split("_");
+	// 		   // 				var this_rowspan = thisArray[thisArray.length-1];
+	// 		   // 				var rs = parseInt(this_rowspan);
+	// 		   // 				//console.log(thisArray);
+	// 		   // 				if(rs > rowspan){
+	// 		   // 					rowspan = rs;
+	// 		   // 				}	
+	// 		   // 			});
+	// 		   // 			//console.log("final rowspan of "+classRoot + "="+rowspan);
+	// 		   // 			//set parent rowspan
+	// 		   // 			$("[class*="+classRoot+"_parent]").each(function() {
+	// 		   // 				$(this).css("border-bottom","0px solid black");
+	// 		   // 				//$(this).attr("rowspan",rowspan);
+	// 		   // 			});
+	// 		   // 			//remove spanned elements
+	// 		   // 			//console.log("to remove="+attrArray);
+	// 		   // 			if(attrArray.length > 0){
+	// 		   // 				//console.log("remove spanned elements");
+	// 		   // 				for(var i=0;i<attrArray.length;i++){
+	// 		   // 					$("."+attrArray[i]).css("border-top","0px solid blue");
+	// 		   // 					$("."+attrArray[i]).css("border-bottom","0px solid blue");
+	// 		   // 					$("."+attrArray[i]).html("");
+	// 		   // 				}
+	// 		   // 			}
+	// 			
+	// 		}
+	// 		
+	// 		$('.clinicalLink').each(function() {
+	// 			//console.log($(this).attr('data-ids'));
+	// 			$(this).geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
+	// 		});
+	// 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'}); 
+	// 		
+	// 		//console.log("check width of table="+$(".filterTable").width());
+	// 		if($(".filterTable").width() > 900){
+	// 			//console.log("width is more than 900");
+	// 			//$("#doc3").css("width",$("#filterTable").width()+70);
+	// 		}
+	// 		
+	// 	}
 </g:javascript>
 
 <g:if test="${countMap}">

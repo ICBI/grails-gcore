@@ -13,7 +13,8 @@
 		//submit the form
 		$('#sfSubmit').click(function() {
 			$(':input[value=""]').attr('disabled', true);
-			$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
+			$.blockUI({ message: '<h3><img style="height: 15px" src="<%= createLinkTo(dir:'images',file:'indicator.gif', plugin: 'gcore') %>" border="0" /> Filtering subjects...</h3>' }); 
+			//$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
 		});
 		$('.splitAtt').change(function() {
 			var splitAtt = $(this).val();
@@ -94,14 +95,14 @@
 				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				addToBreadcrumb($(this).attr("name"),"All",false);
 				$('#sfSubmit').click();
-				$("#sf :input").attr("disabled", true);
+				//$("#sf :input").attr("disabled", true);
 			}else{
 				//console.log("unchecked a category");
 				var substr = $(this).attr('id').split('_category')[0];
 				substr=substr.replace(/\//g,"\\/");
 				$("#"+substr+"_div").find('input:checkbox').attr('checked', false);
 				removeBreadcrumb($(this).attr("name"),"All",true);
-				$('#sfSubmit').click();
+				//$('#sfSubmit').click();
 			}	
 		});
 		
@@ -150,13 +151,16 @@
 				var targetElem = $("input[name="+targetField+"]");
 				$("input[name=splitAttribute]").val("");
 				targetElem.attr("checked","checked");
-				var substr = targetElem.attr('id').split('_category')[0];
-				//console.log("target field is "+substr+"_div");
-				$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
-				$("#sf :input[value][value!='']").serialize();
-				//console.log(dataString);
-				$('#sfSubmit').click();
-				$("#sf :input").attr("disabled", true);
+				var substr = targetElem.attr('id');
+				if(substr != undefined){
+					substr = substr.split('_category')[0];
+					//console.log("target field is "+substr);
+					$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
+					$("#sf :input[value][value!='']").serialize();
+					//console.log(dataString);
+					$('#sfSubmit').click();
+					//$("#sf :input").attr("disabled", true);
+				}
 			}	
 		
 		
@@ -428,7 +432,7 @@ function evaluateUnchecked(element){
 		$("input[id="+substr+"_category]").attr('checked', true);
 		addToBreadcrumb($(element).attr("name"),value,true);
 		$('#sfSubmit').click();
-		$("#sf :input").attr("disabled", true);
+		//$("#sf :input").attr("disabled", true);
 	}
 }
 

@@ -17,6 +17,7 @@
     <body>
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
 		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+		<g:javascript src="jquery/jquery.blockUI.js" plugin="gcore"/>
 		<g:jqgrid />
 	<g:javascript>
 	
@@ -47,6 +48,7 @@
 							Once you've selected a study above, use the filter panel that will appear here
 							to narrow your cohort selection based on subject attributes (categorical as well as continuous)
 						</div>
+						<br />
 					</g:if>
 				</div>
 				<div style="border:0px solid #999999;">
