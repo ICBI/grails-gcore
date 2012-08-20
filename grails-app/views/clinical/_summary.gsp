@@ -115,15 +115,19 @@
 
 <g:if test="${countMap}">
 <g:set var="criteriaSize" value="${comboCounts.keySet().size()}" />
+<g:set var="columnSpan" value="1" />
+<g:if test="${columns.size()==1}">
+	<g:set var="columnSpan" value="2" />
+</g:if>
 <% Map valuesMap = new HashMap(); %>
 <table border="0" class="filterTable">
 <tr>
 <g:each in="${columns}" var="${name}">
 	<g:if test="${comboCounts.keySet().contains(name)}">
-		<th>${session.attNamesMap[name]}</th>
+		<th colspan="${columnSpan}">${session.attNamesMap[name]}</th>
 	</g:if>
 	<g:else>
-		<th>${name}</th>
+		<th colspan="${columnSpan}">${name}</th>
 	</g:else>
 </g:each>
 </tr>
@@ -150,7 +154,7 @@
 			<g:if test="${finalId.contains('.')}">
 				<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 			</g:if>
-			<td rowspan="1" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+			<td rowspan="1" colspan="${columnSpan}" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 		</g:if>
 		<g:else>
 			<%
@@ -181,7 +185,7 @@
 						<g:if test="${finalId.contains('.')}">
 							<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 						</g:if>
-						<td rowspan="1" class="${('rowspan_'+finalId+'_'+valuesMap[finalId])?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+						<td rowspan="1" colspan="${columnSpan}" class="${('rowspan_'+finalId+'_'+valuesMap[finalId])?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:else>
 				</g:if>
 				
@@ -189,7 +193,7 @@
 			<g:else>
 				<g:if test="${comboCounts.keySet().contains(name)}">
 					<g:if test="${(i+1 == criteriaSize)}">
-						<td>${resultMap[name]?.toString().replace("_"," ")}</td>
+						<td colspan="${columnSpan}">${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:if>
 					<g:else>
 					<% 
@@ -198,11 +202,11 @@
 					<g:if test="${finalId.contains('.')}">
 						<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 					</g:if>
-					<td rowspan="1" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+					<td rowspan="1" colspan="${columnSpan}" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:else>
 				</g:if>
 				<g:else>
-					<td><a href="#" class="clinicalLink" data-ids="${resultMap[name+'_ids']}">${resultMap[name]}</a></td>
+					<td colspan="${columnSpan}"><a href="#" class="clinicalLink" data-ids="${resultMap[name+'_ids']}">${resultMap[name]}</a></td>
 				</g:else>
 			</g:else>	
 		</g:else>

@@ -12,7 +12,9 @@
 		  clear: none; 
 		}
 	  </style>
+		<link rel="stylesheet" href="${createLinkTo(dir:'css',file:'chosen.css')}" />
 		<g:javascript library="jquery" plugin="jquery"/>   
+		<g:javascript src="chosen.jquery.js" plugin="gcore"/>
     </head>
     <body>
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
@@ -20,7 +22,9 @@
 		<g:javascript src="jquery/jquery.blockUI.js" plugin="gcore"/>
 		<g:jqgrid />
 	<g:javascript>
-	
+	$(document).ready(function (){
+		$("#user_switchAttribute").chosen();
+	});
 	function showSaveSpinner(show) {
 			if(show == true){
 				$("#saveSpinner").css("visibility","visible");
@@ -76,6 +80,7 @@
 					
 					<tr>
 						<td id="filterResults">
+							<g:if test="${!session.study}">
 							<table class="filterTable" id="patientsTable" width="100%">
 								<th colspan="5">Disease/Data Overview</th>
 								<tr>
@@ -121,6 +126,7 @@
 									</g:else>
 								</tr>
 							</table>
+							</g:if>
 							<br>
 						</td>
 					</tr>

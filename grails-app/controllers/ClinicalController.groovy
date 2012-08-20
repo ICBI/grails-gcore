@@ -44,13 +44,24 @@ class ClinicalController {
 			}
 			else if(!params.splitAttribute){
 				def splitAtts = []
-				splitAtts = AttributeType.findAllWhere(splitAttribute: true,target:"PATIENT")
+				def c = AttributeType.createCriteria()
+				splitAtts = c.list{
+				    or {
+				        eq("target", "PATIENT")
+				        eq("target", "REPLICATE")
+				    }
+				    eq("splitAttribute", true)
+				}
+				//splitAtts = AttributeType.findAllWhere(splitAttribute: true,target:"PATIENT")
 				log.debug "got splitAtts "+splitAtts.collect{it.target}
 				if(splitAtts)
 					session.splitAttribute = splitAtts[0].shortName
 			}
 			session.vocabList = session.vocabList.findAll{
 				it.target == session.subjectTypes.parent.value()	
+			}
+			if(session.subjectTypes.timepoints){
+				session.attNamesMap << ["timepoint":"Timepoint"]
 			}
 		}
 		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes(),diseaseBreakdown:breakdowns["disease"], dataBreakdown:breakdowns["data"]]
@@ -368,7 +379,7 @@ class ClinicalController {
 		def parentChildMap = [:]
 		def columns = []
 		def annotations = [:]
-		def fromVariant = session.query['fromVariant']
+		def fromVariant = session.query?.fromVariant
 		
 		columns << [index: "id", name: "GDOC ID", sortable: true, width: '100']
 		if(session.subjectTypes.timepoints)
@@ -558,7 +569,7 @@ class ClinicalController {
 				def columns = []
 				def columnResults = []
 
-
+				
 
 				criteria.keySet().each{
 					columns << it
@@ -569,6 +580,8 @@ class ClinicalController {
 					columns << it
 				}
 				//END NEW for sample
+				
+				log.debug "column names="+columns
 
 				def toDeleteCriteria = [:]
 				def toAddCriteria = [:]
@@ -579,12 +592,12 @@ class ClinicalController {
 						splitAttParam = splitAttParam.replace("#","")
 					log.debug "split attribute is "+splitAttParam
 					session.splitAttribute = splitAttParam
-					log.debug "set session split attribute"
+					//log.debug "set session split attribute"
 					def splitAttribute = AttributeType.findByShortName(splitAttParam)
 					def splitAttributeVocabs1 = []
 					splitAttributeVocabs1 = AttributeVocabulary.findAllByType(splitAttribute)
 					def splitAttributeVocabs = splitAttributeVocabs1.findAll{item -> session.usedVocabs[splitAttribute.id]?.contains(item.term)}
-					log.debug "vocabs="+splitAttributeVocabs.collect{it.term}
+					//log.debug "vocabs="+splitAttributeVocabs.collect{it.term}
 					splitAttributeVocabs.each{ splitVocab ->
 						log.debug splitVocab.term
 						//create criteria
@@ -596,7 +609,7 @@ class ClinicalController {
 						def atttributeLabel = splitAttribute.shortName+"_"+splitVocab.term
 						def filterSubjects = []
 						//query on split criteria value (e.g. RECURRENCE-YES)
-						log.debug "get summary from group"
+						//log.debug "get summary from group"
 						filterSubjects = clinicalService.getSummary(splitCriteria, session.subjectTypes["parent"], biospecimenIds)
 						def filterSizeMap = [:]
 						filterSizeMap[atttributeLabel] = filterSubjects.size()
@@ -626,7 +639,7 @@ class ClinicalController {
 					filterSizeMap[atttributeLabel] = filterSubjects.size()
 					breakdowns[atttributeLabel] = [:]
 					columns << atttributeLabel
-					log.debug "found "+filterSubjects.size() + " subjects before doing criteria"
+					//log.debug "found "+filterSubjects.size() + " subjects before doing criteria"
 					if(!criteria){
 						breakdowns[atttributeLabel] = filterSubjects.size()
 						breakdowns[atttributeLabel+"_ids"] = filterSubjects.collect{it.id}
@@ -687,13 +700,13 @@ class ClinicalController {
 				criteria = criteria.plus(aggMap["toDeleteCriteria"])
 				criteria = criteria.plus(aggMap["toAddCriteria"])
 
-				log.debug "criteria="+criteria
+				//log.debug "criteria="+criteria
 
 
 				//recurse
 				List<Map<String,String>> list = new LinkedList<Map<String,String>>();
 				clinicalService.combinations( criteria, list );
-				log.debug list
+				//log.debug list
 				def resultList = []
 				def someMap = [:]
 				for( Map<String,String> combination : list ) {
@@ -719,7 +732,7 @@ class ClinicalController {
 						def separates = []
 						newCombo.eachWithIndex{ comboKey,comboValue,index->
 							def breakdownKey = "$comboKey:$comboValue"
-							log.debug "breakdown "+breakdownKey
+							//log.debug "breakdown "+breakdownKey
 							def ids = []
 							def idsNorm = []
 							separates = []
@@ -734,7 +747,7 @@ class ClinicalController {
 								if(!ids)
 									ids = []
 							}
-							log.debug "intersect! "+initialIds+" with "+ids
+							//log.debug "intersect! "+initialIds+" with "+ids
 							initialIds = initialIds.intersect(ids)
 
 							initialIds.each{
@@ -789,7 +802,7 @@ class ClinicalController {
 					}
 				}
 
-				log.debug "totalCountMap="+totalCountMap
+				//log.debug "totalCountMap="+totalCountMap
 				resultList.each{
 					log.debug it
 				}
@@ -836,7 +849,7 @@ class ClinicalController {
 								log.debug "dealing with medians...sort this "+sortedValues.sort()
 								queryParams[key] = sortedValues.first().toString() + " - " + sortedValues.last().toString()
 								log.debug "new criteria as strings " + queryParams[key]
-								def median = (sortedValues.first() + sortedValues.last())/2
+								def median = new Double((sortedValues.first() + sortedValues.last())/2).round(2)
 								def medianString = median.toString()
 								log.debug "median for $key is $median"
 								if(key.contains("child_"))

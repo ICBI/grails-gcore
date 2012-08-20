@@ -13,10 +13,10 @@
 		//submit the form
 		$('#sfSubmit').click(function() {
 			$(':input[value=""]').attr('disabled', true);
-			$.blockUI({ message: '<h3><img style="height: 15px" src="<%= createLinkTo(dir:'images',file:'indicator.gif', plugin: 'gcore') %>" border="0" /> Filtering subjects...</h3>' }); 
+			$.blockUI({ message: '<h3><img style="height: 15px" src="<%= createLinkTo(dir:"images",file:"indicator.gif", plugin: "gcore") %>" border="0" /> Filtering subjects...</h3>' }); 
 			//$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
 		});
-		$('.splitAtt').change(function() {
+		$('.splitAtt').chosen().change(function() {
 			var splitAtt = $(this).val();
 			//console.log(splitAtt);
 			if ($('input:checkbox:checked').length == 0){
@@ -31,8 +31,9 @@
 				var hideElementId = splitAtt+"_category";
 				//console.log("set new target field? "+$("#"+hideElementId).attr("name"));
 				targetField = $("#"+hideElementId).attr("name");
-				$("#"+showDivName).css('display','block');
-				$("#"+hideDivName).css('display','none');
+				//$("#"+showDivName).css('display','block');
+				//$("#"+hideDivName).css('display','none');
+				$("#"+hideDivName).attr("disabled",true);
 				//console.log("split attribute is "+$('#splitAttribute').val());
 				var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value]").serialize();
 				//console.log(pageurl);
@@ -52,6 +53,9 @@
 				}
 				if($(this).attr('id').indexOf("range_") !=-1){
 					substr = $(this).attr('id').split('range_')[1];
+				}
+				if($(this).attr('id') == 'timepoint'){
+					substr = 'timepoint'
 				}
 				substr=substr.replace(/\//g,"\\/");
 				$("input[id*="+substr+"_category]").attr('checked', true);
@@ -148,18 +152,23 @@
 		
 			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 			if(hashes.length <= 1){
+				console.log("targetField"+targetField)
 				var targetElem = $("input[name="+targetField+"]");
 				$("input[name=splitAttribute]").val("");
 				targetElem.attr("checked","checked");
 				var substr = targetElem.attr('id');
 				if(substr != undefined){
 					substr = substr.split('_category')[0];
-					//console.log("target field is "+substr);
+					console.log("target field is "+substr);
 					$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 					$("#sf :input[value][value!='']").serialize();
-					//console.log(dataString);
+					//console.log($("#sf :input[value]").serialize());
 					$('#sfSubmit').click();
 					//$("#sf :input").attr("disabled", true);
+				}else{
+					console.log("nada");
+					//$("#sf :input[value][value!='']").serialize();
+					$('#sfSubmit').click();
 				}
 			}	
 		
@@ -177,6 +186,7 @@ function check(form){
 	// 		$(this).attr('disabled','disabled');
 	// 	});
 	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value][value!='']").serialize();
+	console.log("url "+pageurl);
 	window.history.pushState({test:pageurl},'',pageurl);
 	return false;
 }
@@ -280,7 +290,8 @@ function addToBreadcrumb(name,value,removal){
 				var delValue = delElementArray[1];
 				removeBreadcrumb(delName,delValue,false);
 			}
-			$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
+			//$('#filterResults').html("<span><img src='${createLinkTo(dir:'images',file:'295.gif')}' border='0' /></span>");
+			$.blockUI({ message: '<h3><img style="height: 15px" src="<%= createLinkTo(dir:'images',file:'indicator.gif', plugin: 'gcore') %>" border="0" /> Filtering subjects...</h3>' }); 
 			return false;
 	   });
 	
@@ -442,6 +453,7 @@ function cleanUp(){
 	displayFilterTable();
 	var targetElem = $("input[name="+targetField+"]");
 	targetElem.attr("checked","checked");
+	targetElem.attr("disabled", true);
 	//console.log("split category in clean up");
 	var substr = targetElem.attr('id').split('_category')[0];
 	$("input[name*="+substr+"]").each(function() { 
@@ -483,30 +495,23 @@ function verifyURLParams(pageUrl){
 <g:if test="${session.study}">
 <g:formRemote id="sf" name="searchForm" url="[controller: 'clinical', action:'filter']" before="check(this)" update="filterResults" onComplete="cleanUp()">
 	<g:if test="${session.subjectTypes.timepoints}">
-	<div class="clinicalFilter">
-		<div style="float: left">
-			Timepoint
-			<img class="info" title="Timepoint" src="${createLinkTo(dir:'images',file:'help.png')}" border="0" />
+	<div class="clinicalFilter" id="timepoint_div">
+		<div>
+		<g:checkBox name="tp_category_timepoint" value="timepoint" checked="${params['timepoint']}" id="timepoint_category" class="category"/>
+		<label for="category_timepoint" value="timepoint">Timepoint</label>
+		<img class="info" title="timepoint info" src="${createLinkTo(dir:'images',file:'help.png')}" width="13" height="13" border="0" />
+		<a href="#" class="clueLink" rel="timepoint_details" ><img src="${createLinkTo(dir:'images',file:'application_form_magnify.png')}" alt="view timepoint values" width="15" height="15" border="0" /></a>
 		</div>
-	
-	<br/>
-	<br/>
-		<div align="left">
-			<g:if test="${flash.params}">
-				<g:select name="timepoint" 
-						noSelection="${['':'Select One...']}" value="${flash.params['timepoint']}"
-						from="${session.subjectTypes.timepoints}" >
-				</g:select>
-			</g:if>
-			<g:else>
-				
-				<g:select name="timepoint" 
-						noSelection="${['':'Select One...']}"
-						from="${session.subjectTypes.timepoints}">
-				</g:select>
-			</g:else>
+		<div class="timepoint_details" style="border:0px solid blue;display:none;padding:4px;color:#999999;font-size:.9em">
+			<div align="left">
+					<g:each in="${session.subjectTypes.timepoints}" var="t" status="i">
+						    <span style="display:block">
+							<g:checkBox name="timepoint" value="${t}" checked="${params['timepoint'] == t || params['timepoint']?.contains(t)}" class="cb" />
+						    <label for="timepoint">${t}</label>
+							</span>
+					</g:each>
+			</div>
 		</div>
-		<br/>
 	</div>
 	</g:if>
 	<g:each in="${session.groups}" var="types">
@@ -526,15 +531,15 @@ function verifyURLParams(pageUrl){
 				<span class="${divId+'_div'}" style="display:none" >
 			</g:if>
 			<g:if test="${(session.splitAttribute && session.splitAttribute!=it.shortName)}">
-					<g:set var="use" value="block"/>
+					<g:set var="use" value="true"/>
 			</g:if>
 			<g:else>
-					<g:set var="use" value="none"/>
+					<g:set var="use" value="false"/>
 					<g:javascript>
 						targetField = "${type.replace('_','') + '_category_' + it.shortName}";
 					</g:javascript>
 			</g:else>
-			<div class="clinicalFilter" style="display:${use}" id="${it.shortName+'_div'}">
+			<div class="clinicalFilter" style="display:block" id="${it.shortName+'_div'}" disabled="true">
 				<div>
 				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>
 				<label for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>
@@ -572,8 +577,8 @@ function verifyURLParams(pageUrl){
 				<g:else>
 					<g:set var="upperRange" value='${session.attributeRanges[it.shortName]["upperRange"]}' />
 					<g:set var="lowerRange" value='${session.attributeRanges[it.shortName]["lowerRange"]}' />
-					<g:set var="median" value='${(lowerRange+upperRange)/2}' />
-					<g:if test="${median.toString().contains('.5')}">
+					<g:set var="median" value='${new Double((lowerRange+upperRange)/2).round(2)}' />
+					<g:if test="${median.toString().contains('.')}">
 						<g:set var="upperMed" value='${(median.toDouble()) + 0.1}' />
 					</g:if>
 					<g:else>

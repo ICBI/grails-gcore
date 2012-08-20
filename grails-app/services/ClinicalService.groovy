@@ -13,6 +13,7 @@ class ClinicalService {
 		 			  	   'where p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
 					  	   ' and c.short_name = \'${key}\' and v.value BETWEEN ${value.min} and ${value.max} )'	
 	def timepointQuery = '(select p.subject_id from ${schema}.Subject p where p.type = \'${subjectType}\' and p.timepoint = \'${timepoint}\') '
+	def timepointArrayQuery = '(select p.subject_id from ${schema}.Subject p where p.type = \'${subjectType}\' and p.timepoint in (${tps}) )'
 	
 	def patientIdQuery = 'select s.parent_id from ${schema}.subject s where s.subject_id in (${ids})'
 	
@@ -58,6 +59,7 @@ class ClinicalService {
 		def queryTemplate = engine.createTemplate(queryString)
 		def rangeQueryTemplate = engine.createTemplate(rangeQueryString)
 		def timepointQueryTemplate = engine.createTemplate(timepointQuery)
+		def timepointArrayQueryTemplate = engine.createTemplate(timepointArrayQuery)
 		def selects = []
 		
 		// get patient ids for biospecimens
@@ -98,8 +100,23 @@ class ClinicalService {
 			}
 			
 		}
-		if(criteria.timepoint)
-			selects << timepointQueryTemplate.make([timepoint: criteria.timepoint, subjectType: subjectType, schema: StudyContext.getStudy()])
+		
+		if(criteria.timepoint){
+			if(criteria.timepoint.metaClass?.respondsTo(criteria.timepoint, 'join')){
+				def tps = []
+				criteria.timepoint.each{
+					tps << "'"+it+"'"
+				}
+				def tp = tps.join(", ")
+				log.debug "its array of tps "+tp
+				selects << timepointArrayQueryTemplate.make([tps: tp, subjectType: subjectType, schema: StudyContext.getStudy()])
+			}else{
+				log.debug "its a string"
+				selects << timepointQueryTemplate.make([timepoint: criteria.timepoint, subjectType: subjectType, schema: StudyContext.getStudy()])
+			}
+			
+		}
+			
 		def query = selects.join(" INTERSECT ")
 
 		log.debug query
@@ -239,8 +256,15 @@ class ClinicalService {
 			log.debug "find by $k and $v"
 			if(v instanceof String){
 				def attCount = []
-				attCount = filterSubjects.findAll{
-					it.clinicalDataValues[k] == v
+				
+				if(k!="timepoint"){
+					attCount = filterSubjects.findAll{
+						it.clinicalDataValues[k] == v
+					}
+				}else{
+					attCount = filterSubjects.findAll{
+						it.timepoint == v
+					}
 				}
 				
 				//NEW for sample
@@ -284,7 +308,7 @@ class ClinicalService {
 					
 					log.debug "found median for $k of "+medians[k]
 					def upperMed
-					if(medians[k].toString().contains(".5"))
+					if(medians[k].toString().contains("."))
 						upperMed = medians[k]+0.1
 					else
 						upperMed = medians[k] + 1
@@ -353,7 +377,7 @@ class ClinicalService {
 					//END NEW for sample
 					else{
 						def upperMed
-						if(medians[k].toString().contains(".5"))
+						if(medians[k].toString().contains("."))
 							upperMed = medians[k]+0.1
 						else
 							upperMed = medians[k] + 1
@@ -377,8 +401,14 @@ class ClinicalService {
 				v.each{ attValue ->
 					log.debug "look for $attValue"
 					def attCount = []
-					attCount = filterSubjects.findAll{
-						it.clinicalDataValues[k] == attValue
+					if(k!="timepoint"){
+						attCount = filterSubjects.findAll{
+							it.clinicalDataValues[k] == attValue
+						}
+					}else{
+						attCount = filterSubjects.findAll{
+							it.timepoint == attValue
+						}
 					}
 					
 					//NEW for sample

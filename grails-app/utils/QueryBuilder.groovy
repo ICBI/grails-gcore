@@ -19,7 +19,7 @@ class QueryBuilder {
 						if(minMax["min"] != lowerRange.toInteger() || minMax["max"] != upperRange.toInteger()) {
 							criteria[key.replace(formKey + "range_", "")] = minMax
 						}
-						log.debug "advanced criterai " + criteria
+						//log.debug "advanced criterai " + criteria
 					}else{
 						criteria[key.replace(formKey + "range_", "")] = minMax
 					}
