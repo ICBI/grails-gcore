@@ -20,10 +20,16 @@
 		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
 		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
 		<g:javascript src="jquery/jquery.blockUI.js" plugin="gcore"/>
+		<g:javascript src="jquery-contained-sticky-scroll.js" plugin="gcore"/>
 		<g:jqgrid />
 	<g:javascript>
 	$(document).ready(function (){
 		$("#user_switchAttribute").chosen();
+		$('.resultsStick').containedStickyScroll({
+		        duration: 300,
+		        unstick: true,
+		        closeChar: '' 
+		});
 	});
 	function showSaveSpinner(show) {
 			if(show == true){
@@ -75,8 +81,8 @@
 				</g:if>
 			</div>
 			<br/>
-			<div style="border:0px solid black;width:100%;margin-left:15px">
-				<table border="0" >
+			<div style="border:0px solid black;width:100%;margin-left:15px"  class="resultsStick">
+				<table border="0">
 					
 					<tr>
 						<td id="filterResults">

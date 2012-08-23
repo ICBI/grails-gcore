@@ -152,21 +152,21 @@
 		
 			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
 			if(hashes.length <= 1){
-				console.log("targetField"+targetField)
+				//console.log("targetField"+targetField)
 				var targetElem = $("input[name="+targetField+"]");
 				$("input[name=splitAttribute]").val("");
 				targetElem.attr("checked","checked");
 				var substr = targetElem.attr('id');
 				if(substr != undefined){
 					substr = substr.split('_category')[0];
-					console.log("target field is "+substr);
+					//console.log("target field is "+substr);
 					$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 					$("#sf :input[value][value!='']").serialize();
 					//console.log($("#sf :input[value]").serialize());
 					$('#sfSubmit').click();
 					//$("#sf :input").attr("disabled", true);
 				}else{
-					console.log("nada");
+					//console.log("nada");
 					//$("#sf :input[value][value!='']").serialize();
 					$('#sfSubmit').click();
 				}

@@ -23,6 +23,6 @@ class AttributeType {
 	Double upperRange
 	Double lowerRange
 	String attributeGroup
-	Boolean splitAttribute
+	Integer splitAttribute
 	
 }

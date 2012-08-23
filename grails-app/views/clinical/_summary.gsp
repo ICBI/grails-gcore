@@ -13,9 +13,9 @@
 	});
 	
 	function displayFilterTable(){
-		$('[class*="rowspan_"]').each(function() {
-			$(this).css("border-bottom","0px solid red").css("border-top","0px solid blue").html("");
-		});
+		// $('[class*="rowspan_"]').each(function() {
+		// 			$(this).css("border-bottom","0px solid red").css("border-top","0px solid blue").html("");
+		// 		});
 		$('.clinicalLink').geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'});
 		$.unblockUI();
@@ -154,7 +154,7 @@
 			<g:if test="${finalId.contains('.')}">
 				<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 			</g:if>
-			<td rowspan="1" colspan="${columnSpan}" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+			<td rowspan="1" colspan="${columnSpan}" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}" style="border-bottom:0px;">${resultMap[name]?.toString().replace("_"," ")}</td>
 		</g:if>
 		<g:else>
 			<%
@@ -185,7 +185,7 @@
 						<g:if test="${finalId.contains('.')}">
 							<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 						</g:if>
-						<td rowspan="1" colspan="${columnSpan}" class="${('rowspan_'+finalId+'_'+valuesMap[finalId])?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+						<td rowspan="1" colspan="${columnSpan}" class="${('rowspan_'+finalId+'_'+valuesMap[finalId])?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}" style="border-bottom:0px;border-top:0px;"><%--${resultMap[name]?.toString().replace("_"," ")}--%></td>
 					</g:else>
 				</g:if>
 				
@@ -202,11 +202,16 @@
 					<g:if test="${finalId.contains('.')}">
 						<g:set var="finalId" value="${finalId.substring(0,finalId.lastIndexOf('.'))}" />
 					</g:if>
-					<td rowspan="1" colspan="${columnSpan}" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}">${resultMap[name]?.toString().replace("_"," ")}</td>
+					<td rowspan="1" colspan="${columnSpan}" class="${(finalId+'_parent')?.toString().replace('(','').replace(')','').replace('/','').replace('.','')}" style="border-bottom:0px;">${resultMap[name]?.toString().replace("_"," ")}</td>
 					</g:else>
 				</g:if>
 				<g:else>
-					<td colspan="${columnSpan}"><a href="#" class="clinicalLink" data-ids="${resultMap[name+'_ids']}">${resultMap[name]}</a></td>
+					<g:if test="${resultMap[name].toInteger() > 0}">
+						<td colspan="${columnSpan}"><a href="#" class="clinicalLink" data-ids="${resultMap[name+'_ids']}">${resultMap[name]}</a></td>
+					</g:if>
+					<g:else>
+						<td colspan="${columnSpan}">${resultMap[name]}</td>
+					</g:else>
 				</g:else>
 			</g:else>	
 		</g:else>

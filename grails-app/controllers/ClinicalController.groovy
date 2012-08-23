@@ -50,10 +50,10 @@ class ClinicalController {
 				        eq("target", "PATIENT")
 				        eq("target", "REPLICATE")
 				    }
-				    eq("splitAttribute", true)
+				    gt("splitAttribute", 0)
 				}
 				//splitAtts = AttributeType.findAllWhere(splitAttribute: true,target:"PATIENT")
-				log.debug "got splitAtts "+splitAtts.collect{it.target}
+				log.debug "got splitAtts greater than 0 "+splitAtts.collect{it.target}
 				if(splitAtts)
 					session.splitAttribute = splitAtts[0].shortName
 			}
