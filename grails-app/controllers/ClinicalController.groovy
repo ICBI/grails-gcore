@@ -22,19 +22,63 @@ class ClinicalController {
 			StudyContext.setStudy(session.study.schemaName)
 			session.dataTypes = AttributeType.findAll().sort { it.longName }
 			session.groups = [:]
+			def nonRanked = [:]
 			session.dataTypes.each{ type->
+				def ranked = true
 				if(type.attributeGroup){
 					if(session.groups[type.attributeGroup]){
-						session.groups[type.attributeGroup] << type
+						if(type.rank)
+							session.groups[type.attributeGroup] << type
+						else
+							ranked = false
 					}else{
-						session.groups[type.attributeGroup] = []
-						session.groups[type.attributeGroup] << type
+						if(type.rank){
+							session.groups[type.attributeGroup] = []
+							session.groups[type.attributeGroup] << type
+						}else
+							ranked = false
+					}
+					if(!ranked){
+						if(nonRanked[type.attributeGroup]){
+							nonRanked[type.attributeGroup] << type
+						}else{
+							nonRanked[type.attributeGroup] = []
+							nonRanked[type.attributeGroup] << type
+						}
 					}
 				}else{
 					session.groups["NONE"] = []
 					session.groups["NONE"] << type
 				}
 			}
+			log.debug "ranked groups "+session.groups.keySet()
+			log.debug "nonranked groups "+nonRanked.keySet()
+			def keys = session.groups?.keySet() as List
+			def nonkeys = nonRanked?.keySet() as List
+			nonkeys.each{
+				if(!keys.contains(it))
+					keys << it
+			}
+			keys.each{key->
+				if(nonRanked[key]){
+					if(session.groups[key]){
+						nonRanked[key].each{nrt->
+							session.groups[key] << nrt
+						}
+					}else{
+						session.groups[key] = []
+						nonRanked[key].each{nrt->
+							session.groups[key] << nrt
+						}
+					}
+					
+				}
+			}
+			session.groups.each{key,val->
+							session.groups[key].each{
+								log.debug it.shortName +" has a rank of "+it.rank
+							}
+						}
 			loadUsedVocabs()
 			loadSubjectTypes()
 			loadAttributeRanges()
@@ -52,10 +96,29 @@ class ClinicalController {
 				    }
 				    gt("splitAttribute", 0)
 				}
-				//splitAtts = AttributeType.findAllWhere(splitAttribute: true,target:"PATIENT")
-				log.debug "got splitAtts greater than 0 "+splitAtts.collect{it.target}
-				if(splitAtts)
-					session.splitAttribute = splitAtts[0].shortName
+				if(splitAtts){
+					splitAtts = splitAtts.unique{
+						if(it.splitAttribute>0)
+							return it
+					}
+					splitAtts = splitAtts.sort{it.splitAttribute}
+					if(splitAtts.size()>=2){
+						if(splitAtts[0].splitAttribute == splitAtts[1].splitAttribute){
+							session.splitAttribute = splitAtts[0].shortName
+							def date = new Date()
+							def calendar = date.toCalendar()
+							int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+							log.debug "day is "+dayOfMonth+" and "+(dayOfMonth % 2> 0)
+							if(dayOfMonth % 2> 0){
+								session.splitAttribute = splitAtts[1].shortName
+							}
+						}
+					}
+					else
+						session.splitAttribute = splitAtts[0].shortName
+				}
+					
+				
 			}
 			session.vocabList = session.vocabList.findAll{
 				it.target == session.subjectTypes.parent.value()	

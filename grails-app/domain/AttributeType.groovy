@@ -7,6 +7,7 @@ class AttributeType {
 		value column: 'class'
 		attributeGroup column: 'semantic_group'
 		splitAttribute column: 'split_attribute'
+		rank column: 'gdoc_preferred'
 	}
 	
 	static fetchMode = [vocabs:"eager"]
@@ -24,5 +25,6 @@ class AttributeType {
 	Double lowerRange
 	String attributeGroup
 	Integer splitAttribute
+	Integer rank
 	
 }

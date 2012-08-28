@@ -49,7 +49,7 @@
 	
 	<table border="0">
 	<tr>
-		<td style="width:300px;border:0px solid black" valign="top">
+		<td style="width:310px;border:0px solid black" valign="top">
 			<div style="border:0px solid black;" class="bParent">
 				<div id="studyPicker">
 					<g:render template="/studyDataSource/studyPicker" plugin="gcore"/>
@@ -67,8 +67,11 @@
 			</div>
 		</td>
 		<td valign="top">
+			<div style="font-size:1.3em;margin-left:15px;padding-top:5px;color:#444444">Subject Search&nbsp;&nbsp;&nbsp;
+				
+			</div>
 			<div class="breadcrumbs">
-				&nbsp;&nbsp;
+				
 			</div>
 			<div style="border:0px solid black;padding-top:25px;display:inline-table;margin-left:15px" >
 				<g:if test="${session.splitAttribute}">

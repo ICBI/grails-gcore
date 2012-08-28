@@ -229,7 +229,6 @@
 	</g:each>
 </tr>
 </table>
-
 <g:form name="clinicalForm" action="patientReport" controller="clinical">
 	<g:hiddenField name="ids" id="idField" />
 </g:form>
@@ -264,6 +263,7 @@
 		</tr>
 	</table>
 	</g:formRemote><br />
+	
 	<div id="updateMe">
 		
 	</div>

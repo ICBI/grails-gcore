@@ -58,7 +58,7 @@
 				$("#studyPageSpinner").css("visibility","hidden");
 			} else {
 				//location.reload(true);
-				location.replace("/${appName()}/${controllerName}");
+				location.replace("/${appName()}/${controllerName}/${actionName}");
 			}
 			
 		}
@@ -79,16 +79,16 @@
 			$("#studyPageSpinner").css("visibility","visible");
 		}
 		</g:javascript>
-		<div style="font-size:1em;margin-left:15px">
+		<div style="font-size:1em;padding-top:5px">
 			<span id="label">
 				<g:if test="${!session.study}"><br><g:message code="gcore.noStudy"/></g:if>
 				<g:else><g:message code="gcore.currentStudy"/>: ${session.study?.shortName}</g:else></span>
 			<span style="display:inline-table;font-size:.8em">
 				<g:if test="${session.study}">
-					<a href="#" id="changeStudy" style="display:block;margin-left:26px"><g:message code="study.change"/></a>
+					<a href="#" id="changeStudy" style="display:block;margin-left:10px;font-size:.9em;"><g:message code="study.change"/></a>
 				</g:if>
 				<g:else>
-					<a href="#" id="changeStudy" style="display:none;margin-left:26px"><g:message code="study.change"/></a>
+					<a href="#" id="changeStudy" style="display:none;margin-left:10px;font-size:.9em;"><g:message code="study.change"/></a>
 				</g:else>
 			</span>
 			<br /><br />
