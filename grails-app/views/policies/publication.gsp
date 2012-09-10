@@ -15,8 +15,6 @@
 				<p style="font-size:1em;font-style:italic">
 				<g:message code="policies.text" args="${[appLongName(), appTitle()]}"/></p>
 
-				<p>
-				<g:message code="policies.publication" args="${[appTitle()]}"/></p>
 				
 				<p>
 				<g:message code="policies.tracking" args="${[appTitle()]}"/> 	
