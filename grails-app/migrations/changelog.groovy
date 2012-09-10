@@ -43,7 +43,7 @@ databaseChangeLog = {
 	
 	changeSet(author: "kmr75", id: "added splitAttribute column") {
 			addColumn(schemaName: 'COMMON', tableName: 'ATTRIBUTE_TYPE') {
-				column(name: 'splitAttribute', type: 'NUMBER(1)') {
+				column(name: 'SPLIT_ATTRIBUTE', type: 'NUMBER(1)') {
 					constraints(nullable: 'true')
 				}
 			}
@@ -52,7 +52,7 @@ databaseChangeLog = {
 	changeSet(author: "kmr75", id: "defaultValue for splitAttribute") {
 	        grailsChange{
 	            change{
-	                sql.executeUpdate("UPDATE COMMON.ATTRIBUTE_TYPE SET SPLITATTRIBUTE = 0 WHERE SPLITATTRIBUTE IS NULL")
+	                sql.executeUpdate("UPDATE COMMON.ATTRIBUTE_TYPE SET SPLIT_ATTRIBUTE = 0 WHERE SPLIT_ATTRIBUTE IS NULL")
 	            }
 	        }
  	}
