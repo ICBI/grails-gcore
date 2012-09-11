@@ -250,9 +250,9 @@ CREATE UNIQUE INDEX ${projectName}.MS_PEAK_EVIDENCE_LINK_AK ON ${projectName}.MS
 LOGGING
 NOPARALLEL;
 
-CREATE OR REPLACE VIEW ${projectName}.USED_ATTRIBUTES
+CREATE OR REPLACE VIEW ${projectName}.USED_ATTRIBUTES 
 AS 
-SELECT distinct c.attribute_type_id, c.short_name, c.long_name, c.definition, c.class, c.semantic_group, c.gdoc_preferred, c.cadsr_id, c.evs_id, c.qualitative, c.continuous, c.vocabulary, c.oracle_datatype, c.unit, c.upper_range, c.lower_range, s.type as target
+SELECT distinct c.attribute_type_id, c.short_name, c.long_name, c.definition, c.class, c.semantic_group, c.gdoc_preferred, c.cadsr_id, c.evs_id, c.qualitative, c.continuous, c.vocabulary, c.oracle_datatype, c.unit, c.upper_range, c.lower_range, s.type as target, c.split_attribute 
 FROM common.attribute_type c inner join ${projectName}.subject_attribute_value v 
        on v.attribute_type_id = c.attribute_type_id inner join ${projectName}.subject s on v.subject_id = s.subject_id
 WITH READ ONLY;
