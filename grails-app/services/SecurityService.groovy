@@ -655,13 +655,14 @@ class SecurityService{
 				studies = getStudyDetail(user,studyNames)//Study.executeQuery(studyHQL, [studyNames: studyNames])
 				if(!studies)
 					return accessibleIds
-				if(type == UserList.class.name){
+				log.debug "check types"
+				if(type == UserList.class.name && ids !=null && !ids.isEmpty()){
 					def artifactHQL = "SELECT distinct list.id FROM UserList list JOIN list.studies studies " + 
 					"WHERE studies IN (:studies) "
 					accessibleIds = UserList.executeQuery(artifactHQL, [studies: studies])
 					def listsNoStudy = []
 					def listHQL = "SELECT distinct list.id FROM UserList list WHERE list.id IN (:ids) and size(list.studies) = 0"
-					log.debug "get ids have no study "
+					log.debug "get the ids that have no study = $ids"
 					listsNoStudy = UserList.executeQuery(listHQL, [ids:ids])
 					if(listsNoStudy){ 
 						listsNoStudy.each{ lnsId->
