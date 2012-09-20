@@ -168,41 +168,50 @@ class DataAvailableService implements InitializingBean {
 				//log.debug "find if $type data in $study.shortName"
 				//get specimens
 				def samples = []
+				def patIds = []
 				samples = Sample.findAllByDesignType(type)
 				//get biospecs
-				def pw = []
 				if(samples){
 					def bsWith = []
 					def sids = []
 					sids = samples.collect{it.id}
-					def sidsString = sids.toString().replace("[","")
-					sidsString = sidsString.replace("]","")
-					def query = "select s.biospecimen_id from " + study.schemaName + ".HT_FILE_CONTENTS s where s.id in ("+sidsString+")"
+					//def query = "select s.biospecimen_id from " + study.schemaName + ".HT_FILE_CONTENTS s where s.id in ("+sidsString+")"
+					def query = "select s.biospecimen_id from " + study.schemaName + ".HT_FILE_CONTENTS s where s.id in ("
+					def subquery = "select hc.ID from "+ study.schemaName +".HT_FILE_CONTENTS hc where hc.design_type='"+type+"')"
+					
+					query += subquery
+					
+					log.debug "the select statement is now: "
+					log.debug query
+					
+					
 					bsWith = jdbcTemplate.queryForList(query)
 					//log.debug "biospecimens after $bsWith"
 					def bsIds = bsWith.collect { id ->
 						return id["BIOSPECIMEN_ID"]
 					}
-					//log.debug bsIds
+					//log.debug "got bi ids"+bsIds
 					def biospecimens = []
 					//biospecimens = Biospecimen.getAll(bsIds)
 					//get patients
 					def patientWith = []
 					def bidsString = bsIds.toString().replace("[","")
 					bidsString = bidsString.replace("]","")
-					def query2 = "select b.subject_id from " + study.schemaName + ".BIOSPECIMEN b where b.biospecimen_id in ("+bidsString+")"
+					//def query2 = "select b.subject_id from " + study.schemaName + ".BIOSPECIMEN b where b.biospecimen_id in ("+bidsString+")"
+					def query2 = "select distinct sb.subject_id from " + study.schemaName + ".BIOSPECIMEN sb where sb.biospecimen_id in ("+query+")"
+					log.debug "the FULL select statement is now: "
+					log.debug query2
 					patientWith = jdbcTemplate.queryForList(query2);//biospecimens.collect{it.patient.id}
-					def patIds = patientWith.collect { id ->
+					patIds = patientWith.collect { id ->
 						return id["SUBJECT_ID"]
 					}
 					//log.debug "returned patient ids=" + patIds + " for $type"
 					if(patIds){
-						pw = Subject.getAll(patIds) as Set
-						//log.debug "all subjects with $type: " + pw.size() + " " + pw
+						log.debug "all subjects with $type: " + patIds.size()
 					}
 				}	
 				def stats = [:]
-				result[type] = pw.size()
+				result[type] = patIds.size()
 			}
 			else if (type == Constants.BIOSPECIMEN){
 				def biospecCount = Biospecimen.count()

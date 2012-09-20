@@ -36,8 +36,41 @@ class ClinicalService {
 		}
 		else
 			patientIds = getSubjectIdsForCriteria(criteria, subjectType, childIds)
-		if(patientIds)
-			patients = Subject.getAll(patientIds)
+		def selects = []
+		if(patientIds){
+				def pidList = []
+				for(def i=0;i<patientIds.size();i++){
+					def limitMet = false
+					if((i+1) % 1000 == 0){
+						limitMet = true
+					}
+					pidList << patientIds[i].toLong()
+				
+					if(limitMet){
+						log.debug "1000 was hit"
+						def selectList = []
+						pidList.each{
+							selectList << it
+						}
+						selects << selectList
+						//log.debug "selects now "+selects
+						limitMet = false
+						pidList = []
+					}
+					
+				}
+				selects << pidList
+				log.debug "selects size is "+selects.size()
+				selects.each{ ids ->
+					def query = "SELECT distinct subject FROM Subject subject WHERE subject.id IN (:ids) "
+					def returnedSubjects = []
+					returnedSubjects = Subject.executeQuery(query, [ids:ids])
+					returnedSubjects.each{ subject->
+						patients << subject
+					}
+				}
+		}
+	
 		return patients
 	}
 	

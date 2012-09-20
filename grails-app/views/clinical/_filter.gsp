@@ -24,16 +24,16 @@
 			var splitAtt = $(this).val();
 			//console.log(splitAtt);
 			if ($('input:checkbox:checked').length == 0){
-				//console.log("no checkboxes, refresh page");
+				console.log("no checkboxes, refresh page");
 				window.location = "${grailsApplication.config.grails.serverURL}/clinical?splitAttribute="+splitAtt;
 			}
 			else{
-				//console.log("split attribute was "+$('#splitAttribute').val());
+				console.log("split attribute was "+$('#splitAttribute').val());
 				var showDivName = $('#splitAttribute').val()+"_div";
 				$('#splitAttribute').val(splitAtt);
 				var hideDivName = splitAtt+"_div";
 				var hideElementId = splitAtt+"_category";
-				//console.log("set new target field? "+$("#"+hideElementId).attr("name"));
+				console.log("set new target field? "+$("#"+hideElementId).attr("name"));
 				targetField = $("#"+hideElementId).attr("name");
 				//$("#"+showDivName).css('display','block');
 				//$("#"+hideDivName).css('display','none');
@@ -167,7 +167,7 @@
 					//console.log("target field is "+substr);
 					$("#"+substr+"_div").find('input:checkbox').attr('checked', 'checked');
 					$("#sf :input[value][value!='']").serialize();
-					//console.log($("#sf :input[value]").serialize());
+					//console.log($("#sf :input[value][value!='']").serialize());
 					$('#sfSubmit').click();
 					//$("#sf :input").attr("disabled", true);
 				}else{
@@ -187,7 +187,7 @@
 
 //keep track of request params so user can navigate to page again and reproduce query with URL
 function check(form){
-	console.log("check before submit");
+	//console.log("check before submit");
 	$("#sf").attr('method','GET');
 	// $("input[id*='_category']").each(function() { 
 	// 		$(this).attr('disabled','disabled');
@@ -256,7 +256,7 @@ function addToBreadcrumb(name,value,removal){
 	          url: pageurl,
 	          success: function(msg){
 	            //console.log(msg);
-				//console.log("request and replaceState the url with"+pageurl);
+				console.log("request and replaceState the url with"+pageurl);
 				$("#filterResults").html(msg);
 				displayFilterTable();
 				history.replaceState(null, null, pageurl);
@@ -455,7 +455,7 @@ function evaluateUnchecked(element){
 }
 
 function cleanUp(){
-	//console.log('clean up');
+	console.log('clean up');
 	$(" :input").attr("disabled", false);
 	displayFilterTable();
 	var targetElem = $("input[name="+targetField+"]");
@@ -500,6 +500,7 @@ function verifyURLParams(pageUrl){
 </g:javascript>
 
 <g:if test="${session.study}">
+
 <div style="font-size:1.1em;color:#444444;padding-bottom:7px">Filter&nbsp;&nbsp;&nbsp;
 	<span style="align:right"><g:link controller="clinical" action="advanced" style="color:#999999;font-size:.7em">[advanced search]</g:link></span>
 </div>
@@ -576,6 +577,7 @@ function verifyURLParams(pageUrl){
 				
 				
 				<g:else>
+					<g:if test="${session.attributeRanges[it.shortName]}">
 					<g:set var="upperRange" value='${session.attributeRanges[it.shortName]["upperRange"]}' />
 					<g:set var="lowerRange" value='${session.attributeRanges[it.shortName]["lowerRange"]}' />
 					<g:set var="median" value='${new Double((lowerRange+upperRange)/2).round(2)}' />
@@ -598,7 +600,7 @@ function verifyURLParams(pageUrl){
 						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" class="cb" value="${upperMed + ' - ' +upperRange}" checked="${params.list(type + '_range_' + it.shortName)?.contains((median +1) + ' - ' +upperRange.intValue()) || params.list(type + '_range_' + it.shortName)?.contains(upperMed + ' - ' +upperRange.intValue())}"/>
 						<label for="${type.replace('_','') + '_' + it.shortName}">${upperMed + ' to ' +upperRange}</label>
 						</span>
-							
+					</g:if>		
 				</g:else>
 				
 				</div>

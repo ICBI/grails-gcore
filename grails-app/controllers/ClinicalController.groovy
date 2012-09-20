@@ -89,6 +89,7 @@ class ClinicalController {
 			else if(!params.splitAttribute){
 				def splitAtts = []
 				def c = AttributeType.createCriteria()
+				log.debug "get split att"
 				splitAtts = c.list{
 				    or {
 				        eq("target", "PATIENT")
@@ -112,20 +113,24 @@ class ClinicalController {
 							if(dayOfMonth % 2> 0){
 								session.splitAttribute = splitAtts[1].shortName
 							}
+						}else{
+							session.splitAttribute = splitAtts[0].shortName
 						}
 					}
 					else
 						session.splitAttribute = splitAtts[0].shortName
 				}
 					
-				
 			}
 			session.vocabList = session.vocabList.findAll{
 				it.target == session.subjectTypes.parent.value()	
 			}
+			log.debug "session.vocabList "+session.vocabList
 			if(session.subjectTypes.timepoints){
 				session.attNamesMap << ["timepoint":"Timepoint"]
 			}
+			
+			
 		}
 		[diseases:getDiseases(),myStudies:session.myStudies,availableSubjectTypes:getSubjectTypes(),diseaseBreakdown:breakdowns["disease"], dataBreakdown:breakdowns["data"]]
 		
@@ -584,7 +589,7 @@ class ClinicalController {
 				return
 			}else{		
 				log.debug "-----------BEGIN AJAX REQUEST--------------"		
-				def errors = validateQuery(params, session.dataTypes)
+				//def errors = validateQuery(params, session.dataTypes)
 				//log.debug "Clinical Validation?: " + errors
 				def queryParams = [:]
 				def medians = [:]
@@ -600,12 +605,12 @@ class ClinicalController {
 				
 				
 				log.debug "query Params: " + queryParams
-				if(errors && (errors != [:])) {
-					flash['errors'] = errors
-					flash['params'] = params
-					redirect(action:'index',id:session.study.id)
-					return
-				}
+				/*if(errors && (errors != [:])) {
+									flash['errors'] = errors
+									flash['params'] = params
+									redirect(action:'index',id:session.study.id)
+									return
+								}*/
 				//println "PARAMS: " + queryParams
 
 				def criteria = QueryBuilder.build(queryParams, "parent_", session.dataTypes,session.attributeRanges,false)
