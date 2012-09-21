@@ -177,6 +177,7 @@
 				}
 			}else{
 				console.log("hashes are"+hashes);
+				$('#sfSubmit').click();
 			}	
 		
 		
@@ -466,6 +467,7 @@ function cleanUp(){
 	$("input[name*="+substr+"]").each(function() { 
 		//console.log($(this).attr('name'));
 		 $(this).attr('checked', false);
+		 $(this).attr('disabled', true);
 	 });
 	//console.log("target field ="+targetField);
 	//console.log("split attribute currently set to "+$("input[name=splitAttribute]").val());
@@ -583,6 +585,7 @@ function verifyURLParams(pageUrl){
 					<g:set var="median" value='${new Double((lowerRange+upperRange)/2).round(2)}' />
 					<g:if test="${median.toString().contains('.')}">
 						<g:set var="upperMed" value='${(median.toDouble()) + 0.1}' />
+						<g:set var="upperMed" value='${upperMed.round(2)}' />
 					</g:if>
 					<g:else>
 						<g:set var="upperMed" value='${(median.toDouble()) + 1}' />

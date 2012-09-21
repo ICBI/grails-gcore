@@ -341,10 +341,13 @@ class ClinicalService {
 					
 					log.debug "found median for $k of "+medians[k]
 					def upperMed
-					if(medians[k].toString().contains("."))
+					if(medians[k].toString().contains(".")){
 						upperMed = medians[k]+0.1
-					else
+						upperMed = upperMed.round(2)
+					}
+					else{
 						upperMed = medians[k] + 1
+					}
 					def upperLabel = k+":"+"UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"
 					def lowerLabel = k+":"+"LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"
 					breakdowns[atttributeLabel][upperLabel] = new HashSet()
@@ -410,8 +413,10 @@ class ClinicalService {
 					//END NEW for sample
 					else{
 						def upperMed
-						if(medians[k].toString().contains("."))
+						if(medians[k].toString().contains(".")){
 							upperMed = medians[k]+0.1
+							upperMed = upperMed.round(2)
+						}
 						else
 							upperMed = medians[k] + 1
 						if(medians[k]){

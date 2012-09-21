@@ -1,3 +1,5 @@
+import org.codehaus.groovy.grails.web.context.ServletContextHolder as SCH
+import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes as GA
 
 class ControllerMixin {
 	
@@ -98,13 +100,16 @@ class ControllerMixin {
 		def rangeAtts = []
 		rangeAtts = AttributeType.findAllWhere(vocabulary: false)
 		def rangeAttsMap = [:]
+		def ctx = SCH.servletContext.getAttribute(GA.APPLICATION_CONTEXT)
+		def attributeValueService = ctx.attributeValueService
+		//log.debug "get attributeValueService="+attributeValueService
 		rangeAtts.each {
 			if(it.upperRange!=null && it.lowerRange!=null){
 				def rangeName = it.shortName
 				def rangeId = it.id
 				rangeAttsMap[rangeName] = [:]
-				def upperVal = self.attributeValueService.findUpperRange(rangeId,schemaName)
-				def lowerVal = self.attributeValueService.findLowerRange(rangeId,schemaName)
+				def upperVal = attributeValueService.findUpperRange(rangeId,schemaName)
+				def lowerVal = attributeValueService.findLowerRange(rangeId,schemaName)
 				rangeAttsMap[rangeName]["upperRange"] = upperVal
 				rangeAttsMap[rangeName]["lowerRange"] = lowerVal
 			}
