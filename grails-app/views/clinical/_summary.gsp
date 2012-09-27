@@ -9,6 +9,7 @@
 <jq:plugin name="DOMWindow"/>
 <g:javascript>
 	$(document).ready(function (){
+		$('.clinicalLink').geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
 		//displayFilterTable();
 	});
 	
@@ -16,9 +17,9 @@
 		// $('[class*="rowspan_"]').each(function() {
 		// 			$(this).css("border-bottom","0px solid red").css("border-top","0px solid blue").html("");
 		// 		});
-		$('.clinicalLink').geneLink({'menuType': 'clinical','advancedMenu': false,'ids':$(this).attr('data-ids')});
 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'});
 		$.unblockUI();
+		
 	}
 	
 	// function displayFilterTableTBD(){
@@ -229,7 +230,7 @@
 	</g:each>
 </tr>
 </table>
-<g:form name="clinicalForm" action="patientReport" controller="clinical">
+<g:form name="clinicalForm" action="patientReport" controller="clinical" target="foo" onSubmit="window.open('', 'foo', 'width=800,height=600,status=yes,resizable=yes,scrollbars=yes')">
 	<g:hiddenField name="ids" id="idField" />
 </g:form>
 
