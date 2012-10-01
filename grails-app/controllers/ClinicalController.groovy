@@ -623,9 +623,9 @@ class ClinicalController {
 						biospecimenIds = clinicalService.queryByCriteria(biospecimenCriteria, session.subjectTypes["child"], biospecimenIds).collect { it.id }
 						log.debug "GOT IDS ${biospecimenIds.size()}"
 						if(!biospecimenIds){
-							log.debug "no biospecimens found for criteria, return no results"
+							log.debug "no biospecimens found for criteria, return no results, no processing"
 							searchResults = []
-							return processResults(searchResults)
+							//return processResults(searchResults)
 						}
 					}
 				}
@@ -867,7 +867,27 @@ class ClinicalController {
 								totalCountMap[res.key] = res.value
 							}
 						}
+						/**if(res.value.class == String && res.value.isInteger()){
+							log.debug "needed to translate "+res.key+" into meaning"
+							def attType = AttributeType.findByShortName(res.key)
+							if(attType){
+								vocab = AttributeVocabulary.findByTypeAndTerm(attType,res.value)
+								log.debug "translated "+res.key+" into "+vocab.termMeaning
+								if(vocab){
+									def tmpRes = res
+									def transRes = tmpRes
+									translate = true
+								}
+								res.value = vocab.termMeaning
+							}
+						}**/
 					}
+					/**if(translate){
+						log.debug "found and trans!!!"+result["resultId"]
+						def newres = result["resultId"].substring(0,result["resultId"].lastIndexOf('_'))
+						newres += "_"+vocab.termMeaning 
+						result["resultId"] = newres
+					}**/
 				}
 
 				//log.debug "totalCountMap="+totalCountMap

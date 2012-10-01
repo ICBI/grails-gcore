@@ -464,7 +464,9 @@ function cleanUp(){
 	targetElem.attr("disabled", true);
 	//console.log("split category in clean up");
 	var substr = targetElem.attr('id').split('_category')[0];
-	$("input[name*="+substr+"]").each(function() { 
+	//console.log(targetElem.children('input'));
+	//FIND WAY TO GET ACTUAL SPLIT ATTRIBUTE w/ parent_categor, child_category, etc
+	$("input[name*=vocab_"+substr+"],[name*=category_"+substr+"]").each(function() { 
 		//console.log($(this).attr('name'));
 		 $(this).attr('checked', false);
 		 $(this).attr('disabled', true);
@@ -504,7 +506,11 @@ function verifyURLParams(pageUrl){
 <g:if test="${session.study}">
 
 <div style="font-size:1.1em;color:#444444;padding-bottom:7px">Filter&nbsp;&nbsp;&nbsp;
-	<span style="align:right"><g:link controller="clinical" action="advanced" style="color:#999999;font-size:.7em">[advanced search]</g:link></span>
+	<span style="align:right;color:#999999;font-size:.8em">[
+		<g:link controller="clinical" action="index" style="color:#999999;">reset</g:link>&nbsp;|&nbsp;
+		<g:link controller="clinical" action="advanced" style="color:#999999;">advanced search</g:link>
+		]
+	</span>
 </div>
 
 <g:formRemote id="sf" name="searchForm" url="[controller: 'clinical', action:'filter']" before="check(this)" update="filterResults" onComplete="cleanUp()">

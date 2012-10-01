@@ -112,8 +112,8 @@
 			<td>
 			<span class="controlBarUpload" id="controlBarUpload">
 			<g:link class="thickbox" name="Upload custom list" action="upload" 
-			style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;padding: 4px 13px;width:100px;border: 1px solid #a0a0a0;margin: 10px 3px 1px 3px;"
-		params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']"><g:message code="userList.upload"/></g:link>
+			style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;padding: 4px 13px;width:80px;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;"
+		params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']"><g:message code="Upload"/></g:link>
 			</span>
 			</td>
 

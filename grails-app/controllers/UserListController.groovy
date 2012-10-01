@@ -19,7 +19,7 @@ class UserListController {
 	}
 
     def list = {
-		log.debug params
+		log.debug "PARAMs:"+params
 		def lists = []
 		//removed : 1:"-1 day",7:"-1 week",
 		def timePeriods = [
@@ -63,6 +63,7 @@ class UserListController {
 		else{
 			allLists = 0;
 		}
+		log.debug pagedLists["results"]
        [ userListInstanceList: pagedLists["results"], allLists: allLists, timePeriods: timePeriods, toolsLists:listSnapShots, searchTerm:searchTerm]
     }
 
@@ -224,7 +225,7 @@ class UserListController {
 		}else{
 			log.debug "no lists have been selected"
 			flash.error = message(code: "userList.noSelected")
-			redirect(action:list)
+			redirect(action:"list")
 		}
 	}
 
@@ -232,7 +233,7 @@ class UserListController {
 		if(isListAuthor(params.id)){
 			log.debug "user is permitted to delete list"
 			userListService.deleteList(params.id)
-			redirect(action:list)
+			redirect(action:"list")
 		}
 		else{
 			log.debug "user is NOT permitted to delete list"
@@ -261,7 +262,7 @@ class UserListController {
 						}
 						else{
 			            	userListService.deleteList(userListInstance.id)
-							log.debug "deleted " + userListInstance
+							log.debug "deleted " + userListInstance + " from tbd"
 							delmessage += message(code: "userList.deleted", args:[userListInstance.name])
 						}
 					}
@@ -279,17 +280,17 @@ class UserListController {
 					}
 					else{
 		            	userListService.deleteList(userListInstance.id)
-						log.debug "deleted " + userListInstance
+						log.debug "deleted one list: " + userListInstance.name
 						delmessage = message(code: "userList.deleted", args:[userListInstance.name])
 					}
 				}
 			}
 			flash.message = delmessage
-			redirect(action:list)
+			redirect(action:"list")
 			return
 		}else{
 			flash.message = message(code: "userList.noSelectionDelete")
-			redirect(action:list)
+			redirect(action:"list")
 			return
 		}
 		
@@ -308,7 +309,7 @@ class UserListController {
 			}
 			else {
 	            flash.message = message(code: "userList.notFound", args: [params.id])
-				redirect(action:list)
+				redirect(action:"list")
 	        }
         }
         
@@ -319,15 +320,16 @@ class UserListController {
 		def userListInstance = UserList.get( params.id )
 		def metadata = [:]
 		//REFACTOR and check if molecule-tatget plugin exists
-		metadata = userListService.decorateListItems(userListInstance)
 		if(userListInstance) {
+			log.debug "list exists, get metadata"
+			metadata = userListService.decorateListItems(userListInstance)
 			def listItems = userListInstance.listItems
 			listItems = listItems.sort{it.value}
 			render(template:"/userList/userListDiv",model:[ userListInstance: userListInstance, listItems:listItems, metadata:metadata], plugin: "gcore")
         }
         else {
             flash.message = message(code: "userList.notFound2", args: [params.id])
-			redirect(action:list)
+			redirect(action:"list")
         }
     }
 

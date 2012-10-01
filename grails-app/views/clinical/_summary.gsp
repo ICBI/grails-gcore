@@ -19,7 +19,10 @@
 		// 		});
 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'});
 		$.unblockUI();
-		
+		console.log("resize?"+$(".filterTable").width());
+		if($(".filterTable").width() > 900){
+			$("#doc3").css("width",$(".filterTable").width()+400);
+		}
 	}
 	
 	// function displayFilterTableTBD(){
@@ -119,7 +122,7 @@
 <g:set var="columnSpan" value="1" />
 <g:if test="${columns.size()==1}">
 	<g:set var="columnSpan" value="2" />
-</g:if>
+</g:if>${resultMap}
 <% Map valuesMap = new HashMap(); %>
 <table border="0" class="filterTable">
 <tr>
@@ -207,7 +210,7 @@
 					</g:else>
 				</g:if>
 				<g:else>
-					<g:if test="${resultMap[name].toInteger() > 0}">
+					<g:if test="${resultMap[name] && resultMap[name].toInteger() > 0}">
 						<td colspan="${columnSpan}"><a href="#" class="clinicalLink" data-ids="${resultMap[name+'_ids']}">${resultMap[name]}</a></td>
 					</g:if>
 					<g:else>
