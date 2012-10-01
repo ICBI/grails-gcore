@@ -701,14 +701,14 @@ class ClinicalController {
 					def filterSubjects = []
 					def atttributeLabel = "All Subjects"
 					//query on split criteria value (e.g. RECURRENCE-YES)
-					log.debug "get summary from all"
+					log.debug "get summary from all for criteria "+criteria
 					filterSubjects = clinicalService.getSummary(criteria, session.subjectTypes["parent"], biospecimenIds)
 					def filterSizeMap = [:]
 					filterSizeMap[atttributeLabel] = filterSubjects.size()
 					breakdowns[atttributeLabel] = [:]
 					columns << atttributeLabel
-					//log.debug "found "+filterSubjects.size() + " subjects before doing criteria"
-					if(!criteria){
+					log.debug "found "+filterSubjects.size() + " subjects before doing criteria...look for both parent and child crit"
+					if(!criteria && !biospecimenCriteria){
 						breakdowns[atttributeLabel] = filterSubjects.size()
 						breakdowns[atttributeLabel+"_ids"] = filterSubjects.collect{it.id}
 						breakdowns["resultId"] = "All Subjects"
@@ -845,7 +845,10 @@ class ClinicalController {
 				 }
 
 				def totalCountMap = [:]
+				def translations = [:]
 				resultList.each{ result->
+					def vocab
+					def translate = false
 					result.each{ res->
 						if(res.key.contains("_ids")){
 							if(!totalCountMap[res.key]){
@@ -867,7 +870,8 @@ class ClinicalController {
 								totalCountMap[res.key] = res.value
 							}
 						}
-						/**if(res.value.class == String && res.value.isInteger()){
+						//ADDED FOR CASES WHERE ATTRIBUTE VALUE NEEDS MEANING (EG EVENT & CENSORING = 0, 1)
+						if(res.value.class == String && res.value.isInteger()){
 							log.debug "needed to translate "+res.key+" into meaning"
 							def attType = AttributeType.findByShortName(res.key)
 							if(attType){
@@ -880,17 +884,41 @@ class ClinicalController {
 								}
 								res.value = vocab.termMeaning
 							}
-						}**/
+						}
 					}
+					//ADDED FOR CASES WHERE ATTRIBUTE VALUE NEEDS MEANING (EG EVENT & CENSORING = 0, 1)
 					/**if(translate){
 						log.debug "found and trans!!!"+result["resultId"]
 						def newres = result["resultId"].substring(0,result["resultId"].lastIndexOf('_'))
 						newres += "_"+vocab.termMeaning 
-						result["resultId"] = newres
+						//result["resultId"] = newres
 					}**/
 				}
-
-				//log.debug "totalCountMap="+totalCountMap
+				
+				log.debug "look in "+columns+" for values that need term meanings"
+				columns.each{ column ->
+					if(column.contains('_')){
+						def beginningValue = column.substring(0,column.lastIndexOf('_'))
+						log.debug "attValue split $beginningValue"
+						def endingValue = column.substring(column.lastIndexOf('_')+1,column.size())
+						log.debug "ending split $endingValue"
+						log.debug "column is "+column
+						if(endingValue.isInteger()){
+							log.debug "need to translate "+beginningValue+" into meaning"
+							def attType = AttributeType.findByShortName(beginningValue)
+							if(attType){
+								def vocab = AttributeVocabulary.findByTypeAndTerm(attType,endingValue)
+								log.debug "looked for "+attType+ " with a term of "+endingValue
+								log.debug "found "+ vocab
+								if(vocab){
+									translations[column] = beginningValue+"_"+vocab.termMeaning
+								}
+							}
+						}
+					}
+				}
+				
+				log.debug "translations="+translations
 				resultList.each{
 					log.debug it
 				}
@@ -908,7 +936,7 @@ class ClinicalController {
 				
 				log.debug "this is ajax request and return add"
 				log.debug "------------END RETURN---------------------"
-				render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString])
+				render(template:"summary",model:[comboCounts:comboCounts,columns:columns,columnResults:resultList,countMap:totalCountMap,tags:tagsString, columnTranslation:translations])
 				return
 			}
 	}

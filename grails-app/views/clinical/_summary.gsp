@@ -122,7 +122,8 @@
 <g:set var="columnSpan" value="1" />
 <g:if test="${columns.size()==1}">
 	<g:set var="columnSpan" value="2" />
-</g:if>${resultMap}
+</g:if>
+
 <% Map valuesMap = new HashMap(); %>
 <table border="0" class="filterTable">
 <tr>
@@ -131,7 +132,12 @@
 		<th colspan="${columnSpan}">${session.attNamesMap[name]}</th>
 	</g:if>
 	<g:else>
-		<th colspan="${columnSpan}">${name}</th>
+		<g:if test="${columnTranslation && columnTranslation[name]}">
+			<th colspan="${columnSpan}">${columnTranslation[name]}</th>
+		</g:if>
+		<g:else>
+			<th colspan="${columnSpan}">${name}</th>
+		</g:else>
 	</g:else>
 </g:each>
 </tr>
