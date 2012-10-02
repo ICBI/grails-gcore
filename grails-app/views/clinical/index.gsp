@@ -30,6 +30,7 @@
 		        unstick: true,
 		        closeChar: '' 
 		});
+		
 	});
 	function showSaveSpinner(show) {
 			if(show == true){
@@ -144,6 +145,7 @@
 		</td>
 	</tr>
 	</table>
+	<br><br><br><br><br>
 	</div>
 
 	</body>

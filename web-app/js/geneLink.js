@@ -179,8 +179,12 @@
 		return false;
 	}
   $.fn.geneLink = function(options) {
+	
 	methods.init.apply( this, arguments );
-
+	if($('.jqcontextmenu').outerWidth() > 500){
+		$('.jqcontextmenu').css("width",192);
+		//console.log("now its "+$('.jqcontextmenu').outerWidth());
+	}
     return this.each(function() {     
 		var $this = $(this)   
 		if(!options.menuType)

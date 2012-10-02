@@ -19,10 +19,10 @@
 		// 		});
 		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'});
 		$.unblockUI();
-		console.log("resize?"+$(".filterTable").width());
 		if($(".filterTable").width() > 900){
 			$("#doc3").css("width",$(".filterTable").width()+400);
 		}
+		
 	}
 	
 	// function displayFilterTableTBD(){

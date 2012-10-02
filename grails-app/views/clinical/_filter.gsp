@@ -194,7 +194,7 @@ function check(form){
 	// 		$(this).attr('disabled','disabled');
 	// 	});
 	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value][value!='']").serialize();
-	//console.log("url "+pageurl);
+	console.log("url "+pageurl);
 	window.history.pushState({test:pageurl},'',pageurl);
 	return false;
 }
@@ -508,6 +508,7 @@ function verifyURLParams(pageUrl){
 <div style="font-size:1.1em;color:#444444;padding-bottom:7px">Filter&nbsp;&nbsp;&nbsp;
 	<span style="align:right;color:#999999;font-size:.8em">[
 		<g:link controller="clinical" action="index" style="color:#999999;">reset</g:link>&nbsp;|&nbsp;
+		<a href="#" class="info" title="* filters are additive (total of 0 indicates query had no result)<br>* total indicates subject count (e.g. total number of samples or patients) depending on filter" style="color:#999999;">tips</a>&nbsp;|&nbsp;
 		<g:link controller="clinical" action="advanced" style="color:#999999;">advanced search</g:link>
 		]
 	</span>
@@ -602,7 +603,7 @@ function verifyURLParams(pageUrl){
 						    <span style="font-size:.9em;padding:5px;font-style:italic">${it.definition}</span><br />
 							</g:if>
 						<span>Low Range</span>
-						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" class="cb" value="${lowerRange + ' - ' +median}" checked="${params.list(type + '_range_' + it.shortName)?.contains(lowerRange.intValue() + ' - ' +median)}"/>
+						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" class="cb" value="${lowerRange + ' - ' +median}" checked="${params.list(type + '_range_' + it.shortName)?.contains(lowerRange.intValue() + ' - ' +median) || params.list(type + '_range_' + it.shortName)?.contains(lowerRange.intValue() + ' - ' +median.intValue())}"/>
 						<label for="${type.replace('_','') + '_' + it.shortName}">${lowerRange + ' to ' +median}</label>
 						<br />
 						<span>High Range</span>

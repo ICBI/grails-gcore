@@ -334,13 +334,13 @@ class ClinicalService {
 				def attCountN = []
 				def max = v.max.toDouble()
 				def min = v.min.toDouble()
+				def upperMed
 				if(medians[k]){
 					log.debug "toAdd "+toAddCriteria
 					toAddCriteria[k] = []
 					log.debug medians[k].class
 					
 					log.debug "found median for $k of "+medians[k]
-					def upperMed
 					if(medians[k].toString().contains(".")){
 						upperMed = medians[k]+0.1
 						upperMed = upperMed.round(2)
@@ -348,10 +348,12 @@ class ClinicalService {
 					else{
 						upperMed = medians[k] + 1
 					}
+					log.debug "created upperMed"
 					def upperLabel = k+":"+"UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"
 					def lowerLabel = k+":"+"LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"
 					breakdowns[atttributeLabel][upperLabel] = new HashSet()
 					breakdowns[atttributeLabel][lowerLabel] = new HashSet()
+					log.debug "created breakdown labels"
 					if(v.min > medians[k]){
 						log.debug "must have chosen upper quartile"+toAddCriteria[k]
 						toAddCriteria[k] << "UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"
@@ -362,8 +364,11 @@ class ClinicalService {
 						toAddCriteria[k] << "LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"
 						removeBucket << upperLabel
 					}
-					if((v.min < medians[k]) && (v.max != medians[k]))
+					if((v.min < medians[k]) && (v.max != medians[k])){
+						log.debug "min is less than med and max not equal to median"
 						toAddCriteria[k]=["UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")","LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"]
+						log.debug "added to critaria "+toAddCriteria
+					}
 				}
 				else{
 					breakdowns[atttributeLabel][k] = []
@@ -382,23 +387,29 @@ class ClinicalService {
 								it.children.each{ subject ->
 									if(subject.clinicalDataValues[k]){
 										def values = []
-										if(subject.clinicalDataValues[k].metaClass?.respondsTo(subject.clinicalDataValues[k], 'join'))
+										if(subject.clinicalDataValues[k].metaClass?.respondsTo(subject.clinicalDataValues[k], 'join')){
+											log.debug "is already an array? "+subject.clinicalDataValues[k].class
 											values = subject.clinicalDataValues[k]
-										else
+										}
+										else{
+											log.debug "is NOT already an array? "+subject.clinicalDataValues[k].class
 											values << subject.clinicalDataValues[k]
+										}
 											
 										values.each{ clinVal->
 												
 												clinVal = clinVal.toDouble()
 												
 												if(medians[k]){
-													//log.debug "found median now compare "+medians[k]+ " and " +clinVal
+													log.debug "found median now compare "+medians[k]+ " and " +clinVal
 													if( (clinVal <= medians[k])){
 														breakdowns[atttributeLabel][k+":"+"LOWER_QUARTILE"+"("+v.min+"-"+medians[k]+")"] << it.id
 													}else if( (clinVal > medians[k])){
-														breakdowns[atttributeLabel][k+":"+"UPPER_QUARTILE"+"("+(medians[k]+1)+"-"+v.max+")"] << it.id
+														breakdowns[atttributeLabel][k+":"+"UPPER_QUARTILE"+"("+upperMed+"-"+v.max+")"] << it.id
 													}
 												}else{
+													log.debug "not found median now compare "+medians[k]+ " and " +clinVal
+													log.debug "some att label k "+ breakdowns[atttributeLabel][k]
 													if( (clinVal <= max) && (clinVal >= min)){
 														breakdowns[atttributeLabel][k] << it.id
 													}
@@ -412,7 +423,7 @@ class ClinicalService {
 					}
 					//END NEW for sample
 					else{
-						def upperMed
+						
 						if(medians[k].toString().contains(".")){
 							upperMed = medians[k]+0.1
 							upperMed = upperMed.round(2)
