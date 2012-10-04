@@ -88,7 +88,6 @@ class LoginController {
 	 * Callback after a failed login. Redirects to the auth page with a warning message.
 	 */
 	def authfail = {
-
 		def username = session[UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY]
 		String msg = ''
 		def exception = session[WebAttributes.AUTHENTICATION_EXCEPTION]
@@ -114,6 +113,7 @@ class LoginController {
 			render([error: msg] as JSON)
 		}
 		else {
+			log.debug "auth failed msg is $msg"
 			flash.loginError = msg
 			redirect controller: 'home', action: index, params: params
 		}
