@@ -5,6 +5,7 @@ grails.war.resources = {stagingDir ->
 	delete(file: "$stagingDir/WEB-INF/lib/commons-collections-2.1.1.jar")
 	delete(file: "$stagingDir/WEB-INF/lib/jboss-jca.jar")
 	delete(file: "$stagingDir/WEB-INF/lib/ojdbc14.jar")
+	delete(file: "$stagingDir/WEB-INF/lib/cglib-2.2.jar")
 }
 
 grails.project.dependency.resolution = {
