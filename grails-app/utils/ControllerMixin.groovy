@@ -190,7 +190,8 @@ class ControllerMixin {
 			println "IDDDD: $listId CLASS: ${listId.class}"
 			// check if list is old, identified by string name
 			// if so, attempt to lookup by name and author
-			if (listId && ((listId instanceof Integer) || (listId instanceof Long))) {
+			if (listId && ((listId instanceof Integer) || (listId instanceof Long) || (listId.isLong() && listId.toLong()))) {
+				println "is long and to long"
 				//make sure lists have not been deleted
 				if(listId && !listId.equals(null)){
 					def list = UserList.get(listId)
@@ -204,7 +205,6 @@ class ControllerMixin {
 					listIds << listId
 				}
 			} else if(listId && !listId.equals(null)){
-				println "not identified by numeric id"
 				self.log.debug "list is legacy and is not identified by numeric id -- Attempting to lookup by name"
 				listId = self.userListService.findByNameAndUserId(listId, self.session.userId)
 			}
