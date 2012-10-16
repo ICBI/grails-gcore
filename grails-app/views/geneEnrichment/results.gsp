@@ -23,13 +23,12 @@
 				height: 400, 
 				rowNum:50, 
 				rowList:[25,50], 
-				width: 700,
 				pager: jQuery('#pager'), 
 				sortname: 'pvalues', 
 				viewrecords: true, 
 				sortorder: "desc", 
 				multiselect: false, 
-				caption: "Gene Enrichment Results",
+				caption: "Pathway Enrichment Results",
 				gridComplete: function() {
 					$('.geneLink').geneLink({'advancedMenu': false});
 				},

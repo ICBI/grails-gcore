@@ -136,12 +136,11 @@
 						<g:link class="thickbox" name="Share &nbsp; ${userListInstance.name}" action="share" controller="share" 
 params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keepThis:'true',TB_iframe:'true',height:'375',width:'450',title:'someTitle']"><img alt="share list or view groups previously shared to" title="Share list" style="height: 18px;padding-right:5px" src="${createLinkTo(dir: 'images', file: 'share.png')}" border="0"/></a></g:link>
 						</g:if>
-						<g:link action="export" style="padding-right:5px;" id="${userListInstance.id}">
+						<g:link action="export" style="padding-right:5px;text-decoration:none" id="${userListInstance.id}">
 							<img alt="export list" border="0" title="Export list" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
-						</g:link>
-						
+						</g:link>		
 						<g:if test="${userListInstance.tags.contains('gene')}">
-							<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
+							<g:cytoscapeLink style="padding-right:5px;text-decoration:none" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>&nbsp;
 							<g:link class="enrich" action="enrichGeneList" controller="geneEnrichment" style="padding-right:5px;" id="${userListInstance.id}" >
 								<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'enrich.png')}" />
 							</g:link>
@@ -153,11 +152,11 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 					<g:else>
 					<div style="border:0px solid black;width:60%;float:right">	
 						<g:message code="userList.sharedBy"/>: ${userListInstance.author.firstName}&nbsp;${userListInstance.author.lastName}&nbsp;(author)
-						<g:link action="export" style="padding-right:5px;" id="${userListInstance.id}">
+						<g:link action="export" style="padding-right:5px;text-decoration:none" id="${userListInstance.id}">
 						<img alt="export list" border="0" title="Export list" src="${createLinkTo(dir: 'images', file: 'export.png')}" />
 						</g:link>
 						<g:if test="${userListInstance.tags.contains('gene')}">
-						<g:cytoscapeLink style="padding-right:5px;" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>
+						<g:cytoscapeLink style="padding-right:5px;text-decoration:none" id="${userListInstance.id}" src="${createLinkTo(dir: 'images', file: 'chart_line.png')}" title="View Cancer-Gene Index network"/>&nbsp;&nbsp;
 						<g:link class="enrich" action="enrichGeneList" controller="geneEnrichment" style="padding-right:5px;" id="${userListInstance.id}" >
 							<img alt="enrich gene list" border="0" title="Enrich Gene List" src="${createLinkTo(dir: 'images', file: 'enrich.png')}" />
 						</g:link>
