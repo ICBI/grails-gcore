@@ -170,7 +170,7 @@ class ClinicalService {
 		//log.debug "parse " + attributes.value
 		def key = attributes.key
 		def schema = StudyContext.getStudy()
-		def selectStmnt = '(select /*+ index(v,SUBJECT_ATTRIBUTE_VALUE_INDEX1) */ unique (p.subject_id) from ' + schema + '.subject p, common.attribute_type c, ' + schema + '.subject_attribute_value v ' +
+		def selectStmnt = '(select /*+ index(v,SUBJECT_ATTRIBUTE_VALUE_INDEX1) */ distinct (p.subject_id) from ' + schema + '.subject p, common.attribute_type c, ' + schema + '.subject_attribute_value v ' +
 			 			  'where p.subject_id = v.subject_id and v.attribute_type_id = c.attribute_type_id ' +
 						  ' and ('
 		//log.debug "iterate over array and add each mapped criteria, depending on range or regular value"
