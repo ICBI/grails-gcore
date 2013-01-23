@@ -160,6 +160,7 @@ class GdocTagLib {
 		out << javascript(src: "jquery/jqGrid/jquery.fmatter.js", plugin: "gcore")
 		out << javascript(src: "jquery/jqGrid/json2.js", plugin: "gcore")
 		out << javascript(src: "jquery/jqGrid/JsonXml.js", plugin: "gcore")
+		out << javascript(src: "jquery/jqGrid/grid.grouping.js", plugin: "gcore")
 		
 	}
 	
