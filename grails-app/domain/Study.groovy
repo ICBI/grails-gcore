@@ -24,7 +24,7 @@ class Study {
 	
 	static hasMany = [pis: Contact, pocs: Contact, content: DataSourceContent, patients: CommonPatient]
 	static fetchMode = [content:"eager", pis: "eager", pocs: "eager"]
-	static transients = [ "genomicData","subjectType"]
+	static transients = [ "genomicData","subjectType","dynamicData"]
 	
 	String shortName
 	String longName
@@ -40,6 +40,17 @@ class Study {
 	Date insertDate
 	String insertMethod
 	Boolean genomicData
+	Boolean dynamicData
+	
+	def hasDynamicData() {
+		dynamicData = content.find {
+			if(it.type == "MICROARRAY" || it.type == "COPY_NUMBER" || it.type == "METABOLOMICS" || it.type == "MICRORNA")
+			 return true
+			else
+			 return false
+		}
+		return dynamicData
+	}
 	
 	def hasGenomicData() {
 		return content.find {
