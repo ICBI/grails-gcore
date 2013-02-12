@@ -137,6 +137,9 @@
 														<p style="border-bottom:1px dashed black;padding:2px">${finding.title}&nbsp; - <span style="color:blue"><g:message code="home.loadedOn" />: <g:formatDate format="EEE MMM d, yyyy" date="${finding.dateCreated}"/></span></p>
 													</g:each>
 													</g:if>
+													<g:else>
+													<g:message code="home.noFindingsMessage" />
+													</g:else>
 													</div>
 												</div>
 												
