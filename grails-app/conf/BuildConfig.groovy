@@ -37,7 +37,7 @@ grails.project.dependency.resolution = {
 		compile	':spring-security-ldap:1.0.5'
 		compile	':hibernate:2.1.1'
 		runtime	':tomcat:2.1.1'
-		build ':release:2.0.4'
+		build ':release:2.2.1'
 		build(':svn:1.0.2') {
 			export = false
 		}
