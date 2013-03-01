@@ -14,8 +14,10 @@ target(main: "Load a annotations into the database") {
 	// Load up grails contexts to be able to use GORM
 	loadApp()
 	configureApp()
-	println "Please specify a project name:"
-	def projectName = new InputStreamReader(System.in).readLine().toUpperCase()
+	if(!argsMap['study']) {
+		print "Please specify a study name using the --study parameter."
+	}
+	def projectName =  argsMap['study'].toUpperCase()
 	def studyFile = new File("dataImport/${projectName}/${projectName}_annotation_table.txt")
 	if(!studyFile.exists()) {
 		println "Cannot find study metadata file at dataImport/${projectName}/${projectName}_annotation_table.txt.  Please make sure this file exists."

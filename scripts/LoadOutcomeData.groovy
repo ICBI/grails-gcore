@@ -15,8 +15,10 @@ target(main: "Load outcome relpase data into the DB") {
 	loadApp()
 	configureApp()
 
-	println "Please specify a project name:"
-	def projectName = new InputStreamReader(System.in).readLine().toUpperCase()
+	if(!argsMap['study']) {
+		print "Please specify a study name using the --study parameter."
+	}
+	def projectName =  argsMap['study'].toUpperCase()
 	def successful = false;
 	def dataSourceClass = classLoader.loadClass('Study')
 	def study = dataSourceClass.findBySchemaName(projectName)
