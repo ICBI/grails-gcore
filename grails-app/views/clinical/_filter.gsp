@@ -176,7 +176,7 @@
 					$('#sfSubmit').click();
 				}
 			}else{
-				console.log("hashes are"+hashes);
+				//console.log("hashes are"+hashes);
 				$('#sfSubmit').click();
 			}	
 		
@@ -194,7 +194,7 @@ function check(form){
 	// 		$(this).attr('disabled','disabled');
 	// 	});
 	var pageurl = "${grailsApplication.config.grails.serverURL}/clinical/filter?" + $("#sf :input[value][value!='']").serialize();
-	console.log("url "+pageurl);
+	//console.log("url "+pageurl);
 	window.history.pushState({test:pageurl},'',pageurl);
 	return false;
 }
@@ -257,7 +257,7 @@ function addToBreadcrumb(name,value,removal){
 	          url: pageurl,
 	          success: function(msg){
 	            //console.log(msg);
-				console.log("request and replaceState the url with"+pageurl);
+				//console.log("request and replaceState the url with"+pageurl);
 				$("#filterResults").html(msg);
 				displayFilterTable();
 				history.replaceState(null, null, pageurl);
@@ -456,7 +456,7 @@ function evaluateUnchecked(element){
 }
 
 function cleanUp(){
-	console.log('clean up');
+	//console.log('clean up');
 	$(" :input").attr("disabled", false);
 	displayFilterTable();
 	var targetElem = $("input[name="+targetField+"]");
@@ -478,7 +478,7 @@ function cleanUp(){
 }
 
 function verifyURLParams(pageUrl){
-	console.log("verify url params");
+	//console.log("verify url params");
 	var hashes = pageUrl.slice(pageUrl.indexOf('?') + 1).split('&');
 	for(var i=0;i<hashes.length;i++){
 		var elementArray = hashes[i].split("=");
