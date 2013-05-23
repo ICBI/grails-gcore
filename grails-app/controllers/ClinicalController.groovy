@@ -1,6 +1,6 @@
 import grails.converters.*
 @Mixin(ControllerMixin)
-@Extension(type=ExtensionType.SEARCH, menu="Studies")
+@Extension(type=ExtensionType.SEARCH, menu="Clinical/Subject")
 class ClinicalController {
 
 	def clinicalService

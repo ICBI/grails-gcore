@@ -5,13 +5,7 @@ class Finding {
 		id column:'FINDING_ID'
 	}
 	
-	static searchable = {
-					alias "findings"
-			        title index: 'not analyzed'
-					title index: 'analyzed'
-					principalEvidence component: true
-					supportingEvidence component: true
-	}
+	static searchable = true
 	
 	String title
 	String description

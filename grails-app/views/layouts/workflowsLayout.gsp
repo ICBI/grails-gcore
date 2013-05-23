@@ -58,9 +58,10 @@
 </div>
 <g:javascript>
 // code to set height of left bar
-jQuery(document).ready(function() {
-	$('#navigation').height($('#yui-main').height());
-});
+
+$(window).load(function(){
+$('#navigation').height($('#yui-main').height());
+})
 </g:javascript>
 </body>
 </html>

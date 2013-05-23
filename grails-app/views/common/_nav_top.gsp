@@ -11,29 +11,41 @@ jQuery(document).ready(function()
 <g:javascript src="jquery/jquery.superfish.js" plugin="gcore"/>
 
 <div id="top-navigation-block" width="100%" style="position: absolute; z-index: 100;">
-	<ul id="gdocNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
+	<ul id="gdocNavigations" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
-			<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows" />
+			<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows"/>
 		</li>
 		<li>
-			<g:navigationLink name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource" />
+			<g:navigationLink name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.studies', args: [appTitle()])}</g:navigationLink>
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#"><g:message code="nav.search" /><span class="sf-sub-indicator"> »</span></a>
+			<g:navigationLink name="${message(code: 'nav.pm', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.pm', args: [appTitle()])}</g:navigationLink>
+		</li>
+		<li>
+			<a class="sf-with-ul" href="#"><g:message code="nav.research" /><span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:searchLinks menu="true"/>
+					<a class="sf-with-ul" href="#"><g:message code="nav.search" /><span class="sf-sub-indicator"> »</span></a>
+					<ul style="display: none; visibility: hidden;">
+						<li>
+							<g:searchLinks menu="true"/>
+						</li>		
+					</ul>
+				</li>
+				<li>
+					<a class="sf-with-ul" href="#"><g:message code="nav.analyze" /><span class="sf-sub-indicator"> »</span></a>
+					<ul style="display: none; visibility: hidden;">
+						<li>
+							<g:analysisLinks menu="true"/>
+						</li>		
+					</ul>
 				</li>		
-			</ul>
+			</ul>	
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#"><g:message code="nav.analyze" /><span class="sf-sub-indicator"> »</span></a>
-			<ul style="display: none; visibility: hidden;">
-					<li>
-						<g:analysisLinks menu="true"/>
-					</li>
-			</ul>
+			<g:link name="${message(code: 'nav.popgen', args: [appTitle()])}" controller="workflows" action="popgen">${message(code: 'nav.popgen', args: [appTitle()])}</g:link>
 		</li>
+	
 			<li>
 				<a class="sf-with-ul" href="#"><g:message code="workflows.my" args="${ [appTitle()] }"/><span class="sf-sub-indicator"> »</span></a>
 				<ul style="display: none; visibility: hidden;">

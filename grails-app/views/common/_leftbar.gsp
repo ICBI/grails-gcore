@@ -4,7 +4,8 @@ jQuery(document).ready(function()
 {
 	jQuery("ul.sf-menu").superfish({ 
 		animation: {height:'show'},   // slide-down effect without fade-in 
-		delay:     1200               // 1.2 second delay on mouseout 
+		speed: 'fast',
+		disableHI: true               // 1.2 second delay on mouseout 
 	});
 	jQuery('.genePatternLink').click(function() {
 		jQuery('#gpForm').submit();
@@ -15,36 +16,48 @@ jQuery(document).ready(function()
 <jq:plugin name="hoverIntent"/>
 <jq:plugin name="superfish"/>
 <div id="navigation-block">
-	<ul id="gdocNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
+	<ul id="gdocNavigations" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
-			<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows" />
+			<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows"/>
 		</li>
 		<li>
-			<g:link name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.studies', args: [appTitle()])}</g:link>
+			<g:navigationLink name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.studies', args: [appTitle()])}</g:navigationLink>
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#"><g:message code="nav.search" /><span class="sf-sub-indicator"> »</span></a>
+			<g:navigationLink name="${message(code: 'nav.pm', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.pm', args: [appTitle()])}</g:navigationLink>
+		</li>
+		<li>
+			<a class="sf-with-ul" href="#"><g:message code="nav.research" /><span class="sf-sub-indicator"> »</span></a>
 			<ul style="display: none; visibility: hidden;">
 				<li>
-					<g:searchLinks menu="true"/>
+					<a class="sf-with-ul" href="#"><g:message code="nav.search" /><span class="sf-sub-indicator"> »</span></a>
+					<ul style="display: none; visibility: hidden;">
+						<li>
+							<g:searchLinks menu="true"/>
+						</li>		
+					</ul>
+				</li>
+				<li>
+					<a class="sf-with-ul" href="#"><g:message code="nav.analyze" /><span class="sf-sub-indicator"> »</span></a>
+					<ul style="display: none; visibility: hidden;">
+						<li>
+							<g:analysisLinks menu="true"/>
+						</li>		
+					</ul>
 				</li>		
-			</ul>
+			</ul>	
 		</li>
 		<li>
-			<a class="sf-with-ul" href="#"><g:message code="nav.analyze" /><span class="sf-sub-indicator"> »</span></a>
-			<ul style="display: none; visibility: hidden;">
-					<li>
-						<g:analysisLinks menu="true"/>
-					</li>
-			</ul>
+			<g:navigationLink name="${message(code: 'nav.popgen', args: [appTitle()])}" controller="workflows">${message(code: 'nav.popgen', args: [appTitle()])}</g:navigationLink>
+		</li>
 		<li>
-			<g:link controller="help"><g:message code="nav.help" /></g:link>
+			<g:navigationLink name="${message(code: 'nav.help', args: [appTitle()])}" controller="help"><g:message code="nav.help" /></g:navigationLink>
 		</li>		
 	</ul>
 </div>
 
 <div id="navigation-block">
-	<ul id="mygdocNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
+	<ul id="mygdocNavigations" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
 			<g:link controller="notification"><g:message code="nav.notifications" /></g:link>
 		</li>

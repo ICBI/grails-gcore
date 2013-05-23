@@ -1,4 +1,4 @@
-						<table border="0" width="100%">
+						<table border="0" width="100%" style="border:0px solid black">
 							<tr>
 								<td colspan="4" class="titleBar">
 									<p style="margin-top:4px;color:#336699"><g:message code="workflows.features" /></p>

@@ -1,4 +1,4 @@
-@Extension(type=ExtensionType.SEARCH, menu="Findings")
+@Extension(type=ExtensionType.NONE, menu="Findings")
 class FindingController {
 	def findingService
 	

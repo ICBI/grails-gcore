@@ -1,5 +1,7 @@
 import groovy.time.*
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
+@Mixin(ControllerMixin)
 class WorkflowsController {
 	def securityService
 	def savedAnalysisService
@@ -9,6 +11,7 @@ class WorkflowsController {
 	def cleanupService
 	def invitationService
 	def springSecurityService
+	def htDataService
 	
     def index = { 
 		if(springSecurityService.isLoggedIn()){
@@ -64,7 +67,13 @@ class WorkflowsController {
 			
 			//set data available
 			session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
-
+			
+			//next gen available
+			
+			session.nextGenPlugin = false
+			if (PluginManagerHolder.pluginManager.hasGrailsPlugin('nextGen')) {
+			   session.nextGenPlugin = true
+			}
 			
 			if(lastLogin){
 				def formattedDate = lastLogin.format('EEE MMM d, yyyy')
@@ -115,6 +124,17 @@ class WorkflowsController {
 			}
 		}
 		return artifactsTBD
+	}
+	
+	def research = {
+		[availableSubjectTypes:getSubjectTypes(),diseases:getDiseases()]
+	}
+	
+	def popgen = {
+		StudyContext.setStudy("THE_1000_GENOMES_PROJECT")
+		loadCurrentStudy()
+		redirect(controller:'phenotypeSearch')
+		return 
 	}
 	
 }

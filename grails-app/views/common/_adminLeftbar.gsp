@@ -12,7 +12,7 @@ jQuery(document).ready(function()
 <jq:plugin name="hoverIntent"/>
 <jq:plugin name="superfish"/>
 <div id="navigation-block">
-	<ul id="adminNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
+	<ul id="adminNavigations" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
 			<g:navigationLink name="${g.appTitle()} Home" controller="workflows" />
 		</li>

@@ -11,7 +11,7 @@ jQuery(document).ready(function()
 <g:javascript src="jquery/jquery.superfish.js" plugin="gcore"/>
 
 <div id="top-navigation-block" width="100%" style="position: absolute; z-index: 100;">
-	<ul id="adminNavigation" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
+	<ul id="adminNavigations" class="sf-menu sf-vertical sf-js-enabled sf-shadow">
 		<li>
 			<g:navigationLink name="${g.appTitle()} Home" controller="workflows" />
 		</li>

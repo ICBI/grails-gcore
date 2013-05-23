@@ -2,7 +2,7 @@ import java.lang.annotation.*
 import static java.lang.annotation.RetentionPolicy.*
 import static java.lang.annotation.ElementType.*
 
-enum ExtensionType { SEARCH, ANALYSIS, CYTOSCAPE }
+enum ExtensionType { SEARCH, ANALYSIS, CYTOSCAPE, NONE }
 
 @Retention(RUNTIME)
 @Target([TYPE])
