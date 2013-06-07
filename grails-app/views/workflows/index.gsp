@@ -36,17 +36,17 @@
 						<div style="margin-top:20px;padding-bottom:20px">
 							<h3 align="center" style="padding-bottom:10px"> Georgetown Database of Cancer and Disease</h3>
 							<g:if test="${flash.message}">
-								<div class="message" style="width:75%">${flash.message}</div>
+								<div align="center" class="message" style="width:75%;margin:0 auto;text-align:left">${flash.message}</div>
 								${flash.message = null}
 							</g:if>
 							<g:if test="${inviteMessage && requestMessage}">
-								<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage} and ${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>
+								<div align="center" class="taskMessage" style="width:75%;margin:0 auto;text-align:left"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage} and ${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>
 							</g:if>
 							<g:if test="${inviteMessage && !requestMessage}">
-								<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage}</g:link> <g:message code="workflows.requiring" /></div>
+								<div align="center" class="taskMessage" style="width:75%;margin:0 auto;text-align:left"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${inviteMessage}</g:link> <g:message code="workflows.requiring" /></div>
 							</g:if>
 							<g:if test="${!inviteMessage && requestMessage}">
-								<div class="taskMessage" style="width:75%"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>
+								<div align="center" class="taskMessage" style="width:75%;margin:0 auto;text-align:left"><g:message code="workflows.youHave" /> <g:link controller="collaborationGroups">${requestMessage}</g:link> <g:message code="workflows.requiring" /></div>
 							</g:if>
 							<p style="font-size:.9em">
 							G-DOC offers several workflows lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eget diam nisi. Sed eget velit odio. Phasellus at nibh nisi, non euismod ligula. Aliquam volutpat ipsum ullamcorper tellus condimentum eu lacinia elit posuere. Curabitur non felis sed diam rutrum eleifend. Nam suscipit dictum magna eget placerat. Suspendisse potenti. Duis tincidunt eros eu lorem viverra tincidunt.
