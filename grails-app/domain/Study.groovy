@@ -87,6 +87,12 @@ class Study {
 			it.type == "WGS"
 		}
 	}
+
+    def hasImagingData() {
+        return content.find {
+            it.type == "IMAGING"
+        }
+    }
 	
 	public String getSubjectType(){
 		if(this.@shortName){

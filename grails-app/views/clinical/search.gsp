@@ -69,7 +69,7 @@
 				sortname: 'id', 
 				</g:else>
 				viewrecords: true, 
-				sortorder: "desc", 
+				sortorder: "desc",
 				multiselect: true, 
 				beforeSelectRow: function() {
 					return false;
@@ -134,7 +134,6 @@
 				$.each(ids, function(key, value) {
 					s.push(key);
 				});
-				
 				if(s.length == 0) {
 					jQuery('#message').html("No IDs selected.")
 					jQuery('#message').css("display","block");
@@ -149,7 +148,40 @@
 					listName = encodeURIComponent(listName);
 					${remoteFunction(action:'saveFromQuery',controller:'userList', update:'message', onLoading:'showSaveSpinner(true)', onComplete: 'showSaveSpinner(false)', params:'\'ids=\'+ s+\'&author.username=\'+author+\'&tags=\'+tags+\'&name=\'+listName')}
 				}
-			}); 
+			});
+
+			jQuery("#searchimages").click( function() {
+            				var s = [];
+            				var author = '${session.userId}';
+
+            				var selectedItem = this.title;
+            				var itemType;
+            				if(selectedItem)
+            					itemType = this.innerHTML
+            				else
+            					itemType = '${session.subjectTypes.parent}';
+            				var ids;
+            				if(itemType == '${session.subjectTypes.parent}') {
+            					ids = selectedParentIds;
+            				} else {
+            					ids = selectedChildIds;
+            				}
+            				$.each(ids, function(key, value) {
+            					s.push(key);
+            				});
+            				$("#q1").val(s);
+
+            				if(s.length == 0) {
+            					jQuery('#messageImaging').html("No IDs selected.")
+            					jQuery('#messageImaging').css("display","block");
+            					window.setTimeout(function() {
+            					  jQuery('#messageImaging').empty().hide();
+            					}, 10000);
+            				} else {
+                                $("#searchImaging").click();
+            				}
+            		});
+
 			jQuery("#searchResults").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search:false, refresh: false,position:'left'});
 			jQuery("#searchResults").jqGrid('navButtonAdd','#pager',{
 			       caption:"Export results", 
@@ -171,7 +203,7 @@
 				selectSaved();
 			});
 		});
-		
+
 		function setSelectAll() {
 			var checked = $('#cb_searchResults').attr('checked');
 			jQuery("#searchResults").resetSelection();
@@ -196,8 +228,6 @@
 			window.setTimeout(function() {
 			  jQuery('#message').empty().hide();
 			}, 10000);
-			
-		
 		}
 		
 		function bindCheckboxes() {
@@ -293,6 +323,38 @@
 		function getIdFromCheckboxId(cbox) {
 			return cbox.substring(cbox.lastIndexOf("_") + 1);
 		}
+
+		function GetSelectedIds() {
+            				var s = [];
+            				var author = '${session.userId}';
+
+            				var selectedItem = this.title;
+            				var itemType;
+            				if(selectedItem)
+            					itemType = this.innerHTML
+            				else
+            					itemType = '${session.subjectTypes.parent}';
+            				var ids;
+            				if(itemType == '${session.subjectTypes.parent}') {
+            					ids = selectedParentIds;
+            				} else {
+            					ids = selectedChildIds;
+            				}
+            				$.each(ids, function(key, value) {
+            					s.push(key);
+            				});
+            				$("#q1").val(s);
+
+            				if(s.length == 0) {
+            					jQuery('#messageImaging').html("No IDs selected.")
+            					jQuery('#messageImaging').css("display","block");
+            					window.setTimeout(function() {
+            					  jQuery('#messageImaging').empty().hide();
+            					}, 10000);
+            				} else {
+            				}
+            		}
+
 	</g:javascript>
 	<br/>
 	<g:each in="${session.annotations}">
@@ -343,11 +405,23 @@
 						<g:message code="clinical.listSave" />
 					</g:else>
 				</span><br />
+
 				<span id="message" style="display:none"></span>
 				<span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
+
+                <g:if test="${session.study.hasImagingData()}"><br />This study has Imaging Data. Please select a Patient or a Group of Patients to explore their Imaging data.</br>
+                				<span class="bla" id="searchimages"> View Images </span>
+                				<span id="messageImaging" style="display:none"></span>
+                                <g:form controller="Dicom" action="dicomsearch" >
+                            		<g:hiddenField name="userId1" id="q1" value=""/><g:hiddenField name="userId" id="q" /><g:hiddenField name="userId2" id="q2" /><g:hiddenField name="userId3" id="q3" /><g:hiddenField name="userId4" id="q4" /><g:hiddenField name="userId5" id="q5" />
+                            		<g:hiddenField name="userId6" id="q6" /><g:hiddenField name="userId7" id="q7" value="${session.study?.shortName}"/><g:submitButton name="search" id="searchImaging" value="View Images" onclick="GetSelectedIds()" style="visibility: hidden" />
+                            	</g:form>
+                  </g:if>
+
 				</div>
 				</div>
 				</g:if>
+
 				<table id="searchResults" class="scroll" cellpadding="0" cellspacing="0"></table>
 				<div id="pager" class="scroll" style="text-align:center;height: 45px"></div>
 			</g:else>
