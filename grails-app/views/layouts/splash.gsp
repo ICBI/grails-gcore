@@ -21,26 +21,21 @@
 		
 </head>
 <body style="background-color:#334477">
-	
-	
-	
-	
+		
 <g:set var="activePage" value="${params.controller}" /> 
 <div id="doc2" class="yui-t1" style="border:0px solid black;">
 	<div id="hd">
 		<!-- Header start -->
-    <g:render template="/common/header" />
+    <g:render template="/common/headerNoNavBar" />
     <!-- Header end -->
 	</div>
-	<div class="c" style="border:1px solid #000;padding:3px">
+	<div class="c" style="border:1px solid #000;padding:3px; float: left; width: 100%">
 	<div id="bd" style="min-height:400px;">
-		<div id="yui-main">
-			
-						<g:layoutBody/>
-					
+		<div id="yui-main">			
+			<g:layoutBody/>					
 		</div>
 	</div>
-	<div id="ft">
+	<div id="ft" style="float: left; height: 100%; width: 100%">
 		<!-- Footer start -->
     <g:render template="/common/footer" />
     <!-- Footer end -->

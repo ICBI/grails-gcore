@@ -3,7 +3,7 @@ A:link {color:#336699}
 A:visited {color:#336699}
 A:hover {color:#334477}
 </style>
-<div style="background: #f2f2f2 url(/${g.appName()}/images/border_bottom.gif) top repeat-x;height:100%;" align="center"><br />
+<div style="background: #f2f2f2 url(/${g.appName()}/images/border_bottom.gif) top repeat-x; width: 100%; float: left" align="center"><br />
 	<div style="border:0px solid black">
 		<span size="6" style="vertical-align:20px;font-size: 11px; font-family: arial,helvetica,sans-serif; color: #1c2674;border:0px solid black">
 			${g.appTitle()} ${g.appVersion()}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" ><g:message code="common.footer.releaseNotes" /></a>
@@ -21,9 +21,9 @@ A:hover {color:#334477}
 		<g:link controller="home" action="team">${g.appTitle()} <g:message code="common.footer.team" /></g:link>
 	</span><br />
 
-<span style="border:0px solid black;float:left;padding-left:100px">	
+<span style="border:0px solid black; float:left; padding-left:100px; height: 55px; width:149px;">	
 		<a href="http://lombardi.georgetown.edu/" target="_blank">
-			<img src="${createLinkTo(dir:'images',file:'lombardi_logo.png')}" border="0" alt="${message(code: 'common.footer.lcccLogoAlt')}" />
+			<img src="${createLinkTo(dir:'images', file:'lombardi_logo.png')}">
 		</a>
 </span>
 

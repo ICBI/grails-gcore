@@ -3,6 +3,7 @@ import org.hibernate.FetchMode as FM
 class StudyDataSourceService {
 
     boolean transactional = true
+	def htDataService;
 
     def create(data) {
 		def dataSource = new Study(data)
@@ -56,4 +57,88 @@ class StudyDataSourceService {
 		}
 		return contact
 	}
+	
+	def findStudiesWhichSupportOperation(List<Study> studies, String operation) {
+		def filtered = []
+		studies.each {
+			if(doesStudySupportOperation(operation, it)) filtered << it
+		}
+		log.debug(filtered.groupBy {it.disease})
+		return filtered.groupBy {it.disease}
+	}
+	
+	def findOperationsSupportedByStudy(Study study) {
+		log.debug("inside findOperationsSupportedByStudy")
+		def operations = []
+		StudyContext.setStudy(study.schemaName)
+		def endpoints = KmAttribute.findAll()
+		def files = htDataService.getHTDataMap()
+		def dataSetType = files.keySet()
+		
+		operations << Operation.GENOME_BROWSER
+		if(study.hasClinicalData()) operations << Operation.CLINICAL
+		operations << Operation.TARGET
+		if(study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) operations << Operation.GENE_EXPRESSION
+		if(study.hasImagingData()) operations << Operation.DICOM
+		if(study.hasWgsData()) {
+			operations << Operation.PHENOTYPE_SEARCH
+			operations << Operation.VARIANT_SEARCH
+		}
+		
+		if(study.hasCopyNumberData()) operations << Operation.CIN
+		if(files && (dataSetType.size() > 0)) operations << Operation.PCA
+		if(files && study.hasDynamicData()) operations << Operation.GROUP_COMPARISON
+		if((study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) || (study.hasMicroRNAData() && dataSetType.contains('microRNA')) || (study.hasCopyNumberData() && dataSetType.contains('COPY_NUMBER')) || (study.hasMetabolomicsData() && dataSetType.contains('METABOLOMICS'))) operations << Operation.HEAT_MAP
+		if(endpoints != null && (endpoints.size() > 0)) operations << Operation.KM
+		if(endpoints && study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) operations << Operation.KM_GENE_EXP
+		
+		return operations
+	}
+	
+	boolean doesStudySupportOperation(String intendedOperation, Study study) {
+		intendedOperation = intendedOperation.toLowerCase();
+		boolean result = true
+		log.debug("operation is: "+intendedOperation)
+		StudyContext.setStudy(study.schemaName)
+		def endpoints = KmAttribute.findAll()
+		def files = htDataService.getHTDataMap()
+		def dataSetType = files.keySet()
+		
+		if(intendedOperation == "km")
+			result = (endpoints != null && (endpoints.size() > 0))
+		
+		else if(intendedOperation == "kmgeneexp")
+			result = (endpoints && study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION'))
+		
+		else if(intendedOperation == "cin")
+			result = study.hasCopyNumberData()
+			
+		else if(intendedOperation == "variantsearch")
+			result = study.hasWgsData()
+			
+		else if(intendedOperation == "phenotypesearch")
+			result = study.hasWgsData()
+		
+		else if(intendedOperation == "dicom")
+			result = study.hasImagingData()
+			
+		else if(intendedOperation == "geneexpression")
+			result = study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')
+			
+		else if(intendedOperation == "clinical")
+			result = study.hasClinicalData()
+			
+		else if(intendedOperation == "groupcomparison")
+			result = files && study.hasDynamicData()
+			
+		else {
+			log.debug("Clearing study context")
+			StudyContext.clear();
+		}
+			
+		log.debug("doesStudySupportOperation: "+result)
+			
+		return result
+	}
+
 }

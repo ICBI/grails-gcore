@@ -12,9 +12,50 @@ class WorkflowsController {
 	def invitationService
 	def springSecurityService
 	def htDataService
+	def studyDataSourceService
 	
-    def index = { 
+	def chooseStudy() {
+		
+		def responseMap = [:]
+		
+		if(!session.study) {
+			flash.message = "Ok then, simply select any one of the following studies...."
+		}
+		
+		else {
+			if(params.showAll) flash.message = "Ok then, simply select any one of the following studies...."
+			else flash.message = "Ok, here is a list we have custom made for what you want to do. Just pick any..."
+		}
+		
+		if(params.operation) {
+			log.debug("filter studies")
+			responseMap['filteredStudies'] = studyDataSourceService.findStudiesWhichSupportOperation(session.myStudies, params.operation)
+		}
+		responseMap["availableSubjectTypes"] = getSubjectTypes()
+		responseMap["diseases"] = getDiseases()
+		
+		render(view: 'chooseStudy', model: responseMap)
+	}
+	
+	def choosePath() {
+		
+	}
+
+	
+	def studySpecificTools() {
+		if(!session.study) {
+			render (view: 'index')
+		}
+	}
+	
+    def index = {
 		if(springSecurityService.isLoggedIn()){
+			
+		 if(session.study) {
+			 render (view: 'studySpecificTools')
+			 return
+		 }
+		 
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)
 		 session.userId = currentUser.username

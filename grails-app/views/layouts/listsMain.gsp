@@ -17,12 +17,17 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'editableText.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap-select.min.css')}"/>
+				
 		<g:javascript library="jquery" plugin="jquery"/>
 		<g:layoutHead/>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
+		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap.min.js')}"></script>
+		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap-select.min.js')}"></script>		
 		
 </head>
-<body style="background-color:#334477">
+<body style="background-color:#334477; padding-top: 50px">
 	
 	
 	
@@ -47,11 +52,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="c" style="padding:5px">
-		<div id="navigation" class="yui-b first">
-			<g:render template="/common/leftbar" />
-		</div>
-		</div>
+
 	</div>
 	<div id="ft" >
 		<!-- Footer start -->

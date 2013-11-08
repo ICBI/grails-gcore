@@ -12,6 +12,7 @@ class StudyDataSourceController {
 	def middlewareService
 	def htDataService
 	def attributeValueService
+	def studyDataSourceService
 	
     def index = { 
 		def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,false)
@@ -36,6 +37,9 @@ class StudyDataSourceController {
 	}
 	
 	def setStudy = {
+		log.debug("entering");
+		log.debug(session.myStudies);
+		log.debug "study selected: "+params.study;
 		if(params.study && session.myStudies){
 			def studyid = new Long(params.study)
 			def allowedStudyAccess = session.myStudies.find{it.id == studyid}
@@ -52,9 +56,16 @@ class StudyDataSourceController {
 				loadSubjectTypes()
 				loadAttributeRanges()
 				session.endpoints = KmAttribute.findAll()
+				log.debug("endpoints are: "+session.endpoints)
 				session.files = htDataService.getHTDataMap()
 				session.dataSetType = session.files.keySet()
-				render session.study.shortName
+				//render session.study.shortName
+				session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)
+				if(params.operation) redirect(controller: params.operation, action:'index')
+				else {
+					redirect (controller:'workflows', action: 'studySpecificTools')
+				}
+				log.debug("redirected")
 			}else{
 				log.debug "user is NOT permitted to access this study"
 				redirect(controller:'policies',action:'deniedAccess')
@@ -73,6 +84,7 @@ class StudyDataSourceController {
 	def findStudiesForDisease = {
 		def myStudies = []
 		def studiesJSON = []
+		def operation = params.operation ?: "none"
 		
 		if(params.disease && params.subjectType){
 			log.debug "grab all studies that have data for $params.disease with type $params.subjectType"
@@ -81,7 +93,7 @@ class StudyDataSourceController {
 				if(it.shortName!="DRUG"){
 					def dataAvailability =  session['dataAvailability']
 					def hasSubjectMatter =dataAvailability['dataAvailability'].find{elm ->
-						if((elm["STUDY"] == it.shortName) && (elm["subjectType"] == params.subjectType)){
+						if((elm["STUDY"] == it.shortName) && (elm["subjectType"] == params.subjectType) && studyDataSourceService.doesStudySupportOperation(operation, it)){
 							def studies = [:]
 							studies["studyName"] = it.shortName
 							studies["studyId"] = it.id
@@ -94,6 +106,7 @@ class StudyDataSourceController {
 		studiesJSON.sort { it.studyName }
 		render studiesJSON as JSON 
 	}
+	
 	
 	def show = {
 		def currStudy = Study.get(params.id)

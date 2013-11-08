@@ -514,7 +514,7 @@ function verifyURLParams(pageUrl){
 	</span>
 </div>
 
-<g:formRemote id="sf" name="searchForm" url="[controller: 'clinical', action:'filter']" before="check(this)" update="filterResults" onComplete="cleanUp()">
+<g:formRemote class="form-horizontal" id="sf" name="searchForm" url="[controller: 'clinical', action:'filter']" before="check(this)" update="filterResults" onComplete="cleanUp()">
 	<g:if test="${session.subjectTypes.timepoints}">
 	<div class="clinicalFilter" id="timepoint_div">
 		<div>
@@ -561,11 +561,13 @@ function verifyURLParams(pageUrl){
 					</g:javascript>
 			</g:else>
 			<div class="clinicalFilter" style="display:block" id="${it.shortName+'_div'}" disabled="true">
-				<div>
-				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>
-				<label for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>
+				<div class="control-group">
+				<label class="control-label" for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>
+				<div class="controls">
+				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>				
 				<%--img class="info" title="${it.definition}" src="${createLinkTo(dir:'images',file:'help.png')}" width="13" height="13" border="0" /--%>
 				<a href="#" class="clueLink" rel="${it.shortName.replace('/','_')+'_details'}" ><img src="${createLinkTo(dir:'images',file:'help.png')}" alt="view ${it.shortName} values" width="15" height="15" border="0" /></a>
+				</div>
 				</div>
 				<div class="${it.shortName.replace('/','_')+'_details'}" style="border:0px solid blue;display:none;padding:4px;color:#999999;font-size:.9em">
 				<g:if test="${it.vocabulary}">
@@ -576,15 +578,13 @@ function verifyURLParams(pageUrl){
 						<g:each in="${it.vocabs.findAll{item -> session.usedVocabs[it.id]?.contains(item.term)}.sort{it.term}}" var="v" status="j">
 							    <span style="display:block">
 								<g:checkBox name="${type.replace('_','') + '_vocab_' + it.shortName}" value="${v.term}" checked="${params.list(type + '_vocab_' + it.shortName)?.contains(v.term)}" class="cb" />
-							    <label for="${type.replace('_','') + '_vocab_' + it.shortName}">${v.termMeaning}</label>
+							    <label class="control-label" for="${type.replace('_','') + '_vocab_' + it.shortName}">${v.termMeaning}</label>
 								</span>
 							</g:each>
 									
 					</div>
 					
-				</g:if>
-				
-				
+				</g:if>				
 				<g:else>
 					<g:if test="${session.attributeRanges[it.shortName]}">
 					<g:set var="upperRange" value='${session.attributeRanges[it.shortName]["upperRange"]}' />
@@ -627,9 +627,9 @@ function verifyURLParams(pageUrl){
 	
 	<g:hiddenField name="splitAttribute" id="splitAttribute" value="${session.splitAttribute}" />
 	
+
 	<br/>
-	<br/>
-	<g:submitButton name="submit" id="sfSubmit" class="submit" value="${message(code: 'gcore.submit')}"/>
+	<g:submitButton name="submit" id="sfSubmit" class="submit btn" value="${message(code: 'gcore.submit')}"/>
 </g:formRemote>
 </g:if>
 

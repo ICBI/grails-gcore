@@ -16,15 +16,19 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styledButton.css')}" />
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
-		
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap-select.min.css')}"/>	
+				
 		<g:javascript library="jquery" plugin="jquery"/>
 		<g:layoutHead/>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
+		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap.min.js')}"></script>
+		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap-select.min.js')}"></script>				
 		
 		
 		
 </head>
-<body style="background-color:#334477">
+<body style="background-color:#334477; padding-top: 50px; padding-left: 10%; padding-right: 10%; width: 80%; ">
 	
 	
 <g:set var="activePage" value="${params.controller}" /> 
@@ -34,27 +38,13 @@
     <g:render template="/common/header" />
     <!-- Header end -->
 	</div>
-	<div class="c" style="background:#fff;border:1px solid #000;padding:3px;">
-	<div id="bd">
-		<div id="yui-main" style="min-height:400px;">
-			<div class="yui-b">
-				<div class="yui-gc">
-					<div class="yui-u first">
-						<g:layoutBody/><br />
-					</div>
-					<div class="yui-u">
-						
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="c" style="padding:5px">
-		<div id="navigation" class="yui-b first">
-			<g:render template="/common/leftbar" />
-		</div>
+	<div class="c" style="background:#fff;border:1px solid #000;padding:3px; float: left">
+	<div id="bd" style="float: left; width: 100%">
+		<div style="padding-left: 10%; padding-right: 10%; padding-top: 5%; float: left; width: 80%">
+			<g:layoutBody/><br />
 		</div>
 	</div>
-	<div id="ft">
+	<div id="ft" style="float: left; height: 100%; width: 100%">
 		<!-- Footer start -->
     <g:render template="/common/footer" />
     <!-- Footer end -->

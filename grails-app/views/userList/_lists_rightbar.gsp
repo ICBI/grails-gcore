@@ -27,6 +27,11 @@
 			}
 		}
 	}
+	
+	$(document).ready(function() {
+		$(".selectpicker").selectpicker();
+		
+	});
 
 </g:javascript>
 
@@ -36,7 +41,7 @@
  		<g:form name="listToolForm" update="allLists" onLoading="showToolsSpinner(true)"
 		    onComplete="showToolsSpinner(false)" action="tools" url="${[action:'tools']}" method="post">
 		<span style="margin-bottom:5px;"><g:message code="userList.listAction"/>: <br />
-		<g:select name="listAction" from="${['Venn Diagram','Intersect Lists','Join Lists', 'Difference']}" 
+		<g:select name="listAction" class="selectpicker" from="${['Venn Diagram','Intersect Lists','Join Lists', 'Difference']}" 
 				keys="${['venn','intersect','join','diff']}" onchange="showOption(this)" /></span><br />
 		<span id="name" style="display:none;margin-top:5px;"><g:message code="userList.listName"/>: <br /><g:textField name="listName" size="17" maxlength="15"/></span><br />
 		<g:select style="margin-top:5px;width:180px" name="userListIds"
