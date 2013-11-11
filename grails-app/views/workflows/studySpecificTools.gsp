@@ -26,9 +26,7 @@
 		}
 		 </STYLE>
     </head>
-    <body>
-				
-	<jq:plugin name="tooltip"/>		
+    <body>	
 				<br><br>
 				<div class="hero-unit" style="float: inline-block;">
 				  <g:if test="${session.study}">
@@ -76,8 +74,8 @@
 					  	<g:if test="${session.endpoints}"><li><g:link controller="km" action="index"><small>KM Clinical Plot</small></g:link></li></g:if>
 					  	<g:if test="${session.endpoints && session.study.hasGenomicData() && session.dataSetType.contains('GENE EXPRESSION')}"><li><g:link controller="kmGeneExp" action="index"><small>KM Gene Expression Plots</small></g:link></li></g:if>
 					  </ul>
-				  </div>
+				  </div>--%>
 				</div>			
-				 --%>
+				 
     </body>
 </html>

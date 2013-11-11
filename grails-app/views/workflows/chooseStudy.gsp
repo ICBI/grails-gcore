@@ -82,7 +82,7 @@
 		<br><br>
 		<div class="hero-unit">
 			<p style="padding-left: 0px" class="lead">
-				${flash.message}
+				${flash.chooseStudy}
 			</p>
 			<br>
 			<p style="padding-left: 0px; font-size: 11px" id="help">
@@ -90,6 +90,7 @@
 			</p>
 			<g:form url="[controller:'studyDataSource',action:'setStudy']" name="studySelector" id="studySelector">
 				<g:if test="${!params.operation}">
+				<input type="hidden" name="workflowMode" value="study" />
 				<div class="btn-toolbar">
 					<div class="btn-group">
 
@@ -112,11 +113,14 @@
 					  <select class="selectpicker span2" id="study" name="study">
 					  	<option>First select disease and subject matter</option>
 					  </select>
-					</div>									
+					</div>	
+													
 				
 				</div>
 				</g:if>
 				<g:else>
+					<input type="hidden" name="workflowMode" value="operation" />
+					<input type="hidden" name="operation" value="${params.operation}">
 					<select class="selectpicker" id="study" name="study">
 						<option value="">Please select a study</option>
 						<g:each in="${filteredStudies.keySet()}" var="disease">
@@ -130,9 +134,8 @@
 					</select>
 										
 				</g:else>
-				<input type="hidden" name="operation" value="${params.operation}">	
 				<br><br>
-				<button id="submit" class="btn btn-primary" style="display: none" onclick="selectStudy(this.form)">Continue</button>					
+				<input type="submit" id="submit" class="btn btn-primary" style="display: none" value="Submit" />					
 			</g:form>					
 		</div>
 

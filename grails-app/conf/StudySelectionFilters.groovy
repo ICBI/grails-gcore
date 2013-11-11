@@ -7,7 +7,7 @@ class StudySelectionFilters {
         all(controller:'(kmGeneExp|km|dicom|variantSearch|heatMap|groupComparison|pca|cin|geneExpression|molecularTarget|clinical|phenotypeSearch)', action:'index') {
             before = {
 				log.debug("inside filter")
-				if(!session.study || (params.chooseStudy)) {
+				if(!session.study || (params.chooseStudy && params.chooseStudy == "true")) {
 					redirect (controller:'workflows', action: 'chooseStudy', params:[operation: controllerName])
 					return false
 				}

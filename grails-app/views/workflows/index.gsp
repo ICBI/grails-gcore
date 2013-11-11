@@ -19,16 +19,29 @@
 			
 		}
 		 </STYLE>
+		 <g:javascript>
+		 	$(document).ready(function() {
+		 		
+		 	
+		 	});
+		 </g:javascript>
     </head>
     <body>
 		<br><br>
+		<g:if test="${flash.message}">
+			<div class="alert alert-info">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				${flash.message}
+			</div>		
+		</g:if>
+
 		<div class="hero-unit">
 		  <h1>Welcome!</h1>
 		  <p>&nbsp;</p>
-		  <p >Do you have a study you are interested in exploring?</p>
+		  <p >Do you have a <span style="border-bottom: 1px blue dotted; cursor: help" data-toggle="tooltip" title="Study" id="study">study</span> you are interested in exploring?</p>
 		  <p>
-		  	<g:link class="btn btn-success btn-large" style="color:#FFF" action="chooseStudy" >Yes<br><small>Take me to study selection page</small></g:link>
-		  	<g:link class="btn btn-danger btn-large" style="color:#FFF" action="choosePath">No<br><small>I don't know what this means</small></g:link>
+		  	<g:link class="btn btn-primary btn-large" style="color:#FFF" action="chooseStudy" >Yes</g:link>
+		  	<g:link class="btn btn-large" action="choosePath">No</g:link>
 		  </p>
 		</div>
     </body>

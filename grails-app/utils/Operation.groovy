@@ -5,7 +5,7 @@ public enum Operation {
 	CLINICAL("Clinical/Subject", "Search", "clinical", "index"),
 	TARGET("Compound/Drug Targets", "Search", "moleculeTarget", "index"),
 	GENE_EXPRESSION("Gene Expression", "Search", "geneExpression", "index"),
-	DICOM("DICOM Viewer", "Search", "dicom", "index"),
+	DICOM("Medical Images", "Search", "dicom", "index"),
 	PHENOTYPE_SEARCH("Phenotype Search", "Search", "phenotypeSearch", "index"),
 	VARIANT_SEARCH("Variant Search", "Search", "variantSearch", "index"),
 	CIN("Chromosomal Instability Index", "Analyze", "cin", "index"),
@@ -17,14 +17,13 @@ public enum Operation {
 	
 	public Operation(String name, String type, String controller, String action) {
 		this.name = name;
+		this.type = type;
 		this.controller = controller;
 		this.action = action;
-		this.type = type;
 	}
 	
-	String name = ""
-	String controller = ""
-	String action = ""
-	String type = ""
-	
+	String name = "";
+	String controller = "";
+	String action = "";
+	String type = "";	
 }

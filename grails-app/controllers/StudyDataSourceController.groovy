@@ -41,6 +41,7 @@ class StudyDataSourceController {
 		log.debug(session.myStudies);
 		log.debug "study selected: "+params.study;
 		if(params.study && session.myStudies){
+			session["workflowMode"] = params.workflowMode
 			def studyid = new Long(params.study)
 			def allowedStudyAccess = session.myStudies.find{it.id == studyid}
 			if(allowedStudyAccess){
@@ -61,11 +62,15 @@ class StudyDataSourceController {
 				session.dataSetType = session.files.keySet()
 				//render session.study.shortName
 				session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)
-				if(params.operation) redirect(controller: params.operation, action:'index')
+				if(params.operation) {
+					redirect(controller: params.operation, action:'index')
+					log.debug("redirected to controller: "+params.operation)
+				}
 				else {
 					redirect (controller:'workflows', action: 'studySpecificTools')
+					log.debug("redirected to studySpecificTools")
 				}
-				log.debug("redirected")
+				
 			}else{
 				log.debug "user is NOT permitted to access this study"
 				redirect(controller:'policies',action:'deniedAccess')

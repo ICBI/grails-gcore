@@ -38,6 +38,12 @@
 		})
 	}
 	
+	$("#top-navigation-block").find(".container").width($(".c").width());
+	
+	$("#startOver").click(function() {
+		var choice = confirm("If you decide to continue, any study you have chosen will be reset. Continue?");
+		return choice;
+	});
 	
   });
 
@@ -106,8 +112,9 @@
           <a class="brand" href="http://lombardi.georgetown.edu/gdoc/" target="_blank">G-DOC&nbsp;&reg;</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
+              <li><g:link controller="workflows" action="index" elementId="startOver">Start Over</g:link></li>
               <li>
-				<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows"/>
+              	<g:link controller="workflows" action="home" >${message(code: 'nav.home', args: [appTitle()])}</g:link>
               </li>
               <li>
                 <g:navigationLink name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.studies', args: [appTitle()])}</g:navigationLink>
@@ -116,12 +123,12 @@
               <li class="dropdown">
               	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Study Options<b class="caret"></b></a>
               	<ul class="dropdown-menu">
-              		<g:if test="${session.study}">
+              		<%--<g:if test="${session.study}">
               			<li class="nav-header">${session.study.shortName}
               			<g:set var="longName" value="${session.study.longName}" />
               			(${longName.substring(0, 20)} &nbsp;.....&nbsp;${longName.substring(longName.size() - 20)})
               			</li>
-              		</g:if>
+              		</g:if> --%>
               		<g:if test="${session.supportedOperations}">
               			<g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
 	              		<g:each in="${operations.keySet()}" var="type">
@@ -133,7 +140,7 @@
 	             		</g:each>              		
               		</g:if>
               		<g:else>
-              			<li>No study selected</li>
+              			<li><a href="#">No study selected</a></li>
               		</g:else>
               	</ul>
               </li>
@@ -147,6 +154,10 @@
 							<li><g:link controller="collaborationGroups"><g:message code="nav.groups" /></g:link>
 					</ul>    
               </li>
+              <li><a>&nbsp;</a></li>
+              <li><a>&nbsp;</a></li>
+              <li><a>&nbsp;</a></li>
+              <li style="float: right"><a href="#"><g:if test="${session.study}">${session.study.shortName}</g:if></a></li>
             </ul>
           </div>
         </div>

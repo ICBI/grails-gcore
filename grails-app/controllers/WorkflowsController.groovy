@@ -19,12 +19,15 @@ class WorkflowsController {
 		def responseMap = [:]
 		
 		if(!session.study) {
-			flash.message = "Ok then, simply select any one of the following studies...."
+			flash.chooseStudy = "Ok then, simply select any one of the following studies...."
 		}
 		
 		else {
-			if(params.showAll) flash.message = "Ok then, simply select any one of the following studies...."
-			else flash.message = "Ok, here is a list we have custom made for what you want to do. Just pick any..."
+			if("study" == session.workflowMode) flash.chooseStudy = "Switching to another study is easy...."
+			
+			else if("operation" == session.workflowMode) flash.chooseStudy = "Ok, here is a list we have custom made for what you want to do. Just pick any..."
+			//if(params.showAll) flash.chooseStudy = "Ok then, simply select any one of the following studies...."
+			//else flash.chooseStudy = "Ok, here is a list we have custom made for what you want to do. Just pick any..."
 		}
 		
 		if(params.operation) {
@@ -38,23 +41,53 @@ class WorkflowsController {
 	}
 	
 	def choosePath() {
+		if(session.study) {
+			flash.choosePath = "Your current study is ${session.study.shortName} <sup>*&nbsp;&dagger;&nbsp;&Dagger;</sup>"
+		}
 		
+		 else {
+			 flash.choosePath = "No problem, tell us what you are interested in..."
+		 }
 	}
 
 	
 	def studySpecificTools() {
-		if(!session.study) {
+		if(session.study) {
+			render (view: 'studySpecificTools')
+			return
+		}
+		else {
 			render (view: 'index')
+			return
+		}
+	}
+	
+	def home() {
+		if(springSecurityService.isLoggedIn()){
+			log.debug("workflowMode is: "+session.workflowMode)
+			
+			if("study" == session.workflowMode ) {
+				redirect (action: 'studySpecificTools')
+				return
+			}
+			
+			else if("operation" == session.workflowMode){
+				redirect (action: 'choosePath')
+				return
+			}
+			
+			else {
+				redirect (action: 'index')
+				return
+			}
 		}
 	}
 	
     def index = {
 		if(springSecurityService.isLoggedIn()){
-			
-		 if(session.study) {
-			 render (view: 'studySpecificTools')
-			 return
-		 }
+			session.study = null
+			session.supportedOperations = null
+			session.workflowMode = null
 		 
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)
