@@ -67,13 +67,13 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			<param name="allowScriptAccess" value="sameDomain" />
 			<param name="wmode" value="transparent" >
 			<param name='flashVars' value='appName=${it.attrs.appName}&analysisId=${it.attrs.analysisId}&plotType=${it.attrs.plotType}'/>
-			<embed src="${it.attrs.component}.swf" 
+			<embed src="${it.attrs.component}.swf"
 				wmode="transparent"
-				quality="high" 
+				quality="high"
 				bgcolor="#869ca7"
-				width="100%" 
-				height="100%" 
-				name="${it.attrs.component}" 
+				width="100%"
+				height="100%"
+				name="${it.attrs.component}"
 				align="middle"
 				play="true"
 				loop="false"

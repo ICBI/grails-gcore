@@ -20,7 +20,7 @@
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		
 </head>
-<body style="background-color:#334477">
+<body style="background-color:#334477;">
 		
 <g:set var="activePage" value="${params.controller}" /> 
 <div id="doc2" class="yui-t1" style="border:0px solid black;">

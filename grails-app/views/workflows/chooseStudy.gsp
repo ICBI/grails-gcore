@@ -1,4 +1,4 @@
-<html>
+    <html>
     <head>
         <title>${appLongName()}</title>
 		<meta name="layout" content="workflowsLayout" />

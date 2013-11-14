@@ -57,25 +57,23 @@
 </g:if>
 
 <form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
-<input type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="${message(code: 'header.userName')}" />
-<input type='password' name='j_password' id='password' size="15" />
+
+<input style="width:130px; height:15px;" type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="${message(code: 'header.userName')}" />
+<input style="width:105px; height:15px;" type='password' name='j_password' id='password' size="15" />
 <g:hiddenField name="desiredPage" value="${params.url}" />
-<input type='submit' value="${message(code: 'header.login')}" />
+<input class="btn btn-default btn-xs" style="color:#3366AE;font-weight:bold" type='submit' value="${message(code: 'header.login')}" />
+ </br>
+ <span style="color:#f2f2f2;font-size:.9em">
+ 	<g:link controller="registration" style="color:#f2f2f2"><g:message code="header.registerNow"/></g:link>&nbsp;|&nbsp;
+ 	<g:link controller="registration" action="passwordReset" style="color:#f2f2f2"><g:message code="header.forgotPassword" /></g:link>
+ </span>
 </form>
-
-<span style="color:#f2f2f2;padding-top:8px;font-size:.9em">
-	<g:link controller="registration" style="color:#f2f2f2"><g:message code="header.registerNow"/></g:link>&nbsp;|&nbsp;
-	<g:link controller="registration" action="passwordReset" style="color:#f2f2f2"><g:message code="header.forgotPassword" /></g:link>
-</span>
 </sec:ifNotLoggedIn>
-<sec:ifLoggedIn>
-<div >
 
-	
-</div>
+<sec:ifLoggedIn>
 <div style="float:right;color:#f2f2f2">
 	<div><g:message code="header.loggedInAs"/>: ${session.userId}</div>
-	
+
 	<div>
 		<g:if test="${session.isGdocAdmin}">
 		<g:link style="color:#f2f2f2" controller="admin"><g:message code="header.admin"/></g:link>
@@ -84,7 +82,7 @@
 			<g:link controller="registration" action="passwordReset" style="color:#f2f2f2"><g:message code="header.changePassword"/></g:link>
 			<span style="font-weight:bold;color:#fff;padding-left:5px;padding-right:5px">|</span>
 			<g:link style="color:#f2f2f2" action="index" controller="logout" update="success"><g:message code="header.logout"/></g:link>
-	
+
 	</div>
 </div>
 </sec:ifLoggedIn>
