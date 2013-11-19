@@ -1,0 +1,22 @@
+#graph {height: 500px;}
+.studytypebreakdown {clear: both; padding-top: 50px;}
+.title { text-align: center; background-color: white; border: none; }
+.studytype {padding-bottom: 100px; height: 450px; width: 70%;}
+.studytype li { position: relative; text-align: center; float: left; display: block; width: 110px; height: 110px; background-color: #FCFCFC; border: 1px solid #F2F2F2; padding: 10px;}
+.studytypename {text-align: center; margin: 0; font-size: 16px; font-family: 'Open Sans', serif; text-transform: lowercase;}
+.count {float: left; text-align: left; font-size: 11px; width: 100%; color: #A8A8A8; position: absolute; left: 5px;}
+.count b {float: right; padding-right: 10px;}
+.studycount {bottom: 20px;}
+.patientcount {bottom: 10px;}
+.biospecimencount {bottom: 0px;}
+.footprint {font-size: 11px;}
+.bullet { font: 10px sans-serif; }
+.bullet .marker { stroke: #000; stroke-width: 2px; }
+.bullet .tick line { stroke: #666; stroke-width: .5px; }
+.bullet .range.s0 { fill: #eee; }
+.bullet .range.s1 { fill: #ddd; }
+.bullet .range.s2 { fill: #ccc; }
+.bullet .value.s0 { fill: lightsteelblue; }
+.bullet .value.s1 { fill: steelblue; }
+.bullet .title { font-size: 12px; font-weight: bold;}
+.bullet .subtitle { fill: #999; }
