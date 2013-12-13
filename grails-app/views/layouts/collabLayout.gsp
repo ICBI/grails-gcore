@@ -19,48 +19,48 @@
 		<g:javascript library="jquery" plugin="jquery"/>
 		<g:layoutHead/>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
+        <style type="text/css">
+             html, body {height: 100%;}
+        </style>
 </head>
-<body style="background-color:#334477">
-	
-	
-	
-<g:set var="activePage" value="${params.controller}" /> 
-<div id="doc2" class="yui-t1">
-	<div id="hd">
-		<!-- Header start -->
-    <g:render template="/common/headerWorkflow" />
-    <!-- Header end -->
-	</div>
-	<div class="c" style="background:#fff;border:1px solid #000;padding:3px;">
-	<div id="bd">
-		<div id="yui-main">
-			<div class="yui-b">
-				<div class="yui-gc">
-					<div class="yui-u first">
-						<g:layoutBody/><br />
-					</div>
-					<div class="yui-u">
-						<br /><br /><br />
-						<div style="height:600px;overflow:auto;">
-						<g:render template="/notification/invitationTable" plugin="gcore"/>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="c" style="padding:5px">
-		<div id="navigation" class="yui-b first">
-			<g:render template="/common/leftbar" />
-		</div>
-		</div>
-	</div>
-	<div id="ft">
-		<!-- Footer start -->
-    <g:render template="/common/footer" />
-    <!-- Footer end -->
-	</div>
-	</div>
-</div>
+<body>
+
+
+
+<g:set var="activePage" value="${params.controller}" />
+
+    <div class="wrapper1" >
+                  <div class="header">
+                             <div id="doc2" class="yui-t1">
+                             <br/>
+                                 <!-- Header start -->
+                                <g:render template="/common/header" />
+                                 <!-- Header end -->
+                             </div>
+                 </div>
+
+                <div id="doc2" class="yui-t1">
+                    <div id="bd" style="padding-bottom:20px" >
+                        <div id="yui-main">
+                         <br/><br/>
+                                    <div class="yui-u first" style="width:700px; float:left; ">
+                                        <g:layoutBody/>
+                                    </div>
+                                    <div class="yui-u" style="margin-left:20px; margin-top:25px; float:left; ">
+                                        <div style="height:600px;overflow:auto;width:300px;">
+                                            <g:render template="/notification/invitationTable" plugin="gcore"/>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+        <div class="push"></div>
+    </div>
+    <div class="footer">
+       <g:render template="/common/footer" />
+    </div>
+
+
 <g:javascript>
 // code to set height of left bar
 jQuery(document).ready(function() {

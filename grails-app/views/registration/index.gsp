@@ -27,44 +27,45 @@
 </g:if>
 
 
-
-<div class="clinicalSearch" id="netIdReg" style="width:85%;margin:0 auto;display:none">
+<div class="clinicalSearch" id="netIdReg" style=" -moz-border-radius: 10px; border-radius: 10px;width:85%;margin:0 auto;display:none">
 	<g:if test="${flash.cmd instanceof RegistrationCommand}">
 	<g:javascript>
 		$('#netIdReg').css('display','block');
 	</g:javascript>
 	</g:if>
-<fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-    <legend style="padding:7px"><g:message code="registration.netId"/>:</legend>
-	<div style="padding:10px">
-		<g:form name="registrationForm" action="register">
-		<g:if test="${flash.cmd instanceof RegistrationCommand}">
-			<div class="errorDetail">
-				<g:renderErrors bean="${flash.cmd?.errors}" />
-			</div>
-		</g:if>
-		<g:message code="registration.validNetid"/>: <g:textField name="netId" /><br /><br />
-		<g:message code="registration.password"/>: <g:passwordField name="password" id="passwordField" /><br /><br />
-		<g:message code="registration.department"/>: 
-		<g:select name="department"
-		          from="${departmentList}" 
-				noSelection="['':message(code: 'registration.chooseDepartment')]"/>
-		<br /><br/>
-		<g:submitButton name="register" value="${message(code: 'registration.register')}" />
-		</g:form>
-	</div>
-</fieldset>
+	<div style="padding:10px;font-family: 'Open Sans',sans-serif;font-size: 20px;font-weight: 300;color: rgb(0, 92, 167);line-height: 1.05;margin: 0px;"><g:message code="registration.netId"/></div>
+    <fieldset style="background-color:#fff;-moz-border-radius: 5px; border-radius: 5px;">
+        <div style="padding:10px">
+            <g:form name="registrationForm" action="register">
+            <g:if test="${flash.cmd instanceof RegistrationCommand}">
+                <div class="errorDetail">
+                    <g:renderErrors bean="${flash.cmd?.errors}" />
+                </div>
+            </g:if>
+            <g:message code="registration.validNetid"/> <g:textField name="netId" /><br /><br />
+            <g:message code="registration.password"/> <g:passwordField name="password" id="passwordField" /><br /><br />
+            <g:message code="registration.department"/>
+            <g:select name="department"
+                      from="${departmentList}"
+                    noSelection="['':message(code: 'registration.chooseDepartment')]"/>
+            <br /><br/>
+            <g:submitButton class="btn btn-primary" name="register" value="${message(code: 'registration.register')}" />
+            </g:form>
+        </div>
+
+    </fieldset>
+
+
 </div>
 
-<div class="clinicalSearch" id="publicReg" style="width:85%;margin:0 auto;display:none">
+<div class="clinicalSearch" id="publicReg" style=" -moz-border-radius: 10px; border-radius: 10px;width:85%;margin:0 auto;display:none">
 	<g:if test="${flash.cmd instanceof RegistrationPublicCommand}">
 	<g:javascript>
 	$('#publicReg').css('display','block');
 	</g:javascript>
 	</g:if>
-	
-	<fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-	    <legend style="padding:7px"><g:message code="registration.register" args="${[appTitle()]}"/>:</legend>
+	<div style="padding:10px;font-family: 'Open Sans',sans-serif;font-size: 20px;font-weight: 300;color: rgb(0, 92, 167);line-height: 1.05;margin: 0px;"><g:message code="registration.register" args="${[appTitle()]}"/></div>
+	  <fieldset style="background-color:#fff;-moz-border-radius: 5px; border-radius: 5px;">
 		<div style="padding:10px;float:left">
 			<g:if test="${flash.cmd instanceof RegistrationPublicCommand}">
 				<div class="errorDetail">
@@ -78,10 +79,9 @@
 			    <recaptcha:recaptcha theme="blackglass"/>
 			</recaptcha:ifEnabled>
 			<br /><br/>
-			<div class="c" style="border:1px solid silver;padding:10px;margin-right:10px;width:50%">
-				*<g:message code="registration.note"/>:<span style="font-size:.85em"> <g:message code="registration.link"/></span><br />
-			</div><br />
-			<g:submitButton name="registerPublic" value="${message(code: 'registration.register')}" />
+			<div class="alert alert-info"><strong>*<g:message code="registration.note"/>:</strong> <g:message code="registration.link"/></div>
+
+			<g:submitButton class="btn btn-primary" name="registerPublic" value="${message(code: 'registration.register')}" />
 			</g:form>
 		</div>
 		

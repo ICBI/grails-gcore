@@ -20,29 +20,29 @@
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		
 </head>
-<body style="background-color:#334477;">
-		
-<g:set var="activePage" value="${params.controller}" /> 
-<div id="doc2" class="yui-t1" style="border:0px solid black;">
-	<div id="hd">
-		<!-- Header start -->
-    <g:render template="/common/headerNoNavBar" />
-    <!-- Header end -->
-	</div>
-	<div class="c" style="border:1px solid #000;padding:3px; float: left; width: 100%">
-	<div id="bd" style="min-height:400px;">
-		<div id="yui-main">			
-			<g:layoutBody/>					
+<body>
+
+<g:set var="activePage" value="${params.controller}" />
+
+<g:render template="/common/headerNoNavBar" />
+
+
+<div id="bd" style="min-height:400px;">
+		<div id="yui-main"  >
+		    <div id="doc2" class="yui-t1" style="background-color:white;">
+			    <g:layoutBody/>
+			</div>
 		</div>
-	</div>
-	<div id="ft" style="float: left; height: 100%; width: 100%">
-		<!-- Footer start -->
-    <g:render template="/common/footer" />
-    <!-- Footer end -->
-	</div>
-	</div>
-	<br />
 </div>
+
+<div id="ft" style="border-top:1px solid #F0F0F0; height: 100%; width: 100%;background:none repeat scroll 0% 0% rgb(245, 245, 245);" >
+		<!-- Footer start -->
+		     <div id="doc2" class="yui-main" style="background-color:rgb(245, 245, 245);">
+            <g:render template="/common/footer" />
+            </div>
+        <!-- Footer end -->
+</div>
+
 <g:javascript>
 $('.c').css('background-color', '#ffffff');
 // code to set height of left bar

@@ -19,9 +19,11 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
 		<g:javascript library="jquery" plugin="jquery"/>
 		<g:layoutHead/>
-		
+         <style type="text/css">
+              html, body {height: 100%;}
+         </style>
 </head>
-<body style="background-color:#334477">
+<body>
 	
 	
 	
@@ -56,6 +58,18 @@
 	</div>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
 <g:javascript>
 // code to set height of left bar
 jQuery(document).ready(function() {

@@ -25,42 +25,46 @@
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap.min.js')}"></script>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap-select.min.js')}"></script>		
-		
-</head>
-<body style="background-color:#334477; padding-top: 50px">
-	
-	
-	
-<g:set var="activePage" value="${params.controller}" /> 
-<div id="doc2" class="yui-t1">
-	<div id="hd">
-		<!-- Header start -->
-    <g:render template="/common/header" />
-    <!-- Header end -->
-	</div>
-	<div class="c" style="background:#fff;border:1px solid #000;padding:3px;">
-	<div id="bd" style="min-height:400px;">
-		<div id="yui-main">
-			<div class="yui-b">
-				<div class="yui-gc">
-					<div class="yui-u first">
-						<g:layoutBody/>
-					</div>
-					<div class="yui-u">
-						<g:render template="/userList/lists_rightbar" plugin="gcore"/>
-					</div>
-				</div>
-			</div>
-		</div>
 
-	</div>
-	<div id="ft" >
-		<!-- Footer start -->
-    <g:render template="/common/footer" />
-    <!-- Footer end -->
-	</div>
-	</div>
-</div>
+        <style type="text/css">
+             html, body {height: 100%;}
+        </style>
+</head>
+<body>
+
+    <g:set var="activePage" value="${params.controller}" />
+
+    <div class="wrapper1" >
+                  <div class="header">
+                             <div id="doc2" class="yui-t1">
+                             <br/>
+                                 <!-- Header start -->
+                                <g:render template="/common/header" />
+                                 <!-- Header end -->
+                             </div>
+                 </div>
+
+                <div id="doc2" class="yui-t1">
+                    <div id="bd" style="padding-bottom:20px;" >
+                        <div id="yui-main">
+                        <br/><br/>
+                                <div class="yui-gc">
+                                    <div class="yui-u first"style="width:750px;">
+                                        <g:layoutBody/>
+                                    </div>
+                                    <div class="yui-u" style="width:250px;">
+                                        <g:render template="/userList/lists_rightbar" plugin="gcore"/>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+        <div class="push"></div>
+    </div>
+    <div class="footer">
+       <g:render template="/common/footer" />
+    </div>
+
 <g:javascript>
 // code to set height of left bar
 jQuery(document).ready(function() {

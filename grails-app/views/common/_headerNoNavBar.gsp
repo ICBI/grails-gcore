@@ -25,29 +25,31 @@
             formatItem: function(data, i, max) {
 						return data;
 					},
-			
+
 			formatResult: function(data) {
 						return data;
 					}
 	});
-	
+
 	if(jQuery('#username')) {
 		jQuery("#username").click(function(){
 			$(this).val("");
 			$(this).css("color","black");
 		})
 	}
-	
-	
+
+
   });
 
 
 </g:javascript>
 
 
+<div width="1115px" style="background-color:#143F71;">
+<div id="doc2" class="yui-t1">
 <table border="0" cellpadding="0" cellspacing="0" width="100%">
 	<tr>
-		<td style="width: 70%"><a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a></td>
+		<td ><a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a></td>
 		<td valign="bottom" style="text-align:right;padding:7px"><span style="color:#f2f2f2"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
 
 <sec:ifNotLoggedIn>
@@ -59,9 +61,10 @@
 <form action='${postUrl}' method='POST' id='loginForm' class='cssform'>
 
 <input style="width:130px; height:15px;" type='text' name='j_username' id='username'style="color:gray" size="20" onclick="clear()" value="${message(code: 'header.userName')}" />
-<input style="width:105px; height:15px;" type='password' name='j_password' id='password' size="15" />
-<g:hiddenField name="desiredPage" value="${params.url}" />
+<input style="width:105px; height:15px;" type='password' name='j_password' id='password' size="15" />    </br>
 <input class="btn btn-default btn-xs" style="color:#3366AE;font-weight:bold" type='submit' value="${message(code: 'header.login')}" />
+
+<g:hiddenField name="desiredPage" value="${params.url}" />
  </br>
  <span style="color:#f2f2f2;font-size:.9em">
  	<g:link controller="registration" style="color:#f2f2f2"><g:message code="header.registerNow"/></g:link>&nbsp;|&nbsp;
@@ -91,3 +94,5 @@
 
 </td>
 </tr></table>
+</div>
+</div>

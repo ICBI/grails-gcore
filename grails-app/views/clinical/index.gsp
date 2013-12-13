@@ -43,8 +43,7 @@
 			}
 	}
 	</g:javascript>
-	
-	<br/>
+
 	
 	<div class="bParent">
 	
@@ -145,7 +144,7 @@
 		</td>
 	</tr>
 	</table>
-	<br><br><br><br><br>
+
 	</div>
 
 	</body>

@@ -58,8 +58,9 @@
 		}
 		
 	</g:javascript>
-	<p style="font-size:14pt"><g:message code="notifications.heading" /></p>
+	<div class="welcome-title"><g:message code="notifications.heading" /></div>
 	<br/>
+
 	<g:panel title="${message(code: 'notifications.panelHeader')}" styleClass="notifications" contentClass="myPanelContent" id="notifications">
 		<g:render template="/notification/notificationTable"  plugin="gcore"/>
 	</g:panel>

@@ -10,7 +10,7 @@
 		<g:javascript src="jquery/jquery-min.js"/>
 		<g:javascript src="jquery/jquery.slidorion.js"/>
 		<g:javascript src="jquery/jquery.easing.js"/>
-		<g:javascript src="deployJava.js" />
+
 		<g:javascript src="BrowserDetect.js"/>
 		<g:javascript src="detect.js"/>
 		<g:javascript src="bootstrap-select.min.js"/>
@@ -23,7 +23,9 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
         <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'gdocdata.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'scrollable-navig.css')}"/>
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'navBar.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'slidorion.css')}"/>
+
 
 
 
@@ -33,14 +35,14 @@
 						$("[class*='info']").each(function(index){
 							$(this).tooltip({showURL: false});
 						});
-                        
 
-						
+
+
 						$("[class*='sel']").each(function(index){
 							$(this).css('cursor','pointer');
 							var part = $("[class*='parts']").eq(index);
 							$(this).click(function() {
-								
+
 							  	$("[class*='parts']").each(function(index){
 								 $(this).css('display','none');
 								});
@@ -67,7 +69,7 @@
 								}else{
 									$(this).css('background','#EBF1FF');
 								}
-								
+
 							});
 
 						});
@@ -81,11 +83,11 @@
 				});
 			});
 		</g:javascript>
-		
+
     </head>
     <body>
-				<jq:plugin name="ui"/>
-				<br/>
+			<jq:plugin name="ui"/>
+
             <g:render template="/home/splashPiece" plugin="gcore"/>
 
 				<div id="centerContent" class="welcomeTitle" style="margin:20px">
@@ -97,7 +99,7 @@
 					</g:if>
 					<br/>
 
-                <div style="display:block;margin-left:1px;float:right;margin-right:20px;" valign="top">
+                <div style="display:block;margin-left:1px;float:right;" valign="top">
                     <div style="display:block;margin-left:40px; margin-bottom:60px">
                         <div id="feedWidget">
 
@@ -113,8 +115,8 @@
                             </div>
                     </div>
                 </div>
-                
-                
+
+
                 </br>
                 <h2>Understanding Data in G-DOC</h2>
                 <h4>It all begins with a study...</h4>
@@ -135,14 +137,14 @@
                         </g:each>
                     </g:if>
                 </ul>
-                    
+
 
                 <script type="text/javascript">
                         jQuery(document).ready(function() {
                             $("#samplesTable").Scrollable(125, 250);
                         });
                     </script>
-
+                  <g:javascript src="deployJava.js" />
 				</div>
     </body>
 </html>

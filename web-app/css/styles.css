@@ -3,13 +3,14 @@ body {
     border-radius: 10px;
 	font-size:90%;
   	font-family:Lucida Grande,Lucida Sans,Arial,sans-serif;
-    background:url(../images/bg.png) repeat-x;
+
 }
 .tabDiv {
 	font-size: 75.5%;
 }
 #hd {
-    height:115px
+    height:115px;
+    width:100%;
 }
 #doc3 {
 	margin: 0px;
@@ -130,7 +131,7 @@ p
 }
 
 .notifications {
-	width: 92%;
+	width: 100%;
 	font-size:12px;
 }
 
@@ -153,7 +154,7 @@ p
 }
 
 .prefs {
-	width: 200px;
+	width: 250px;
 
 }
 .prefsData {
@@ -166,13 +167,11 @@ p
 }
 
 .clinicalSearch {
-	background: #f2f2f2 none repeat scroll 0 0;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+	background: none repeat scroll 0% 0% rgb(245, 245, 245);
 	border: 1px solid #CCCCCC;
 	padding:5px;
-	-moz-border-radius-topright:3px;
-	-moz-border-radius-bottomright:3px;
-	-moz-border-radius-topleft:3px;
-	-moz-border-radius-bottomleft:3px;
 }
 
 .clinicalFilter {
@@ -370,6 +369,10 @@ p
 	color: red;
 }
 
+.second {
+    width=250px;
+}
+
 .taskMessage {
     background: #FFFFE5 url(../images/skin/exclamation.png) 8px 50% no-repeat;
     border: 1px solid #FFB3B3;
@@ -506,8 +509,7 @@ p
 }
 
 .c {
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+
 }
 
 #cin-heatmap-view-container {
@@ -812,6 +814,7 @@ CSS style for RSS Feed
 	width:220px;
 	padding:5px;
 	position:relative;
+	box-shadow: 0 0 25px #bbb;
 
 	/* Remains hidden if JS is not enabled: */
 	display:none;
@@ -892,5 +895,143 @@ CSS style for RSS Feed
 	box-shadow:0 1px 1px black;
 }
 
+#show-dicom{
+	width:100%;
+	height:950px;
+}
+
+
+* {
+	margin: 0;
+}
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -170px; /* the bottom margin is the negative value of the footer's height */
+}
+.wrapper1 {
+    background:url(../images/background2.jpg);
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -170px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+	height: 170px; /* .push must be the same height as .footer */
+}
+.footer{
+    background:none repeat scroll 0% 0% rgb(245, 245, 245);
+
+}
+
+#footerlogoscontainer{
+    width: 100%;
+    margin-left:auto;
+    margin-right:auto;
+    overflow: hidden; /* contain floated elements */
+}
+.footerlogos{
+    float: left;
+    width: 33%;
+}
+.copyright {
+    margin-top:10px;
+    font-size: 12px;
+    line-height: 1.4;
+    float:left;
+    text-align:left;
+    color: rgb(153, 153, 153);
+}
+
+/*Header*/
+.cssform {
+    margin: 0px 0px -8px 0px;
+}
+.header{
+    width:100%;
+    background:url(../images/bgtop.png) repeat-x;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom:10px;
+}
+
+/*Welcome Page*/
+.welcome-title{
+    font-family: 'Open Sans',sans-serif;
+    font-size: 50px;
+    font-weight: 100;
+    color: rgb(0, 92, 167);
+    line-height: 1.05;margin: 0px;
+    padding-bottom:10px;
+}
+.desc{
+    font-family: 'Open Sans',sans-serif;
+    font-weight: 100;
+    font-size: 22px;
+    color: rgb(153, 153, 153);
+    margin: 10px;
+    line-height: 37px;
+}
+.desc1{
+    font-family: 'open sans',Helvetica,sans-serif;
+    font-size: 16px;
+    color: rgb(140, 140, 140);
+    margin: 10px;
+    line-height: 27px;
+}
+
+/* ######## -  Launchpad Styles #########  */
+
+.content-wrap.second .features {
+    padding-top: 280px;
+
+}
+
+.content-wrap.three .features {
+    padding-top: 100px;
+}
+
+.features {
+    background: #fff;
+    padding: 40px 10px 40px 20px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #EFEFEF;
+    border-right: 2px solid #EFEFEF;
+    border-bottom: 5px solid #EFEFEF; /* background-color: rgb( 114, 182, 35 ); */
+    min-height:100%;
+}
+
+.features h1, .main-features h1 {
+    font-size: 48px;
+    color: #000;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    line-height: 120%;
+}
+
+.features h2, .main-features h2 {
+
+    margin-top: 20px;
+    text-align: center;
+    color: rgb(38, 42, 47);
+    font-size: 17px;
+    line-height: 21px;
+    font-family: 'Open Sans',sans-serif;
+    font-weight: normal;
+    text-transform: none;
+}
+
+.main-features h2 {
+    margin-top: 5px;
+}
+
+.icon {
+    width: 116px;
+    height: 116px;
+    margin: 10px auto 26px auto;
+    display: block;
+}
 
 

@@ -5,13 +5,14 @@
         <title><g:message code="study.title"/></title>         
     </head>
     <body>
-	<p style="font-size:14pt"><g:message code="study.title"/></p>
-	<br/>
-	
-	<div id="centerContent" class="welcome" style="width: 90%">
-		<g:panel id="studyPanel" title="My Studies" styleClass="welcome" collapse="true">
-				<table class="studyTable">
-					<tr>
+	<div class="welcome-title"><g:message code="study.title"/></div>
+	<div class="desc">My G-DOC Studies</div>
+	<div class="desc1">Below is an overview of your studies in G-DOC. You can explore each study, view the details and use the available tools to analyse and search the data. Public studies are also shown in this list.</div>
+    <br/>
+	<div id="centerContent" class="welcome">
+		<g:panel id="studyPanel" title="My Studies" styleClass="welcome" collapse="true" >
+				<table class="studyTable" style="background:white;">
+					<tr >
 						<th><g:message code="study.name"/></th>
 						<th style="width:5%"><g:message code="study.id"/></th>
 						<th style="width:25%"><g:message code="study.description"/></th>
@@ -41,9 +42,12 @@
 					</g:each>
 				</table>
 		</g:panel>
-		<br/>
+	</div>
+	<div class="desc">Other G-DOC Studies</div>
+    <div class="desc1">Below is an overview of private G-DOC studies. You can explore each study, view the details and use the available tools to analyse and search the data.</div>
+	<div id="centerContent" class="welcome">
 		<g:panel id="studyPanel2" title="Other Studies" styleClass="welcome" collapse="true">
-		<table class="studyTable">
+		<table class="studyTable"  style="background:white;">
 			<tr>
 				<th><g:message code="study.name"/></th>
 				<th style="width: 25%"><g:message code="study.description"/></th>

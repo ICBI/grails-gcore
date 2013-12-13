@@ -1,0 +1,56 @@
+/*Header*/
+.navbar-inner {
+   /* background color will be black for all browsers */
+    background:url(../images/bgtop.png) repeat-x;
+}
+
+.navbar .nav > li > a {
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 150;
+    float: none;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .nav > li > a:focus, .navbar .nav > li > a:hover {
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-wight: 150;
+    color: white;
+    text-decoration: none;
+}
+.caret{
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .nav li.dropdown > a:hover .caret, .navbar .nav li.dropdown > a:focus .caret {
+    border-top-color: white;
+    border-bottom-color: white;
+}
+.navbar .nav li.dropdown > .dropdown-toggle .caret {
+    border-top-color: white;
+    border-bottom-color: rgb(119, 119, 119);
+}
+.navbar .nav .dropdown-toggle .caret {
+    margin-top: 8px;
+}
+.nav .dropdown-toggle:hover .caret, .nav .dropdown-toggle:focus .caret {
+    border-top-color: white;
+    border-bottom-color: rgb(0, 85, 128);
+    color: white;
+}
+.nav .dropdown-toggle .caret {
+    border-top-color: white;
+    border-bottom-color: rgb(0, 136, 204);
+    margin-top: 6px;
+}
+.dropdown .caret {
+    margin-top: 8px;
+    margin-left: 2px;
+}
+
+.form {
+    margin: 0px 0px 0px;
+}

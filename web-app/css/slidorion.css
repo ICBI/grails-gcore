@@ -3,9 +3,9 @@
 	position: relative;
     -moz-border-radius: 8px;
     border-radius: 8px;
-	width: 920px;			/* Set to slidorion width. Is equal to .slider + .accordion width */
+	width: 960px;			/* Set to slidorion width. Is equal to .slider + .accordion width */
 	height: 314px;			/* Set to slidorion height. Is equal to .slider and .accordion height */
-	left: 50%;
+	left: 48%;
 	background: #CBCBCB;/*#EBF1FF;*/
 	padding: 10px;
 	margin-top: 5px;
@@ -15,7 +15,7 @@
 }
 
 .slider {
-	width: 68%;
+	width: 66%;
 	height: 100%;
 	position: relative;
 	float: left;
@@ -33,7 +33,7 @@
 .accordion {
     -moz-border-radius: 5px;
     border-radius: 5px;
-	width: 32%;
+	width: 34%;
 	height: 100%;
 	font-family: Verdana;
 	background: #eee;
@@ -109,6 +109,6 @@
 }
 
 .slidorion .slidorion-nav-right {
-	right: 310px;
+	right: 360px;
 	background-position: -16px 0;
 }

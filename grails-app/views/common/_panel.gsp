@@ -27,7 +27,7 @@
          ${it.body()}
     </div>
 </div>
-<img class="${it.attrs.styleClass}" height="20" alt="" src="${createLinkTo(dir: 'images', file: 'shadow.gif')}" />
+
 <g:if test="${it.attrs.collapse}">
 	<script type="text/javascript">
 		$(document).ready(function() {

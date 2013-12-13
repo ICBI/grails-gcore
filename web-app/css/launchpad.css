@@ -1,0 +1,53 @@
+.featured-customer-wrapper{overflow:hidden;*zoom:1}
+.featured-customer-column,.field-collection-item-field-encapsulated-cta,.pointed-list>li:before,.fixed-social-item .fixed-social-flyout,.fixed-social-item .fixed-social-flyout:before,.in-page-cta-copy,.in-page-cta-image-wrapper,.resource-cta,.resource-cta-image,.resource-cta-image img,.feature-group-tab-item,.info-box-item,.info-box-full .field-collection-item-field-info-box,.customers-love-us-copy,.customers-love-us-images,.node-type-connect-overview .news-event-wrapper,.news-event-wrapper.twitter-box,.featured-customer-item,.featured-customer-details,.image-with-details-item,.service-cta-item,.service-cta-item-image,.enhanced-list-item,.rounded-container,.two-down-columns,.kit,.node-marketing-automation form .form_row label,.node-marketing-automation form .form_row .label,.node-marketing-automation form input[type="text"],.node-marketing-automation form select.text,.node-marketing-automation form textarea,.featured-partners,.already-partner,.featured-partners .button,.featured-partners .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .featured-partners a,.featured-partners .main-footer-item-cta .content>a,.main-footer-item-cta .featured-partners .content>a,.featured-partners .wordpress input[type="submit"],.wordpress .featured-partners input[type="submit"],.featured-partners .drupal .form-submit,.drupal .featured-partners .form-submit,.already-partner .button,.already-partner .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .already-partner a,.already-partner .main-footer-item-cta .content>a,.main-footer-item-cta .already-partner .content>a,.already-partner .wordpress input[type="submit"],.wordpress .already-partner input[type="submit"],.already-partner .drupal .form-submit,.drupal .already-partner .form-submit,.partner-item .details-box,.partner-item .image,.overview-resource-module-resource-item,.call-to-action-table th,.call-to-action-table td,.table-compare tr td,.messages-wrapper{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+.featured-customer-item,.logo-link-alt-wrapper .logo-link,.kit,.customers-love-us-wrapper,.news-event-wrapper.twitter-box,.service-cta-item-image,.cta-image-block-image,.small-valprop,.blockquote-wrapper{position:relative;margin-bottom:25px}
+.featured-customer-item:before{content:"";display:block;position:absolute;right:0;bottom:-10px;left:0;height:10px;pointer-events:none;background-image:-webkit-gradient(radial,50% 50%,0,50% 50%,100,color-stop(0%,rgba(0,0,0,0.5)),color-stop(100%,rgba(0,0,0,0)));background-image:-webkit-radial-gradient(50% 50%,ellipse contain,rgba(0,0,0,0.5),rgba(0,0,0,0) 100%);background-image:-moz-radial-gradient(50% 50%,ellipse contain,rgba(0,0,0,0.5),rgba(0,0,0,0) 100%);background-image:-o-radial-gradient(50% 50%,ellipse contain,rgba(0,0,0,0.5),rgba(0,0,0,0) 100%);background-image:radial-gradient(50% 50%,ellipse contain,rgba(0,0,0,0.5),rgba(0,0,0,0) 100%);background-repeat:no-repeat;background-position:0 -5px}
+.layout-logo{display:block;width:188px;height:50px}
+
+
+
+.featured-customer-item{border:1px solid #EAEBEC;border-radius:5px;box-shadow:0 1px 1px rgba(0,0,0,0.2)}
+.featured-customer-column{float:left;width:316px;margin-right:20px}
+.featured-customer-column:last-child{margin-right:0}
+
+
+.featured-customer-column{height:415px}
+.featured-customer-column.last{margin-right:0}
+.featured-customer-item{-webkit-transition:height 0.4s ease,opacity 0.6s ease;-webkit-transition-delay:0,0;-moz-transition:height 0.4s ease 0,opacity 0.6s ease 0;-o-transition:height 0.4s ease 0,opacity 0.6s ease 0;transition:height 0.4s ease 0,opacity 0.6s ease 0;position:relative;width:306px;height:195px;margin-bottom:20px;cursor:default}
+.featured-customer-item:hover{height:254px;background-color:#F9FCFF}
+.featured-customer-item:hover .featured-customer-image{opacity:0;visibility:hidden \9;z-index:0}
+.featured-customer-item:hover .featured-customer-details{-webkit-transition:opacity 0.2s ease;-webkit-transition-delay:0.2s;-moz-transition:opacity 0.2s ease 0.2s;-o-transition:opacity 0.2s ease 0.2s;transition:opacity 0.2s ease 0.2s;filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);opacity:1;visibility:visible \9;height:230px}
+.featured-customer-item-skinny{height:136px}
+.featured-customer-image{position:relative;height:100%;-webkit-transition:opacity 0.4s ease;-webkit-transition-delay:0.2s;-moz-transition:opacity 0.4s ease 0.2s;-o-transition:opacity 0.4s ease 0.2s;transition:opacity 0.4s ease 0.2s}
+.featured-customer-image img{}
+.featured-customer-details{-webkit-transition:opacity 0.2s ease;-webkit-transition-delay:0;-moz-transition:opacity 0.2s ease 0;-o-transition:opacity 0.2s ease 0;transition:opacity 0.2s ease 0;position:absolute;z-index:1;top:0;left:0;width:100%;height:121px;padding:20px 25px;opacity:0;visibility:hidden \9}
+.featured-customer-details h3{margin:0 0 16px;font-size:18px}
+.featured-customer-details p{font-size:16px}
+.featured-customer-links{position:absolute;right:25px;top:230px;left:25px}
+.featured-customer-links *{display:inline}
+.featured-customer-links p{font-size:14px}
+.featured-customer-links>.node{float:left}
+.featured-customer-links>.node.node-resource{float:right}
+.featured-customer-links>.node .link-child:after{content:" ›"}
+
+
+.rounded-container{border:1px solid #CCCCCC;border-radius:12px;padding:20px;overflow:hidden}
+.rounded-container h2,.rounded-container .header-with-hr,.rounded-container .split h2,.split .rounded-container h2{margin:-22px 0 0 -50px;padding:12px 0 6px 50px;border-bottom:1px solid #CCCCCC;width:100%;font-size:26px;font-weight:400;color:#FFFFFF;background-color:#999999;background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0%,#999),color-stop(100%,#818181));background-image:-webkit-linear-gradient(#999,#818181);background-image:-moz-linear-gradient(#999,#818181);background-image:-o-linear-gradient(#999,#818181);background-image:linear-gradient(#999999,#818181);white-space:nowrap}
+.rounded-container p{padding:10px 0;font-size:14px}
+
+.logo-link{display:inline-block}
+
+.featured-partners,.already-partner{position:relative;float:left;height:208px;max-height:208px;min-height:208px;padding:20px 30px;font-size:16px;margin:20px 0 40px}
+.featured-partners .button,.featured-partners .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .featured-partners a,.featured-partners .main-footer-item-cta .content>a,.main-footer-item-cta .featured-partners .content>a,.featured-partners .wordpress input[type="submit"],.wordpress .featured-partners input[type="submit"],.featured-partners .drupal .form-submit,.drupal .featured-partners .form-submit,.already-partner .button,.already-partner .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .already-partner a,.already-partner .main-footer-item-cta .content>a,.main-footer-item-cta .already-partner .content>a,.already-partner .wordpress input[type="submit"],.wordpress .already-partner input[type="submit"],.already-partner .drupal .form-submit,.drupal .already-partner .form-submit{position:absolute;bottom:20px;text-transform:uppercase;text-align:center;padding:5px;font-size:13px;display:inline-block;width:160px}
+.featured-partners{width:714px;margin-right:16px}
+.featured-partners p{color:#005ca7;float:left}
+.featured-partners hr{position:absolute;top:66.66%;margin:0 -30px;border:none;height:1px;width:100%;box-shadow:0 3px #f7f7f7,0 2px #eaeaea,0 1px #dadada}
+.featured-partners .button,.featured-partners .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .featured-partners a,.featured-partners .main-footer-item-cta .content>a,.main-footer-item-cta .featured-partners .content>a,.featured-partners .wordpress input[type="submit"],.wordpress .featured-partners input[type="submit"],.featured-partners .drupal .form-submit,.drupal .featured-partners .form-submit,.featured-partners .check-before{position:absolute;margin:0}
+.featured-partners .check-before{bottom:20px;left:25px}
+.featured-partners .button,.featured-partners .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .featured-partners a,.featured-partners .main-footer-item-cta .content>a,.main-footer-item-cta .featured-partners .content>a,.featured-partners .wordpress input[type="submit"],.wordpress .featured-partners input[type="submit"],.featured-partners .drupal .form-submit,.drupal .featured-partners .form-submit{right:25px}
+.featured-partners .button:hover,.featured-partners .main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last a:hover,.main-nav .menu-block-wrapper>.menu>.menu-item-wrapper.last .featured-partners a:hover,.featured-partners .main-footer-item-cta .content>a:hover,.main-footer-item-cta .featured-partners .content>a:hover,.featured-partners .wordpress input[type="submit"]:hover,.wordpress .featured-partners input[type="submit"]:hover,.featured-partners .drupal .form-submit:hover,.drupal .featured-partners .form-submit:hover{color:#fff}
+.featured-partners .image-wrapper-wrapper{margin-top:18px}
+.featured-partners .image-wrapper-wrapper :first-child{margin-left:0}
+.featured-partners .logo-link{display:inline-block;width:120px;height:40px;margin:0 20px;position:relative;font-size:0}
+.featured-partners .logo-link img{position:absolute;display:inline-block;top:0;right:0;bottom:0;left:0;margin:auto;max-width:100%;max-height:100%;height:auto;width:auto}
+

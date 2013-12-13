@@ -49,8 +49,9 @@
 				var page = "all"
 			</g:javascript>
 		</g:if>
-		
-		<p style="font-size:14pt"><g:message code="collaborationGroups.title" /></p>
+        <div class="welcome-title"><g:message code="collaborationGroups.title" /></div>
+        <div class="desc">In this section you can manage your G-DOC collaboration groups, invite users to access your groups and also request access to other user groups.</div>
+
 		<div id="centerContent">
 			<br/>
 			<g:if test="${controllerName != 'workflows' && flash.message}">

@@ -126,7 +126,7 @@ params="[id:analysis.id,name:'analysis',type:'SAVED_ANALYSIS',keepThis:'true',TB
 		</div>	
 		</div>
 	</div><br />
-	<div style="display:block;text-align:left;border-bottom:1px solid grey;background-color:#f3f3f3;padding-bottom:5px">
+	<div style="display:block;text-align:left;border-bottom:1px solid rgb(240, 240, 240);background-color:#f3f3f3;padding-bottom:5px">
 		<g:if test="${analysis.query?.geAnalysisId && analysis.query?.geAnalysisId?.toString() != 'null'}">
 			<g:message code="savedAnalysis.references" />: ${analysis.query?.geAnalysisId?.toString()}<br />
 		</g:if>

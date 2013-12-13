@@ -83,9 +83,9 @@
 	</g:javascript>
   </head>
   <body onload="showVenn()">
-	<br />
-    <h1 style="font-size:1.2em">Venn Diagram</h1><br />
-	${session.study?.shortName}
+    <div class="welcome-title">Venn Diagram</div>
+    <div class="desc1">Current Study: ${session.study?.shortName}</div>
+
 	<a href="#" class="example8DOMWindow" style="display:none">-</a>
 	
 	<div id="example8Content" align="left" style="display:none;text-align:left;"> 
@@ -135,13 +135,10 @@
 		  <span class="example5closeDOMWindow" style="float:right;display:inline-table;cursor:pointer;text-decoration:underline"><g:message code="userList.close"/></span>
 		
 	  </div>
-	
-	  
-	 
 	</div>
+
 	<div class="canvas" style="margin:0 auto;width:100%;">
-      <canvas class="a" id="canvas3" width="850" height="600"></canvas>
-      <br><br>
+        <canvas class="a" id="canvas3" width="850"></canvas>
     </div>
 
 

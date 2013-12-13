@@ -70,32 +70,31 @@
 	</g:javascript>
 	
 
-	<div class="body">
-		<p class="pageHeading">
-			<g:message code="userList.manage"/>  
-			<img class="info" title="${message(code: 'userList.tip')}" style="font-size:1.1em;text-decoration:underline;padding-top:7px;padding-left:25px;cursor:pointer;" src="${createLinkTo(dir:'images',file:'information.png')}" border="0" />
-			<span style="display:none" class="ajaxController">userList</span>	
-			
-			<g:if test="${session.listFilter}">
-				<span style="font-size:12px"><g:message code="userList.total"/>: ${allLists}&nbsp;&nbsp; </span>
-			</g:if>
-			<br/>
-			<span id="message" class="message" style="display:none"></span>
-			
-			<table style="margin:5px 5px 5px 5px;border:1px solid gray;background-color:#f2f2f2"><tr>
-				
+    <div class="welcome-title"><g:message code="userList.manage"/> </div>
+    <div class="desc">Below are all G-DOC Saved Lists. You can view, modify, upload, export and share Lists with other groups.
+    </div>
+    <span id="message" class="message" style="display:none"></span>
+    <span style="display:none" class="ajaxController">userList</span>
+    <div class="desc1">
+     You can use the filter below to search for a specific list. You can also use the tool Panel on the left to manipulate data in the saved lists.<br/>
+            <g:if test="${session.listFilter}">
+                <g:message code="userList.total"/>: ${allLists}&nbsp;&nbsp; </span>
+            </g:if>
+        <br/>
 
-			<td style="padding:5px 5px 5px 15px;">
-			<span>
+    </div>
+
+     <div class="well well-sm">
+            <span>
 			<g:form name="filterForm" action="list">
-			<g:message code="userList.filter"/>:&nbsp;<g:select name="listFilter" 
+			<g:message code="userList.filter"/>:&nbsp;<g:select name="listFilter"
 				noSelection="${['':'Filter Lists...']}"
 				value="${session.listFilter?:'value'}"
 				from="${timePeriods}"
 				optionKey="key" optionValue="value">
 			</g:select>
-			
 			</span>
+
 			<g:if test="${session.listFilter!='search'}">
 			<div id="searchBox" style="display:none;padding-top:8px">
 			</g:if>
@@ -107,56 +106,53 @@
 			<g:submitButton value="search" name="searchButton"/>
 			</div>
 			</g:form>
-			</td>
-			
-			<td>
-			<span class="controlBarUpload" id="controlBarUpload">
-			<g:link class="thickbox" name="Upload custom list" action="upload" 
-			style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;padding: 4px 13px;width:80px;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;"
-		params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']"><g:message code="Upload"/></g:link>
-			</span>
-			</td>
 
-			<td><g:form name="delListForm" action="deleteMultipleLists">
-			<span class="controlBarUpload" id="controlBarDelete">
-			<g:submitButton name="del" value="${message(code: 'userList.deleteLists')}" style="font-size: 12px;color:black;text-decoration:none;padding: 4px 10px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 5px 3px 3px 5px;" onclick="return confirm('${message(code: 'userList.confirm')}');" /></span></td>
-			</tr>
-		</table>
-			
-			<g:if test="${allLists > 0 && userListInstanceList.size() >0}">
-			<div id="pager1" style="text-align:right;padding:2px 10px 3px 0px">
-			<g:set var="totalPages" value="${Math.ceil(allLists / userListInstanceList.size())}" />
-		    <g:if test="${totalPages == 1}">
-		        <span class="currentStep">1</span>
-		    </g:if>
-		   	<g:else>
-    			<g:paginate controller="userList" action="list"
-                total="${allLists}" prev="&lt; previous" next="next &gt;" params="[searchTerm:params?.searchTerm]"/>
-			</g:else>
-			</div>
-	
-			<div class="list" id="allLists">
-				<g:render template="/userList/userListTable" model="${['userListInstanceList':userListInstanceList]}" plugin="gcore"/>
-			</div>
-	
-			<div id="pager2" style="text-align:right;padding:2px 10px 3px 0px">
-				<g:set var="totalPages" value="${Math.ceil(allLists/ userListInstanceList.size())}" />
+     </div>
+            <g:form name="delListForm" action="deleteMultipleLists">
+                    <span class="controlBarUpload" id="controlBarUpload" >
+                       <g:link class="thickbox" name="Upload custom list" action="upload" style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;padding: 4px 13px;width:80px;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;"
+                        params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']"><g:message code="Upload"/></g:link>
+                    </span>
+                    <span class="controlBarUpload" id="controlBarDelete">
+                        <g:submitButton name="del" value="${message(code: 'userList.deleteLists')}" style="font-size: 12px;color:black;text-decoration:none;padding: 4px 13px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;" onclick="return confirm('${message(code: 'userList.confirm')}');" />
+                    </span>
+           			<g:if test="${allLists > 0 && userListInstanceList.size() >0}">
+                           <div id="pager1" style="text-align:right;padding:2px 10px 3px 0px">
+                           <g:set var="totalPages" value="${Math.ceil(allLists / userListInstanceList.size())}" />
+                           <g:if test="${totalPages == 1}">
+                               <span class="currentStep">1</span>
+                           </g:if>
+                           <g:else>
+                               <g:paginate controller="userList" action="list"
+                               total="${allLists}" prev="&lt; previous" next="next &gt;" params="[searchTerm:params?.searchTerm]"/>
+                           </g:else>
+           			</div>
 
-    			<g:if test="${totalPages == 1}">
-        			<span class="currentStep">1</span>
-    			</g:if>
-    			<g:else>
-        			<g:paginate controller="userList" action="list" 
-                    total="${allLists}" prev="&lt; previous" next="next &gt;" params="[searchTerm:params?.searchTerm]"/>
-    			</g:else>
-			</div>
-			</g:if>
-			<g:else>
-				<p><g:message code="userList.noSaved"/></p>
-			</g:else>
-		</g:form>
+           			<div class="list" id="allLists">
+           				<g:render template="/userList/userListTable" model="${['userListInstanceList':userListInstanceList]}" plugin="gcore"/>
+           			</div>
 
-</div>
+           			<div id="pager2" style="text-align:right;padding:2px 10px 3px 0px">
+           				<g:set var="totalPages" value="${Math.ceil(allLists/ userListInstanceList.size())}" />
+
+               			<g:if test="${totalPages == 1}">
+                   			<span class="currentStep">1</span>
+               			</g:if>
+               			<g:else>
+                   			<g:paginate controller="userList" action="list"
+                               total="${allLists}" prev="&lt; previous" next="next &gt;" params="[searchTerm:params?.searchTerm]"/>
+               			</g:else>
+           			</div>
+           			</g:if>
+           			<g:else>
+           				<p><g:message code="userList.noSaved"/></p>
+           			</g:else>
+           		</g:form>
+
+
+
+
+
 </body>
 </html>
 </strong>

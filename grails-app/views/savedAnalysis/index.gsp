@@ -63,50 +63,49 @@
 	
 	
 	<div class="body">
-		<p class="pageHeading"><g:message code="savedAnalysis.title"/>
-		<g:if test="${session.analysisFilter}">
-			<span style="font-size:12px"><g:message code="savedAnalysis.total"/>: ${allAnalysesSize}&nbsp;&nbsp; |<g:message code="savedAnalysis.filter"/>: ${session.analysisFilter}|</span>
-		</g:if>
-		</p>
-		<span style="display:none" class="ajaxController">savedAnalysis</span>	
+		<div class="welcome-title"><g:message code="savedAnalysis.title"/></div>
+	    <div class="desc">Below is the list of G-DOC Saved Analysis. You can view, modify and share your saved analysis with other groups. You can use the filter below to search and filter the list.</div>
+	    <div class="desc1">
+	           <g:if test="${session.analysisFilter}">
+            		<span><g:message code="savedAnalysis.total"/>: ${allAnalysesSize}&nbsp;&nbsp; |<g:message code="savedAnalysis.filter"/>: ${session.analysisFilter}|</span>
+               </g:if>
+        </div>
+		<span style="display:none" class="ajaxController">savedAnalysis</span>
 		<g:if test="${flash.message}">
 		<div class="message">${flash.message}</div>
 		</g:if>
-		<table style="margin:5px 5px 5px 5px;border:1px solid gray;background-color:#f2f2f2;"><tr>
-			
 
-		<td style="padding:5px 5px 5px 15px;">
-			<span>
-			<g:form name="filterForm" action="index">
-			<g:message code="savedAnalysis.filter"/>:&nbsp;<g:select name="analysisFilter" 
-				noSelection="${['': message(code: 'savedAnalysis.filter') + '...']}"
-				value="${session.analysisFilter?:'value'}"
-				from="${timePeriods}"
-				optionKey="key" optionValue="value">
-			</g:select>
-		
-			</span>
-			
-			<g:if test="${session.analysisFilter!='search'}">
-			<div id="searchBox" style="display:none;padding-top:8px">
-			</g:if>
-			<g:else>
-			<div id="searchBox" style="padding-top:8px">
-			</g:else>
-			<g:message code="savedAnalysis.search"/><br />
-			<g:textField name="searchTerm" id="searchTerm" size="15" />
-			<g:submitButton value="search" name="searchButton"/>
-			</div>
-			</g:form>
-		</td>
+		<div class="well well-sm">
+         			<span>
+         			<g:form name="filterForm" action="index">
+         			<g:message code="savedAnalysis.filter"/>:&nbsp;<g:select name="analysisFilter"
+         				noSelection="${['': message(code: 'savedAnalysis.filter') + '...']}"
+         				value="${session.analysisFilter?:'value'}"
+         				from="${timePeriods}"
+         				optionKey="key" optionValue="value">
+         			</g:select>
 
-		<td><g:form name="delAnalysisForm" action="deleteMultipleAnalyses">
-		<span class="controlBarUpload" id="controlBarDelete">
-		<g:submitButton name="del" value="${message(code: 'savedAnalysis.delete')}" style="font-size: 12px;color:black;text-decoration:none;padding: 3px 8px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 5px 3px 3px 5px;" onclick="return confirm('${message(code: 'userList.confirm')}');" />
-		</span>
-		</td>
-		</tr>
-		</table>
+         			</span>
+
+         			<g:if test="${session.analysisFilter!='search'}">
+         			<div id="searchBox" style="display:none;padding-top:8px">
+         			</g:if>
+         			<g:else>
+         			<div id="searchBox" style="padding-top:8px">
+         			</g:else>
+         			<g:message code="savedAnalysis.search"/><br />
+         			<g:textField name="searchTerm" id="searchTerm" size="15" />
+         			<g:submitButton value="search" name="searchButton"/>
+         			</div>
+         			</g:form>
+         </div>
+
+         <g:form name="delAnalysisForm" action="deleteMultipleAnalyses">
+                <span class="controlBarUpload" id="controlBarDelete">
+                <g:submitButton name="del" value="${message(code: 'savedAnalysis.delete')}" style="font-size: 12px;color:black;text-decoration:none;padding: 3px 8px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 5px 3px 3px 5px;" onclick="return confirm('${message(code: 'userList.confirm')}');" />
+                </span>
+         </g:form>
+
 		<g:if test="${savedAnalysis.size() > 0}">
 		<fieldset style="border:0px solid black">
 
@@ -124,13 +123,12 @@
 	    </g:else>
 		</div>
 		
-<g:panel title="My Saved Analysis" styleClass="welcome" contentClass="myPanelContent" id="savedAnalysis">
-	<div id="analysisContainer">
-	<g:render template="/savedAnalysis/savedAnalysisTable" plugin="gcore" />
-	</div>
-</g:panel>
-	
-	
+        <g:panel title="My Saved Analysis" styleClass="welcome" contentClass="myPanelContent" id="savedAnalysis">
+            <div id="analysisContainer">
+            <g:render template="/savedAnalysis/savedAnalysisTable" plugin="gcore" />
+            </div>
+        </g:panel>
+
 		<div id="pager2" style="text-align:right;padding:2px 10px 3px 0px">
 		<g:set var="totalPages" value="${Math.ceil(allAnalysesSize / savedAnalysis.size())}" />
 
@@ -148,5 +146,5 @@
 			<p><g:message code="savedAnalysis.no"/></p>
 		</g:else>
 	</div>
-	</g:form>
+
 </body>

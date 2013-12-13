@@ -18,9 +18,9 @@
 <g:if test="${netId}">
 		<div class="errorDetail"><g:message code="registration.cannotChange"/></div>
 </g:if>
-	
-<fieldset style="background-color:#fff;border:1px solid #334477;margin:10px 5px 5px 5px">
-    <legend style="padding:7px"><g:message code="registration.passwordReset"/>:</legend>
+<div style="padding:10px;font-family: 'Open Sans',sans-serif;font-size: 20px;font-weight: 300;color: rgb(0, 92, 167);line-height: 1.05;margin: 0px;"><g:message code="registration.passwordReset"/></div>
+<fieldset style="background-color:#fff;-moz-border-radius: 5px; border-radius: 5px;">
+
 	<div style="padding:10px;float:left">
 		<g:form name="resetForm" action="resetLoginCredentials">
 		<div class="errorDetail">
@@ -37,10 +37,10 @@
 		    <recaptcha:recaptcha theme="blackglass"/>
 		</recaptcha:ifEnabled>
 		<br /><br/>
-		<g:submitButton name="requestReset" value="${message(code: 'registration.request')}" />
+		<g:submitButton class="btn btn-primary" name="requestReset" value="${message(code: 'registration.request')}" />
 		</g:form>
 	</div>
-	<div class="c" style="float:right;border:1px solid silver;padding:10px;margin-right:10px">
+	<div class="alert alert-info" style="float:right;border:1px solid silver;padding:10px;margin-right:10px;margin-top:10px;">
 		<span style="font-size:1.05em"><g:message code="registration.requirement"/>:</span><br />
 		 * <g:message code="registration.req1"/><br />
 		 * <g:message code="registration.req2"/><br />
@@ -49,3 +49,4 @@
 	</div>
 </fieldset>
 </div>
+</html>

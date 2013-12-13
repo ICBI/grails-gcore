@@ -1,23 +1,14 @@
 <html>
     <head>
         <title><g:message code="policies.denied"/></title>
-		<meta name="layout" content="splash" />
+		<meta name="layout" content="maxSpaceLayout" />
 		<g:javascript library="jquery" plugin="jquery"/>
-		
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styles.css')}"/>
     </head>
     <body>
-	
-		<div id="centerContent" style="margin:0pt auto;width:65%">
-			<p style="font-size:14pt"><g:message code="policies.denied"/></p>
-				<p>
-					<g:message code="policies.attempted"/>
-				</p>
-				
-				
-			
-			
-		</div>
-		
+	   <div class="desc"> <g:message code="policies.denied"/> </div>
+	   <div class="desc1"> <g:message code="policies.attempted"/></div>
+
 	</body>
 	
 </html>
