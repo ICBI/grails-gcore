@@ -21,8 +21,8 @@
             </div>
             </g:hasErrors>
             <g:form action="save" method="post" >
-                <div class="dialog">
-                    <table class="admin">
+                <div class="well">
+                    <table class="admin" width="100%">
                         <tbody>
                         
                             <tr class="prop">
@@ -56,7 +56,7 @@
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><input class="save" type="submit" value="Create" /></span>
+                    <span class="button"><input class="save btn btn-primary" type="submit" value="Create" /></span>
                 </div>
             </g:form>
         </div>

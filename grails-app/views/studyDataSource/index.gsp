@@ -1,7 +1,6 @@
 <html>
     <head>
         <meta name="layout" content="maxSpaceLayout" />
-		</script>
         <title><g:message code="study.title"/></title>         
     </head>
     <body>

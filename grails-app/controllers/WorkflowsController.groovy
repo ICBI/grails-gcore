@@ -52,12 +52,13 @@ class WorkflowsController {
 
 	
 	def studySpecificTools() {
-		if(session.study) {
-			render (view: 'studySpecificTools')
+
+        if(session.study) {
+            render (view: 'studySpecificTools')
 			return
 		}
 		else {
-			render (view: 'index')
+			redirect (view: "index")
 			return
 		}
 	}
@@ -70,12 +71,12 @@ class WorkflowsController {
 				redirect (action: 'studySpecificTools')
 				return
 			}
-			
+
 			else if("operation" == session.workflowMode){
 				redirect (action: 'choosePath')
 				return
 			}
-			
+
 			else {
 				redirect (action: 'index')
 				return
@@ -85,9 +86,9 @@ class WorkflowsController {
 	
     def index = {
 		if(springSecurityService.isLoggedIn()){
-			session.study = null
-			session.supportedOperations = null
-			session.workflowMode = null
+			//session.study = null
+			//session.supportedOperations = null
+			//session.workflowMode = null
 		 
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)

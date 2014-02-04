@@ -6,20 +6,18 @@
 		
     </head>
     <body>
-	
-		<div id="centerContent" style="margin:0pt auto;width:65%">
-			<p style="font-size:14pt"><g:message code="policies.title" args="${[appTitle()]}"/></p>
-				<p>
-					<g:message code="policies.dataPolicy" args="${[appTitle()]}"/>
-				</p>
-				<p>	
-					<g:message code="policies.quality" args="${[appTitle()]}"/>
-				</p>
-				
-				
-			
-			
-		</div>
+    <div class="welcome-title"><g:message code="policies.title" args="${[appTitle()]}"/></div>
+    <div class="features">
+        <p class="desc1">
+            <g:message code="policies.dataPolicy" args="${[appTitle()]}"/>
+        </p>
+        <br/>
+        <p class="desc1">
+            <g:message code="policies.quality" args="${[appTitle()]}"/>
+        </p>
+    </div>
+
+
 		
 	</body>
 	

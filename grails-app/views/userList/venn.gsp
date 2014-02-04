@@ -5,13 +5,8 @@
 	<meta name="layout" content="report" />
     <g:javascript library="jquery" plugin="jquery"/>
 	<jq:plugin name="DOMWindow"/>
-	
-    <style type="text/css">
-      div.example {margin 20px; padding: 20px;}
-      div canvas {float: left;}
-      div br {clear: both;}
-      pre {padding-top: 10px; border: 2px dashed #999999; background: #dddddd;} 
-    </style>
+
+
     <script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'excanvas.js')}"></script>
 	
 	<script type="text/javascript" src="${createLinkTo(dir: 'js', file: 'canvasXpressNEW.min.js')}"></script>

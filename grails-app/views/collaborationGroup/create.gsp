@@ -7,11 +7,13 @@
         <title><g:message code="collaborationGroup.title" /></title>         
     </head>
     <body>
-        <div class="nav">
+
+    <div class="welcome-title"><g:message code="collaborationGroup.create" /></div> <br/>
+    <div class="nav">
             <span class="menuButton"><g:link class="list" action="list"><g:message code="collaborationGroup.list" /></g:link></span>
         </div>
         <div>
-            <p style="font-size:14pt;padding:10px"><g:message code="collaborationGroup.create" /></p>
+
             <g:if test="${flash.message}">
             <div class="message">${flash.message.encodeAsHTML()}</div>
             </g:if>
@@ -24,8 +26,8 @@
             </div>
             </g:hasErrors>
             <g:form action="save" method="post" >
-                <div class="dialog">
-                    <table class="admin">
+                <div class="well">
+                    <table class="admin" style="width:100%;">
                         <tbody>
                         
                             <tr class="prop">
@@ -59,7 +61,7 @@
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><input class="save" type="submit" value="${message(code: 'gcore.create')}" /></span>
+                    <span class="button"><input class="save btn btn-primary" type="submit" value="${message(code: 'gcore.create')}" /></span>
                 </div>
             </g:form>
         </div>

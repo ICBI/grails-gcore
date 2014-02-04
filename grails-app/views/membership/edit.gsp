@@ -22,8 +22,8 @@
             </g:if>
             <g:form method="post" >
                 <input type="hidden" name="id" value="${membershipInstance?.id}" />
-                <div class="dialog">
-                    <table class="admin">
+                <div class="well">
+                    <table class="admin" width="100%">
                         <tbody>
 	
 							<tr class="prop">
@@ -61,8 +61,8 @@
                     </table>
                 </div>
                 <div class="buttons"><br />
-                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                    <span class="button"><g:actionSubmit class="save btn btn-primary" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 	<span class="button"><g:link action="show" id="${membershipInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
 				</div>
             </g:form><br />

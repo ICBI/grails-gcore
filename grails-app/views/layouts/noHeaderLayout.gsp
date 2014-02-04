@@ -31,13 +31,26 @@
     <div class="wrapper">
           <div class="header">
                      <div id="doc2" class="yui-t1">
-                     <br/>
+
                          <!-- Header start -->
-                         <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-                         <a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
-                         </td><td valign="bottom" style="text-align:right;padding:7px">
-                         <span style="color:#f2f2f2"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
-                         </td></tr></table>
+                         <sec:ifNotLoggedIn>
+                             <br/>
+                             <!-- Header start -->
+                             <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+                                 <a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
+                             </td><td valign="bottom" style="text-align:right;padding:7px">
+                                 <span style="color:#f2f2f2">
+                                     <g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/><br /><br />
+                                     <g:link controller="workflows" style="color:#f2f2f2"> ${message(code: 'nav.home', args: [appTitle()])}</g:link>
+                                 </span>
+
+                             </td></tr></table>
+                             <!-- Header end -->
+                         </sec:ifNotLoggedIn>
+                         <sec:ifLoggedIn>
+                             <g:render template="/common/headerWorkflow" />
+                             <br/>
+                         </sec:ifLoggedIn>
                          <!-- Header end -->
                      </div>
          </div>

@@ -84,7 +84,7 @@
 		</g:javascript>
 		
 		<div style="font-size:1em;padding-top:5px">
-			<span id="label">
+			<span class="desc1">
 				<g:if test="${!session.study}"><br><g:message code="gcore.noStudy"/></g:if>
 				<g:else><g:message code="gcore.currentStudy"/>: ${session.study?.shortName}</g:else></span>
 			<span style="display:inline-table;font-size:.8em">
@@ -104,7 +104,7 @@
 		<div id="studyFieldset" style="display:none">
 		</g:else>
 		<!-- <fieldset class="studyPicker"><legend style="margin:8px"><g:message code="study.choose"/></legend>  -->
-		<div class="hero-unit" style="width: 600px">
+		<div class="hero-unit" style="width: 900px">
 			<g:formRemote name="setStudyForm" url="[controller:'studyDataSource',action:'setStudy']" update="label" onLoading="showSpinner();" onSuccess="reload();">
 		<%--g:message code="study.disease"/>:--%>
 		<g:select name="disease" class="selectpicker"

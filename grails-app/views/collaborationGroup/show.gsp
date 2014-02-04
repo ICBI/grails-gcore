@@ -16,8 +16,8 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="dialog">
-                <table class="admin">
+            <div class="well">
+                <table class="admin" width="100%">
                     <tbody>
 
                     
@@ -75,7 +75,7 @@
 							
 							<td  valign="top" style="text-align:left;" class="value">
                             	<div style="height:250px;overflow:auto;background:#f2f2f2;border:1px solid black;padding:3px">
-								<table class="admin">
+								<table class="admin" width="100%">
 				                    <thead>
 				                        <tr>
 											<th><g:message code="membership.id" /></th>
@@ -122,8 +122,8 @@
             <div class="buttons">
                 <g:form>
                     <input type="hidden" name="id" value="${collaborationGroupInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" value="${message(code: 'gcore.edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                    <span class="button"><g:actionSubmit class="edit btn btn-default" value="${message(code: 'gcore.edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 </g:form>
             </div>
         </div>

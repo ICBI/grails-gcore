@@ -7,14 +7,16 @@
         <title><g:message code="invitations.heading" /></title>
     </head>
     <body>
-        
-        <div>
-            <p style="font-size:14pt;padding:15px"><g:message code="invitations.list" /></p>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="list">
-                <table class="admin">
+    <div class="welcome-title"><g:message code="invitations.list" /></div> <br/>
+    <g:if test="${flash.message}">
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            ${flash.message}
+        </div>
+    </g:if>
+
+            <div class="list well">
+                <table class="admin" width="100%">
                     <thead>
                         <tr>
                         
@@ -60,6 +62,6 @@
             <div class="paginateButtons">
                 <g:paginate total="${invitationInstanceTotal}" />
             </div>
-        </div>
+
     </body>
 </html>

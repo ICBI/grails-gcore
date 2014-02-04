@@ -7,17 +7,22 @@
         <title><g:message code="membership.title" /></title>
     </head>
     <body>
+
+    <div class="welcome-title"><g:message code="membership.list" /> </div>
+    <br />
+    <g:if test="${flash.message}">
+        <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            ${flash.message}
+        </div>
+    </g:if>
+
         <div class="nav">
-            
             <span class="menuButton"><g:link class="create" action="create"><g:message code="membership.create" /></g:link></span>
         </div>
-        <div class="body">
-            <p style="font-size:14pt;padding:10px"><g:message code="membership.list" /></p>
-            <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
-            </g:if>
-            <div class="list">
-                <table class="admin">
+
+            <div class="list well">
+                <table class="admin"  style="width:100%">
                     <thead>
                         <tr>
                         
@@ -51,6 +56,6 @@
             <div class="paginateButtons">
                 <g:paginate total="${membershipInstanceTotal}" />
             </div>
-        </div>
+
     </body>
 </html>

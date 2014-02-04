@@ -1,7 +1,7 @@
 <%@ page import="org.springframework.util.ClassUtils" %>
-<%@ page import="org.codehaus.groovy.grails.plugins.searchable.SearchableUtils" %>
-<%@ page import="org.codehaus.groovy.grails.plugins.searchable.lucene.LuceneUtils" %>
-<%@ page import="org.codehaus.groovy.grails.plugins.searchable.util.StringQueryUtils" %>
+<%@ page import="grails.plugin.searchable.internal.SearchableUtils" %>
+<%@ page import="grails.plugin.searchable.internal.lucene.LuceneUtils" %>
+<%@ page import="grails.plugin.searchable.internal.util.StringQueryUtils" %>
 <html>
   <head>
 
@@ -10,7 +10,7 @@
 	<g:javascript library="jquery" plugin="jquery"/>
 
 		<script type="text/javascript" src="${resource(dir: 'js/jquery', file: 'jquery.ui.js')}"></script>
-	
+
     <title><g:if test="${params.q && params.q?.trim() != ''}">${params.q} - </g:if><g:message code="search.title"/></title>
     
 

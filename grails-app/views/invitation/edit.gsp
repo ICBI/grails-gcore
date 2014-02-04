@@ -25,8 +25,8 @@
             <g:form method="post" >
                 <input type="hidden" name="id" value="${invitationInstance?.id}" />
                 <input type="hidden" name="version" value="${invitationInstance?.version}" />
-                <div class="dialog">
-                    <table class="admin">
+                <div class="well">
+                    <table class="admin" width="100%">
                         <tbody>
                         
                             <tr class="prop">
@@ -87,8 +87,8 @@
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                    <span class="button"><g:actionSubmit class="save btn btn-primary" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 	<span class="button"><g:link action="show" id="${invitationInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
 				</div>
             </g:form>

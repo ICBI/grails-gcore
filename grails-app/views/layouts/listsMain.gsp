@@ -39,7 +39,7 @@
                              <div id="doc2" class="yui-t1">
                              <br/>
                                  <!-- Header start -->
-                                <g:render template="/common/header" />
+                                 <g:render template="/common/headerWorkflow" />
                                  <!-- Header end -->
                              </div>
                  </div>

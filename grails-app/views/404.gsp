@@ -11,7 +11,18 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.tooltip.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'superfish.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'superfish-vertical.css')}"/>
-		<link rel="stylesheet" href="${createLinkTo(dir: 'css/cupertino',  file: 'jquery-ui-1.7.1.custom.css')}" />	
+		<link rel="stylesheet" href="${createLinkTo(dir: 'css/cupertino',  file: 'jquery-ui-1.7.1.custom.css')}" />
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styledButton.css')}"/>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'editableText.css')}"/>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap-select.min.css')}"/>
+    <g:javascript library="jquery" plugin="jquery"/>
+
+    <script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap.min.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap-select.min.js')}"></script>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
 		<g:javascript library="jquery"/>
 		        <style type="text/css">
@@ -25,9 +36,24 @@
     <div class="wrapper1" >
                   <div class="header">
                              <div id="doc2" class="yui-t1">
-                             <br/>
                                  <!-- Header start -->
-                                <g:render template="/common/header" />
+                                 <sec:ifNotLoggedIn>
+                                     <br/>
+                                     <!-- Header start -->
+                                     <table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
+                                         <a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
+                                     </td><td valign="bottom" style="text-align:right;padding:7px">
+                                         <span style="color:#f2f2f2">
+                                             <g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/><br /><br />
+                                             <g:link controller="workflows" style="color:#f2f2f2"> ${message(code: 'nav.home', args: [appTitle()])}</g:link>
+                                         </span>
+
+                                     </td></tr></table>
+                                     <!-- Header end -->
+                                 </sec:ifNotLoggedIn>
+                                 <sec:ifLoggedIn>
+                                     <g:render template="/common/headerWorkflow" />
+                                 </sec:ifLoggedIn>
                                  <!-- Header end -->
                              </div>
                  </div>
@@ -37,7 +63,10 @@
                         <div id="yui-main" >
                         <br/><br/><br/><br/><br/><br/>
 					<div class="yui-u first">
-						<div class="desc">The page you requested was not found!</div><br /><br/>
+                            <div><img src="/${appName()}/images/error.gif" border="0" alt="" />
+                            <div class="desc"> 404. That’s an error.</div>
+                            <div class="desc1">The page you requested was not found!</div>
+                        </div><br /><br/>
 						<div id="details" style="display: none;">
 							<g:if test="${exception}">
 							    <h2>Stack Trace</h2>

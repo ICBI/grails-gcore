@@ -24,7 +24,7 @@
             <g:form method="post" >
                 <input type="hidden" name="id" value="${GDOCUserInstance?.id}" />
                 <input type="hidden" name="version" value="${GDOCUserInstance?.version}" />
-                <div class="dialog">
+                <div class="well">
                     <table class="admin" style="width:75%">
                         <tbody>
                         
@@ -121,7 +121,7 @@
 							<tr class="prop">
                                 <td valign="top" class="name" colSpan="2"><g:message code="users.memberships" /> &nbsp; &nbsp;| &nbsp; &nbsp;
 										<g:link controller="membership" params="['username':GDOCUserInstance?.username]" action="create"><g:message code="users.addMembership" /></g:link><br />
-                                    	<table class="admin">
+                                    	<table class="admin" width="100%">
 						                    <thead>
 						                        <tr>
 													<%--g:sortableColumn property="id" title="Id" /--%>
@@ -163,7 +163,7 @@
 							<tr class="prop">
 		                            <td valign="top" class="name" colspan="2"><g:message code="invitations.heading" />&nbsp; &nbsp;| &nbsp; &nbsp;
 			
-										<table class="admin">
+										<table class="admin" width="100%">
 						                    <thead>
 						                        <tr>
 
@@ -303,8 +303,8 @@
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                    <span class="button"><g:actionSubmit class="save btn btn-primary" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                		<span class="button"><g:link action="show" id="${GDOCUserInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
  				</div>
             </g:form>

@@ -14,8 +14,6 @@
 		font-size: 100%;
 		min-width: 90px;
 		max-width: 180px;
-		.workflowBox {
-			
 		}
 		 </STYLE>
 		 <g:javascript>

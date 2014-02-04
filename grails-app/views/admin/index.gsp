@@ -5,8 +5,10 @@
 		<g:javascript library="jquery" plugin="jquery"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'scrollable-navig.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'dialog.css')}"/>
-		
-		<g:javascript>
+        <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
+        <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap-select.min.css')}"/>
+
+        <g:javascript>
 			function success(){
 					$("#spinner").css("visibility","hidden");
 			}
@@ -51,89 +53,50 @@
 
 		  });
 		</g:javascript>
+        <div class="welcome-title"><g:message code="admin.heading" args="${ [appTitle()] }" /> </div>
+        <g:if test="${flash.message}">
+            <div class="alert alert-info"> ${flash.message}</div>
+        </g:if>
 		<div id="centerContent">
-			<p style="font-size:14pt"><g:message code="admin.heading" args="${ [appTitle()] }" /></p><br />
-			
-			<g:if test="${flash.message}">
-				<span class="message" style="margin-botton:10px">${flash.message}</span><br />
-			</g:if>
-			<br />
-			<table style="border:1px solid black;width:85%">
-				<tr>
-					<th style="background-color:silver"><g:message code="admin.dataLoading" /></th>
-				</tr>
-				<tr>
-					<td>
-						<div>
-						<div style="padding:7px;background-color:seashell;">
-				<g:link action="reload" onclick="loading()"><g:message code="admin.reloadData" /></g:link><br />
-						<span id="status">Status: 
-							<g:if test="${loadedStudies}">${loadedStudies.size()} <g:message code="admin.studiesLoaded" /></g:if>
-							<g:else> <g:message code="admin.noStudies" /></g:else>
-						</span>
-						<span id="spinner" style="visibility:hidden;display:inline-table"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
-						</div>
-						
-								<div style="padding:5px;background-color:#f2f2f2;">
-								<g:if test="${loadedStudies}">
-								${loadedStudies}
-								</g:if>
-								<g:else>
-								<g:message code="admin.noStudies" />
-								</g:else>
-								</div>
-						</div>
-					</td>
-				</tr>
-				</table>
-				<br />
-				<table style="border:1px solid black;width:85%">
-				<tr>
-					<th style="background-color:silver"><g:message code="admin.userAdmin" /></th>
-				</tr>
-				<tr>
-					<td>
-						<div>
-						<div style="padding:7px;background-color:seashell;"><g:message code="admin.findUser" /><br />
-						
-						</div>
-						
-								<div style="padding:5px;background-color:#f2f2f2;">
-							     <g:form controller="GDOCUser" action="list" autocomplete="off">
-									<g:textField name="userId" id="q" /><br /><br />
-									<g:submitButton name="search" value="${message(code: 'admin.searchUser')}" />
-								</g:form>
-								</div>
-						</div>
-					</td>
-				</tr>
-			</table>
-			
-			<br />
-			<!--table style="border:1px solid black;width:85%">
-			<tr>
-				<th style="background-color:silver">Collaboration Admin</th>
-			</tr>
-			<tr>
-				<td>
-					<div>
-					<div style="padding:7px;background-color:seashell;">Groups/Invitations<br />
-					
-					</div>
-					
-							<div style="padding:5px;background-color:#f2f2f2;">
-							<g:link action="searchGroups">View All Groups</g:link><br /><br />
-							<g:link action="pendingInvites">Pending Invites</g:link>
-							
-							</div>
-					</div>
-				</td>
-			</tr>
-		</table-->
-			
-			
-		</div>
-		
+
+                <div class="desc1"> <g:message code="admin.dataLoading" /></div>
+                <div class="well">
+                    <div>
+                        <div style="padding:7px;background-color:seashell;">
+                            <g:link action="reload" onclick="loading()"><g:message code="admin.reloadData" /></g:link><br />
+                            <span id="status">Status:
+                            <g:if test="${loadedStudies}">${loadedStudies.size()} <g:message code="admin.studiesLoaded" /></g:if>
+                            <g:else> <g:message code="admin.noStudies" /></g:else>
+                            </span>
+                            <span id="spinner" style="visibility:hidden;display:inline-table"><img src='/${appName()}/images/spinner.gif' alt='Wait'/></span>
+                        </div>
+
+                        <div style="padding:5px;background-color:#f2f2f2;">
+                            <g:if test="${loadedStudies}">
+                                ${loadedStudies}
+                            </g:if>
+                            <g:else>
+                                <g:message code="admin.noStudies" />
+                            </g:else>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="desc1"><g:message code="admin.userAdmin" /></div>
+                <div class="well">
+                    <g:message code="admin.findUser" /><br /><br />
+                    <g:form controller="GDOCUser" action="list" autocomplete="off">
+                        <g:textField style="height:25px;" name="userId" id="q" /><br /><br />
+                        <g:submitButton class="btn btn-default" name="search" value="${message(code: 'admin.searchUser')}" />
+                    </g:form>
+                </div>
+
+
+        </div>
 	</body>
 	
 </html>

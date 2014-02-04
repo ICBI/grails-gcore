@@ -58,8 +58,8 @@
 				datatype: "json", 
 				colNames:${session.columnNames}, 
 				colModel:${session.columnJson}, 
-				height: 350, 
-				rowNum:25, 
+				height: 350,
+				rowNum:25,
 				rowList:[25,50], 
 				pager: jQuery('#pager'), 
 				<g:if test="${session.subjectTypes.timepoints}">
@@ -191,11 +191,12 @@
 				   position:"last"
 			});
 			
-			if($("#searchResults").width() < 300){
-				$("#searchResults").setGridWidth(700);
+			if($("#searchResults").width() < 900){
+				$("#searchResults").setGridWidth(900);
 			}
 			if($("#searchResults").width() > 900){
-				$("#doc3").css("width",$("#searchResults").width()+70);
+				$("#searchResults").setGridWidth(1050);
+
 			}
 			$(document).bind('loadsubgrid', function() {
 				bindCheckboxes();
@@ -367,15 +368,13 @@
 			</div>
 		</g:if>
 	</g:each>
-	<p style="font-size:14pt"><g:message code="clinical.searchResults" /></p>
+	<div class="welcome-title"><g:message code="clinical.searchResults" /></div>
+    <div class="desc1"><g:message code="gcore.currentStudy" />:
+            <g:if test="${!session.study}"><g:message code="gcore.noStudy" /></g:if>
+            ${session.study?.shortName}
+    </div>
 	<div id="centerContent">
-		<br/>
-			<p style="font-size:12pt"><g:message code="gcore.currentStudy" />: 
-			<span id="label" style="display:inline-table">
-				<g:if test="${!session.study}"><g:message code="gcore.noStudy" /></g:if>
-				${session.study?.shortName}
-			</span>
-			</p>
+
 			<g:if test="${!session.results}">
 				<g:message code="clinical.noResults" />
 			</g:if>
@@ -386,49 +385,45 @@
 				</g:if>
 				<g:form name="download" action="download">
 				</g:form>
-				
+
 				<g:clinicalView label="Genotype"/>
-				
-				<div style="margin:5px 5px 5px 50px">
-					<span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
-						<g:textField name="list_name" size="15" maxlength="15"/>
-					</span>
-				<span class="bla" id="listAdd">
-					<g:if test="${session.subgridModel != [:]}">
-						<g:message code="clinical.listSave" /> ⇣
-						<ul>
-							<li title="parent">${session.subjectTypes.parent}</li>
-							<li title="child">${session.subjectTypes.child}</li>
-						</ul>
-					</g:if>
-					<g:else>
-						<g:message code="clinical.listSave" />
-					</g:else>
-				</span><br />
 
-				<span id="message" style="display:none"></span>
-				<span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
+				<div >
+                         <span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
+                                <g:textField name="list_name" size="15" maxlength="15"/>
+                            </span>
+                        <span class="bla" id="listAdd">
+                            <g:if test="${session.subgridModel != [:]}">
+                                <g:message code="clinical.listSave" /> ⇣
+                                <ul>
+                                    <li title="parent">${session.subjectTypes.parent}</li>
+                                    <li title="child">${session.subjectTypes.child}</li>
+                                </ul>
+                            </g:if>
+                            <g:else>
+                                <g:message code="clinical.listSave" />
+                            </g:else>
+                        </span><br />
 
-                <g:if test="${session.study.hasImagingData()}"><br />This study has Imaging Data. Please select a Patient or a Group of Patients to explore their Imaging data.</br>
-                				<span class="bla" id="searchimages"> View Images </span>
-                				<span id="messageImaging" style="display:none"></span>
-                                <g:form controller="Dicom" action="dicomsearch" >
-                            		<g:hiddenField name="userId1" id="q1" value=""/><g:hiddenField name="userId" id="q" /><g:hiddenField name="userId2" id="q2" /><g:hiddenField name="userId3" id="q3" /><g:hiddenField name="userId4" id="q4" /><g:hiddenField name="userId5" id="q5" />
-                            		<g:hiddenField name="userId6" id="q6" /><g:hiddenField name="userId7" id="q7" value="${session.study?.shortName}"/><g:submitButton name="search" id="searchImaging" value="View Images" onclick="GetSelectedIds()" style="visibility: hidden" />
-                            	</g:form>
-                  </g:if>
+                        <span id="message" style="display:none"></span>
+                        <span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
 
-				</div>
-				</div>
+                        <g:if test="${session.study.hasImagingData()}"><br />This study has Imaging Data. Please select a Patient or a Group of Patients to explore their Imaging data.</br>
+                                        <span class="bla" id="searchimages"> View Images </span>
+                                        <span id="messageImaging" style="display:none"></span>
+                                        <g:form controller="Dicom" action="dicomsearch" >
+                                            <g:hiddenField name="userId1" id="q1" value=""/><g:hiddenField name="userId" id="q" /><g:hiddenField name="userId2" id="q2" /><g:hiddenField name="userId3" id="q3" /><g:hiddenField name="userId4" id="q4" /><g:hiddenField name="userId5" id="q5" />
+                                            <g:hiddenField name="userId6" id="q6" /><g:hiddenField name="userId7" id="q7" value="${session.study?.shortName}"/><g:submitButton name="search" id="searchImaging" value="View Images" onclick="GetSelectedIds()" style="visibility: hidden" />
+                                        </g:form>
+                          </g:if>
+                </div>
 				</g:if>
 
 				<table id="searchResults" class="scroll" cellpadding="0" cellspacing="0"></table>
 				<div id="pager" class="scroll" style="text-align:center;height: 45px"></div>
 			</g:else>
-			<br/>
-			<br/>
+
 	</div>
 
-	</body>
-	
+</body>
 </html>

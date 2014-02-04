@@ -71,9 +71,9 @@
 			</g:javascript>
     </head>
     <body>
-		
-		<div id="centerContent"><br />
-			<p style="font-size:14pt;padding-top:10px"><g:message code="users.userSearch" /> | 
+        <div class="welcome-title"><g:message code="users.userSearch" /> </div>
+		<div id="centerContent">
+			<p style="font-size:14pt;padding-top:10px">
 				<span style="font-size:.8em">
 					<g:message code="users.totalUsers" args="${ [appTitle()] }" />:${session.uresults.size()}<br />
 				</span>

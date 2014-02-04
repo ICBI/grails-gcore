@@ -27,8 +27,8 @@
             <g:form method="post" >
                 <input type="hidden" name="id" value="${collaborationGroupInstance?.id}" />
                 <input type="hidden" name="version" value="${collaborationGroupInstance?.version}" />
-                <div class="dialog">
-                    <table class="admin">
+                <div class="well">
+                    <table class="admin" width="100%">
                         <tbody>
                         
                             <tr class="prop">
@@ -82,7 +82,7 @@ value="${collaborationGroupInstance?.artifacts}" />
                                 
                                 <td valign="top" class="name" colspan="2"><g:message code="collaborationGroup.memberships" />:&nbsp; &nbsp;| &nbsp; &nbsp;
 										<g:link controller="membership" params="['groupName':collaborationGroupInstance?.name]" action="create"><g:message code="membership.create" /></g:link><br />
-									<table class="admin">
+									<table class="admin" width="100%">
 					                    <thead>
 					                        <tr>
 												<th><g:message code="membership.id" /></th>
@@ -120,8 +120,8 @@ value="${collaborationGroupInstance?.artifacts}" />
                     </table>
                 </div><br />
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" value="${message(code: 'gcore.update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                    <span class="button"><g:actionSubmit class="save btn btn-primary" value="${message(code: 'gcore.update')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 	<span class="button"><g:link action="show" id="${collaborationGroupInstance?.id}" class="cancel"><g:message code="gcore.cancel" /></g:link></span>
 				</div>
             </g:form>

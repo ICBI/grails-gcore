@@ -39,8 +39,10 @@ class StudyDataSourceController {
 	def setStudy = {
 		log.debug("entering");
 		log.debug(session.myStudies);
-		log.debug "study selected: "+params.study;
-		if(params.study && session.myStudies){
+        log.debug "study selected: "+params.study;
+
+
+        if(params.study && session.myStudies){
 			session["workflowMode"] = params.workflowMode
 			def studyid = new Long(params.study)
 			def allowedStudyAccess = session.myStudies.find{it.id == studyid}
@@ -126,7 +128,7 @@ class StudyDataSourceController {
 				 it.id == params.id.toLong()
 			}
 			if(mysid){
-				session.study = currStudy
+				//session.study = currStudy
 				allowAccess = true
 			}
 		}

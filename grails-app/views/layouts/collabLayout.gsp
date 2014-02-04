@@ -16,9 +16,19 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styledButton.css')}" />
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
-		<g:javascript library="jquery" plugin="jquery"/>
-		<g:layoutHead/>
-		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
+    <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap-select.min.css')}"/>
+
+    <g:javascript library="jquery" plugin="jquery"/>
+    <g:layoutHead/>
+
+    <script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap.min.js')}"></script>
+    <script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'bootstrap-select.min.js')}"></script>
+
+
+    <g:javascript library="jquery" plugin="jquery"/>
+    <g:layoutHead/>
+    <script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
         <style type="text/css">
              html, body {height: 100%;}
         </style>
@@ -34,7 +44,7 @@
                              <div id="doc2" class="yui-t1">
                              <br/>
                                  <!-- Header start -->
-                                <g:render template="/common/header" />
+                                <g:render template="/common/headerWorkflow" />
                                  <!-- Header end -->
                              </div>
                  </div>
@@ -47,7 +57,7 @@
                                         <g:layoutBody/>
                                     </div>
                                     <div class="yui-u" style="margin-left:20px; margin-top:25px; float:left; ">
-                                        <div style="height:600px;overflow:auto;width:300px;">
+                                        <div style="height:440px;overflow:auto;width:300px;">
                                             <g:render template="/notification/invitationTable" plugin="gcore"/>
                                         </div>
                                     </div>

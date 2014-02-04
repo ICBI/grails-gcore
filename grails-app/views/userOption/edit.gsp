@@ -24,8 +24,8 @@
             <g:form method="post" >
                 <input type="hidden" name="id" value="${userOptionInstance?.id}" />
                 <input type="hidden" name="version" value="${userOptionInstance?.version}" />
-                <div class="dialog">
-                    <table class="admin">
+                <div class="well">
+                    <table class="admin" width="100%">
                         <tbody>
                         
                             <tr class="prop">
@@ -59,8 +59,8 @@
                     </table>
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" value="Update" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="Delete" /></span>
+                    <span class="button"><g:actionSubmit class="save btn btn-primary" value="Update" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="Delete" /></span>
                 </div>
             </g:form>
         </div>

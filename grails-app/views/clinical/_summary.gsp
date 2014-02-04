@@ -239,7 +239,7 @@
 	</g:each>
 </tr>
 </table>
-<g:form name="clinicalForm" action="patientReport" controller="clinical" target="foo" onSubmit="window.open('', 'foo', 'width=800,height=600,status=yes,resizable=yes,scrollbars=yes')">
+<g:form name="clinicalForm" action="patientReport" controller="clinical" target="foo" onSubmit="window.open('', 'foo', 'width=1200,height=1000,status=yes,resizable=yes,scrollbars=yes')">
 	<g:hiddenField name="ids" id="idField" />
 </g:form>
 

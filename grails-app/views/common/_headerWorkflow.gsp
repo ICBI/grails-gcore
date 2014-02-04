@@ -1,36 +1,5 @@
-
-<jq:plugin name="autocomplete"/>
-
-
-
-<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td>
-<a href="/${appName()}"><img src="/${appName()}/images/${appLogo()}" border="0" alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
-</td><td valign="bottom" style="text-align:right;padding:7px">
-<span style="color:white"><g:formatDate format="EEE MMM d, yyyy" date="${new Date()}"/></span><br />
-
-<sec:ifLoggedIn>
-
-<div style="float:right;color:#f2f2f2">
-	<div><g:message code="header.loggedInAs"/>: ${session.userId}</div>
-	<div>
-		<g:if test="${session.isGdocAdmin}">
-		<g:link style="color:#f2f2f2" controller="admin"><g:message code="header.admin"/></g:link>
-		<span style="font-weight:bold;color:#fff;padding-left:5px;padding-right:5px">|</span>
-		</g:if>
-		<g:link controller="registration" action="passwordReset" style="color:#f2f2f2"><g:message code="header.changePassword"/></g:link>
-		<span style="font-weight:bold;color:#fff;padding-left:5px;padding-right:5px">|</span>
-		<g:link style="color:#f2f2f2" action="index" controller="logout" update="success"><g:message code="header.logout"/></g:link>
-	</div>
-</div>
-</sec:ifLoggedIn>
-
-
-
-</td>
-</tr></table>
-
 <div id="top-navigation-block" width="100%" style="position: absolute; z-index: 100;">
-<div class="navbar navbar-fixed-top">
+<div class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
       <div class="navbar-inner">
         <div class="container">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -38,8 +7,9 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="./index.html">G-DOC&nbsp;&reg;</a>
-          <div class="nav-collapse collapse">
+            <a class="brand" href="/${appName()}"><img src="/${appName()}/images/GDOC_Plus_Logo.png" border="0"  alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
+          </br>
+            <div class="nav-collapse collapse">
             <ul class="nav">
               <li>
 				<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows"/>
@@ -58,15 +28,15 @@
 		             		<g:each in="${operations[type]}" var="operation">
 		             			<li><a href="${createLink(controller: operation.controller, action: operation.action)}">${operation.name}</a>
 		             		</g:each>
-		             		<li class="divider"></li>             		
-	             		</g:each>              		
+		             		<li class="divider"></li>
+	             		</g:each>
               		</g:if>
               		<g:else>
               			<li>No study selected</li>
               		</g:else>
               	</ul>
               </li>
-              
+
               <li class="dropdown">
               	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My G-DOC &reg; <b class="caret"></b></a>
               		<ul class="dropdown-menu">
@@ -74,11 +44,32 @@
 							<li><a href="${createLink(controller: 'userList')}"><g:message code="nav.savedLists" /></a>
 							<li><a href="${createLink(controller: 'savedAnalysis')}"><g:message code="nav.savedAnalyses" /></a>
 							<li><g:link controller="collaborationGroups"><g:message code="nav.groups" /></g:link>
-					</ul>    
+					</ul>
               </li>
+
+
             </ul>
+
+              <ul class="nav pull-right">
+
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"> ${session.userId} <b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                          <g:if test="${session.isGdocAdmin}">
+                              <li> <g:link  controller="admin"><g:message code="header.admin"/></g:link></li>
+                          </g:if>
+                          <li><g:link controller="registration" action="passwordReset" ><g:message code="header.changePassword"/></g:link></li>
+                          <li><g:link controller="help" action="index" ><g:message code="header.help"/></g:link></li>
+                          <li class="divider"></li>
+                          <li><g:link action="index" controller="logout" update="success"><g:message code="header.logout"/></g:link></li>
+                      </ul>
+                  </li>
+              </ul>
           </div>
         </div>
       </div>
     </div>
 </div>
+</br>
+
+

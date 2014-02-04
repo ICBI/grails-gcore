@@ -110,7 +110,7 @@
 					<div class="p">
 						<p>G-DOC allows you to track your running Analysis</p>
                         <g:if test="${session.notifications}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Your running have running analysis. Click on View below to access it.
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have running analysis. Click on View below to access it.
                         </g:if>
                         <g:else>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<g:message code="notifications.none" />

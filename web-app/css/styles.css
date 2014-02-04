@@ -1,8 +1,7 @@
 body {
     -moz-border-radius: 10px;
     border-radius: 10px;
-	font-size:90%;
-  	font-family:Lucida Grande,Lucida Sans,Arial,sans-serif;
+
 
 }
 .tabDiv {
@@ -95,26 +94,7 @@ p
 	padding-left:15px;	
 }
 
-.panel {
-	border: 1px solid #CCCCCC;
-	text-align: left;
-	-moz-border-radius-topright:3px;
-	-moz-border-radius-bottomright:3px;
-	-moz-border-radius-topleft:3px;
-	-moz-border-radius-bottomleft:3px;
-}
 
-.panelTitle {
-	background: #99C2FF;
-	padding:5px;
-	background:#99C2FF url(cupertino/images/ui-bg_glass_50_99c2ff_1x400.png) repeat-x scroll 50% 50%;
-}
-
-.userLogPanelTitle {
-	background: #FFBE5C;
-	padding:5px;
-	background:#FFBE5C;
-}
 
 .welcome {
 	width: 100%;
@@ -282,7 +262,7 @@ p
 	border-collapse: collapse;
 	
 }
-.label {
+.label-bis {
 	font-weight: bold;
 }
 .studyTable th {
@@ -355,6 +335,26 @@ p
 			border: 1px solid #E6E6E6;
 		}
 
+.panel {
+    border: 1px solid #CCCCCC;
+    text-align: left;
+    -moz-border-radius-topright:3px;
+    -moz-border-radius-bottomright:3px;
+    -moz-border-radius-topleft:3px;
+    -moz-border-radius-bottomleft:3px;
+}
+
+.panelTitle {
+    background: #99C2FF;
+    padding:5px;
+    background:#99C2FF url(cupertino/images/ui-bg_glass_50_99c2ff_1x400.png) repeat-x scroll 50% 50%;
+}
+
+.userLogPanelTitle {
+    background: #FFBE5C;
+    padding:5px;
+    background:#FFBE5C;
+}
 
 .myPanelContent {
 	padding: 5px;
@@ -370,7 +370,7 @@ p
 }
 
 .second {
-    width=250px;
+    width: 250px;
 }
 
 .taskMessage {
@@ -441,9 +441,6 @@ p
 		margin: 10px 3px 1px 3px;
 		background-color:#f2f2f2;
 	}
-	<style type="text/css">
-      
-
 
       #header form input {
         padding: .1em;
@@ -917,6 +914,25 @@ CSS style for RSS Feed
 	height: 100%;
 	margin: 0 auto -170px; /* the bottom margin is the negative value of the footer's height */
 }
+
+.wrapper2{
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -170px; /* the bottom margin is the negative value of the footer's height */
+}
+#doc5 {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.yui-t8 {
+    margin: auto;
+    text-align: left;
+    background-color: red;
+}
+
+
 .footer, .push {
 	height: 170px; /* .push must be the same height as .footer */
 }
@@ -1034,4 +1050,120 @@ CSS style for RSS Feed
     display: block;
 }
 
+/* ######## -  Variant Search Styles #########  */
+#sidebar { width: 200px; float: left; min-height: 460px;}
+#result { margin-top: -19px; width: 780px;  float: right}
+
+.ui-pg-input{
+    width: 35px;
+    padding:0;
+}
+.ui-pg-selbox{
+    width:100px;
+    padding:0;
+}
+.formlabel{
+    font-weight:bold;
+}
+/* ######## -  Clinical  Styles #########  */
+.side { width: 300px; float: left;}
+.results {  minfloat: left}
+
+/* ######## -  Studies table  Styles #########  */
+
+
+HTML
+CSS
+JS
+Result
+
+Edit on
+
+.list {
+    font-family:sans-serif;
+    margin:0;
+    padding:20px 0 0;
+}
+.list > li {
+    display:block;
+    background-color: #eee;
+    padding:10px;
+    box-shadow: inset 0 1px 0 #fff;
+}
+.avatar {
+    max-width: 150px;
+}
+img {
+    max-width: 100%;
+}
+h3 {
+    font-size: 16px;
+    margin:0 0 0.3rem;
+    font-weight: normal;
+    font-weight:bold;
+}
+p {
+    margin:0;
+}
+
+input {
+    border:solid 1px #ccc;
+    border-radius: 5px;
+    padding:7px 14px;
+    margin-bottom:10px
+}
+input:focus {
+    outline:none;
+    border-color:#aaa;
+}
+.sort {
+    padding:8px 30px;
+    border-radius: 6px;
+    border:none;
+    display:inline-block;
+    color:#fff;
+    text-decoration: none;
+    background-color: #28a8e0;
+    height:30px;
+}
+.sort:hover {
+    text-decoration: none;
+    background-color:#1b8aba;
+}
+.sort:focus {
+    outline:none;
+}
+.sort:after {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    content:"";
+    position: relative;
+    top:-10px;
+    right:-5px;
+}
+.sort.asc:after {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #fff;
+    content:"";
+    position: relative;
+    top:13px;
+    right:-5px;
+}
+.sort.desc:after {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff;
+    content:"";
+    position: relative;
+    top:-10px;
+    right:-5px;
+}
 

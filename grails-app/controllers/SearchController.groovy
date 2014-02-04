@@ -18,9 +18,13 @@ class SearchController {
 			try { 
 			def tbdResults = []
 			def suggs = []
-			log.debug "search string = $params.q" + "*" 
-			def searchResult
+			log.debug "search string = $params.q" + "*"
+            log.debug "searchableService: "+searchableService
+
+
+                def searchResult
 			if(!params.offset){
+                log.debug "1"
 				searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"],{
 							must({
 								queryString(params.q+"*")
@@ -32,7 +36,9 @@ class SearchController {
 									alias("studies")
 							   })
 				})
+                log.debug "1.1"
 			}else{
+
 				searchResult = searchableService.search(params,{
 						must({
 							queryString(params.q+"*")
@@ -65,7 +71,7 @@ class SearchController {
 	
 	
 	def relevantTerms = {
-		log.debug params
+		log.debug "relevantTerms: "+params
 		def searchResult = []
 		if (!params.q?.trim()) { 
 			render ""

@@ -9,7 +9,7 @@
     -->
    </style>
 
-<div id="centerContent" style="margin:0pt auto;width:65%;padding-bottom:20px">
+<div class="desc" id="centerContent" style="margin:0pt auto;width:65%;padding-bottom:20px">
 	Currently, there are no frequently asked questions
 	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 </div>

@@ -6,9 +6,10 @@
 </head>
 <body>
 
-<p style="font-size:14pt;padding-bottom:20px"><g:message code="faq.heading" args="${ [appTitle()] }" /></p>
-	<g:render template="/help/faq" />
-<br />
+<div class="welcome-title"> <g:message code="faq.heading" args="${ [appTitle()] }" /></div>
+<div class="features">
+<g:render template="/help/faq" />
+</div>
 
 
 </body>

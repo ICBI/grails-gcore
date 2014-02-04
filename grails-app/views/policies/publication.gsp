@@ -6,23 +6,19 @@
 		
     </head>
     <body>
-	
-		<div id="centerContent" style="margin:0pt auto;width:65%;padding:15px">
-			<p style="font-size:14pt"><g:message code="policies.publication" args="${[appTitle()]}"/></p>
-				<p>
-				<g:message code="policies.results" args="${[appLongName(), appTitle()]}"/></p>
-				
-				<p style="font-size:1em;font-style:italic">
-				<g:message code="policies.text" args="${[appLongName(), appTitle()]}"/></p>
+    <div class="welcome-title">Publication Policy</div>
+    <div class="features" >
 
-				
-				<p>
-				<g:message code="policies.tracking" args="${[appTitle()]}"/> 	
-				
-			</p>
-			</div>
-			
-	
+        <p style="font-size:14pt" class="desc"><g:message code="policies.publication" args="${[appTitle()]}"/></p>
+        <br/>
+        <p class="desc1"><g:message code="policies.results" args="${[appLongName(), appTitle()]}"/></p>
+
+        <p class="desc1" style="font-size:1em;font-style:italic"><g:message code="policies.text" args="${[appLongName(), appTitle()]}"/></p>
+        <br/>
+        <p class="desc1"><g:message code="policies.tracking" args="${[appTitle()]}"/></p>
+
+    </div>
+
 		
 	</body>
 	

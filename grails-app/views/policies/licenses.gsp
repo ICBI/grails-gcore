@@ -6,10 +6,8 @@
 		
     </head>
     <body>
-	
-		<div id="centerContent" style="margin:0pt auto;width:65%">
-			<p style="font-size:14pt"><g:message code="policies.annotations" args="${[appTitle()]}"/></p>
-				<br />
+        <div class="welcome-title"><g:message code="policies.annotations" args="${[appTitle()]}"/></div>
+		<div class="features">
 			<li style="list-style-type:square;margin-left:15px"><a href="${grailsApplication.config.documentsPath}/gnuLGPL3.pdf" /><g:message code="policies.treeview"/></a>*</li><br />
 			<li style="list-style-type:square;margin-left:15px"><a href="${grailsApplication.config.documentsPath}/gnuLGPL3.pdf" /><g:message code="policies.jbrowseLgpl"/></a></li><br />
 			<li style="list-style-type:square;margin-left:15px"><a href="${grailsApplication.config.documentsPath}/artistic2.pdf" /><g:message code="policies.jbrowseArtistic"/></a></li><br />

@@ -44,7 +44,7 @@
 			
 			});
 		</g:javascript>
-		
+
 		<STYLE type="text/css">
 		A:link {color:#336699}
 		A:visited {color:#336699}
@@ -60,7 +60,7 @@
 		 </STYLE>
     </head>
     <body>
-    
+
     <div style="display: none">
     	<div id="personalized_text">
     		<ul>
@@ -117,7 +117,7 @@
 			<h4>Personalized Medicine</h4>
 			<p style="font-size:.8em;padding:0px">Patients' molecular diagnostics and clinical data.</p>
 		</div>
-		
+
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div id="translational" class="gradButton gray workflowBox" rel="popover" data-content="">
 			<img src="${createLinkTo(dir: 'images',  file: 'tr.png')}" />
@@ -141,8 +141,8 @@
 			</div>
 			</g:link>
 		</g:else>
-	</div>	
-				
-		
+	</div>
+
+
     </body>
 </html>

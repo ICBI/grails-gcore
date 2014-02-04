@@ -504,7 +504,7 @@ function verifyURLParams(pageUrl){
 </g:javascript>
 
 <g:if test="${session.study}">
-
+<div class="features">
 <div style="font-size:1.1em;color:#444444;padding-bottom:7px">Filter&nbsp;&nbsp;&nbsp;
 	<span style="align:right;color:#999999;font-size:.8em">[
 		<g:link controller="clinical" action="index" style="color:#999999;">reset</g:link>&nbsp;|&nbsp;
@@ -561,26 +561,25 @@ function verifyURLParams(pageUrl){
 					</g:javascript>
 			</g:else>
 			<div class="clinicalFilter" style="display:block" id="${it.shortName+'_div'}" disabled="true">
-				<div class="control-group">
-				<label class="control-label" for="${type.replace('_','') + '_category_' + it.shortName}">${it.longName}</label>
-				<div class="controls">
-				<g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>				
-				<%--img class="info" title="${it.definition}" src="${createLinkTo(dir:'images',file:'help.png')}" width="13" height="13" border="0" /--%>
-				<a href="#" class="clueLink" rel="${it.shortName.replace('/','_')+'_details'}" ><img src="${createLinkTo(dir:'images',file:'help.png')}" alt="view ${it.shortName} values" width="15" height="15" border="0" /></a>
-				</div>
-				</div>
-				<div class="${it.shortName.replace('/','_')+'_details'}" style="border:0px solid blue;display:none;padding:4px;color:#999999;font-size:.9em">
+                <div class="filter-element">
+                    <div class="checkbox-filter">
+                        <g:checkBox name="${type.replace('_','') + '_category_' + it.shortName}" value="${it.shortName}" checked="${params[type + '_vocab_' + it.shortName] || params[type + '_range_' + it.shortName]}" id="${it.shortName}_category" class="category"/>
+                        ${it.longName}
+                        <%--img class="info" title="${it.definition}" src="${createLinkTo(dir:'images',file:'help.png')}" width="13" height="13" border="0" /--%>
+                        <a href="#" class="clueLink" rel="${it.shortName.replace('/','_')+'_details'}" ><img src="${createLinkTo(dir:'images',file:'help.png')}" alt="view ${it.shortName} values" width="15" height="15" border="0" /></a>
+                    </div>
+                </div>
+
+                <div class="${it.shortName.replace('/','_')+'_details'}" style="border:0px solid blue;display:none;padding:4px;color:#999999;font-size:.9em">
 				<g:if test="${it.vocabulary}">
 					<div align="left">
 						<g:if test="${it.definition}">
 					    <span style="font-size:.9em;padding:5px;font-style:italic">${it.definition}</span>
 						</g:if>
 						<g:each in="${it.vocabs.findAll{item -> session.usedVocabs[it.id]?.contains(item.term)}.sort{it.term}}" var="v" status="j">
-							    <span style="display:block">
-								<g:checkBox name="${type.replace('_','') + '_vocab_' + it.shortName}" value="${v.term}" checked="${params.list(type + '_vocab_' + it.shortName)?.contains(v.term)}" class="cb" />
-							    <label class="control-label" for="${type.replace('_','') + '_vocab_' + it.shortName}">${v.termMeaning}</label>
-								</span>
-							</g:each>
+                            <br/><g:checkBox name="${type.replace('_','') + '_vocab_' + it.shortName}" value="${v.term}" checked="${params.list(type + '_vocab_' + it.shortName)?.contains(v.term)}" class="cb" />
+							   ${v.termMeaning}
+					    </g:each>
 									
 					</div>
 					
@@ -604,11 +603,11 @@ function verifyURLParams(pageUrl){
 							</g:if>
 						<span>Low Range</span>
 						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" class="cb" value="${lowerRange + ' - ' +median}" checked="${params.list(type + '_range_' + it.shortName)?.contains(lowerRange.intValue() + ' - ' +median) || params.list(type + '_range_' + it.shortName)?.contains(lowerRange.intValue() + ' - ' +median.intValue())}"/>
-						<label for="${type.replace('_','') + '_' + it.shortName}">${lowerRange + ' to ' +median}</label>
-						<br />
+						${lowerRange + ' to ' +median}
+                        <br/>
 						<span>High Range</span>
 						<g:checkBox name="${type.replace('_','') + '_range_' + it.shortName}" class="cb" value="${upperMed + ' - ' +upperRange}" checked="${params.list(type + '_range_' + it.shortName)?.contains((median +1) + ' - ' +upperRange.intValue()) || params.list(type + '_range_' + it.shortName)?.contains(upperMed + ' - ' +upperRange.intValue())}"/>
-						<label for="${type.replace('_','') + '_' + it.shortName}">${upperMed + ' to ' +upperRange}</label>
+						${upperMed + ' to ' +upperRange}
 						</span>
 					</g:if>		
 				</g:else>
@@ -632,5 +631,5 @@ function verifyURLParams(pageUrl){
 	<g:submitButton name="submit" id="sfSubmit" class="submit btn" value="${message(code: 'gcore.submit')}"/>
 </g:formRemote>
 </g:if>
-
+</div>
 

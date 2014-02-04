@@ -11,12 +11,13 @@
             <!--span class="menuButton"><g:link class="create" action="create">New ProtectedArtifact</g:link></span-->
         </div>
         <div class="body">
-            <p style="font-size:14pt;padding:10px">ProtectedArtifact List</p>
+            <div class="welcome-title">Protected Artifacts List</div>
+            <br />
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="list">
-                <table class="admin">
+            <div class="list well">
+                <table class="admin" width="100%">
                     <thead>
                         <tr>
                         

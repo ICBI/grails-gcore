@@ -16,8 +16,8 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div>
-                <table class="admin" style="width:75%">
+            <div class="well">
+                <table class="admin" style="width:100%">
                     <tbody>
 
                     
@@ -123,11 +123,99 @@
                             </td>
                             
                         </tr>
+                    </tr>
 
-						<tr class="prop">
+
+
+
+                    <%--tr class="prop">
+                        <td valign="top" class="name">Group Names:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'groupNames')}</td>
+
+                    </tr>
+
+                    <tr class="prop">
+                        <td valign="top" class="name">Groups:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'groups')}</td>
+
+                    </tr--%>
+
+
+
+                    <%--tr class="prop">
+                        <td valign="top" class="name">Comments:</td>
+
+                        <td  valign="top" style="text-align:left;" class="value">
+                            <ul>
+                            <g:each var="c" in="${GDOCUserInstance.comments}">
+                                <li><g:link controller="comments" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
+                            </g:each>
+                            </ul>
+                        </td>
+
+                    </tr--%>
+
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="users.dateCreated" />:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'dateCreated')}</td>
+
+                    </tr>
+
+
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="users.lastLogin" />:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'lastLogin')}</td>
+
+                    </tr>
+
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="users.enabled" />:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'enabled')}</td>
+
+                    </tr>
+
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="users.accountExpired" />:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'accountExpired')}</td>
+
+                    </tr>
+
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="users.accountLocked" />:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'accountLocked')}</td>
+
+                    </tr>
+
+
+
+
+                    <%--tr class="prop">
+                        <td valign="top" class="name">Last Updated:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'lastUpdated')}</td>
+
+                    </tr--%>
+
+
+
+                    <tr class="prop">
+                        <td valign="top" class="name"><g:message code="users.passwordExpired" />:</td>
+
+                        <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'passwordExpired')}</td>
+
+                    </tr>
+
+                    <tr class="prop">
                             <td valign="top" class="name" colSpan="2"><g:message code="users.memberships" /><br />
 							
-                           		<table class="admin">
+                           		<table class="admin" style="width:100%">
 				                    <thead>
 				                        <tr>
 											<g:sortableColumn property="id" title="${message(code: 'membership.id')}" />
@@ -176,7 +264,7 @@
 							<tr class="prop">
 		                            <td valign="top" class="name" colspan="2"><g:message code="invitations.heading" />&nbsp; &nbsp;| &nbsp; &nbsp;
 			
-										<table class="admin">
+										<table class="admin" style="width:100%">
 						                    <thead>
 						                        <tr>
 
@@ -230,95 +318,7 @@
 	                                </ul>
 	                            </td--%>
 
-	                        </tr>
-						
-						
-						
-                    
-                        <%--tr class="prop">
-                            <td valign="top" class="name">Group Names:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'groupNames')}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name">Groups:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'groups')}</td>
-                            
-                        </tr--%>
-						
-                        
-                        
-                        <%--tr class="prop">
-                            <td valign="top" class="name">Comments:</td>
-                            
-                            <td  valign="top" style="text-align:left;" class="value">
-                                <ul>
-                                <g:each var="c" in="${GDOCUserInstance.comments}">
-                                    <li><g:link controller="comments" action="show" id="${c.id}">${c?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            
-                        </tr--%>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="users.dateCreated" />:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'dateCreated')}</td>
-                            
-                        </tr>
 
-
-						 <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="users.lastLogin" />:</td>
-
-	                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'lastLogin')}</td>
-
-	                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="users.enabled" />:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'enabled')}</td>
-                            
-                        </tr>
-
-						<tr class="prop">
-                            <td valign="top" class="name"><g:message code="users.accountExpired" />:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'accountExpired')}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="users.accountLocked" />:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'accountLocked')}</td>
-                            
-                        </tr>
-						
-                    
-                       
-                    
-                        <%--tr class="prop">
-                            <td valign="top" class="name">Last Updated:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'lastUpdated')}</td>
-                            
-                        </tr--%>
-                    
-                        
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="users.passwordExpired" />:</td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean:GDOCUserInstance, field:'passwordExpired')}</td>
-                            
-                        </tr>
-                    
                         
                     </tbody>
                 </table>
@@ -326,8 +326,8 @@
             <div class="buttons">
                 <g:form>
                     <input type="hidden" name="id" value="${GDOCUserInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" value="${message(code: 'gcore.edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
+                    <span class="button"><g:actionSubmit class="edit btn btn-default" value="${message(code: 'gcore.edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="delete btn btn-default" onclick="return confirm('Are you sure?');" value="${message(code: 'gcore.delete')}" /></span>
                 </g:form>
             </div>
         </div>
