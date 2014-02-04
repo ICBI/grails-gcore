@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="brand" href="/${appName()}"><img src="/${appName()}/images/GDOC_Plus_Logo.png" border="0"  alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
+            <a class="brand" href="/${appName()}"><img src="${createLinkTo(dir: 'images',  file: 'GDOC_Plus_Logo.png')}" border="0"  alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
           </br>
             <div class="nav-collapse collapse">
             <ul class="nav">

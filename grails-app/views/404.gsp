@@ -63,7 +63,7 @@
                         <div id="yui-main" >
                         <br/><br/><br/><br/><br/><br/>
 					<div class="yui-u first">
-                            <div><img src="/${appName()}/images/error.gif" border="0" alt="" />
+                            <div><img src="${createLinkTo(dir: 'images',  file: 'error.gif')}" border="0" alt="" />
                             <div class="desc"> 404. That’s an error.</div>
                             <div class="desc1">The page you requested was not found!</div>
                         </div><br /><br/>

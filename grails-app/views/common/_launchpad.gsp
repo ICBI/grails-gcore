@@ -44,7 +44,7 @@
 
 				<div class="featured-customer-image">
 						<div class="icon">
-							<img src="/${appName()}/images/launchpad/mystudies.png" class="ft1" alt="">
+							<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mystudies.png')}" class="ft1" alt="">
 						</div>
 						<h2 >My Studies</h2>
 				</div>
@@ -68,7 +68,7 @@
 				</div>
 				<div class="featured-customer-image">
 						<div class="icon">
-							<img src="/${appName()}/images/launchpad/mygroups.png" class="ft1" alt="">
+							<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mygroups.png')}" class="ft1" alt="">
 						</div>
 						<h2 >My Groups</h2>
 				</div>
@@ -95,7 +95,7 @@
 				</div>
 				<div class="featured-customer-image">
 								<div class="icon">
-									<img src="/${appName()}/images/launchpad/mylists.png" class="ft1" alt="">
+									<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mylists.png')}" class="ft1" alt="">
 								</div>
 								<h2 >Saved Lists</h2>
 				</div>
@@ -126,7 +126,7 @@
 						</div>
 					<div class="featured-customer-image">
 							<div class="icon">
-								<img src="/${appName()}/images/launchpad/notifications.png" class="ft1" alt="">
+								<img src="${createLinkTo(dir: 'images/launchpad',  file: 'notifications.png')}" class="ft1" alt="">
 							</div>
 							<h2 >Notifications
 							    <span class="badge">
@@ -157,7 +157,7 @@
 			</div>
 			<div class="featured-customer-image">
 					<div class="icon">
-						<img src="/${appName()}/images/launchpad/myanalysis.png" class="ft1" alt="">
+						<img src="${createLinkTo(dir: 'images/launchpad',  file: 'myanalysis.png')}" class="ft1" alt="">
 					</div>
 					<h2 >Saved Analysis</h2>
 			</div>
@@ -181,7 +181,7 @@
 				</div>
                 <div class="featured-customer-image">
                         <div class="icon">
-                            <img src="/${appName()}/images/launchpad/launch.png" class="ft1" alt="">
+                            <img src="${createLinkTo(dir: 'images/launchpad',  file: 'launch.png')}" class="ft1" alt="">
                         </div>
                         <h2 >Help me pick a study</h2>
                 </div>
