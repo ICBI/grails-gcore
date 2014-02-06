@@ -54,12 +54,29 @@
 		font-size: 100%;
 		min-width: 90px;
 		max-width: 180px;
+           }
 		.workflowBox {
-			
+            border:1px solid #EAEBEC;
+            border-radius:5px;
+            box-shadow:0 1px 2px rgba(0,0,0,0.2);
 		}
 		 </STYLE>
     </head>
     <body>
+
+    <div class="welcome-title">What's your area of interest?</div>
+    <div class="desc">${flash.choosePath}</div>
+    <div class="desc1">
+        <g:if test="${session.study}">
+            <small>* Your study may not support all the tools</small><br>
+            <small>&dagger; Tools which are not supported are grayed out</small><br>
+            <small>&Dagger; If you click on a tool which is not supported (grayed out), you will be forced to select another study which supports the tools</small>
+        </g:if>
+        <g:else>
+            <small>* Each of the following three paths will lead you to a different set of tools</small><br>
+            <small>&dagger; Click on each of the three icons to see what you can do within each of those portals</small>
+        </g:else>
+    </div>
 
     <div style="display: none">
     	<div id="personalized_text">
@@ -93,51 +110,43 @@
     
     </div>			
 
-	<br><br>
-	<div class="hero-unit" >
-		<p style="padding-left: 0px" class="lead">${flash.choosePath}</p>
-		<br>
-		<p style="padding-left: 0px">
-		<g:if test="${session.study}">
-			<small>* Your study may not support all the tools</small><br>
-			<small>&dagger; Tools which are not supported are grayed out</small><br>
-			<small>&Dagger; If you click on a tool which is not supported (grayed out), you will be forced to select another study which supports the tools</small>
-		</g:if>
-		<g:else>
-			<small>* Each of the following three paths will lead you to a different set of tools</small><br>
-			<small>&dagger; Click on each of the three icons to see what you can do within each of those portals</small>		
-		</g:else>
-		</p>
-	</div>
+
 	
 	<br>
-	<div>
+	<div class="features">
 		<div id="personalized" class="gradButton gray workflowBox" href="#" rel="popover" data-content="" >
-			<img src="${createLinkTo(dir: 'images',  file: 'pm.png')}" />
-			<h4>Personalized Medicine</h4>
-			<p style="font-size:.8em;padding:0px">Patients' molecular diagnostics and clinical data.</p>
+			<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pm.png')}" />
+            <div class="center-content">
+                <h4>Personalized Medicine</h4>
+            </div>
+            <p style="font-size:.8em;padding:0px">Patients' molecular diagnostics and clinical data.</p>
 		</div>
 
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div id="translational" class="gradButton gray workflowBox" rel="popover" data-content="">
-			<img src="${createLinkTo(dir: 'images',  file: 'tr.png')}" />
-			<h4>Translational Research</h4>
-			<p style="font-size:.8em;padding:0px">Analytic tools and workflows to enable discovery.</p>
+			<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'tr.png')}"  />
+            <div class="center-content">
+                <h4>Translational Research</h4>
+            </div>
+            <p style="font-size:.8em;padding:0px">Analytic tools and workflows to enable discovery.</p>
 		</div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 		<g:if test="${session.nextGenPlugin}">
 			<div id="population" class="gradButton gray workflowBox" rel="popover" data-content="">
-				<img src="${createLinkTo(dir: 'images',  file: 'pop.png')}" />
-				<h4>Population Genetics</h4>
-				<p style="font-size:.8em;padding:0px">Race-based, genomic reporting and comparison.</p>
+				<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pop.png')}"  />
+                <div class="center-content">
+                    <h4>Population Genetics</h4>
+                </div>
+                <p style="font-size:.8em;padding:0px">Race-based, genomic reporting and comparison.</p>
 			</div>
 		</g:if>
 		<g:else>
 			<g:link action="popgen" style="text-decoration:none" class="wf_button" onclick="alert('This functionality requires the Next-Gen Plugin');return false;">
 			<div class="gradButton gray workflowBox">
-				<img src="${createLinkTo(dir: 'images',  file: 'pop.png')}" />
-				<h4>Population Genetics</h4>
-				<p style="font-size:.8em;padding:0px">Race-based, genomic reporting and comparison.</p>
+                <img class="workflow-img"  src="${createLinkTo(dir: 'images',  file: 'pop.png')}"  />
+				<div class="center-content">
+                    <h4>Population Genetics</h4>
+				</div>
+                <p style="font-size:.8em;padding:0px">Race-based, genomic reporting and comparison.</p>
 			</div>
 			</g:link>
 		</g:else>

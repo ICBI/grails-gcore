@@ -587,10 +587,35 @@ z-index:21;
 	text-align: left;
 }
 
+#personalized{
+    background:white;
+    align-content: center;
+}
+#translational{
+    margin-left: 20px;
+    background:white;
+    align-content: center;
+}
 
+.workflow-img{
+    margin-left: 60px;
+    margin-top:10px;
+}
+.center-content{
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top:5px;
+}
+
+
+#population{
+    margin-left: 20px;
+    background:white;
+    align-content: center;
+}
 
 .gradButton {
-	display: inline-block;
+	    display: inline-block;
 		outline: none;
 		cursor: pointer;
 		text-decoration: none;
@@ -601,7 +626,8 @@ z-index:21;
 		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
 		box-shadow: 0 1px 2px rgba(0,0,0,.2);
-		width:120px;
+		width:250px;
+        height:200px;
 }
 
 .gradButton:hover {
@@ -614,7 +640,7 @@ z-index:21;
 
 /* gray */
 .gray {
-	border: solid 1px #555;
+
 	background: #6e6e6e;
 	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f2f2f2));
 	background: -moz-linear-gradient(top,  #F2F2F2,  #D9D9D9);

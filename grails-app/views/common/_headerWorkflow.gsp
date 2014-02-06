@@ -21,6 +21,9 @@
               <li class="dropdown">
               	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Study Options<b class="caret"></b></a>
               	<ul class="dropdown-menu">
+                <g:if test="${session.study}">
+                    <li class="nav-header" style="padding-left:10px;">Study: ${session.study.shortName}</li>
+                </g:if>
               		<g:if test="${session.supportedOperations}">
               			<g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
 	              		<g:each in="${operations.keySet()}" var="type">
