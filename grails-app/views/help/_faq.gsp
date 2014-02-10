@@ -1,4 +1,4 @@
-<style> 
+<style>
     <!--
 	.section { width:100%; }
 	div.answer { border-bottom:1px solid silver;padding-bottom:15px; }
