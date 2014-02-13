@@ -7,7 +7,7 @@ A:hover {color:#334477}
 
 
 <div class="social-media-content" style="border:0px solid black; margin-top:10px;" >
-    <span style="border:0px solid black;float:right;padding-right:20px padding-top:10px;">
+    <span style="border:0px solid black;float:right;padding-right:20px;">
         <a href="https://twitter.com/ICBI_Georgetown" target="_blank">
             <img src="${createLinkTo(dir:'images',file:'Twitter.png')}" border="0" alt=""/>
         </a>
@@ -29,7 +29,7 @@ A:hover {color:#334477}
  <div class="copyright">
 		<span size="6" style="vertical-align:20px;font-size: 10px; font-family:'open sans',Helvetica,sans-serif; color: rgb(153, 153, 153);border:0px solid black"> Copyright © 2014 ICBI. All Rights Reserved &nbsp;&nbsp;&nbsp;&nbsp;
 			${g.appTitle()} ${g.appVersion()}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" ><g:message code="common.footer.releaseNotes" /></a>
-			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;powered by G-CODE</span>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="https://github.com/ICBI" target="_blank" >powered by G-CODE</a></span>
 		 <br/>
                 <span size="6" style="vertical-align:40px;font-size: 10px; font-family:'open sans',Helvetica,sans-serif; color: rgb(0, 92, 167);border:0px solid black">
                 		<a href="http://lombardi.georgetown.edu/gdoc/" target="_blank">${g.appTitle()} <g:message code="common.footer.lcccLink" /></a>  &nbsp; |&nbsp;&nbsp;

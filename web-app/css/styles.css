@@ -332,7 +332,7 @@ p
 	border-collapse: collapse;
 }
 .sourceTable td, th {
-			border: 1px solid #E6E6E6;
+			/*border: 1px solid #E6E6E6;*/
 		}
 
 .panel {
@@ -1102,3 +1102,16 @@ CSS style for RSS Feed
 .answerText{
     margin-top:20px;
 }
+/* ######## -  Studies Styles #########  */
+.studies {
+    background: #fff;
+    padding: 15px 10px 10px 15px;
+    -moz-border-radius: 10px;
+   /* border-radius: 10px;*/
+    border: 1px solid #EFEFEF;
+    border-right: 2px solid #EFEFEF;
+    border-bottom: 5px solid #EFEFEF; /* background-color: rgb( 114, 182, 35 ); */
+    min-height:100%;
+}
+
+
