@@ -1,0 +1,85 @@
+.carousel-inner {
+				height: 550px;
+}
+			
+.right.carousel-control, .left.carousel-control {
+	display: none;
+}
+
+#crumbs {
+	text-align: center;
+}
+
+#crumbs ul {
+	list-style: none;
+	display: inline-table;
+}
+
+#crumbs ul li {
+	display: inline;
+}
+
+#crumbs ul li a {
+	display: block;
+	float: left;
+	height: 50px;
+	background: #dedede; /* Changes color for future sections */
+	text-align: center;
+	padding: 30px 0px 0 80px; /* original: 30px 40px 0 80px; */
+	position: relative;
+	margin: 0 10px 0 0; 
+	font-size: 20px;
+	text-decoration: none;
+	color: #fff;
+}
+
+#crumbs ul li a:after {
+	content: "";  
+	border-top: 40px solid transparent;
+	border-bottom: 40px solid transparent;
+	border-left: 40px solid #dedede; /* Changes color for future sections */
+	position: absolute; right: -40px; top: 0;
+	z-index: 1;
+}
+
+#crumbs ul li a:before {
+	content: "";  
+	border-top: 40px solid transparent;
+	border-bottom: 40px solid transparent;
+	border-left: 40px solid #ededed;
+	position: absolute; left: 0; top: 0;
+}
+
+#crumbs ul li:first-child a {
+	border-top-left-radius: 10px; border-bottom-left-radius: 10px;
+}
+#crumbs ul li:first-child a:before {
+	display: none; 
+}
+
+#crumbs ul li:last-child a {
+	padding-right: 80px;
+	border-top-right-radius: 10px; border-bottom-right-radius: 10px;
+}
+#crumbs ul li:last-child a:after {
+	display: none; 
+}
+
+#crumbs ul li .complete {
+	background: #113c6e; /* Changes color for past/present sections */
+}
+
+#crumbs ul li .complete:after {
+	border-left: 40px solid #113c6e; /* Changes color for past/present sections */
+}
+
+/* This allows items in Boostrap's carousel to occupy its full height */
+.carousel,.item,.active{height:100%;}
+.carousel-inner{height:100%;}
+			
+label {
+	padding:1em;
+	font-size: 14px;
+	margin:1em;
+	cursor:pointer;
+}

@@ -26,7 +26,7 @@ class SearchController {
                 log.debug "Entering !"
                 log.debug "Searching :" +params.q
 
-				searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"],{
+			    searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"],{
 							must({
 								queryString(params.q+"*")
 								polyAlias(params.q)

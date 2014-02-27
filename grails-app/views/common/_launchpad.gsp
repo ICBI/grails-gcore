@@ -53,7 +53,7 @@
 						<div class="icon">
 							<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mystudies.png')}" class="ft1" alt="">
 						</div>
-						<h2 >My History</h2>
+						<h2 >My Studies</h2>
 				</div>
 			</div> <!-- close-div -->
 

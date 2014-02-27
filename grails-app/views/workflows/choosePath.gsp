@@ -29,16 +29,33 @@
 				$("#translational").attr("data-content", $("#translational_text").html());
 				$("#population").attr("data-content", $("#population_text").html());
 			
+				/*
 				$("#personalized").popover({
 				html: true, placement:'top', trigger: 'click', 
 				title:  '<span>Personalized Medicine&nbsp;&nbsp;</span><button type="button" class="close" onclick="$(&quot;#personalized&quot;).popover(&quot;hide&quot;);">&times;</button>'});
+				*/
 				
+				$("#translational").click( function() {
+					window.location.href= "/${appName()}/workflows/translationalResearch";
+				});
+				
+				$("#personalized").click( function() {
+					window.location.href= "/${appName()}/workflows/personalizedMedicine";
+				});
+				
+				$("#population").click( function() {
+					window.location.href= "/${appName()}/workflows/populationGenetics";
+				});
+				
+				/*
 				$("#translational").popover({html: true, placement:'top', trigger: 'click', 
 				title:  '<span>Translational Medicine&nbsp;&nbsp;</span><button type="button" class="close" onclick="$(&quot;#translational&quot;).popover(&quot;hide&quot;);">&times;</button>'});				
+				*/
 				
+				/*
 				$("#population").popover({html: true, placement:'top', trigger: 'click', 
 				title:  '<span>Population Genetics&nbsp;&nbsp;</span><button type="button" class="close" onclick="$(&quot;#population&quot;).popover(&quot;hide&quot;);">&times;</button>'});
-				
+				*/
 				//$('.workflowBox').on("mouseenter", function () {$(this).popover("show");});
 				
 			
@@ -65,17 +82,12 @@
     <body>
 
     <div class="welcome-title">What's your area of interest?</div>
-    <div class="desc">${flash.choosePath}</div>
     <div class="desc1">
         <g:if test="${session.study}">
             <small>* Your study may not support all the tools</small><br>
             <small>&dagger; Tools which are not supported are grayed out</small><br>
             <small>&Dagger; If you click on a tool which is not supported (grayed out), you will be forced to select another study which supports the tools</small>
         </g:if>
-        <g:else>
-            <small>* Each of the following three paths will lead you to a different set of tools</small><br>
-            <small>&dagger; Click on each of the three icons to see what you can do within each of those portals</small>
-        </g:else>
     </div>
 
     <div style="display: none">
@@ -121,7 +133,7 @@
             </div>
             <p style="font-size:.8em;padding:0px">Patients' molecular diagnostics and clinical data.</p>
 		</div>
-
+		
 		<div id="translational" class="gradButton gray workflowBox" rel="popover" data-content="">
 			<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'tr.png')}"  />
             <div class="center-content">
