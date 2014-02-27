@@ -33,8 +33,35 @@ class StudyDataSourceController {
 		} else {
 			otherStudies.remove(myStudies)
 		}
-		
 	}
+	
+	def justSetStudy = {
+		
+        if(params.study && session.myStudies){
+			session["workflowMode"] = params.workflowMode
+			def studyid = new Long(params.study)
+			def allowedStudyAccess = session.myStudies.find{it.id == studyid}
+			if(allowedStudyAccess){
+				
+				def currStudy = Study.get(params.study)
+				session.study = currStudy
+				StudyContext.setStudy(session.study.schemaName)
+				session.dataTypes = AttributeType.findAll().sort { it.longName }
+				loadPatientLists()
+				loadReporterLists()
+				loadGeneLists()
+				loadUsedVocabs()
+				loadSubjectTypes()
+				loadAttributeRanges()
+				session.endpoints = KmAttribute.findAll()
+				log.debug("endpoints are: "+session.endpoints)
+				session.files = htDataService.getHTDataMap()
+				session.dataSetType = session.files.keySet()
+				session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)	
+			}
+		}
+	}
+	
 	
 	def setStudy = {
 		log.debug("entering");
@@ -88,6 +115,67 @@ class StudyDataSourceController {
 			render g.select(optionKey: 'name', optionValue: 'description', from: session.files[params.dataType].sort{it.name}, id: 'dataFile', name: "dataFile")
 	}
 	
+	def getWorkflowStudiesAsListOfDict(result) {
+		'''
+			Returns a list of studies where each study is a dictionary
+			
+			@param result    - A two element array which contains as the first
+							   element the list of studies, and the second element,
+							   the list of applicable operations for that study
+							   The two lists are guaranteed to have the same length
+		'''
+	
+		// The list of studies specific to a workflow
+		def filtered_studies = result[0]
+		
+		// The list of valid operations for each study
+		def valid_operations = result[1]
+		
+		def list_of_dict = []
+		
+		for (int i = 0; i < filtered_studies.size(); i++) {
+			def study = filtered_studies[i]
+			def ops   = valid_operations[i]
+			
+			def study_dict = [:]
+			study_dict["studyLongName"] = study.longName
+			study_dict["studyName"]     = study.shortName
+			study_dict["studyId"]       = study.id
+			study_dict["subjectType"]   = study.subjectType
+			study_dict["disease"]       = study.disease
+			def tools = []
+			
+			
+			for (op in ops) {
+				def tool = [:]
+				tool["name"] = op.name
+				tool["link"] = createLink(action:op.action, controller: op.controller)
+				tools << tool
+			}
+			
+			study_dict["tools"] = tools
+			list_of_dict << study_dict
+		}
+		
+		return list_of_dict
+	}
+	
+	
+	def findStudiesForTranslationalResearch = {
+		def myStudies = session.myStudies
+		render getWorkflowStudiesAsListOfDict(studyDataSourceService.filterByTranslationalResearch(myStudies)) as JSON 
+	}
+	
+	def findStudiesForPersonalizedMedicine = {
+		def myStudies = session.myStudies
+		render getWorkflowStudiesAsListOfDict(studyDataSourceService.filterByPersonalizedMedicine(myStudies)) as JSON  
+	}
+	
+	def findStudiesForPopulationGenetics = {
+		def myStudies = session.myStudies
+		render getWorkflowStudiesAsListOfDict(studyDataSourceService.filterByPopulationGenetics(myStudies)) as JSON  
+	}
+		
 	def findStudiesForDisease = {
 		def myStudies = []
 		def studiesJSON = []
@@ -102,8 +190,10 @@ class StudyDataSourceController {
 					def hasSubjectMatter =dataAvailability['dataAvailability'].find{elm ->
 						if((elm["STUDY"] == it.shortName) && (elm["subjectType"] == params.subjectType) && studyDataSourceService.doesStudySupportOperation(operation, it)){
 							def studies = [:]
+							studies["studyLongName"] = it.longName
 							studies["studyName"] = it.shortName
 							studies["studyId"] = it.id
+							studies["disease"] = it.disease
 							studiesJSON << studies
 						}
 					}
