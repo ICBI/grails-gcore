@@ -2,7 +2,9 @@
     <head>
         <meta name="layout" content="maxSpaceLayout" />
         <title><g:message code="study.title"/></title>
+
         <script language="JavaScript">
+
             (function(document) {
                 'use strict';
 
@@ -39,11 +41,38 @@
                     if (document.readyState === 'complete') {
                         LightTableFilter.init();
                     }
-                });
 
+                    /*// Javascript to enable link to tab
+                    var url = document.location.toString();
+                    if (url.match('#')) {
+                        $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+                    }
+                    // Change hash for page-reload
+                    $('.nav-tabs a').on('shown', function (e) {
+                        window.location.hash = e.target.hash;
+                    });
+                    */
+                });
             })(document);
 
         </script>
+
+        <script type="text/javascript">
+            $(function() {
+                // Javascript to enable link to tab
+                var url = document.location.toString();
+                if (url.match('#')) {
+                    $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+                }
+
+                // Change hash for page-reload
+                $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                    window.location.hash = e.target.hash;
+                });
+            });
+        </script>
+
+
     <style>
     .order-table tr:nth-child(even)		{ background-color:#F8F8F8; }
     .order-table tr:nth-child(odd)		{ background-color:#fff; }
@@ -54,10 +83,10 @@
 
     <div class="welcome-title"><g:message code="study.title"/></div>
 
-        <div class="features" >
+        <div class="features"  >
             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a href="#mystudies" data-toggle="tab">My GDOC studies</a></li>
-                <li><a href="#myhistory" data-toggle="tab">My studies history</a></li>
+                <li class="active"><a href="#mystudies" data-toggle="tab"  >My Studies</a></li>
+                <li><a href="#myhistory" data-toggle="tab">My History</a></li>
                 <li><a href="#otherstudies" data-toggle="tab">Other GDOC studies</a></li>
             </ul>
             <div id="my-tab-content" class="tab-content">
@@ -106,37 +135,42 @@
                                 The list below is your G-DOC studies history. The history shows the last 10 studies that you selected.
                                 <br/><br/><input type="search" class="light-table-filter" data-table="order-table" placeholder="Filtrer" />
                             </div>
+                            <g:if test="${myHistory}">
+                                <table class="order-table table">
+                                    <thead>
+                                    <th><g:message code="study.name"/></th>
+                                    <th style="width:5%"><g:message code="study.id"/></th>
+                                    <th style="width:25%"><g:message code="study.description"/></th>
+                                    <th><g:message code="study.pi"/></th>
+                                    <th><g:message code="study.disease"/></th>
+                                    <th><g:message code="study.subjectType"/></th>
+                                    <th><g:message code="study.poc"/></th>
+                                    </thead>
+                                    <g:each in="${myHistory}" var="study">
+                                        <tr>
+                                            <td ><g:link action="show" id="${study.id}">${study.shortName}</g:link></td>
+                                            <td style="vertical-align:top">${study.id}</td>
+                                            <td style="vertical-align:top">${study.longName}</td>
+                                            <td style="vertical-align:top">
+                                                <g:each in="${study.pis}" var="pi">
+                                                    ${pi.firstName} ${pi.lastName}, ${pi.suffix}<br/><br/>
+                                                </g:each>
+                                            </td>
+                                            <td style="vertical-align:top">${study.disease}</td>
+                                            <td style="vertical-align:top">${study.subjectType?.replace("_"," ")}</td>
+                                            <td style="vertical-align:top">
+                                                <g:each in="${study.pocs}" var="poc">
+                                                    ${poc.firstName} ${poc.lastName}<br/><br/>
+                                                </g:each>
+                                            </td>
+                                        </tr>
+                                    </g:each>
+                                </table>
+                            </g:if>
+                            <g:else>
+                                &nbsp;&nbsp; &nbsp;You have no Studies History yet.
+                            </g:else>
 
-                            <table class="order-table table">
-                                <thead>
-                                <th><g:message code="study.name"/></th>
-                                <th style="width:5%"><g:message code="study.id"/></th>
-                                <th style="width:25%"><g:message code="study.description"/></th>
-                                <th><g:message code="study.pi"/></th>
-                                <th><g:message code="study.disease"/></th>
-                                <th><g:message code="study.subjectType"/></th>
-                                <th><g:message code="study.poc"/></th>
-                                </thead>
-                                <g:each in="${myStudies}" var="study">
-                                    <tr>
-                                        <td ><g:link action="show" id="${study.id}">${study.shortName}</g:link></td>
-                                        <td style="vertical-align:top">${study.id}</td>
-                                        <td style="vertical-align:top">${study.longName}</td>
-                                        <td style="vertical-align:top">
-                                            <g:each in="${study.pis}" var="pi">
-                                                ${pi.firstName} ${pi.lastName}, ${pi.suffix}<br/><br/>
-                                            </g:each>
-                                        </td>
-                                        <td style="vertical-align:top">${study.disease}</td>
-                                        <td style="vertical-align:top">${study.subjectType?.replace("_"," ")}</td>
-                                        <td style="vertical-align:top">
-                                            <g:each in="${study.pocs}" var="poc">
-                                                ${poc.firstName} ${poc.lastName}<br/><br/>
-                                            </g:each>
-                                        </td>
-                                    </tr>
-                                </g:each>
-                            </table>
                         </div>
                     </div>
                 <div class="tab-pane" id="otherstudies">

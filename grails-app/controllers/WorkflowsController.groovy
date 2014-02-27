@@ -3,6 +3,7 @@ import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
 @Mixin(ControllerMixin)
 class WorkflowsController {
+    def myHistory
 	def securityService
 	def savedAnalysisService
 	def userListService
@@ -86,14 +87,33 @@ class WorkflowsController {
 	
     def index = {
 		if(springSecurityService.isLoggedIn()){
-			//session.study = null
-			//session.supportedOperations = null
-			//session.workflowMode = null
 		 
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)
 		 session.userId = currentUser.username
-		
+
+        //Adding History
+        def user = GDOCUser.findByUsername(session.userId)
+        def historyStudyNames = History.findAllByUser(user)
+        myHistory = []
+        log.debug "History ids:"+ historyStudyNames;
+        historyStudyNames.sort{it.dateCreated}
+        historyStudyNames.each{
+            def foundStudyHistory = Study.findById(it.studyId)
+            if(foundStudyHistory){
+                myHistory << foundStudyHistory
+            }
+        }
+        myHistory = myHistory.unique()
+        def size = myHistory.size()
+        if(size>0)
+        {
+            if(size>=3) {myHistory = myHistory.reverse(true)[0..2]}
+            else {myHistory = myHistory.reverse(true)[0..size-1]}
+        }
+        log.debug "My History : "+ myHistory
+
+
 		//last login
 		Date lastLogin = thisUser.lastLogin
 		if(!session.profileLoaded){
@@ -170,7 +190,7 @@ class WorkflowsController {
 			redirect(uri:params.desiredPage)
 		}
 		
-		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"]]
+		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"],myHistory:myHistory]
 	}
 	}
 	

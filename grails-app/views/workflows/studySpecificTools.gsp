@@ -21,30 +21,29 @@
 		font-size: 100%;
 		min-width: 90px;
 		max-width: 180px;
-		.workflowBox {
-			
 		}
 		 </STYLE>
     </head>
-    <body>	
-				<br><br>
-				<div class="hero-unit" style="float: inline-block;">
-				  <g:if test="${session.study}">
-				  	<div style="padding-left: 0px;" class="lead">You have picked the study: ${session.study.shortName}*
-				  		<p style="font-size: 14px"></p>
-					  	<a class="btn" href="<g:createLink action="chooseStudy" params="[showAll:'yes']" />">Change my study</a>
-					  	<a class="btn" href="<g:createLink action="choosePath" />">Help me pick another study</a>
-				  	</div>
-				  	<p style="font-size: 11px"> * ${session.study.longName}</p>
-				  </g:if>
+    <body>
+
+                <div class="welcome-title">Study Selected!</div>
+
+                <g:if test="${session.study}">
+                    <div style="padding-left: 0px;" class="desc">You have picked the study: ${session.study.shortName}*</div>
+                        <a class="btn" href="<g:createLink action="chooseStudy" params="[showAll:'yes']" />">Change my study</a>
+                        <a class="btn" href="<g:createLink action="choosePath" />">Help me pick another study</a>
+                    <div class="desc1" style="font-size: 11px"> * ${session.study.longName}</div>
+                </g:if>
+
+				<div class="hero-unit" style="float: inline-block; min-height: 250px; background: #fff; -moz-border-radius: 10px; border-radius: 10px;border: 1px solid #EFEFEF;border-right: 2px solid #EFEFEF; border-bottom: 5px solid #EFEFEF;">
 				  <p style="padding-left: 0px;" class="lead">
-				  ${flash.operationNotSupported}<br><br>
+				  ${flash.operationNotSupported}
 				  Based upon the study you picked, here is a list of
 				  tools you can use:</p>
 				  
 				  <% def operations = session.supportedOperations.groupBy {it.type} %>
               		<g:each in="${operations.keySet()}" var="type">
-	              		<div id="${type.toLowerCase()}">${type}
+	              		<div id="${type.toLowerCase()}" style="float:left; width:33%; padding-left: 20px; ">${type}
 		              		<ul>
 		             		<g:each in="${operations[type]}" var="operation">
 		             			<li><a href="${createLink(controller: operation.controller, action: operation.action)}"><small>${operation.name}</small></a>

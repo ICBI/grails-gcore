@@ -4,6 +4,7 @@ import grails.converters.*
 class StudyDataSourceController {
 
 	def myStudies
+    def myHistory
 	def otherStudies
 	def clinicalElements
 	def securityService
@@ -14,7 +15,8 @@ class StudyDataSourceController {
 	def attributeValueService
 	def studyDataSourceService
 	
-    def index = { 
+    def index = {
+
 		def studyNames = securityService.getSharedItemIds(session.userId, Study.class.name,false)
 		log.debug studyNames
 		myStudies = []
@@ -25,7 +27,8 @@ class StudyDataSourceController {
 			}
 		}
 		myStudies = myStudies.sort{ it.shortName }
-		otherStudies = Study.findAll()
+
+        otherStudies = Study.findAll()
 		otherStudies.sort { it.shortName }
 		log.debug myStudies
 		if(myStudies.metaClass.respondsTo(myStudies, "size")) {
@@ -33,7 +36,29 @@ class StudyDataSourceController {
 		} else {
 			otherStudies.remove(myStudies)
 		}
-		
+
+        //Adding History
+        def user = GDOCUser.findByUsername(session.userId)
+        def historyStudyNames = History.findAllByUser(user)
+        myHistory = []
+        log.debug "History ids:"+ historyStudyNames;
+        historyStudyNames.sort{it.dateCreated}
+        historyStudyNames.each{
+            def foundStudyHistory = Study.findById(it.studyId)
+            if(foundStudyHistory){
+                myHistory << foundStudyHistory
+            }
+        }
+
+        myHistory = myHistory.unique()
+        def size = myHistory.size()
+        if(size>0)
+        {
+        if(size>=10) myHistory = myHistory.reverse(true)[0..9]
+        else myHistory = myHistory.reverse(true)[0..size-1]
+        }
+        log.debug myHistory
+
 	}
 	
 	def setStudy = {
@@ -72,7 +97,28 @@ class StudyDataSourceController {
 					redirect (controller:'workflows', action: 'studySpecificTools')
 					log.debug("redirected to studySpecificTools")
 				}
-				
+
+				//************Add Study to History**************//
+                def user = GDOCUser.findByUsername(session.userId)
+                def UserHistory = History.findAllByUserAndStudy(user,currStudy)
+                def today = new Date()
+                log.debug "Today's date :" +today
+                def UserHistoryFlag = UserHistory.study.contains(currStudy)
+                if(UserHistoryFlag){
+                    UserHistory.each{
+                        def historyInstance = History.get(it.id)
+                        historyInstance.dateCreated = today
+                        historyInstance.save(flush: true)
+                    }
+                }
+                else{
+                    def historyInstance = new History()
+                    historyInstance.user = user
+                    historyInstance.study = currStudy
+                    historyInstance.save(flush: true)
+                }
+                //********************************//
+
 			}else{
 				log.debug "user is NOT permitted to access this study"
 				redirect(controller:'policies',action:'deniedAccess')

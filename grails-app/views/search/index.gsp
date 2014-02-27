@@ -30,8 +30,10 @@
     
   </div>
   <div id="main">
+
     <g:set var="haveQuery" value="${params.q?.trim()}" />
     <g:set var="haveResults" value="${searchResult?.results}" />
+
     <div class="title">
       <span>
         <g:if test="${haveQuery && haveResults}">
@@ -47,6 +49,7 @@
     <g:if test="${haveQuery && !haveResults && !parseException}">
 	
       <p><g:message code="search.noResults"/> </p>
+
       
     </g:if>
 

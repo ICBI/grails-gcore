@@ -6,7 +6,7 @@ import java.util.regex.Pattern
 
 class SearchController {
 	def searchableService
-	
+
 	def index = {
 		 def invalidChars = ['*','?','~','[',']','"','+','-','<','>']
 		 if (!(params.q?.trim()) || invalidChars.contains(params.q)) { 
@@ -15,16 +15,17 @@ class SearchController {
 			return [:] 
 		 } 
 		else{
-			try { 
+			try {
 			def tbdResults = []
 			def suggs = []
+            def searchResult = []
 			log.debug "search string = $params.q" + "*"
             log.debug "searchableService: "+searchableService
 
-
-                def searchResult
 			if(!params.offset){
-                log.debug "1"
+                log.debug "Entering !"
+                log.debug "Searching :" +params.q
+
 				searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"],{
 							must({
 								queryString(params.q+"*")
@@ -36,7 +37,9 @@ class SearchController {
 									alias("studies")
 							   })
 				})
-                log.debug "1.1"
+
+                log.debug "Leaving !"
+
 			}else{
 
 				searchResult = searchableService.search(params,{
@@ -59,12 +62,14 @@ class SearchController {
 					suggs = suggs.getAt(0..5)
 				}
 			}
-			return [searchResult:searchResult,suggs:suggs] 
-		 } catch (SearchEngineQueryParseException ex) { 
-			return [parseException: true] 
-		 } 	catch (RuntimeException ex) { 
-				return [parseException: true] 
-		}
+			return [searchResult:searchResult,suggs:suggs]
+		 }
+         catch (SearchEngineQueryParseException ex) {
+			    return [parseException: true]
+		         }
+         catch (RuntimeException ex) {
+				return [parseException: true]
+		        }
 		}
 
 	}

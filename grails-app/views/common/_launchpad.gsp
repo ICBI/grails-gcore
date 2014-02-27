@@ -21,22 +21,29 @@
 						<a href="">My Studies</a>
 					</h3>
 					<div class="p">
-						<p>All data in G-DOC is organized in studies. Following are your latest visited studies: </p>
-						<ul>
-							<li><a href="">BRC_IMAGING_TCIA_02</a></li>
-							<li><a href="">BRC_LOI_2008_01</a></li>
-							<li><a href="">BRC_ZHOU_2008_01</a></li>
-						</ul>
+						<p>All data in G-DOC is organized in studies. Following are your latest selected studies: </p>
+
+                        <ul>
+                            <g:if test="${myHistory}">
+                                <g:each in="${myHistory}" var="study">
+                                    <li ><g:link controller="studyDataSource" action="show" id="${study.id}">${study.shortName}</g:link></li>
+                                </g:each>
+                            </g:if>
+                            <g:else>
+                                You have no Studies History yet.
+                            </g:else>
+                        </ul>
+
 					</div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-press-release"> <!-- open-div -->
-							<a href="" class="news-event-item link-parent">
-								<p class="link-child">My Studies</p>
+							<a href="/${appName()}/studyDataSource/index#myhistory" class="news-event-item link-parent">
+								<p class="link-child">My History</p>
 							</a>
 						</div><!-- close-div -->
 						<div class="short-title node node-resource"> <!-- open-div -->
 							<a href="/${appName()}/studyDataSource/" class="news-event-item link-parent">
-								<p class="link-child">All Studies</p>
+								<p class="link-child">My Studies</p>
 							</a>
 						</div> <!-- close-div -->
 					</div>
@@ -46,7 +53,7 @@
 						<div class="icon">
 							<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mystudies.png')}" class="ft1" alt="">
 						</div>
-						<h2 >My Studies</h2>
+						<h2 >My History</h2>
 				</div>
 			</div> <!-- close-div -->
 

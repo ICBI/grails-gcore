@@ -14,44 +14,40 @@
               <li>
 				<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows"/>
               </li>
-              <li>
-                <g:navigationLink name="${message(code: 'nav.studies', args: [appTitle()])}" controller="studyDataSource">${message(code: 'nav.studies', args: [appTitle()])}</g:navigationLink>
-              </li>
 
               <li class="dropdown">
-              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My Study Options<b class="caret"></b></a>
-              	<ul class="dropdown-menu">
-                <g:if test="${session.study}">
-                    <li class="nav-header" style="padding-left:10px;">Study: ${session.study.shortName}</li>
-                </g:if>
-              		<g:if test="${session.supportedOperations}">
-              			<g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
-	              		<g:each in="${operations.keySet()}" var="type">
-		              		<li class="nav-header">${type}</li>
-		             		<g:each in="${operations[type]}" var="operation">
-		             			<li><a href="${createLink(controller: operation.controller, action: operation.action)}">${operation.name}</a>
-		             		</g:each>
-		             		<li class="divider"></li>
-	             		</g:each>
-              		</g:if>
-              		<g:else>
-              			<li>No study selected</li>
-              		</g:else>
-              	</ul>
-              </li>
-
-              <li class="dropdown">
-              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My G-DOC &reg; <b class="caret"></b></a>
+              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My G-DOC Plus &reg; <b class="caret"></b></a>
               		<ul class="dropdown-menu">
-							<li><a href="${createLink(controller: 'notification')}"><g:message code="nav.notifications" /></a>
-							<li><a href="${createLink(controller: 'userList')}"><g:message code="nav.savedLists" /></a>
-							<li><a href="${createLink(controller: 'savedAnalysis')}"><g:message code="nav.savedAnalyses" /></a>
-							<li><g:link controller="collaborationGroups"><g:message code="nav.groups" /></g:link>
+                            <li><g:navigationLink name="My Studies" controller="studyDataSource">My Studies</g:navigationLink></li>
+							<li><a href="${createLink(controller: 'notification')}"><g:message code="nav.notifications" /></a></li>
+						    <li><a href="${createLink(controller: 'userList')}"><g:message code="nav.savedLists" /></a></li>
+							<li><a href="${createLink(controller: 'savedAnalysis')}"><g:message code="nav.savedAnalyses" /></a></li>
+							<li><g:link controller="collaborationGroups"><g:message code="nav.groups" /></g:link></li>
+                            <li><a href="/${appName()}/workflows/choosePath">Help me pick a study</a></li>
 					</ul>
               </li>
-
-
+                <g:if test="${session.study}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">${session.study.shortName}<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <g:if test="${session.supportedOperations}">
+                                <g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
+                                <g:each in="${operations.keySet()}" var="type">
+                                    <li class="nav-header">${type}</li>
+                                    <g:each in="${operations[type]}" var="operation">
+                                        <li><a href="${createLink(controller: operation.controller, action: operation.action)}">${operation.name}</a>
+                                    </g:each>
+                                    <li class="divider"></li>
+                                </g:each>
+                            </g:if>
+                            <g:else>
+                                <li>No study selected</li>
+                            </g:else>
+                        </ul>
+                    </li>
+                </g:if>
             </ul>
+
 
               <ul class="nav pull-right">
 
@@ -68,6 +64,56 @@
                       </ul>
                   </li>
               </ul>
+
+
+
+
+                <ul class="nav pull-right">
+                    <li>
+                        <jq:plugin name="ui"/>
+                        <jq:plugin name="autocomplete"/>
+                        <jq:plugin name="tooltip"/>
+                        <g:javascript>
+                                $(document).ready(function(){
+                                $('.info').tooltip({showURL: false});
+                                $("#q").autocomplete("/${appName()}/search/relevantTerms",{
+                                max: 130,
+                                scroll: true,
+                                multiple:false,
+                                matchContains: true,
+                                dataType:'json',
+                                parse: function(data){
+                                var array = jQuery.makeArray(data);
+                                for(var i=0;i<data.length;i++) {
+                                var tempValue = data[i];
+                                var tempResult = data[i];
+                                array[i] = { data:data[i], value: tempValue, result: tempResult};
+                                }
+                                return array;
+                                },
+                                formatItem: function(data, i, max) {
+                                return data;
+                                },
+
+                                formatResult: function(data) {
+                                return data;
+                                }
+                                });
+                                });
+                        </g:javascript>
+                        <g:form autocomplete="off" controller="search" action="index" style="margin-bottom: 0px; margin-right: 50px;">
+
+                            <input name="q" id="q" type="text" value="" style="width:180px;" ></input>
+
+                            <button class="btn btn-default"  style="vertical-align: top;margin-top: 0px;" type="submit"  value="search gdoc"><img src="${createLinkTo(dir: 'images',  file: 'search.png')}" alt="Search">
+                            </button>
+
+
+                        </g:form>
+                    </li>
+                </ul>
+
+
           </div>
         </div>
       </div>
