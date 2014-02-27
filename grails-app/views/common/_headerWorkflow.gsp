@@ -14,22 +14,19 @@
               <li>
 				<g:navigationLink name="${message(code: 'nav.home', args: [appTitle()])}" controller="workflows"/>
               </li>
+                <li><g:navigationLink name="Studies" controller="studyDataSource">Studies</g:navigationLink></li>
+                <li><a href="${createLink(controller: 'userList')}">Lists</a></li>
+                <li><a href="${createLink(controller: 'savedAnalysis')}">Analyses</a></li>
+                <li><g:link controller="collaborationGroups">Groups</g:link></li>
+                <li><a href="${createLink(controller: 'notification')}">Notifications</a></li>
 
-              <li class="dropdown">
-              	<a href="#" class="dropdown-toggle" data-toggle="dropdown">My G-DOC Plus &reg; <b class="caret"></b></a>
-              		<ul class="dropdown-menu">
-                            <li><g:navigationLink name="My Studies" controller="studyDataSource">My Studies</g:navigationLink></li>
-							<li><a href="${createLink(controller: 'notification')}"><g:message code="nav.notifications" /></a></li>
-						    <li><a href="${createLink(controller: 'userList')}"><g:message code="nav.savedLists" /></a></li>
-							<li><a href="${createLink(controller: 'savedAnalysis')}"><g:message code="nav.savedAnalyses" /></a></li>
-							<li><g:link controller="collaborationGroups"><g:message code="nav.groups" /></g:link></li>
-                            <li><a href="/${appName()}/workflows/choosePath">Help me pick a study</a></li>
-					</ul>
-              </li>
+
+
                 <g:if test="${session.study}">
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">${session.study.shortName}<b class="caret"></b></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Study Options<b class="caret"></b></a>
                         <ul class="dropdown-menu">
+                            <li class="desc1" style="font-size: 12px;">Study Selected <br/> ${session.study.shortName}</li>
                             <g:if test="${session.supportedOperations}">
                                 <g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
                                 <g:each in="${operations.keySet()}" var="type">
@@ -101,9 +98,9 @@
                                 });
                                 });
                         </g:javascript>
-                        <g:form autocomplete="off" controller="search" action="index" style="margin-bottom: 0px; margin-right: 50px;">
+                        <g:form autocomplete="off" controller="search" action="index" style="margin-bottom: 0px; margin-right: 30px;">
 
-                            <input name="q" id="q" type="text" value="" style="width:180px;" ></input>
+                            <input name="q" id="q" type="text" value="" style="width:150px;" />
 
                             <button class="btn btn-default"  style="vertical-align: top;margin-top: 0px;" type="submit"  value="search gdoc"><img src="${createLinkTo(dir: 'images',  file: 'search.png')}" alt="Search">
                             </button>
