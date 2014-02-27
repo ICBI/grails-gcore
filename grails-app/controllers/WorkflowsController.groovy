@@ -1,4 +1,5 @@
 import groovy.time.*
+import grails.converters.*
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
 @Mixin(ControllerMixin)
@@ -40,6 +41,18 @@ class WorkflowsController {
 		render(view: 'chooseStudy', model: responseMap)
 	}
 	
+	def translationalResearch() {
+		render(view: 'translationalResearch')
+	}
+	
+	def personalizedMedicine() {
+		render(view: 'personalizedMedicine')
+	}
+	
+	def populationGenetics() {
+		render(view: 'populationGenetics')
+	}
+		
 	def choosePath() {
 		if(session.study) {
 			flash.choosePath = "Your current study is ${session.study.shortName} <sup>*&nbsp;&dagger;&nbsp;&Dagger;</sup>"
