@@ -58,17 +58,89 @@ class StudyDataSourceService {
 		return contact
 	}
 	
+	def getTranslationalResearchOperations() {
+		[Operation.PCA, Operation.KM, Operation.HEAT_MAP, Operation.KM_GENE_EXP, Operation.GENE_EXPRESSION]
+	}
+	
+	def getPersonalizedMedicineOperations() {
+		[Operation.VARIANT_SEARCH, Operation.DICOM]
+	}
+	
+	def getPopulationGeneticsOperations() {
+		[Operation.PHENOTYPE_SEARCH]
+	}
+	
+	def filterByTranslationalResearch(List<Study> studies) {
+			
+		def filtered = []
+		def operations_by_study = []
+		def valid_operations = getTranslationalResearchOperations()
+		
+		studies.each { study ->
+			if (study.subjectType != "N/A") { 
+				def intersection_of_operations = valid_operations.intersect(findOperationsSupportedByStudy(study))
+			
+				if (intersection_of_operations.size() > 0) {
+					filtered << study
+					operations_by_study << intersection_of_operations
+				}
+			}
+		}
+		return [filtered,operations_by_study]
+		
+		
+	}
+	
+	def filterByPersonalizedMedicine(List<Study> studies) {
+		
+		def filtered = []
+		def operations_by_study = []
+		def valid_operations = getPersonalizedMedicineOperations()
+		
+		for (study in studies) {
+		
+			def intersection_of_operations = valid_operations.intersect(findOperationsSupportedByStudy(study))
+			
+			if (intersection_of_operations.size() > 0) {
+				filtered << study
+				operations_by_study << intersection_of_operations
+			}
+		}
+		
+		return [filtered, operations_by_study]
+	}
+	
+	def filterByPopulationGenetics(List<Study> studies) {
+		
+		def filtered = []
+		def operations_by_study = []
+		def valid_operations = getPopulationGeneticsOperations()
+		
+		for (study in studies) {
+		
+			def intersection_of_operations = valid_operations.intersect(findOperationsSupportedByStudy(study))
+			
+			if (intersection_of_operations.size() > 0) {
+				filtered << study
+				operations_by_study << intersection_of_operations
+			}
+		}
+		
+		return [filtered, operations_by_study]
+	}
+	
+	
 	def findStudiesWhichSupportOperation(List<Study> studies, String operation) {
 		def filtered = []
 		studies.each {
 			if(doesStudySupportOperation(operation, it)) filtered << it
 		}
-		log.debug(filtered.groupBy {it.disease})
+		//log.debug(filtered.groupBy {it.disease})
 		return filtered.groupBy {it.disease}
 	}
 	
 	def findOperationsSupportedByStudy(Study study) {
-		log.debug("inside findOperationsSupportedByStudy")
+		
 		def operations = []
 		StudyContext.setStudy(study.schemaName)
 		def endpoints = KmAttribute.findAll()
@@ -98,7 +170,7 @@ class StudyDataSourceService {
 	boolean doesStudySupportOperation(String intendedOperation, Study study) {
 		intendedOperation = intendedOperation.toLowerCase();
 		boolean result = true
-		log.debug("operation is: "+intendedOperation)
+		//log.debug("operation is: "+intendedOperation)
 		StudyContext.setStudy(study.schemaName)
 		def endpoints = KmAttribute.findAll()
 		def files = htDataService.getHTDataMap()
@@ -132,11 +204,11 @@ class StudyDataSourceService {
 			result = files && study.hasDynamicData()
 			
 		else {
-			log.debug("Clearing study context")
+			//log.debug("Clearing study context")
 			StudyContext.clear();
 		}
 			
-		log.debug("doesStudySupportOperation: "+result)
+		//log.debug("doesStudySupportOperation: "+result)
 			
 		return result
 	}
