@@ -36,7 +36,7 @@ class StudyDataSourceController {
 		} else {
 			otherStudies.remove(myStudies)
 		}
-<<<<<<< HEAD
+
 
         //Adding History
         def user = GDOCUser.findByUsername(session.userId)
@@ -60,7 +60,7 @@ class StudyDataSourceController {
         }
         log.debug myHistory
 
-=======
+
 	}
 	
 	def justSetStudy = {
@@ -88,7 +88,7 @@ class StudyDataSourceController {
 				session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)	
 			}
 		}
->>>>>>> c886f43aa3f57a289f7c82804a8941b0cdb3bbeb
+
 	}
 	
 	

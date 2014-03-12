@@ -30,10 +30,7 @@
         </div>
     </g:if>
 
-<<<<<<< HEAD
-=======
 
->>>>>>> c886f43aa3f57a289f7c82804a8941b0cdb3bbeb
     <div class="desc"> Welcome! The G-DOC Plus Launch Pad is your one-stop resource for learning more about G-DOC and getting started on the platform.</div>
 
 	 <div class="content-wrap">
