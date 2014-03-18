@@ -9,6 +9,7 @@
         <script type="text/javascript" >
         
         	var app_name   = "${appName()}";
+        	var unique_data_types = new Array();
         	var data_types = new Array();
 			var studies    = new Array();
 			var study_type = '';
@@ -78,8 +79,16 @@
 				
 					var html = '';
 									
-					for (var i = 0; i < data_types.length; i++) {
-						html += get_html_for_data_type(data_types[i]);
+					for (var i = 0; i < unique_data_types.length; i++) {
+						
+						var study_count = 0;
+						for (var j = 0; j < data_types.length; j++) {
+							if (data_types[j] == unique_data_types[i]) {
+								study_count++;
+							}
+						}
+						
+						html += get_html_for_data_type(unique_data_types[i], study_count);
 					}
 
 					$('#data_types').html(html);
@@ -119,18 +128,15 @@
 					/*
 					*   Generates the HTML for the studies section. Assumes an element with id=studies exists
 					*/
-				
+					
+					
 					var html = '';
 							
 					for (var i = 0; i < studies.length; i++) {
 
-						if (selected_data_type == studies[i].disease && subject_type == studies[i].subjectType) {						
-							html += '<div id="personalized" class="gradButton gray workflowBox study_type">';
-							html += '<div class="center-content">';
-							html += '<h5>' + studies[i].studyName + '</h5>';
-							html += '</div>';
-							html += '<p style="font-size:.8em;padding:0px">' + studies[i].studyLongName + '</p>';
-							html += '</div>';
+						if (selected_data_type == studies[i].disease && subject_type == studies[i].subjectType) {		
+						
+							html += get_html_for_study(studies[i]);				
 						}
 					}
 
@@ -178,9 +184,9 @@
 				} 
 
 				
-				load_studies(function(data) {
+				load_translational_research_studies(function(data) {
 					/*
-					*   The first function called. Gets the data needed for all of the workflow!
+					*   The first function called. Gets the data needed for all of the workflow.
 					*/
 				
 					for (var i = 0; i < data.length; i++) {
@@ -188,7 +194,7 @@
 						data_types.push(data[i].disease);			
 					}
 	
-					data_types = eliminateDuplicates(data_types);
+					unique_data_types = eliminateDuplicates(data_types);
 					
 					create_data_type_section();
 				});
@@ -196,9 +202,9 @@
 			});
 		</script> 
         
-        
         <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
         <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'workflow.css')}"/>
+            
     </head>
     <body>
     	
@@ -229,27 +235,24 @@
 		  <!-- Wrapper for slides -->
 		  <div class="carousel-inner">		  
 			  <div class="item active">
-				<div id="data_types" class="features">
-				</div>
+				<ul id="data_types" class="box_container">
+				</ul>
 			  </div>
 				
 			
 			  <div class="item">
-				<div id="subject_types" class="features">
-				</div>
+				<ul id="subject_types" class="box_container">
+				</ul>
 			  </div>
 				
 			
 			  <div class="item">
-				<div id="studies" class="features">
-				</div>
+				<ul id="studies" class="box_container">
+				</ul>
 			  </div>
 		  
 			  <div class="item">
 				<div id="clinical" class="features">
-					<div style="border:0px solid #999999;">
-                    	<g:render template="/clinical/filter" plugin="gcore"/>
-                	</div>
 				</div>
 			  </div>
 		  
