@@ -80,7 +80,7 @@ class StudyDataSourceService {
 			if (study.subjectType != "N/A") { 
 				def intersection_of_operations = valid_operations.intersect(findOperationsSupportedByStudy(study))
 			
-				if (intersection_of_operations.size() > 0) {
+				if (intersection_of_operations.size() > 0 && study.isTranslationalResearch) {
 					filtered << study
 					operations_by_study << intersection_of_operations
 				}
@@ -100,8 +100,8 @@ class StudyDataSourceService {
 		for (study in studies) {
 		
 			def intersection_of_operations = valid_operations.intersect(findOperationsSupportedByStudy(study))
-			
-			if (intersection_of_operations.size() > 0) {
+		
+			if (intersection_of_operations.size() > 0 && study.isPrecisionMedicine) {
 				filtered << study
 				operations_by_study << intersection_of_operations
 			}
@@ -117,10 +117,10 @@ class StudyDataSourceService {
 		def valid_operations = getPopulationGeneticsOperations()
 		
 		for (study in studies) {
-		
+			
 			def intersection_of_operations = valid_operations.intersect(findOperationsSupportedByStudy(study))
 			
-			if (intersection_of_operations.size() > 0) {
+			if (intersection_of_operations.size() > 0 && study.isPopulationGenetics) {
 				filtered << study
 				operations_by_study << intersection_of_operations
 			}
