@@ -36,7 +36,6 @@ class StudyDataSourceController {
 		} else {
 			otherStudies.remove(myStudies)
 		}
-<<<<<<< HEAD
 
         //Adding History
         def user = GDOCUser.findByUsername(session.userId)
@@ -60,15 +59,15 @@ class StudyDataSourceController {
         }
         log.debug myHistory
 
-=======
 	}
 	
 	def justSetStudy = {
-		
+	
         if(params.study && session.myStudies){
 			session["workflowMode"] = params.workflowMode
 			def studyid = new Long(params.study)
 			def allowedStudyAccess = session.myStudies.find{it.id == studyid}
+			
 			if(allowedStudyAccess){
 				
 				def currStudy = Study.get(params.study)
@@ -85,10 +84,10 @@ class StudyDataSourceController {
 				log.debug("endpoints are: "+session.endpoints)
 				session.files = htDataService.getHTDataMap()
 				session.dataSetType = session.files.keySet()
-				session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)	
+				session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)
+				addStudyToHistory(session.study)
 			}
 		}
->>>>>>> c886f43aa3f57a289f7c82804a8941b0cdb3bbeb
 	}
 	
 	
@@ -129,27 +128,8 @@ class StudyDataSourceController {
 					log.debug("redirected to studySpecificTools")
 				}
 
-				//************Add Study to History**************//
-                def user = GDOCUser.findByUsername(session.userId)
-                def UserHistory = History.findAllByUserAndStudy(user,currStudy)
-                def today = new Date()
-                log.debug "Today's date :" +today
-                def UserHistoryFlag = UserHistory.study.contains(currStudy)
-                if(UserHistoryFlag){
-                    UserHistory.each{
-                        def historyInstance = History.get(it.id)
-                        historyInstance.dateCreated = today
-                        historyInstance.save(flush: true)
-                    }
-                }
-                else{
-                    def historyInstance = new History()
-                    historyInstance.user = user
-                    historyInstance.study = currStudy
-                    historyInstance.save(flush: true)
-                }
-                //********************************//
-
+				addStudyToHistory(currStudy)
+				
 			}else{
 				log.debug "user is NOT permitted to access this study"
 				redirect(controller:'policies',action:'deniedAccess')
@@ -157,6 +137,35 @@ class StudyDataSourceController {
 		}
 		else render ""
 	}
+	
+	
+	def addStudyToHistory(study) {
+		/*
+			Adds study to history section. This allows users to see studies
+			they've recently accessed.
+		
+		*/
+		
+		def user = GDOCUser.findByUsername(session.userId)
+		def UserHistory = History.findAllByUserAndStudy(user, study)
+		def today = new Date()
+		log.debug "Today's date :" +today
+		def UserHistoryFlag = UserHistory.study.contains(study)
+		if(UserHistoryFlag){
+			UserHistory.each{
+				def historyInstance = History.get(it.id)
+				historyInstance.dateCreated = today
+				historyInstance.save(flush: true)
+			}
+		}
+		else{
+			def historyInstance = new History()
+			historyInstance.user = user
+			historyInstance.study = study
+			historyInstance.save(flush: true)
+		}
+	}
+	
 	
 	def selectDataType = {
 		if(!session.files[params.dataType])
@@ -188,6 +197,7 @@ class StudyDataSourceController {
 			def ops   = valid_operations[i]
 			
 			def study_dict = [:]
+			study_dict["abstract"]       = study.abstractText
 			study_dict["studyLongName"] = study.longName
 			study_dict["studyName"]     = study.shortName
 			study_dict["studyId"]       = study.id
@@ -218,7 +228,7 @@ class StudyDataSourceController {
 	
 	def findStudiesForPersonalizedMedicine = {
 		def myStudies = session.myStudies
-		render getWorkflowStudiesAsListOfDict(studyDataSourceService.filterByPersonalizedMedicine(myStudies)) as JSON  
+		render getWorkflowStudiesAsListOfDict(studyDataSourceService.filterByPersonalizedMedicine(myStudies)) as JSON 
 	}
 	
 	def findStudiesForPopulationGenetics = {
