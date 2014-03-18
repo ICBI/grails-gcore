@@ -8,15 +8,16 @@
         <g:javascript src="workflow.js"/>
         <script type="text/javascript" >
         
-        	var app_name         = "${appName()}";
-        	var data_types       = new Array();
-			var studies          = new Array();
-			var study 		     = '';
-			var data_type        = '';
-			var tool 		     = '';
+        	var app_name          = "${appName()}";
+        	var unique_data_types = new Array();
+        	var data_types        = new Array();
+			var studies           = new Array();
+			var study 		      = '';
+			var data_type         = '';
+			var tool 		      = '';
 			var selected_study;
-			var tools            = new Array();
-			var subject_matter   = '';    
+			var tools             = new Array();
+			var subject_matter    = '';    
         
 		$(document).ready(function() {
 		
@@ -83,7 +84,7 @@
 					for (var i = 0; i < studies.length; i++) {
 
 						if (data_type == studies[i].disease) {	
-							html += get_html_for_study(studies[i].studyName, studies[i].studyLongName)					
+							html += get_html_for_study(studies[i]);					
 						}
 					}
 
@@ -97,23 +98,22 @@
 					*/
 				
 					var html = '';
-					tools = new Array();
+					var tools = new Array();
+					
+					//get_html_for_tools(studies[i].tools);
 									
 					for (var i = 0; i < studies.length; i++) {
 						if (studies[i].studyName == study) {
-							
 							for (var j = 0; j < studies[i].tools.length; j++) {
-							
 								tools.push(studies[i].tools[j]);
-								html += get_html_for_tool(studies[i].tools[j].name);
 							}
 							break;
 						}
 					}
 					
-
+					var html = get_html_for_tools(tools);
 					$('#tools').html(html);
-					create_tool_click_handler();
+					//create_tool_click_handler();
 				}
 
 
@@ -124,8 +124,17 @@
 				
 					var html = '';
 									
-					for (var i = 0; i < data_types.length; i++) {
-						html += get_html_for_data_type(data_types[i]);
+					for (var i = 0; i < unique_data_types.length; i++) {
+					
+						var study_count = 0;
+						for (var j = 0; j < data_types.length; j++) {
+							if (data_types[j] == unique_data_types[i]) {
+								study_count++;
+							}
+						}
+						
+					
+						html += get_html_for_data_type(unique_data_types[i], study_count);
 					}
 
 					$('#data_types').html(html);
@@ -199,7 +208,7 @@
 
 			
 				
-				load_studies(function(data) {
+				load_precision_medicine_studies(function(data) {
 					/*
 					*   The first function called. Gets the data needed for all of the workflow!
 					*/
@@ -209,7 +218,7 @@
 						data_types.push(data[i].disease);
 					}
 
-					data_types = eliminateDuplicates(data_types);
+					unique_data_types = eliminateDuplicates(data_types);
 					create_data_type_section();
 				});
 				
@@ -223,7 +232,7 @@
     </head>
     <body>
     	<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pm.png')}" />
-    	<div class="welcome-title" style="display: inline">Personalized Medicine</div>
+    	<div class="welcome-title" style="display: inline">Precision Medicine</div>
     	<br/>
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
@@ -245,20 +254,21 @@
 		  <div class="carousel-inner">
 		    
 		  <div class="item active">
-		  	<div id="data_types" class="features">
-		 	</div>
+		  	<ul id="data_types" class="box_container">
+		 	</ul>
 		  </div>
 		  		
 			
 		  <div class="item">
-		  	<div id="studies" class="features">
-		 	</div>
+		  	<ul id="studies" class="box_container">
+		 	</ul>
 		  </div>
 		  		
 			
+		  
 		  <div class="item">
-			<div id="tools" class="features">
-			</div>
+			<ul id="tools" class="box_container">
+		 	</ul>
 		  </div>
 			
 			
