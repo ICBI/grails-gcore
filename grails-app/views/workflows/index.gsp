@@ -29,9 +29,8 @@
             ${flash.message}
         </div>
     </g:if>
-
-	<div class="desc"> Welcome! The G-DOC Plus Launch Pad is your one-stop resource for learning more about G-DOC and getting started on the platform.</div>
-	 <div class="content-wrap">
+    	<div class="desc"> Welcome! The G-DOC Plus Launch Pad is your one-stop resource for learning more about G-DOC and getting started on the platform.</div>
+		<div class="content-wrap">
 	     	<div class="features">
 	     	    <g:render template="/common/launchpad"/>
 	     	</div>

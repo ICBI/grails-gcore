@@ -58,7 +58,6 @@ class StudyDataSourceController {
         else myHistory = myHistory.reverse(true)[0..size-1]
         }
         log.debug myHistory
-
 	}
 	
 	def justSetStudy = {
@@ -88,6 +87,10 @@ class StudyDataSourceController {
 				addStudyToHistory(session.study)
 			}
 		}
+<<<<<<< HEAD
+=======
+
+>>>>>>> e140410223efcb5102340918659e15ccb9350c3b
 	}
 	
 	
