@@ -60,12 +60,13 @@
 	</g:javascript>
 	<div class="welcome-title"><g:message code="notifications.heading" /></div>
 	<br/>
-
-	<g:panel title="${message(code: 'notifications.panelHeader')}" styleClass="notifications" contentClass="myPanelContent" id="notifications">
-		<g:render template="/notification/notificationTable"  plugin="gcore"/>
-	</g:panel>
+    <div class="features" style="min-height: 200px;">
+        <div class="desc">${message(code: 'notifications.panelHeader')}</div>
+        <br/>
+        <br/>
+        <g:render template="/notification/notificationTable"  plugin="gcore"/>
+    </div>
 	<br/>
-	<br /><br />
 </body>
 
 </hmtl>
