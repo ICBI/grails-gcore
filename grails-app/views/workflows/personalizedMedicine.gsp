@@ -3,8 +3,6 @@
         <title>${appLongName()}</title>
 		<meta name="layout" content="workflowsLayout" />
 		<g:javascript library="jquery" plugin="jquery"/>
-		<g:javascript src="bootstrap-select.min.js"/>
-        <g:javascript src="bootstrap.min.js"/>
         <g:javascript src="workflow.js"/>
         <script type="text/javascript" >
         
