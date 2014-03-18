@@ -82,13 +82,6 @@
     <body>
 
     <div class="welcome-title">What's your area of interest?</div>
-    <div class="desc1">
-        <g:if test="${session.study}">
-            <small>* Your study may not support all the tools</small><br>
-            <small>&dagger; Tools which are not supported are grayed out</small><br>
-            <small>&Dagger; If you click on a tool which is not supported (grayed out), you will be forced to select another study which supports the tools</small>
-        </g:if>
-    </div>
 
     <div style="display: none">
     	<div id="personalized_text">
