@@ -231,6 +231,7 @@
 		  <div class="carousel-inner">		  
 			  <div class="item active">
 				<ul id="data_types" class="box_container">
+					<img class="load_study" src="${createLinkTo(dir: 'images',  file: '295.gif')}"  />
 				</ul>
 			  </div>
 				
