@@ -36,8 +36,18 @@ class StudyDataSourceController {
 		} else {
 			otherStudies.remove(myStudies)
 		}
+		
+		loadHistory()
 
-        //Adding History
+	}
+	
+	
+	def loadHistory() {
+		/*
+			This loads the previously selected studies by the user
+		
+		*/
+		
         def user = GDOCUser.findByUsername(session.userId)
         def historyStudyNames = History.findAllByUser(user)
         myHistory = []
