@@ -238,14 +238,14 @@
     	
     	<div id="crumbs">
 			<ul>
-				<li><a id="0" href="#" class="complete step">Data Type</a></li>
+				<li><a id="0" href="#" class="complete step">Data</a></li>
 				<li><a id="1" href="#" class="step">Study</a></li>
 				<li><a id="2" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
 		<h5 class="desc" id="selections">&nbsp;</h5>
 		</br>
-		<div class="desc" id="message">What type of data do you want to analyze?</div>
+		<div class="desc" id="message">What type of data collection do you want to analyze?</div>
 		</br>
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
