@@ -12,6 +12,8 @@
 			var studies    = new Array();
 			var study_type = '';
 			var subject_type = '';
+			var selected_study_name;
+			var selected_study;
 			var selected_data_type  = '';
 
             	
@@ -53,15 +55,15 @@
 					}
 					else if (step_number == 1) {
 						$('#selections').html('<i>' + selected_data_type + '</i>');
-						$('#message').text('Select your subject matter');
+						$('#message').text('Select your sample type');
 					}
 					else if (step_number == 2) {
 						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + '</i>');
 						$('#message').html('Great! Now, what study would you like to work with?');
 					}
 					else if (step_number == 3) {
-						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + study_type + '</i>');
-						$('#message').text('Use this clinical tool');
+						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + ' &rarr; ' +  selected_study_name + '</i>');
+						$('#message').text('Create a cohort or explore existing ones');
 					}
 					else if (step_number == 4) {
 						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + study_type + '</i>');
@@ -139,6 +141,8 @@
 					}
 
 					$('#studies').html(html);
+					
+					create_study_click_handler();
 				}
 
 
@@ -156,6 +160,38 @@
 							create_studies_section();
 					});
 				}
+				
+				
+				
+				function create_study_click_handler() {
+					/*
+					*   When user selects a study, what do we do next? This function handles that action.
+					*/
+					
+				
+					
+					$('.study').click(function() {
+					
+							
+							selected_study_name = $(this).find('h5').text();
+							selected_study = null;
+							
+							for(var i = 0; i < studies.length; i++) {
+								if (studies[i].studyName == selected_study_name) {
+									selected_study = studies[i];
+									break;
+								}
+							}
+							
+							
+							set_study(selected_study.studyId);
+							
+							move_to(3);
+							//create_tools_section();
+							
+					});
+				}
+				
 
 				function create_data_type_click_handler() {
 					/*
@@ -170,17 +206,8 @@
 					});
 				}
 				
-				function create_study_click_event() {
-					/*
-					*   When user selects a study, what do we do next? This function handles that action.
-					*/
 				
-					$('.study_type').click(function() {
-						study_type = $(this).find('h5').text();	
-						move_to(3);
-					});
-				} 
-
+				
 				
 				load_translational_research_studies(function(data) {
 					/*
@@ -215,16 +242,16 @@
     	-->
     	<div id="crumbs">
 			<ul>
-				<li><a id="0" href="#" class="complete step">Data Type</a></li>
-				<li><a id="1" href="#" class="step">Subject Matter</a></li>
+				<li><a id="0" href="#" class="complete step">Data</a></li>
+				<li><a id="1" href="#" class="step">Sample</a></li>
 				<li><a id="2" href="#" class="step">Study</a></li>
-				<li><a id="3" href="#" class="step">Clinical Search</a></li>
+				<li><a id="3" href="#" class="step">Cohort</a></li>
 				<li><a id="4" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
 		<h5 class="desc" id="selections">&nbsp;</h5>
 		</br>
-		<div class="desc" id="message">What type of data do you want to analyze?</div>
+		<div class="desc" id="message">What type of data collection do you want to analyze?</div>
 		</br>
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
@@ -246,10 +273,11 @@
 				<ul id="studies" class="box_container">
 				</ul>
 			  </div>
-		  
+			  
 			  <div class="item">
 				<div id="clinical" class="features">
-				</div>
+						<g:link controller="clinical" action="index">Create/Explore Cohort</g:link>
+					</div>
 			  </div>
 		  
 		  
