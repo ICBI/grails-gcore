@@ -123,10 +123,16 @@ function get_html_for_tools(tools) {
 }
 
 function get_html_for_data_type(data_type_name, study_count) {
+			var studies = study_count + ' studies available';
+			
+			if (study_count < 2) {
+				studies = study_count + ' study available';
+			}
+
 			var html = '<div id="personalized" class="gradButton gray data_type box">';
 			html += '<div class="center-content">';
 			html += '<h5>' + data_type_name + '</h5>';
-			html += '<span class="studycount count"> <i>studies</i><b>' + study_count + '</b></span>';
+			html += '<span class="studycount count"><i>' + studies +'</i></span>';
 			html += '</div>';
 			html += '</div>';
 			return html;

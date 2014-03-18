@@ -128,13 +128,18 @@
                 <h2>Understanding Data in G-DOC Plus</h2>
                 <h4>It all begins with a study...</h4>
                 </br>
-                <p>All data in G-DOC Plus derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clincal and/or biospecimen data. Below is an overview of studies for each topic in G-DOC. <sup>*</sup></p>
+                <p>All data in G-DOC Plus derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clincal and/or biospecimen data. Below is an overview of studies by topic. <sup>*</sup></p>
                 <p class="footprint">* private studies, ones which are uploaded and marked private, are not counted here</p>
                 </br>
                 <ul class="studytype">
                     <g:if test="${diseaseBreakdown}">
                         <g:each in="${diseaseBreakdown}" var="item">
-                                <li>
+                        		<g:if test="${item.key == '<i>Total</i>'}">
+                        			<li style="background-color: #D9D9D9;">
+                        		</g:if>
+                        		<g:else>
+                        			<li>
+                        		</g:else>
                                     <span class="studytypename">${item.key}</span>
                                     <span class="patientcount count"><i>patients</i> <b>${item.value.patientNumber}</b> </span>
                                     <span class="biospecimencount count"><i>biospecimens</i><b>${item.value.biospecimenNumber}</b></span>
