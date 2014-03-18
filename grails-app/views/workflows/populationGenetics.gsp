@@ -1,11 +1,10 @@
     <html>
     <head>
         <title>${appLongName()}</title>
-		<meta name="layout" content="workflowsLayout" />
+		<meta name="layout" content="workflowsLayout" />	
+		
 		<g:javascript library="jquery" plugin="jquery"/>
-		<g:javascript src="bootstrap-select.min.js"/>
-        <g:javascript src="bootstrap.min.js"/>
-        <g:javascript src="workflow.js"/>
+        <g:javascript src="workflow.js"/>  
         <script type="text/javascript" >
         
         	var app_name   		= "${appName()}";
@@ -153,8 +152,8 @@
 				});
 				
 			});
-		</script> 
-        
+		</script>
+		
         
         <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
         <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'workflow.css')}"/>
