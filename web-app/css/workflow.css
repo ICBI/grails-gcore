@@ -1,3 +1,33 @@
+.abstract {
+	font-size:.8em;
+	padding:0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 100px;
+}
+
+
+.box_container {
+	width: 100%;
+}
+
+.box {
+	border: 1px solid #EBEBEB;
+	margin: 0.6em 0.6em;
+	position: relative;
+	float: left;
+	display: block;
+	width: 200px;
+	height: 200px; 
+	
+}
+
+._title {
+	font-size:.8em;
+	padding: 0px;
+}
+
+
 .carousel-inner {
 				height: 550px;
 }
@@ -83,3 +113,14 @@ label {
 	margin:1em;
 	cursor:pointer;
 }
+
+
+
+.count {float: left; text-align: left; font-size: 12px; width: 100%; left: 5px;}
+.count b {float: right; padding-right: 10px;}
+.studycount {bottom: 20px;}
+.patientcount {bottom: 10px;}
+.biospecimencount {bottom: 0px;}
+
+
+
