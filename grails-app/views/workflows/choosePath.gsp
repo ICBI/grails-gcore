@@ -129,7 +129,7 @@
 		<div id="personalized" class="gradButton gray workflowBox" href="#" rel="popover" data-content="" >
 			<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pm.png')}" />
             <div class="center-content">
-                <h4>Personalized Medicine</h4>
+                <h4>Precision Medicine</h4>
             </div>
             <p style="font-size:.8em;padding:0px">Patients' molecular diagnostics and clinical data.</p>
 		</div>
