@@ -6,7 +6,6 @@
 	height: 100px;
 }
 
-
 .box_container {
 	width: 100%;
 }
@@ -20,6 +19,11 @@
 	width: 200px;
 	height: 200px; 
 	
+}
+
+.data_type, .subject_type, .tool {
+	/* Styles boxes when user must select a data type, subject type, or tool during workflow */
+	height: 90px;
 }
 
 ._title {
