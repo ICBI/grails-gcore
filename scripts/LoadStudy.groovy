@@ -120,10 +120,22 @@ def loadStudyData(projectName) {
 				params.insertUser = "acs224"
 				params.insertDate = new Date()
 				params.insertMethod = "load-data"
+				
 				// Setup data source content
-				def contents = []
-				def contentTypes = data[9].split(',')
-				def showContent = data[10].split(',')
+				def contents 			   = []
+				def contentTypes 		   = data[9].split(',')
+				def showContent 		   = data[10].split(',')
+				
+				// Closure used to map 1,0, or null to True or False. Null is interpreted as False
+				def map_to_bool = {
+    				index ->
+    				return (data.size() > index && data[index] == '1')
+				}
+				
+				params.isPrecisionMedicine 	   = map_to_bool(11)
+				params.isTranslationalResearch = map_to_bool(12)
+				params.isPopulationGenetics    = map_to_bool(13)
+				
 				contentTypes.eachWithIndex { item, index ->
 					def content = [:]
 					content.type = item.trim()
