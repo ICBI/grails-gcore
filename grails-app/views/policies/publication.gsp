@@ -6,7 +6,7 @@
 		
     </head>
     <body>
-    <div class="welcome-title">Publication Policy</div>
+    <div class="welcome-title">Citation Policy</div>
     <div class="features" >
 
         <p style="font-size:14pt" class="desc"><g:message code="policies.publication" args="${[appTitle()]}"/></p>

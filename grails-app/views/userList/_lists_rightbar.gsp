@@ -35,15 +35,17 @@
 
 </g:javascript>
 
-<g:panel id="myPanel" title="List Tools" styleClass="prefs" panelColor="userLogPanelTitle" contentClass="myPanelContent">
+<div class="features">
+    <p style="font-size:16px;font-weight:bold;margin-left: -20px;margin-top: -10px;">List Tools</p>
+    <br/>
 	<g:if test="${toolsLists}">
 		<div>
  		<g:form name="listToolForm" update="allLists" onLoading="showToolsSpinner(true)"
 		    onComplete="showToolsSpinner(false)" action="tools" url="${[action:'tools']}" method="post">
-		<span style="margin-bottom:5px;"><g:message code="userList.listAction"/>: <br />
+		<span style="margin-bottom:5px;"><g:message code="userList.listAction"/> <br />
 		<g:select name="listAction" class="selectpicker" from="${['Venn Diagram','Intersect Lists','Join Lists', 'Difference']}" 
 				keys="${['venn','intersect','join','diff']}" onchange="showOption(this)" /></span><br />
-		<span id="name" style="display:none;margin-top:5px;"><g:message code="userList.listName"/>: <br /><g:textField name="listName" size="17" maxlength="15"/></span><br />
+		<span id="name" style="display:none;margin-top:5px;"><g:message code="userList.listName"/>: <br /><g:textField name="listName" size="17" maxlength="15"/></span>
 		<g:select style="margin-top:5px;width:180px" name="userListIds"
 				  from="${toolsLists}"
 		          optionKey="id" 
@@ -51,8 +53,7 @@
 				  multiple="true"
 				  size="12"
 				  />
-		<br /><br />
-		<g:actionSubmit value="Submit"  action="tools" onclick="return validate()"/>
+		<g:actionSubmit class="btn" value="Submit"  action="tools" onclick="return validate()"/>
 
 		</g:form>
 		<span id="toolSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
@@ -61,4 +62,4 @@
 	<g:else>
 	<g:message code="userList.tools"/>
 	</g:else>
-</g:panel>
+</div>

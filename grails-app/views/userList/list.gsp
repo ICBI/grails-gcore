@@ -70,24 +70,21 @@
 	</g:javascript>
 	
 
-    <div class="welcome-title"><g:message code="userList.manage"/> </div>
-    <div class="desc">Below are all G-DOC Saved Lists. You can view, modify, upload, export and share Lists with other groups.
+    <div class="welcome-title"><g:message code="userList.manage"/></div>
+    <div class="desc">Below are all G-DOC Plus saved Lists. You can view, modify, upload, export and share Lists with other groups.
     </div>
     <span id="message" class="message" style="display:none"></span>
     <span style="display:none" class="ajaxController">userList</span>
-    <div class="desc1">
-     You can use the filter below to search for a specific list. You can also use the tool Panel on the left to manipulate data in the saved lists.<br/>
-            <g:if test="${session.listFilter}">
-                <g:message code="userList.total"/>: ${allLists}&nbsp;&nbsp; </span>
-            </g:if>
-        <br/>
 
-    </div>
+    <div class="features">
+        <div class="desc1" style="margin-left:0px;margin-top: 0px;">
+            You can use the filter below to search for a specific list. You can also use the tool Panel on the right to manipulate data in the saved lists.<br/>
+        </div>
 
-     <div class="well well-sm">
             <span>
 			<g:form name="filterForm" action="list">
-			<g:message code="userList.filter"/>:&nbsp;<g:select name="listFilter"
+			<g:message code="userList.filter"/>&nbsp;&nbsp;
+                <g:select  style="width:270px;margin-top: 8px;" name="listFilter"
 				noSelection="${['':'Filter Lists...']}"
 				value="${session.listFilter?:'value'}"
 				from="${timePeriods}"
@@ -101,20 +98,19 @@
 			<g:else>
 			<div id="searchBox" style="padding-top:8px">
 			</g:else>
-			<g:message code="userList.search"/><br />
-			<g:textField name="searchTerm" id="searchTerm" size="15" />
-			<g:submitButton value="search" name="searchButton"/>
+			<g:message  style="padding-top:8px;" code="userList.search"/><br />
+			<g:textField style="margin-top: 8px; " name="searchTerm" id="searchTerm" size="15" />
+			<g:submitButton class="btn" value="search" name="searchButton"/>
 			</div>
 			</g:form>
 
-     </div>
             <g:form name="delListForm" action="deleteMultipleLists">
                     <span class="controlBarUpload" id="controlBarUpload" >
-                       <g:link class="thickbox" name="Upload custom list" action="upload" style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;padding: 4px 13px;width:80px;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;"
-                        params="[keepThis:'true',TB_iframe:'true',height:'350',width:'400',title:'someTitle']"><g:message code="Upload"/></g:link>
+                       <g:link class="btn thickbox" name="Upload custom list" action="upload" style="font-size: 12px;color:black;text-decoration:none;background-color:#E6E6E6;width:80px;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;"
+                        params="[keepThis:'true',TB_iframe:'true',height:'350',width:'600',title:'someTitle']"><g:message code="Upload"/></g:link>
                     </span>
                     <span class="controlBarUpload" id="controlBarDelete">
-                        <g:submitButton name="del" value="${message(code: 'userList.deleteLists')}" style="font-size: 12px;color:black;text-decoration:none;padding: 4px 13px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;" onclick="return confirm('${message(code: 'userList.confirm')}');" />
+                        <g:submitButton class="btn" name="del" value="${message(code: 'userList.deleteLists')}" style="font-size: 12px;color:black;text-decoration:none;padding: 4px 13px;background-color:#E6E6E6;border: 1px solid #a0a0a0;margin: 1px 3px 1px 3px;" onclick="return confirm('${message(code: 'userList.confirm')}');" />
                     </span>
            			<g:if test="${allLists > 0 && userListInstanceList.size() >0}">
                            <div id="pager1" style="text-align:right;padding:2px 10px 3px 0px">
@@ -145,12 +141,13 @@
            			</div>
            			</g:if>
            			<g:else>
-           				<p><g:message code="userList.noSaved"/></p>
+                        </br></br></br>
+           				<p class="desc1" style="margin-left:-10px;"><g:message code="userList.noSaved"/></p>
            			</g:else>
            		</g:form>
 
 
-
+</div>
 
 
 </body>

@@ -72,9 +72,8 @@
 	
 	<fieldset style="border:0px solid black">
 	
-	<div><input type="checkbox" class="checkall"> <g:message code="userList.checkAll"/></div>
-	
- 	<g:panel title="My Lists" styleClass="welcome" >
+	<div style="padding-bottom: 10px;"><input type="checkbox" class="checkall"> <g:message code="userList.checkAll"/></div>
+
 	
 	<table class="listTable" width="100%" cellpadding="5">
 		<tr>
@@ -167,7 +166,7 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 				
 				<div id="${userListInstance.id}_content" style="border:0px solid black;display:none;padding-bottom:5px">
 				</div>
-				<div style="border-bottom:1px solid grey;background-color:#f3f3f3;padding-bottom:5px;">
+				<div style="border-bottom:0px solid grey;background-color:#f3f3f3;padding-bottom:5px;">
 					<g:if test="${userListInstance.studies.size()>0}">
 					<g:message code="userList.studies"/>: 
 						${userListInstance.studyNames().join(", ")}<br/>
@@ -193,7 +192,9 @@ params="[id:userListInstance.id,name:userListInstance.name,type:'USER_LIST',keep
 </td>
 </tr>
 </table>
-</g:panel>
+
+
+
 <div id="enrichmentResults" style="display:none"> 
 	<div style="color:#000"> 
 	<p style="text-align:center; line-height:80px">Drag Me! Click html page behind me to close me.</p> 

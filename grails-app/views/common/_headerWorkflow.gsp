@@ -22,11 +22,13 @@
 
 
 
-                <g:if test="${session.study}">
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Study Options<b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li class="desc1" style="font-size: 12px;">Study Selected <br/> ${session.study.shortName}</li>
+                            <g:if test="${session.study}">
+                              <li class="desc1" style="font-size: 12px;">Study Selected <br/> ${session.study.shortName}</li>
+                            </g:if>
                             <g:if test="${session.supportedOperations}">
                                 <g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
                                 <g:each in="${operations.keySet()}" var="type">
@@ -38,11 +40,11 @@
                                 </g:each>
                             </g:if>
                             <g:else>
-                                <li>No study selected</li>
+                                <li class="desc1" style="font-size: 12px;">No study selected</li>
                             </g:else>
                         </ul>
                     </li>
-                </g:if>
+
             </ul>
 
 
