@@ -3,8 +3,6 @@
         <title>${appLongName()}</title>
 		<meta name="layout" content="workflowsLayout" />
 		<g:javascript library="jquery" plugin="jquery"/>
-		<g:javascript src="bootstrap-select.min.js"/>
-        <g:javascript src="bootstrap.min.js"/>
         <g:javascript src="workflow.js"/>
         <script type="text/javascript" >
         
@@ -215,7 +213,6 @@
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
     	-->
-    	
     	<div id="crumbs">
 			<ul>
 				<li><a id="0" href="#" class="complete step">Data Type</a></li>
@@ -229,8 +226,6 @@
 		</br>
 		<div class="desc" id="message">What type of data do you want to analyze?</div>
 		</br>
-		
-		
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
 		  <div class="carousel-inner">		  
@@ -263,8 +258,6 @@
 			  </div>
 		  </div>
 		</div>
-  
-    	
     	</br>		  
     </body>
 </html>
