@@ -78,7 +78,7 @@
 					var html = '';
 							
 					for (var i = 0; i < studies.length; i++) {
-						html += get_html_for_study(studies[i].studyName, studies[i].studyLongName);
+						html += get_html_for_study(studies[i]);
 					}
 
 					$('#studies').html(html);
@@ -89,7 +89,7 @@
 					/*
 					*   Generates the HTML for the tools section. Assumes an element with id=tools exists
 					*/
-				
+					
 					var html = '';
 					tools = new Array();
 									
@@ -97,9 +97,7 @@
 						if (studies[i].studyName == selected_study.studyName) {
 							
 							for (var j = 0; j < studies[i].tools.length; j++) {
-							
 								tools.push(studies[i].tools[j]);
-								html += get_html_for_tool(studies[i].tools[j].name);
 							}
 							
 							// Break since we found the tools particular to this study
@@ -107,30 +105,12 @@
 						}
 					}
 					
+					
+					html = get_html_for_tools(tools);
+					
 
-					$('#tools').html(html);
-					create_tool_click_handler();
+					$('#tools').html(html);	
 				}
-			
-					
-				
-				function create_tool_click_handler() {
-					/*
-					*   When user selects a tool, what do we do next? This function handles that action.
-					*/
-				
-					$('.tool').click(function() {
-					
-							tool = $(this).find('h5').text();
-							
-							for(var i = 0; i < tools.length; i++) {
-								if (tools[i].name == tool) {
-									window.location = tools[i].link;
-								}
-							}	
-					});
-				}
-				
 				
 				function create_study_click_handler() {
 					/*
@@ -159,7 +139,7 @@
 
 			
 
-				load_studies(function(data) {
+				load_population_genetics_studies(function(data) {
 					/*
 					*   The first function called. Gets the data needed for all of the workflow!
 					*/
@@ -202,11 +182,12 @@
 		  <div class="carousel-inner">
 		  	  
 			  <div class="item active">
-		  		<div id="studies" class="features">
-		 	</div>
-		  </div>			
+		  		<ul id="studies" class="box_container">
+		  		</ul>
+		 	 </div>			
 			  <div class="item">
-				<div id="tools" class="features">
+				<ul id="tools" class="box_container">
+				</ul>
 			  </div>
 		  </div>
 		  </div>
