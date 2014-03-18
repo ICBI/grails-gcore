@@ -6,6 +6,10 @@
 	height: 100px;
 }
 
+.load_study {
+	padding-left: 500px;
+}
+
 .box_container {
 	width: 100%;
 }
@@ -121,7 +125,6 @@ label {
 
 
 .count {float: left; text-align: left; font-size: 12px; width: 100%; left: 5px;}
-.count b {float: right; padding-right: 10px;}
 .studycount {bottom: 20px;}
 .patientcount {bottom: 10px;}
 .biospecimencount {bottom: 0px;}
