@@ -10,6 +10,10 @@ class PoliciesController {
 	def publication = {
 		
 	}
+
+    def citations = {
+
+    }
 	
 	def deniedAccess = {
 		

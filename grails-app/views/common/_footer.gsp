@@ -28,13 +28,17 @@ A:hover {color:#334477}
 
  <div class="copyright">
 		<span size="6" style="vertical-align:20px;font-size: 10px; font-family:'open sans',Helvetica,sans-serif; color: rgb(153, 153, 153);border:0px solid black"> Copyright © 2014 ICBI. All Rights Reserved &nbsp;&nbsp;&nbsp;&nbsp;
-			${g.appTitle()} ${g.appVersion()}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" ><g:message code="common.footer.releaseNotes" /></a>
-			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="https://github.com/ICBI" target="_blank" >powered by G-CODE</a></span>
+			${g.appTitle()} ${g.appVersion()}
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" ><g:message code="common.footer.releaseNotes" /></a>
+			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="https://github.com/ICBI" target="_blank" >powered by G-CODE</a>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="http://lombardi.georgetown.edu/gdoc/" target="_blank">${g.appTitle()} <g:message code="common.footer.lcccLink" /></a>
+        </span>
+
 		 <br/>
                 <span size="6" style="vertical-align:40px;font-size: 10px; font-family:'open sans',Helvetica,sans-serif; color: rgb(0, 92, 167);border:0px solid black">
-                		<a href="http://lombardi.georgetown.edu/gdoc/" target="_blank">${g.appTitle()} <g:message code="common.footer.lcccLink" /></a>  &nbsp; |&nbsp;&nbsp;
                 		<a href="${createLink(controller: 'home', action: 'requirementCheck')}" target="_blank"><g:message code="common.footer.systemReqs" /></a>  &nbsp; |&nbsp;&nbsp;
                 		<a href="${createLink(controller: 'policies', action: 'publication')}"><g:message code="common.footer.publicationPolicy" /></a> &nbsp;&nbsp; |&nbsp;&nbsp;
+                        <a href="${createLink(controller: 'policies', action: 'citations')}"><g:message code="common.footer.citations" /></a> &nbsp;&nbsp; |&nbsp;&nbsp;
                 		<a href="${createLink(controller: 'policies', action: 'dataAccess')}"><g:message code="common.footer.dataAccessPolicy" /></a>  &nbsp; |&nbsp;&nbsp;
                 		<a href="${createLink(controller: 'policies', action: 'licenses')}"><g:message code="common.footer.licenseInfo" /></a> &nbsp;&nbsp; |&nbsp;&nbsp;
                 		<g:link controller="contact"><g:message code="common.footer.contactUs" /></g:link> &nbsp; |&nbsp;&nbsp;

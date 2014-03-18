@@ -18,10 +18,10 @@
 			<div class="featured-customer-item node node-customer"> <!-- open-div -->
 				<div class="featured-customer-details">
 					<h3>
-						<a href="">My Studies</a>
+						<a href="/${appName()}/studyDataSource/">Studies</a>
 					</h3>
 					<div class="p">
-						<p>All data in G-DOC is organized in studies. Following are your latest selected studies: </p>
+						<p>All data in G-DOC Plus are organized in studies. Following are your latest selected studies: </p>
 
                         <ul>
                             <g:if test="${myHistory}">
@@ -43,7 +43,7 @@
 						</div><!-- close-div -->
 						<div class="short-title node node-resource"> <!-- open-div -->
 							<a href="/${appName()}/studyDataSource/" class="news-event-item link-parent">
-								<p class="link-child">My Studies</p>
+								<p class="link-child">Studies</p>
 							</a>
 						</div> <!-- close-div -->
 					</div>
@@ -53,22 +53,22 @@
 						<div class="icon">
 							<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mystudies.png')}" class="ft1" alt="">
 						</div>
-						<h2 >My Studies</h2>
+						<h2 >Studies</h2>
 				</div>
 			</div> <!-- close-div -->
 
 			<div class="featured-customer-item node node-customer"> <!-- open-div -->
 				<div class="featured-customer-details">
 					<h3>
-						<a href="/${appName()}/collaborationGroups/">My Groups</a>
+						<a href="/${appName()}/collaborationGroups/">Groups</a>
 					</h3>
 					<div class="p">
-						<p>In G-DOC you can create collaboration groups, invite users to access your groups and also request access to other user groups.</p>
+						<p>In G-DOC Plus you can create collaboration groups, invite users to access your groups and also request access to other user groups.</p>
 					</div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-resource"> <!-- open-div -->
 							<a href="/${appName()}/collaborationGroups/" class="link-parent colorbox-node resource-link init-colorbox-node-processed-processed">
-								<p class="link-child">My Groups</p>
+								<p class="link-child">Groups</p>
 							</a>
 						</div> <!-- close-div -->
 					</div>
@@ -77,7 +77,7 @@
 						<div class="icon">
 							<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mygroups.png')}" class="ft1" alt="">
 						</div>
-						<h2 >My Groups</h2>
+						<h2 >Groups</h2>
 				</div>
 			</div> <!-- close-div -->
 		</div>
@@ -87,15 +87,15 @@
 			<div class="featured-customer-item node node-customer"> <!-- open-div -->
 				<div class="featured-customer-details">
 					<h3>
-						<a href="/${appName()}/userList/list">Saved Lists</a>
+						<a href="/${appName()}/userList/list">Lists</a>
 					</h3>
 					<div class="p">
-						<p>G-DOC enables you to save your lists for future use and sharing. Lists may be composed of either genes or patients and exported into multiple formats, including Microsoft Excel.</p>
+						<p>G-DOC Plus enables you to save your lists for future use and sharing. Lists may be composed of either genes or patients and exported into multiple formats, including Microsoft Excel.</p>
 					</div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-resource"> <!-- open-div -->
 							<a href="/${appName()}/userList/list" class="link-parent colorbox-node resource-link init-colorbox-node-processed-processed">
-								<p class="link-child">Saved Lists</p>
+								<p class="link-child">Lists</p>
 							</a>
 						</div> <!-- close-div -->
 					</div>
@@ -104,7 +104,7 @@
 								<div class="icon">
 									<img src="${createLinkTo(dir: 'images/launchpad',  file: 'mylists.png')}" class="ft1" alt="">
 								</div>
-								<h2 >Saved Lists</h2>
+								<h2 >Lists</h2>
 				</div>
 			</div> <!-- close-div -->
 
@@ -115,7 +115,7 @@
 						<a href="/${appName()}/notification">Notifications</a>
 					</h3>
 					<div class="p">
-						<p>G-DOC allows you to track your running Analysis</p>
+						<p>G-DOC Plus allows you to track your running Analyses</p>
                         <g:if test="${session.notifications}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have running analysis. Click on View below to access it.
                         </g:if>
@@ -150,14 +150,14 @@
 			<div class="featured-customer-item node node-customer"> <!-- open-div -->
 				<div class="featured-customer-details">
 				<h3>
-					<a href="/${appName()}/savedAnalysis/">Saved Analysis</a>
+					<a href="/${appName()}/savedAnalysis/">Analyses</a>
 				</h3>
 								<div class="p">
-					<p>G-DOC support your research needs by saving your analysis for future use and sharing.</p></div>
+					<p>G-DOC Plus supports your research needs by saving your analyses for future use and sharing.</p></div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-resource"> <!-- open-div -->
 							<a href="/${appName()}/savedAnalysis/" class="link-parent colorbox-node resource-link init-colorbox-node-processed-processed">
-								<p class="link-child">Saved Analysis</p>
+								<p class="link-child">Analyses</p>
 							</a>
 						</div> <!-- close-div -->
 					</div>
@@ -166,7 +166,7 @@
 					<div class="icon">
 						<img src="${createLinkTo(dir: 'images/launchpad',  file: 'myanalysis.png')}" class="ft1" alt="">
 					</div>
-					<h2 >Saved Analysis</h2>
+					<h2 >Analyses</h2>
 			</div>
 		</div> <!-- close-div -->
 

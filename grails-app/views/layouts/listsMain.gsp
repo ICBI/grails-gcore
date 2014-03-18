@@ -45,14 +45,14 @@
                  </div>
 
                 <div id="doc2" class="yui-t1">
-                    <div id="bd" style="padding-bottom:20px;" >
+                    <div id="bd" style="padding-bottom:10px;" >
                         <div id="yui-main">
                         <br/><br/>
                                 <div class="yui-gc">
-                                    <div class="yui-u first"style="width:750px;">
+                                    <div class="yui-u first"style="width:740px;">
                                         <g:layoutBody/>
                                     </div>
-                                    <div class="yui-u" style="width:250px;">
+                                    <div class="yui-u" style="width:260px;">
                                         <g:render template="/userList/lists_rightbar" plugin="gcore"/>
                                     </div>
                                 </div>

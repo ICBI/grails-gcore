@@ -83,15 +83,15 @@
 
         <div class="features"  >
             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-                <li class="active"><a href="#mystudies" data-toggle="tab"  >My Studies</a></li>
+                <li class="active"><a href="#mystudies" data-toggle="tab"  >Studies</a></li>
                 <li><a href="#myhistory" data-toggle="tab">My History</a></li>
-                <li><a href="#otherstudies" data-toggle="tab">Private Studies</a></li>
+                <li><a href="#otherstudies" data-toggle="tab">My Private Studies</a></li>
             </ul>
             <div id="my-tab-content" class="tab-content">
                 <div class="tab-pane active" id="mystudies">
                     <div  class="" style="font-size: 12px;">
                         <div class="desc1">
-                            Below is an overview of all the studies in G-DOC that you have access to. You can explore each study, view the details and use the available tools to analyse and search the data. Use the filter below to filter the table.
+                            Below is an overview of all studies that you have access to. You can explore each study, view the details and use the available tools to analyse and search the data. Use the filter below to filter the table.
                             <br/><br/><input type="search" class="light-table-filter" data-table="order-table" placeholder="Filter" />
                         </div>
 
@@ -130,7 +130,7 @@
                 <div class="tab-pane" id="myhistory">
                         <div  class="" style="font-size: 12px;">
                             <div class="desc1">
-                                The list below is your G-DOC studies history. The history shows the last 10 studies that you selected.
+                                The list below is your G-DOC Plus studies history. The history shows the last 10 studies that you selected.
                                 <br/><br/><input type="search" class="light-table-filter" data-table="order-table1" placeholder="Filter" />
                             </div>
                             <g:if test="${myHistory}">
@@ -174,7 +174,7 @@
                 <div class="tab-pane" id="otherstudies">
                     <div  class="" style="font-size: 12px;">
                         <div class="desc1">
-                            Below are G-DOC private studies. You can request access to a private study through <g:link controller="collaborationGroups"><g:message code="nav.groups" /></g:link>.
+                            Below is an overview of the private studies you have access to.
                             <br/><br/><input type="search" class="light-table-filter" data-table="order-table2" placeholder="Filter" />
                         </div>
                         <table class="order-table2 table">
