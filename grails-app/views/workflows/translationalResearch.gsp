@@ -194,7 +194,7 @@
 					*/
 					
 
-					$('.next').click(function() {
+					$('#next').click(function() {
 
 
 						   create_tools_section();
@@ -328,21 +328,27 @@
 						</div>
 						
 						<div style="float: right; padding-right: 25px;">
-						No, thanks<br/><br/>
-						<button class="btn btn-primary next">Next</button>
+						No thanks, take me to final step<br/><br/>
+						<button id="next" class="btn btn-primary">Next</button>
 						</div>
+						
+
+
+						
+						
+						
 	
-						<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+						<div class="modal fade bs-example-modal-lg" style="width: 1100px; margin-left: -550px !important;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 							  <div class="modal-dialog modal-lg">
 							  
 									<!-- Header -->
 									<div class="modal-header modal-lg">
 										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"> × </button>
-										<h3 id="myModalLabel">Modal header</h3>
+										<h3 id="myModalLabel">Cohort</h3>
 									</div>
 							  
 									<!-- Body -->
-									<div class="modal-body">
+									<div class="modal-body" style="max-height: 700px;">
 										<!-- Content will be inserted here via jQuery load() -->
 									</div>
 								
