@@ -66,7 +66,7 @@
 						$('#message').text('Create a cohort or explore existing ones');
 					}
 					else if (step_number == 4) {
-						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + study_type + '</i>');
+						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + ' &rarr; ' +  selected_study_name + '</i>');
 						$('#message').text('Select your tool and you\'re finished!');
 					}
 				}
@@ -95,6 +95,32 @@
 					
 					create_data_type_click_handler();
 				}
+				
+				
+				function create_tools_section() {
+					/*
+					*   Generates the HTML for the tools section. Assumes an element with id=tools exists
+					*/
+				
+					var html = '';
+					var tools = new Array();
+					
+			
+									
+					for (var i = 0; i < studies.length; i++) {
+						if (studies[i].studyName == selected_study_name) {
+							for (var j = 0; j < studies[i].tools.length; j++) {
+								tools.push(studies[i].tools[j]);
+							}
+							break;
+						}
+					}
+					
+					var html = get_html_for_tools(tools);
+					$('#tools').html(html);
+				}
+				
+				
 				
 				
 				function create_subject_matter_section() {
@@ -162,17 +188,32 @@
 				}
 				
 				
+				function create_cohort_click_handler() {
+					/*
+					*   When user is finished with cohort section, what do we do next? This function handles that action.
+					*/
+					
+
+					$('.next').click(function() {
+
+
+						   create_tools_section();
+						   move_to(4);
+						   
+							
+					});
+				}
+				
+				
+				
 				
 				function create_study_click_handler() {
 					/*
 					*   When user selects a study, what do we do next? This function handles that action.
 					*/
-					
 				
-					
 					$('.study').click(function() {
-					
-							
+
 							selected_study_name = $(this).find('h5').text();
 							selected_study = null;
 							
@@ -183,15 +224,17 @@
 								}
 							}
 							
-							
 							set_study(selected_study.studyId);
 							
 							move_to(3);
-							//create_tools_section();
+							create_cohort_click_handler();
 							
 					});
 				}
 				
+				
+				
+		
 
 				function create_data_type_click_handler() {
 					/*
@@ -275,14 +318,49 @@
 			  </div>
 			  
 			  <div class="item">
-				<div id="clinical" class="features">
-						<g:link controller="clinical" action="index">Create/Explore Cohort</g:link>
-					</div>
+				<div id="clinical" class="features" style="height: 100px">
+						
+						
+						
+						<div style="float: left; padding-left: 25px;">
+						Interested in exploring clinical data or creating groups?<br/><br/>				
+						<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-remote="/gdoc/clinical/index">Yes, I am</button>
+						</div>
+						
+						<div style="float: right; padding-right: 25px;">
+						No, thanks<br/><br/>
+						<button class="btn btn-primary next">Next</button>
+						</div>
+	
+						<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+							  <div class="modal-dialog modal-lg">
+							  
+									<!-- Header -->
+									<div class="modal-header modal-lg">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"> × </button>
+										<h3 id="myModalLabel">Modal header</h3>
+									</div>
+							  
+									<!-- Body -->
+									<div class="modal-body">
+										<!-- Content will be inserted here via jQuery load() -->
+									</div>
+								
+									<!-- Footer -->
+									<div class="modal-footer">
+										<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+									</div>
+							</div>
+						</div>
+							
+
+						
+				</div>
 			  </div>
 		  
 		  
 			   <div class="item">
-				<div id="tools" class="features">
+				<div id="tools" class="box_container">
 				</div>
 			  </div>
 		  </div>
