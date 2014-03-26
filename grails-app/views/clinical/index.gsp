@@ -45,7 +45,7 @@
 	</g:javascript>
 
 
-    <div class="welcome-title">Clinical Search</div>
+    <div class="welcome-title">Explore Clinical Data and Create Groups</div>
 
     <div id="studyPicker">
         <g:render template="/studyDataSource/studyPicker" plugin="gcore"/>
