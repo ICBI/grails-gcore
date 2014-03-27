@@ -14,8 +14,7 @@ class UserListController {
 	def htDataService
 	
     def index = { 
-		redirect(action:'list',params:params) 
-		
+		redirect(action:'list',params:params)
 	}
 
     def list = {
@@ -52,11 +51,12 @@ class UserListController {
 				pagedLists = userListService.getPaginatedLists(session.listFilter,session.sharedListIds,params.offset.toInteger(),session.userId,searchTerm)
 			}
 			else{
-				pagedLists = userListService.getPaginatedLists(session.listFilter,session.sharedListIds,0,session.userId,searchTerm)	
+				pagedLists = userListService.getPaginatedLists(session.listFilter,session.sharedListIds,0,session.userId,searchTerm)
 			}
 		def listSnapShots = []
-		listSnapShots = pagedLists["snapshot"]//userListService.getAllListsNoPagination(session.userId,session.sharedListIds)
-		def allLists
+		listSnapShots =  pagedLists["snapshot"]//userListService.getAllListsNoPagination(session.userId,session.sharedListIds)
+
+        def allLists
 		if(pagedLists["count"] && pagedLists["count"][0]){
 			allLists = pagedLists["count"][0]
 		}

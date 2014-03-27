@@ -6,6 +6,8 @@
 </g:if>
 <g:else>
 <div class="desc1" >
+    <br/>
+    <br/>
     <g:message code="notifications.none" />
 </div>
 </g:else>

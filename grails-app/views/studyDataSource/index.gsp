@@ -80,12 +80,15 @@
     <body>
 
     <div class="welcome-title"><g:message code="study.title"/></div>
+    <div class="desc">
+        All data in G-DOC Plus derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clincal and/or biospecimen data.
+    </div>
 
         <div class="features"  >
             <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
                 <li class="active"><a href="#mystudies" data-toggle="tab"  >Studies</a></li>
                 <li><a href="#myhistory" data-toggle="tab">My History</a></li>
-                <li><a href="#otherstudies" data-toggle="tab">My Private Studies</a></li>
+                <li  style="display:none;"><a href="#otherstudies" data-toggle="tab">My Private Studies</a></li>
             </ul>
             <div id="my-tab-content" class="tab-content">
                 <div class="tab-pane active" id="mystudies">

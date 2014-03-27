@@ -19,32 +19,28 @@
                 <li><a href="${createLink(controller: 'savedAnalysis')}">Analyses</a></li>
                 <li><g:link controller="collaborationGroups">Groups</g:link></li>
                 <li><a href="${createLink(controller: 'notification')}">Notifications</a></li>
-
-
-
-
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Study Options<b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <g:if test="${session.study}">
-                              <li class="desc1" style="font-size: 12px;">Study Selected <br/> ${session.study.shortName}</li>
-                            </g:if>
-                            <g:if test="${session.supportedOperations}">
-                                <g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
-                                <g:each in="${operations.keySet()}" var="type">
-                                    <li class="nav-header">${type}</li>
-                                    <g:each in="${operations[type]}" var="operation">
-                                        <li><a href="${createLink(controller: operation.controller, action: operation.action)}">${operation.name}</a>
-                                    </g:each>
-                                    <li class="divider"></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Study Options<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <g:if test="${session.study}">
+                          <li class="desc1" style="font-size: 12px;">Study Selected <br/> ${session.study.shortName}</li>
+                        </g:if>
+                        <g:if test="${session.supportedOperations}">
+                            <g:set var="operations" value="${session.supportedOperations.groupBy {it.type}}"></g:set>
+                            <g:each in="${operations.keySet()}" var="type">
+                                <li class="nav-header">${type}</li>
+                                <g:each in="${operations[type]}" var="operation">
+                                    <li><a href="${createLink(controller: operation.controller, action: operation.action)}">${operation.name}</a>
                                 </g:each>
-                            </g:if>
-                            <g:else>
-                                <li class="desc1" style="font-size: 12px;">No study selected</li>
-                            </g:else>
-                        </ul>
-                    </li>
-
+                                <li class="divider"></li>
+                            </g:each>
+                        </g:if>
+                        <g:else>
+                            <li class="desc1" style="font-size: 12px;">No study selected</li>
+                        </g:else>
+                    </ul>
+                </li>
+                <li><g:link controller="help" action="index" ><g:message code="header.help"/></g:link></li>
             </ul>
 
 
@@ -57,7 +53,6 @@
                               <li> <g:link  controller="admin"><g:message code="header.admin"/></g:link></li>
                           </g:if>
                           <li><g:link controller="registration" action="passwordReset" ><g:message code="header.changePassword"/></g:link></li>
-                          <li><g:link controller="help" action="index" ><g:message code="header.help"/></g:link></li>
                           <li class="divider"></li>
                           <li><g:link action="index" controller="logout" update="success"><g:message code="header.logout"/></g:link></li>
                       </ul>
@@ -102,7 +97,7 @@
                         </g:javascript>
                         <g:form autocomplete="off" controller="search" action="index" style="margin-bottom: 0px; margin-right: 30px;">
 
-                            <input name="q" id="q" type="text" value="" style="width:150px;" />
+                            <input name="q" id="q" type="text" value="" style="width:130px;" />
 
                             <button class="btn btn-default"  style="vertical-align: top;margin-top: 0px;" type="submit"  value="search gdoc"><img src="${createLinkTo(dir: 'images',  file: 'search.png')}" alt="Search">
                             </button>
