@@ -15,6 +15,7 @@
 			var selected_study_name;
 			var selected_study;
 			var selected_data_type  = '';
+			var current_step_number = 0;
 
             	
             $(document).ready(function() {
@@ -22,16 +23,30 @@
 				$('.step').click(function() {	
 					// Allows user to move to steps that have been completed
 					if ($(this).hasClass('complete')) {
+					
 						move_to(parseInt($(this).attr('id')));
 					}
 				});
 
 
 				function move_to(step_number) {
-
-					$("#" + step_number).addClass('complete');
+				
+					// Ignore; User clicked on logo;
+					if (step_number == -1) {
+						return;
+					}
+				
+					// Modify the step we were on
+					$("#" + current_step_number).removeClass('active');
+					$("#" + current_step_number).addClass('complete');
+					
+					// Modify the step we went to
+					$("#" + step_number).addClass('active');
+					$("#" + step_number).removeClass('complete');
 					$('#carousel').carousel(step_number);
 					update_messages(step_number);
+					
+					current_step_number = step_number;
 				}
 
 
@@ -63,11 +78,7 @@
 					}
 					else if (step_number == 3) {
 						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + ' &rarr; ' +  selected_study_name + '</i>');
-						$('#message').text('Create a cohort or explore existing ones');
-					}
-					else if (step_number == 4) {
-						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + ' &rarr; ' +  selected_study_name + '</i>');
-						$('#message').text('Select your tool and you\'re finished!');
+						$('#message').text('');
 					}
 				}
 				
@@ -188,25 +199,8 @@
 				}
 				
 				
-				function create_cohort_click_handler() {
-					/*
-					*   When user is finished with cohort section, what do we do next? This function handles that action.
-					*/
-					
-
-					$('#next').click(function() {
-
-
-						   create_tools_section();
-						   move_to(4);
-						   
-							
-					});
-				}
-				
-				
-				
-				
+		
+		
 				function create_study_click_handler() {
 					/*
 					*   When user selects a study, what do we do next? This function handles that action.
@@ -227,15 +221,12 @@
 							set_study(selected_study.studyId);
 							
 							move_to(3);
-							create_cohort_click_handler();
+							create_tools_section();
 							
 					});
 				}
 				
-				
-				
-		
-
+	
 				function create_data_type_click_handler() {
 					/*
 					*   When user selects a data type, what do we do next? This function handles that action.
@@ -275,30 +266,29 @@
             
     </head>
     <body>
-    	
-    	<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'tr.png')}"  />
-    	<div class="welcome-title" style="display: inline">Translational Research</div>
-    	
     	<br/>
+    	<div class="welcome-title" style="float: left; padding-bottom: 50px;">Translational Research</div>
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
     	-->
-    	<div id="crumbs">
+    	<div id="crumbs" style="clear: both; margin-left: -280px;">
 			<ul>
-				<li><a id="0" href="#" class="complete step">Data</a></li>
+				<li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'tr.png')}"  /></a></li>
+				<li><a id="0" href="#" class="active step">Data</a></li>
 				<li><a id="1" href="#" class="step">Sample</a></li>
 				<li><a id="2" href="#" class="step">Study</a></li>
-				<li><a id="3" href="#" class="step">Cohort</a></li>
-				<li><a id="4" href="#" class="step">Finish!</a></li>
+				<li><a id="3" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
-		<h5 class="desc" id="selections">&nbsp;</h5>
 		</br>
-		<div class="desc" id="message">What type of data collection do you want to analyze?</div>
+		<h5 class="desc" id="selections" style="float: left; clear: both;">&nbsp;</h5>
+		</br>
+		</br>
+		<div class="desc" id="message" style="float: left; clear: both;">What type of data collection do you want to analyze?</div>
 		</br>
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
-		  <div class="carousel-inner">		  
+		  <div class="carousel-inner features">		  
 			  <div class="item active">
 				<ul id="data_types" class="box_container">
 					<img class="load_study" src="${createLinkTo(dir: 'images',  file: '295.gif')}"  />
@@ -317,54 +307,7 @@
 				</ul>
 			  </div>
 			  
-			  <div class="item">
-				<div id="clinical" class="features" style="height: 100px">
-						
-						
-						
-						<div style="float: left; padding-left: 25px;">
-						Interested in exploring clinical data or creating groups?<br/><br/>				
-						<button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg" data-remote="/gdoc/clinical/index">Yes, I am</button>
-						</div>
-						
-						<div style="float: right; padding-right: 25px;">
-						No thanks, take me to final step<br/><br/>
-						<button id="next" class="btn btn-primary">Next</button>
-						</div>
-						
-
-
-						
-						
-						
-	
-						<div class="modal fade bs-example-modal-lg" style="width: 1100px; margin-left: -550px !important;" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-							  <div class="modal-dialog modal-lg">
-							  
-									<!-- Header -->
-									<div class="modal-header modal-lg">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true"> × </button>
-										<h3 id="myModalLabel">Cohort</h3>
-									</div>
-							  
-									<!-- Body -->
-									<div class="modal-body" style="max-height: 700px;">
-										<!-- Content will be inserted here via jQuery load() -->
-									</div>
-								
-									<!-- Footer -->
-									<div class="modal-footer">
-										<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-									</div>
-							</div>
-						</div>
-							
-
-						
-				</div>
-			  </div>
-		  
-		  
+			  
 			   <div class="item">
 				<div id="tools" class="box_container">
 				</div>
