@@ -31,6 +31,7 @@ A:hover {color:#334477}
 			${g.appTitle()} ${g.appVersion()}
             &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="${createLink(controller: 'home', action: 'releaseNotes')}" ><g:message code="common.footer.releaseNotes" /></a>
 			&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="https://github.com/ICBI" target="_blank" >powered by G-CODE</a>
+            &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="http://icbi.georgetown.edu" target="_blank"><g:message code="common.footer.icbi" /></a>
             &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="http://lombardi.georgetown.edu/gdoc/" target="_blank">${g.appTitle()} <g:message code="common.footer.lcccLink" /></a>
         </span>
 

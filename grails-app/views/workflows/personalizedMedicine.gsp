@@ -232,8 +232,8 @@
 				});
 				
 			});
-        
-        
+
+
         	
         </script>
         <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>

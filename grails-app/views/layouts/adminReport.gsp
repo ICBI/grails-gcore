@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
     <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
     <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap-select.min.css')}"/>
-
+    <link rel="shortcut icon" href="${createLinkTo(dir: 'images',  file: 'favicon.ico')}" type="image/icon"><link rel="icon" href="${createLinkTo(dir: 'images',  file: 'favicon.ico')}" type="image/icon">
     <g:javascript library="jquery" plugin="jquery"/>
     <g:layoutHead/>
 

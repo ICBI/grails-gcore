@@ -131,8 +131,8 @@ class Molecule {
 		ec50 index: "not_analyzed", format: "000000000"
 		ed50 index: "not_analyzed", format: "000000000"
 	}
-	
-	
-	
+
+
+
 	
 }

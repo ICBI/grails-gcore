@@ -10,8 +10,8 @@ class Contact {
 	}
     static constraints = {
     }
-	
-	
+
+
 	static searchable = {
 		mapping {
 				alias "contacts"

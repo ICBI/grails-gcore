@@ -59,11 +59,9 @@
 		
 	</g:javascript>
 	<div class="welcome-title"><g:message code="notifications.heading" /></div>
-	<br/>
+    <div class="desc">Below are your running analyses.</div>
+
     <div class="features" style="min-height: 200px;">
-        <div class="desc">${message(code: 'notifications.panelHeader')}</div>
-        <br/>
-        <br/>
         <g:render template="/notification/notificationTable"  plugin="gcore"/>
     </div>
 	<br/>

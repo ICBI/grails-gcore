@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'styledButton.css')}" />
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'tags.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'jquery.autocomplete.css')}"/>
+        <link rel="shortcut icon" href="${createLinkTo(dir: 'images',  file: 'favicon.ico')}" type="image/icon"><link rel="icon" href="${createLinkTo(dir: 'images',  file: 'favicon.ico')}" type="image/icon">
 		<g:layoutHead/>
 		<script type="text/javascript" src="${createLinkTo(dir: 'js',  file: 'analytics.js')}"></script>
 		
