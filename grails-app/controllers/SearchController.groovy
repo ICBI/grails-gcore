@@ -3,17 +3,21 @@ import org.springframework.util.ClassUtils
 import org.compass.core.engine.SearchEngineQueryParseException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import org.springframework.util.ClassUtils
+import grails.plugin.searchable.internal.SearchableUtils
+import grails.plugin.searchable.internal.lucene.LuceneUtils
+import grails.plugin.searchable.internal.util.StringQueryUtils
 
 class SearchController {
 	def searchableService
 
 	def index = {
 		 def invalidChars = ['*','?','~','[',']','"','+','-','<','>']
-		 if (!(params.q?.trim()) || invalidChars.contains(params.q)) { 
+		 if (!(params.q?.trim()) || invalidChars.contains(params.q)) {
 			log.debug "no params or invalid params"
-			//flash.message = "no params or invalid params"
-			return [:] 
-		 } 
+			flash.message = "no params or invalid params"
+			return [:]
+		 }
 		else{
 			try {
 			def tbdResults = []
@@ -23,38 +27,29 @@ class SearchController {
             log.debug "searchableService: "+searchableService
 
 			if(!params.offset){
-                log.debug "Entering !"
+
                 log.debug "Searching :" +params.q
 
-			    searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"],{
-							must({
-								queryString(params.q+"*")
-								polyAlias(params.q)
-								})
-							must({                                  
-									alias("findings") 
-							        alias("targets")
-									alias("studies")
-							   })
-				})
+               // searchResult = searchableService.search(params.q+"*", [result:'searchResult',offset:0,max:10,order: "asc"])
+                  searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"], {
+                    must({
+                        queryString(params.q+"*"+ " AND (alias: studies OR alias: targets OR alias: Finding)")
+                       })
+                 })
 
-                log.debug "Leaving !"
+                log.debug "Search done!"
 
 			}else{
 
-				searchResult = searchableService.search(params,{
-						must({
-							queryString(params.q+"*")
-							polyAlias(params.q)
-							})
-						must({                                  
-								alias("findings") 
-						        alias("targets")
-								alias("studies")
-						   })
-				})
-			}
-			
+              //  searchResult = searchableService.search(params.q+"*", [result:'searchResult',offset:params.offset,max:10,order: "asc"])
+                searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:params.offset,max:10,order: "asc"], {
+                    must({
+                        queryString(params.q+"*"+ " AND (alias: studies OR alias: targets OR alias: Finding)")
+                    })
+                })
+
+            }
+
 			log.debug "got results=" + searchResult
 			if(!searchResult.results){
 				suggs = gatherTermFreqs(params.q)
@@ -73,7 +68,7 @@ class SearchController {
 		}
 
 	}
-	
+
 	
 	def relevantTerms = {
 		log.debug "relevantTerms: "+params

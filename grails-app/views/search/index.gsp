@@ -31,11 +31,32 @@
   </div>
   <div id="main">
 
+     <div class="welcome-title">Search Results</div>
+
+
     <g:set var="haveQuery" value="${params.q?.trim()}" />
     <g:set var="haveResults" value="${searchResult?.results}" />
+      <g:if test="${!haveResults}">
+          <br/>
+          <div class="desc"><g:message code="search.noResults"/> </div>
+          <div class="desc1 features">  Suggestions:
+              <ul>
+                  <li>Make sure all words are spelled correctly.</li>
+                  <li>Try different keywords.</li>
+                  <li>Try more general keywords.</li>
+                  <li>Try fewer keywords.</li>
+              </ul>
+          </div>
+
+      </g:if>
+
+
+      <g:if test="${parseException}">
+          <div class="desc1"><g:message code="search.query"/> - <strong>${params.q.encodeAsHTML()}</strong> - <g:message code="search.notValid"/></div>
+      </g:if>
 
     <div class="title">
-      <span>
+      <div class="desc1" style="margin:0px;">
         <g:if test="${haveQuery && haveResults}">
           <g:message code="search.showing"/> <strong>${searchResult.offset + 1}</strong> - <strong>${searchResult.results.size() + searchResult.offset}</strong> <g:message code="search.of"/> <strong>${searchResult.total}</strong>
           <g:message code="search.results"/> <strong>${params.q.encodeAsHTML()}</strong>
@@ -43,30 +64,27 @@
         <g:else>
         &nbsp;
         </g:else>
-      </span>
+      </div>
     </div>
 
-    <g:if test="${!haveResults}">
-      <div class="desc"><g:message code="search.noResults"/> </div>
-      <div class="desc1">  Suggestions:
-        <ul>
-            <li>Make sure all words are spelled correctly.</li>
-            <li>Try different keywords.</li>
-            <li>Try more general keywords.</li>
-            <li>Try fewer keywords.</li>
-        </ul>
-        </div>
-    </g:if>
 
 
-
-    <g:if test="${parseException}">
-      <p><g:message code="search.query"/> - <strong>${params.q.encodeAsHTML()}</strong> - <g:message code="search.notValid"/></p>
-
-    </g:if>
+      <div class="paging" style="text-align: right;margin-right: 10px;">
+          <g:if test="${haveResults}"> <!-- or you could use test="${searchResult?.results}" -->
+              <g:message code="search.page"/>:
+              <g:set var="totalPages" value="${Math.ceil(searchResult.total / searchResult.max)}" />
+              <g:if test="${totalPages == 1}">
+                  <span class="currentStep">1</span>
+              </g:if>
+              <g:else>
+                  <g:paginate controller="search" action="index" params="[q: params.q]"
+                              total="${searchResult.total}" prev="&lt; ${message(code: 'search.previous')}" next="${message(code: 'search.next')} &gt;"/>
+              </g:else>
+          </g:if>
+      </div>
 
     <g:if test="${haveResults}">
-      <div class="results features">
+      <div class="results features" style="padding:70px;">
         <g:each var="result" in="${searchResult.results}" status="index">
           <div class="result">
             <g:set var="className" value="${ClassUtils.getShortName(result.getClass())}" />
@@ -86,7 +104,7 @@
 							<g:set var="pis" value="${result.pis.collect{it.lastName}}" />
 							${pis}</span--%>
 					</div>
-                    <br/>
+                    <div class="line1"></div>
 				</g:if>
             	<g:if test="${className == 'MoleculeTarget'}">
 					<div>
@@ -121,7 +139,7 @@
                             </span>
                        </div>
 					</div>
-                    <br/>
+                    <div class="line1"></div>
 				</g:if>
 				<g:if test="${className == 'Finding'}">
 					<div>
@@ -138,6 +156,7 @@
 						</g:else>
 
 					</div>
+                    <div class="line1"></div>
 				</g:if>
 
           </div>
@@ -145,7 +164,7 @@
       </div>
 
 
-        <div class="paging">
+        <div class="paging" style="text-align: right;margin-right: 10px;">
           	<g:if test="${haveResults}"> <!-- or you could use test="${searchResult?.results}" -->
 			    <g:message code="search.page"/>:
 			    <g:set var="totalPages" value="${Math.ceil(searchResult.total / searchResult.max)}" />

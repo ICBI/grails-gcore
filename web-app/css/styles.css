@@ -415,20 +415,20 @@ p
 }
 	
 .viewerTable {
-	border: 1px solid #DDDDDD;
+	border: 1px solid #BCE8F1;
 	border-collapse: collapse;
 	width: 100%;
 	margin: 15px;
 }
 .viewerTable td {
-	border: 1px solid #DDDDDD;
+
 	padding: 5px;
 	
 }
 .viewerTable th {
 	font-weight: bold;
 	background: #E7EEF3;
-	border: 1px solid #DDDDDD;
+	border: 1px solid #BCE8F1;
 	padding: 5px;
 }
 
@@ -466,7 +466,8 @@ p
       .title {
         margin: 1em 0;
         padding: .3em .5em;
-        text-align: right;
+        text-align: left;
+        text-align: left;
         font-size:16px;
 
       }
@@ -876,6 +877,12 @@ CSS style for RSS Feed
 	background-color:#C0C0C0;
 	border-bottom:1px solid #687581;
 	margin:10px 0;
+}
+
+.line1{
+    overflow:hidden;
+    border-bottom:1px solid #F0F0F0;
+    margin:20px 0 20px 0;
 }
 
 .dropDownList{

@@ -8,7 +8,7 @@ class GDOCUser {
 		lastName column: "last_name"
 		options column: 'user_id'
 	}
-	
+
 	static searchable = [except: 'lastLogin']
 	
 	String username

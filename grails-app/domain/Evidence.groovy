@@ -4,24 +4,24 @@ class Evidence {
 		version false
 		id column:'EVIDENCE_ID'
 	}
-	
+
 	static searchable = {
 		alias "evidence"
 	    finding component: true
 		userList component: true
 		relatedFinding component: true
 	}
-	
-	
+
+
 	Finding finding
 	UserList userList
 	SavedAnalysis savedAnalysis
 	Finding relatedFinding
 	String url
-	
+
 	String description
 	Date dateCreated
 	Date lastUpdated
-	
-	
+
+
 }

@@ -45,7 +45,7 @@ class UserListController {
 			else if (session.listFilter){
 				log.debug "current session list filter is $session.listFilter"
 			}else{
-				session.listFilter = "all"
+				session.listFilter = "hideShared"
 			}
 			if(params.offset){
 				pagedLists = userListService.getPaginatedLists(session.listFilter,session.sharedListIds,params.offset.toInteger(),session.userId,searchTerm)

@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-		</script>
         <title><g:message code="findings.finding" /> ${params?.id}</title>  
  		<g:javascript library="jquery" plugin="jquery"/>
       	<jq:plugin name="tooltip"/>
@@ -15,14 +14,14 @@
 		</g:javascript>
     </head>
     <body>
-	<%--p style="font-size:14pt">Finding: ${finding.title}</p--%>
+	<div class="welcome-title"><g:message code="findings.title" /></div>
 	<br/>
 	
-	<div id="centerContent" class="welcome">
+	<div id="centerContent" class="features">
 		<g:if test="${finding}">
-			<table class="viewerTable" style="width: 100%;">
+			<table class="viewerTable table" style="width: 95%;">
 				<tbody><tr>
-					<td style="background-color: rgb(233, 255, 168);"><b><g:message code="findings.findingTitle" /> </b>:<i>${finding.title}</i></td>
+					<td style="background-color: #D9EDF7;"><b><g:message code="findings.findingTitle" /> </b>:<i>${finding.title}</i></td>
 				</tr>
 				<g:if test="${finding.principalEvidence}">
 				<tr>
@@ -47,8 +46,8 @@
 				<tr>
 					<td><b><g:message code="findings.supportingEvidence" /> </b>:<br />
 						<g:each in="${finding.supportingEvidence}" var="evidence">
-						<br />
-			<g:render template="/finding/evidenceViewer" model="${['evidence':evidence]}" plugin="gcore"/>
+						    <br />
+			                <g:render template="/finding/evidenceViewer" model="${['evidence':evidence]}" plugin="gcore"/>
 						</g:each>
 					</td>
 				</tr>

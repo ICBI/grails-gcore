@@ -1,19 +1,18 @@
 <html>
     <head>
         <meta name="layout" content="main" />
-		</script>
-        <title><g:message code="findings.title" args="${ [appTitle()] }" /></title> 
-        
+        <title><g:message code="findings.title" args="${ [appTitle()] }" /></title>
     </head>
     <body>
-	<p style="font-size:14pt"><g:message code="findings.mostRecent" /></p>
+    <div class="welcome-title"><g:message code="findings.title" /></div>
+	<div class="desc"><g:message code="findings.mostRecent" /></div>
 	<br/>
-	
-	<div id="centerContent" class="welcome">
+
+	<div id="centerContent" class="features">
 		<g:each in="${findings}" var="finding">
-			<table class="viewerTable" style="width: 75%;">
+			<table class="viewerTable" style="width: 95%;">
 				<tbody><tr>
-					<td style="background-color: rgb(233, 255, 168);"><b><g:message code="findings.findingTitle" /></b>:<i>${finding.title}</i></td>
+					<td style="background-color: #D9EDF7;"><b><g:message code="findings.findingTitle" /></b>:<i>${finding.title}</i></td>
 				</tr>
 
 

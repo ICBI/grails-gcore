@@ -4,9 +4,9 @@ class Finding {
 		version false
 		id column:'FINDING_ID'
 	}
-	
-	static searchable = true
-	
+
+    static searchable = true
+
 	String title
 	String description
 	GDOCUser author
