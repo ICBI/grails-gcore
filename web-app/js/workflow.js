@@ -108,16 +108,70 @@ function get_html_for_subject_type(subject_type_name) {
 		return html;
 }
 
+
+/*
+				<div class="hero-unit" style="float: inline-block; min-height: 250px; background: #fff; -moz-border-radius: 10px; border-radius: 10px;border: 1px solid #EFEFEF;border-right: 2px solid #EFEFEF; border-bottom: 5px solid #EFEFEF;">
+				  <p style="padding-left: 0px;" class="lead">
+				  ${flash.operationNotSupported}
+				  Based upon the study you picked, here is a list of
+				  tools you can use:</p>
+				  
+				  
+	              	<div id="${type.toLowerCase()}" style="float:left; width:33%; padding-left: 20px; ">${type}
+		              		<ul>
+		             		<g:each in="${operations[type]}" var="operation">
+		             			<li><a href="${createLink(controller: operation.controller, action: operation.action)}"><small>${operation.name}</small></a>
+		             		</g:each>
+	             		</ul>
+	             		</div>         		
+             		</g:each>				  
+
+				</div>	
+*/
+
+
+
+
+
+
+
 function get_html_for_tools(tools) {
-		var html = '';
+		/*
+		 *  Generates HTML to display tools grouped by their types
+		 *  A simple click of the tools link will take you to its page
+		 *
+		 */
 		
-		for (var i = 0; i < tools.length; i++) {
-			html += '<a style="none" href="' + tools[i].link + '"><div id="personalized" class="gradButton gray tool box">';
-			html += '<div class="center-content">';
-			html += '<h5>' + tools[i].name + '</h5>';
-			html += '</div>';
-			html += '</div></a>';	
+		// This block of code identifies what types exist given this set of tools
+		var types = [];
+		var i;
+		for (i = 0; i < tools.length; i++) {
+		
+			if (types.indexOf(tools[i].type) == -1) {
+				types.push(tools[i].type);
+			}
 		}
+		
+		
+		var html = '<div class="hero-unit" style="float: inline-block; min-height: 250px; background: #fff;">';
+		html += '<p style="padding-left: 0px;" class="lead">Based upon the study you picked, here is a list of tools you can use:</p>';
+		
+		// We now have all types specific to this set of tools
+		for (i = 0; i < types.length; i++) {
+			
+			html += '<div id="'+ types[i].toLowerCase() +'" style="float: left; width:33%; padding-left: 20px; ">' + types[i] + '<ul>';
+			
+			for (j = 0; j < tools.length; j++) {
+			
+				if (tools[j].type == types[i]) {
+					html += '<li><a href="' + tools[j].link + '"><small>' + tools[j].name + '</small></a></li>';	
+				}
+			}
+		
+			html += '<ul></div>';
+		}
+
+		html += '</div>';
 		
 		return html;
 }
