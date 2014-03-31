@@ -2,7 +2,6 @@
     <head>
         <title>${appLongName()}</title>
 		<meta name="layout" content="workflowsLayout" />	
-		
 		<g:javascript library="jquery" plugin="jquery"/>
         <g:javascript src="workflow.js"/>  
         <script type="text/javascript" >
@@ -14,6 +13,7 @@
 			var selected_study;
 			var tools 			= new Array();
 			var subject_matter  = '';
+			var current_step_number = 0;
         
         
 		$(document).ready(function() {
@@ -31,13 +31,23 @@
 
 
 				function move_to(step_number) {
-					/*
-					*   Moves to a given step in the workflow. Updates the workflow message accordingly
-					*/
-
-					$("#" + step_number).addClass('complete');
+				
+					// Ignore; User clicked on logo;
+					if (step_number == -1) {
+						return;
+					}
+				
+					// Modify the step we were on
+					$("#" + current_step_number).removeClass('active');
+					$("#" + current_step_number).addClass('complete');
+					
+					// Modify the step we went to
+					$("#" + step_number).addClass('active');
+					$("#" + step_number).removeClass('complete');
 					$('#carousel').carousel(step_number);
 					update_messages(step_number);
+					
+					current_step_number = step_number;
 				}
 
 
@@ -64,7 +74,7 @@
 					}
 					else if (step_number == 1) {
 						$('#selections').html('<i>' + selected_study.studyName + '</i>');
-						$('#message').text('Select your tool and you\'re finished!');
+						$('#message').text('');
 					}
 				}
 				
@@ -152,39 +162,39 @@
 				});
 				
 			});
-		</script>
-		
+		</script>	
         
         <link rel="stylesheet" href="${createLinkTo(dir: 'css/bootstrap',  file: 'bootstrap.min.css')}"/>
         <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'workflow.css')}"/>
     </head>
     <body>
-    	<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pop.png')}"  />
-    	<div class="welcome-title" style="display: inline">Population Genetics</div>
-    	<br/>
+    	<br />
+    	<div class="welcome-title" style="float: left; padding-bottom: 50px;">Population Genetics</div>
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
     	-->
-    	
-    	<div id="crumbs">
+    	<div id="crumbs" style="clear: both; margin-left: -560px;">
 			<ul>
-				<li><a id="0" href="#" class="complete step">Study</a></li>
+				<li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pop.png')}"  /></a></li>
+				<li><a id="0" href="#" class="active step">Study</a></li>
 				<li><a id="1" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
-		<h5 class="desc" id="selections">&nbsp;</h5>
+		<h5 class="desc" id="selections" style="float: left; clear: both;">&nbsp;</h5>
 		</br>
-		<div class="desc" id="message">Which study do you wish to choose from?</div>
+		<div class="desc" id="message" style="float: left; clear: both;">Which study do you wish to choose from?</div>
 		</br>
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
-		  <div class="carousel-inner">
+		  <div class="carousel-inner features">
 		  	  
 			  <div class="item active">
 		  		<ul id="studies" class="box_container">
 		  			<img class="load_study" src="${createLinkTo(dir: 'images',  file: '295.gif')}"  />
 		  		</ul>
 		 	 </div>			
+		 	 
+		 	 
 			  <div class="item">
 				<ul id="tools" class="box_container">
 				</ul>
