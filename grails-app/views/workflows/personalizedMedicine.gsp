@@ -15,7 +15,8 @@
 			var tool 		      = '';
 			var selected_study;
 			var tools             = new Array();
-			var subject_matter    = '';    
+			var subject_matter    = '';
+			var current_step_number = 0;
         
 		$(document).ready(function() {
 		
@@ -30,13 +31,23 @@
 
 
 				function move_to(step_number) {
-					/*
-					*   Moves to a given step in the workflow. Updates the workflow message accordingly
-					*/
-
-					$("#" + step_number).addClass('complete');
+				
+					// Ignore; User clicked on logo;
+					if (step_number == -1) {
+						return;
+					}
+				
+					// Modify the step we were on
+					$("#" + current_step_number).removeClass('active');
+					$("#" + current_step_number).addClass('complete');
+					
+					// Modify the step we went to
+					$("#" + step_number).addClass('active');
+					$("#" + step_number).removeClass('complete');
 					$('#carousel').carousel(step_number);
 					update_messages(step_number);
+					
+					current_step_number = step_number;
 				}
 
 
@@ -66,7 +77,7 @@
 					}
 					else if (step_number == 2) {
 						$('#selections').html('<i>' + data_type + ' &rarr; ' + study + '</i>');
-						$('#message').text('Select your tool and you\'re finished!');
+						$('#message').text('');
 					}
 				}
 				
@@ -229,27 +240,26 @@
         <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'workflow.css')}"/>
     </head>
     <body>
-    	<img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pm.png')}" />
-    	<div class="welcome-title" style="display: inline">Precision Medicine</div>
-    	<br/>
+    	<br />
+    	<div class="welcome-title" style="float: left; padding-bottom: 50px;">Precision Medicine</div>
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
     	-->
-    	
-    	<div id="crumbs">
+    	<div id="crumbs" style="clear: both; margin-left: -440px;">
 			<ul>
-				<li><a id="0" href="#" class="complete step">Data</a></li>
+			    <li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pm.png')}" /></a></li>
+				<li><a id="0" href="#" class="active step">Data</a></li>
 				<li><a id="1" href="#" class="step">Study</a></li>
 				<li><a id="2" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
-		<h5 class="desc" id="selections">&nbsp;</h5>
+		<h5 class="desc" id="selections" style="float: left; clear: both;">&nbsp;</h5>
 		</br>
-		<div class="desc" id="message">What type of data collection do you want to analyze?</div>
+		<div class="desc" id="message" style="float: left; clear: both;">What type of data collection do you want to analyze?</div>
 		</br>
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
-		  <div class="carousel-inner">
+		  <div class="carousel-inner features">
 		    
 		  <div class="item active">
 		  	<ul id="data_types" class="box_container">
