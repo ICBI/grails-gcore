@@ -2,7 +2,7 @@
 public enum Operation {
 	
 	GENOME_BROWSER("Genome Browser", "Search", "genomeBrowser", "index"),
-	CLINICAL("Clinical/Subject", "Search", "clinical", "index"),
+	CLINICAL("Explore Clinical Data and Create Groups", "Search", "clinical", "index"),
 	TARGET("Compound/Drug Targets", "Search", "moleculeTarget", "index"),
 	GENE_EXPRESSION("Gene Expression", "Search", "geneExpression", "index"),
 	DICOM("Medical Images", "Search", "dicom", "index"),
