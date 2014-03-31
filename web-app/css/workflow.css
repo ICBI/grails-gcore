@@ -103,12 +103,21 @@
 	display: none; 
 }
 
+#crumbs ul li .active {
+	background: #113c6e; /*   113c6e=Active   5D84B3=Complete      Changes color for past/present sections */
+}
+
+#crumbs ul li .active:after {
+	border-left: 40px solid #113c6e;
+}
+
+
 #crumbs ul li .complete {
-	background: #113c6e; /* Changes color for past/present sections */
+	background: #5D84B3; /*   113c6e=Active   5D84B3=Complete      Changes color for past/present sections */
 }
 
 #crumbs ul li .complete:after {
-	border-left: 40px solid #113c6e; /* Changes color for past/present sections */
+	border-left: 40px solid #5D84B3; /* Changes color for past/present sections */
 }
 
 /* This allows items in Boostrap's carousel to occupy its full height */
@@ -120,6 +129,17 @@ label {
 	font-size: 14px;
 	margin:1em;
 	cursor:pointer;
+}
+
+.workflow_logo {
+	width: 20px;
+}
+
+.workflow_logo img {
+	margin-top: -20px;
+	margin-left: -75px;
+	height: auto;
+	max-width: 50px;
 }
 
 
