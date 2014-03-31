@@ -218,6 +218,7 @@ class StudyDataSourceController {
 			for (op in ops) {
 				def tool = [:]
 				tool["name"] = op.name
+				tool["type"] = op.type
 				tool["link"] = createLink(action:op.action, controller: op.controller)
 				tools << tool
 			}
