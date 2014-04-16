@@ -59,7 +59,7 @@ class StudyDataSourceService {
 	}
 	
 	def getTranslationalResearchOperations() {
-		[Operation.PCA, Operation.KM, Operation.HEAT_MAP, Operation.KM_GENE_EXP, Operation.GENE_EXPRESSION]
+		[Operation.PCA, Operation.KM, Operation.HEAT_MAP, Operation.KM_GENE_EXP, Operation.GENE_EXPRESSION, Operation.CLINICAL]
 	}
 	
 	def getPersonalizedMedicineOperations() {
