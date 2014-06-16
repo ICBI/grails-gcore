@@ -2,7 +2,7 @@ import grails.converters.*
 @Mixin(ControllerMixin)
 //@Extension(type=ExtensionType.SEARCH, menu="Studies")
 class StudyDataSourceController {
-
+    def jdbcTemplate
 	def myStudies
     def myHistory
 	def otherStudies
@@ -14,6 +14,7 @@ class StudyDataSourceController {
 	def htDataService
 	def attributeValueService
 	def studyDataSourceService
+    def dataAvailableService
 	
     def index = {
 
@@ -98,7 +99,37 @@ class StudyDataSourceController {
 			}
 		}
 	}
-	
+
+    def setStudyNoHistory = {
+
+        if(params.study && session.myStudies){
+            session["workflowMode"] = params.workflowMode
+            def studyid = new Long(params.study)
+            def allowedStudyAccess = session.myStudies.find{it.id == studyid}
+
+            if(allowedStudyAccess){
+
+                def currStudy = Study.get(params.study)
+                session.study = currStudy
+                StudyContext.setStudy(session.study.schemaName)
+                session.dataTypes = AttributeType.findAll().sort { it.longName }
+                loadPatientLists()
+                loadReporterLists()
+                loadGeneLists()
+                loadUsedVocabs()
+                loadSubjectTypes()
+                loadAttributeRanges()
+                session.endpoints = KmAttribute.findAll()
+                log.debug("endpoints are: "+session.endpoints)
+                session.files = htDataService.getHTDataMap()
+                session.dataSetType = session.files.keySet()
+                session.supportedOperations = studyDataSourceService.findOperationsSupportedByStudy(session.study)
+
+            }
+        }
+    }
+
+
 	
 	def setStudy = {
 		log.debug("entering");
@@ -200,11 +231,14 @@ class StudyDataSourceController {
 		def valid_operations = result[1]
 		
 		def list_of_dict = []
-		
+
 		for (int i = 0; i < filtered_studies.size(); i++) {
 			def study = filtered_studies[i]
 			def ops   = valid_operations[i]
-			
+            def patients = studyDataSourceService.getSubjectCount(study)
+            def biospecimen = studyDataSourceService.getBiospecimenCount(study)
+
+
 			def study_dict = [:]
 			study_dict["abstract"]       = study.abstractText
 			study_dict["studyLongName"] = study.longName
@@ -212,6 +246,12 @@ class StudyDataSourceController {
 			study_dict["studyId"]       = study.id
 			study_dict["subjectType"]   = study.subjectType
 			study_dict["disease"]       = study.disease
+            study_dict["content"]       = study.content.type
+            study_dict["patients"]      = patients
+            study_dict["biospecimen"]      = biospecimen
+
+
+
 			def tools = []
 			
 			
@@ -219,6 +259,7 @@ class StudyDataSourceController {
 				def tool = [:]
 				tool["name"] = op.name
 				tool["type"] = op.type
+                tool["description"] = op.description
 				tool["link"] = createLink(action:op.action, controller: op.controller)
 				tools << tool
 			}
@@ -316,4 +357,5 @@ class StudyDataSourceController {
 		log.debug dataSourceMap
 		session.dataSourceMap = dataSourceMap
 	}
+
 }

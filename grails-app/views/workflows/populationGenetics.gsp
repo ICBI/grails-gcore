@@ -74,7 +74,7 @@
 					}
 					else if (step_number == 1) {
 						$('#selections').html('<i>' + selected_study.studyName + '</i>');
-						$('#message').text('');
+						$('#message').text('Great! You chose ' + selected_study.studyName +'. Below are the tools you can work with.');
 					}
 				}
 				
@@ -85,10 +85,17 @@
 					*/
 				
 					var html = '';
-							
+                    var patient_count = 0;
+                    var biospecimen_count = 0;
+
 					for (var i = 0; i < studies.length; i++) {
 						html += get_html_for_study(studies[i]);
 					}
+
+                    for (var k = 0; k < studies.length; k++) {
+                            patient_count = patient_count + studies[k].patients;
+                            biospecimen_count = biospecimen_count + studies[k].biospecimen;
+                    }
 
 					$('#studies').html(html);
 					create_study_click_handler();
@@ -118,7 +125,11 @@
 					html = get_html_for_tools(tools);
 					
 
-					$('#tools').html(html);	
+					$('#tools').html(html);
+                    /* Adding Descirption Popovers for tools */
+                    for (j = 0; j < tools.length; j++) {
+                        $('#element'+j+'').popover();
+                    }
 				}
 				
 				function create_study_click_handler() {
@@ -143,9 +154,43 @@
 							move_to(1);
 							create_tools_section();
 							
-					});
-				}
+					}).find('.more').on('click', function (e) {
+                        e.stopPropagation();
+                        study = $(this).parent().find('h5').text();
+                        selected_study = null;
 
+                        for(var i = 0; i < studies.length; i++) {
+                            if (studies[i].studyName == study) {
+                                selected_study = studies[i];
+                                break;
+                            }
+                        }
+
+                        set_study_no_history(selected_study.studyId);
+                        create_study_modal_click_handler();
+                        $('#myModalLabel').text(study);
+                        $('#studyTitle').html(selected_study.studyLongName);
+                        $('#studyAbstract').html(selected_study.abstract);
+                        $('#studyPatients').html(selected_study.patients);
+                        $('#studyBiospecimen').html(selected_study.biospecimen);
+                        $('#studyId').html(selected_study.studyId);
+                        $('#myModal').modal();
+
+                    });
+                }
+
+            function create_study_modal_click_handler() {
+                /*
+                 *   When user selects a study, what do we do next? This function handles that action.
+                 */
+                $('#selectStudy').click(function() {
+
+                    move_to(1);
+                    create_tools_section();
+
+                });
+
+            }
 			
 
 				load_population_genetics_studies(function(data) {
@@ -168,42 +213,40 @@
         <link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'workflow.css')}"/>
     </head>
     <body>
-    	<br />
-    	<div class="welcome-title" style="float: left; padding-bottom: 50px;">Population Genetics</div>
+    	<div class="welcome-title">Population Genetics</div>
+        <div class="desc" id="message" style="clear: both;">Which study do you wish to choose from?</div>
+        </br>
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
     	-->
-    	<div id="crumbs" style="clear: both; margin-left: -560px;">
+    	<div id="crumbs" style="clear: both; margin-left: -500px; padding-bottom: 5px;">
 			<ul>
-				<li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pop.png')}"  /></a></li>
+				<li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'pop_sm.png')}"  /></a></li>
 				<li><a id="0" href="#" class="active step">Study</a></li>
 				<li><a id="1" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
-		<h5 class="desc" id="selections" style="float: left; clear: both;">&nbsp;</h5>
-		</br>
-		<div class="desc" id="message" style="float: left; clear: both;">Which study do you wish to choose from?</div>
-		</br>
+
 		<div id="carousel" class="carousel slide" data-ride="carousel">
 		  <!-- Wrapper for slides -->
-		  <div class="carousel-inner features">
-		  	  
-			  <div class="item active">
-		  		<ul id="studies" class="box_container">
-		  			<img class="load_study" src="${createLinkTo(dir: 'images',  file: '295.gif')}"  />
-		  		</ul>
-		 	 </div>			
-		 	 
-		 	 
-			  <div class="item">
-				<ul id="tools" class="box_container">
-				</ul>
-			  </div>
-		  </div>
-		  </div>
+              <div class="carousel-inner">
+
+                <div class="item active features" style="min-height: 270px;">
+                    <ul id="studies" class="box_container">
+                        <img class="load_study" src="${createLinkTo(dir: 'images',  file: '295.gif')}"  />
+                    </ul>
+                </div>
+
+
+                <div class="item features" style="min-height: 270px;">
+                    <ul id="tools" class="box_container">
+                    </ul>
+                 </div>
+
+              </div>
 		</div>
-  
-    	
-    	</br>		  
+
+        <g:render template="/workflows/studyModal" plugin="gcore"/>
+
     </body>
 </html>

@@ -1,6 +1,7 @@
 import groovy.time.*
 import grails.converters.*
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 @Mixin(ControllerMixin)
 class WorkflowsController {
@@ -43,7 +44,21 @@ class WorkflowsController {
 	}
 	
 	def translationalResearch() {
-		render(view: 'translationalResearch')
+       /* //get patient counts for each study
+        def studies = Study.list()
+        def filtered = []
+        studies.each { study ->
+            if (study.subjectType != "N/A") {
+                if (study.isTranslationalResearch) {
+                    filtered << study
+                }
+            }
+        }
+        def da = dataAvailableService.getMyDataAvailability(filtered)
+        def breakdowns = dataAvailableService.getBreakdowns(da)
+        log.debug "retrieved breakdowns"
+        [diseaseBreakdown:breakdowns["disease"], dataBreakdown:breakdowns["data"]]*/
+        //render(view: 'translationalResearch')
 	}
 	
 	def personalizedMedicine() {

@@ -2,6 +2,7 @@
 
 var tabs = {
 	"News" : {
+		/*"feed"		: "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",*/
 		"feed"		: "http://feed43.com/icbi.xml",
 		"function"	: rss
 	}

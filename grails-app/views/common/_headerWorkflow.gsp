@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-            <a class="brand" href="/${appName()}"><img src="${createLinkTo(dir: 'images',  file: 'GDOC_Plus_Logo.png')}" border="0"  alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
+            <a class="brand" href="/${appName()}"><img src="${resource(dir:'images',file:'GDOC_Plus_Logo.png', plugin:'gcore')}" border="0"  alt="${message(code: 'header.logoAlt', args: [appTitle()])}" /></a>
           </br>
             <div class="nav-collapse collapse">
             <ul class="nav">
@@ -99,7 +99,7 @@
 
                             <input name="q" id="q" type="text" value="" style="width:130px;" />
 
-                            <button class="btn btn-default"  style="vertical-align: top;margin-top: 0px;" type="submit"  value="search gdoc"><img src="${createLinkTo(dir: 'images',  file: 'search.png')}" alt="Search">
+                            <button class="btn btn-default" id="search-button" style="vertical-align: top;margin-top: 0px;" type="submit"  value="search gdoc"><img src="${resource(dir:'images',file:'search.png', plugin:'gcore')}" alt="Search">
                             </button>
 
 

@@ -3,10 +3,6 @@ import org.springframework.util.ClassUtils
 import org.compass.core.engine.SearchEngineQueryParseException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import org.springframework.util.ClassUtils
-import grails.plugin.searchable.internal.SearchableUtils
-import grails.plugin.searchable.internal.lucene.LuceneUtils
-import grails.plugin.searchable.internal.util.StringQueryUtils
 
 class SearchController {
 	def searchableService

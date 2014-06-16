@@ -30,11 +30,7 @@ class AdminController {
 		session.dataAvailability = dataAvailableService.getMyDataAvailability(session.myStudies)
 		log.debug("finished reloading data")
 		redirect(action:index)
-		return 
+		return
 	}
-	
-	
-	
-	
-	
+
 }

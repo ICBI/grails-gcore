@@ -56,8 +56,7 @@
 						interval: false
 					});
 				});
-				
-				
+
 				function update_messages(step_number) {
 					/*
 					*   Messages to guide user on each section
@@ -70,15 +69,14 @@
 					}
 					else if (step_number == 1) {
 						$('#selections').html('<i>' + selected_data_type + '</i>');
-						$('#message').text('Select your sample type');
+						$('#message').text('Select your sample type.');
 					}
 					else if (step_number == 2) {
 						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + '</i>');
-						$('#message').html('Great! Now, what study would you like to work with?');
+						$('#message').html('Great! Now, what '+ selected_data_type.toLowerCase() + ' study would you like to work with?');
 					}
 					else if (step_number == 3) {
-						$('#selections').html('<i>' + selected_data_type + ' &rarr; ' + subject_type + ' &rarr; ' +  selected_study_name + '</i>');
-						$('#message').text('');
+						$('#message').html('Study selected! '+ selected_data_type + ' &rarr; ' + subject_type + ' &rarr; ' +  selected_study_name + '');
 					}
 				}
 				
@@ -89,18 +87,43 @@
 					*/
 				
 					var html = '';
-									
-					for (var i = 0; i < unique_data_types.length; i++) {
-						
-						var study_count = 0;
+
+
+
+                    for (var i = 0; i < unique_data_types.length; i++) {
+
+                        var study_count = 0;
+                        var patient_count = 0;
+                        var biospecimen_count = 0;
+
+                        for (var j = 0; j < data_types.length; j++) {
+                            if (data_types[j] == unique_data_types[i]) {
+                                study_count++;
+                            }
+                        }
+
+                        for (var k = 0; k < studies.length; k++) {
+                            if (unique_data_types[i] == studies[k].disease) {
+                                patient_count = patient_count + studies[k].patients;
+                                biospecimen_count = biospecimen_count + studies[k].biospecimen;
+                            }
+                        }
+
+                        html += get_html_for_data_type(unique_data_types[i], study_count, patient_count, biospecimen_count);
+                    }
+
+
+				/*	for (var i = 0; i < unique_data_types.length; i++) {
+
+                        var study_count = 0;
 						for (var j = 0; j < data_types.length; j++) {
 							if (data_types[j] == unique_data_types[i]) {
 								study_count++;
 							}
 						}
-						
-						html += get_html_for_data_type(unique_data_types[i], study_count);
-					}
+
+						html += get_html_for_data_type(unique_data_types[i], study_count, patient_count);
+					}*/
 
 					$('#data_types').html(html);
 					
@@ -129,6 +152,11 @@
 					
 					var html = get_html_for_tools(tools);
 					$('#tools').html(html);
+
+                    /* Adding Descirption Popovers for tools */
+                    for (j = 0; j < tools.length; j++) {
+                        $('#element'+j+'').popover();
+                    }
 				}
 				
 				
@@ -178,8 +206,9 @@
 					}
 
 					$('#studies').html(html);
-					
-					create_study_click_handler();
+
+                    create_study_click_handler();
+
 				}
 
 
@@ -197,36 +226,72 @@
 							create_studies_section();
 					});
 				}
-				
-				
-		
-		
+
+
+
 				function create_study_click_handler() {
 					/*
 					*   When user selects a study, what do we do next? This function handles that action.
 					*/
-				
+                    var html = '';
 					$('.study').click(function() {
 
 							selected_study_name = $(this).find('h5').text();
 							selected_study = null;
-							
+
 							for(var i = 0; i < studies.length; i++) {
 								if (studies[i].studyName == selected_study_name) {
 									selected_study = studies[i];
 									break;
 								}
 							}
-							
+
 							set_study(selected_study.studyId);
-							
+
 							move_to(3);
 							create_tools_section();
-							
-					});
+
+					}).find('.more').on('click', function (e) {
+                        e.stopPropagation();
+                        selected_study_name = $(this).parent().find('h5').text();
+                        selected_study = null;
+
+                        for(var i = 0; i < studies.length; i++) {
+                            if (studies[i].studyName == selected_study_name) {
+                                selected_study = studies[i];
+                                break;
+                            }
+                        }
+
+                       // set_study_no_history(selected_study.studyId);
+                        create_study_modal_click_handler();
+                        $('#myModalLabel').text(selected_study_name);
+                        $('#studyTitle').html(selected_study.studyLongName);
+                        $('#studyAbstract').html(selected_study.abstract);
+                        $('#studyPatients').html(selected_study.patients);
+                        $('#studyBiospecimen').html(selected_study.biospecimen);
+                        $('#studyId').html(selected_study.studyId);
+                        $('#myModal').modal();
+
+                    });
+
 				}
-				
-	
+
+
+                function create_study_modal_click_handler() {
+                    /*
+                     *   When user selects a study, what do we do next? This function handles that action.
+                     */
+                    $('#selectStudy').click(function() {
+                        set_study(selected_study.studyId);
+                        move_to(3);
+                        create_tools_section();
+
+                    });
+
+                }
+
+
 				function create_data_type_click_handler() {
 					/*
 					*   When user selects a data type, what do we do next? This function handles that action.
@@ -266,54 +331,53 @@
             
     </head>
     <body>
-    	<br/>
-    	<div class="welcome-title" style="float: left; padding-bottom: 50px;">Translational Research</div>
+
+    	<div class="welcome-title">Translational Research</div>
+        <div class="desc" id="message" style="clear: both;">What type of data collection do you want to analyze?</div>
+
     	<!-- Credit for design and implementation of bread-crumbs goes to Chris Spooner. Copy and pasted from: 
     		http://line25.com/tutorials/how-to-create-flat-style-breadcrumb-links-with-css
     	-->
-    	<div id="crumbs" style="clear: both; margin-left: -280px;">
+         </br>
+    	<div id="crumbs" style="clear: both; margin-left: -150px; padding-bottom: 5px;">
 			<ul>
-				<li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'tr.png')}"  /></a></li>
+				<li><a id="-1" href="#" class="workflow_logo complete step"><img class="workflow-img" src="${createLinkTo(dir: 'images',  file: 'tr_sm.png')}"  /></a></li>
 				<li><a id="0" href="#" class="active step">Data</a></li>
 				<li><a id="1" href="#" class="step">Sample</a></li>
 				<li><a id="2" href="#" class="step">Study</a></li>
 				<li><a id="3" href="#" class="step">Finish!</a></li>
 			</ul>
 		</div>
-		</br>
-		<h5 class="desc" id="selections" style="float: left; clear: both;">&nbsp;</h5>
-		</br>
-		</br>
-		<div class="desc" id="message" style="float: left; clear: both;">What type of data collection do you want to analyze?</div>
-		</br>
-		<div id="carousel" class="carousel slide" data-ride="carousel">
+
+		<div id="carousel" class="carousel slide features" data-ride="carousel" style="min-height: 270px;">
 		  <!-- Wrapper for slides -->
-		  <div class="carousel-inner features">		  
+		  <div class="carousel-inner ">
+
 			  <div class="item active">
 				<ul id="data_types" class="box_container">
 					<img class="load_study" src="${createLinkTo(dir: 'images',  file: '295.gif')}"  />
 				</ul>
 			  </div>
-				
-			
-			  <div class="item">
+
+			  <div class="item" >
 				<ul id="subject_types" class="box_container">
 				</ul>
 			  </div>
-				
-			
+
 			  <div class="item">
 				<ul id="studies" class="box_container">
 				</ul>
 			  </div>
-			  
-			  
+
 			   <div class="item">
 				<div id="tools" class="box_container">
 				</div>
 			  </div>
+
 		  </div>
 		</div>
-    	</br>		  
+
+        <g:render template="/workflows/studyModal" plugin="gcore"/>
+
     </body>
 </html>

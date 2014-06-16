@@ -9,19 +9,19 @@ A:hover {color:#334477}
 <div class="social-media-content" style="border:0px solid black; margin-top:10px;" >
     <span style="border:0px solid black;float:right;padding-right:20px;">
         <a href="https://twitter.com/ICBI_Georgetown" target="_blank">
-            <img src="${createLinkTo(dir:'images',file:'Twitter.png')}" border="0" alt=""/>
+            <img src="${resource(dir:'images',file:'Twitter.png', plugin:'gcore')}" border="0" alt="" plugin="gcore"/>
         </a>
     </span>
 
     <span style="border:0px solid black;float:right;padding-right:20px">
         <a href="https://www.facebook.com/pages/ICBI-Innovation-Center-for-Biomedical-Informatics-Georgetown-University/630799513616357" target="_blank">
-            <img src="${createLinkTo(dir:'images',file:'facebook.png')}" border="0" alt=""/>
+            <img src="${resource(dir: 'images', file: 'facebook.png', plugin:'gcore')}" border="0" alt=""/>
         </a>
     </span>
 
     <span style="border:0px solid black;float:right;padding-right:20px">
         <a href="http://www.linkedin.com/groups/ICBI-4521527" target="_blank">
-            <img src="${createLinkTo(dir:'images',file:'LinkedIn.png')}" border="0" alt=""/>
+            <img src="${resource(dir:'images',file:'LinkedIn.png', plugin:'gcore')}" border="0" alt=""/>
         </a>
     </span>
 </div>
@@ -52,17 +52,17 @@ A:hover {color:#334477}
 <div id="footerlogoscontainer">
     <div class="footerlogos">
             <a href="http://lombardi.georgetown.edu/" target="_blank">
-                <img src="${createLinkTo(dir:'images', file:'lombardi_logo.png')}"  style="border:0px solid black; float:left; height: 40px; width:120px;"/>
+                <img src="${resource(dir:'images', file:'lombardi_logo.png', plugin:'gcore')}"  style="border:0px solid black; float:left; height: 40px; width:120px;"/>
             </a>
     </div>
     <div class="footerlogos" style="text-align:center;">
         <a href="http://www.georgetown.edu/" target="_blank">
-            <img src="${createLinkTo(dir:'images',file:'GU_logo.png')}"  alt="${message(code: 'common.footer.guLogoAlt')}" style="height: 45px; "/>
+            <img src="${resource(dir:'images',file:'GU_logo.png', plugin:'gcore')}"  alt="${message(code: 'common.footer.guLogoAlt')}" style="height: 45px; "/>
         </a>
     </div>
     <div class="footerlogos" style="float:right;">
         <a href="http://gumc.georgetown.edu/" target="_blank">
-            <img src="${createLinkTo(dir:'images',file:'gumc.png')}" style="float:right;width:200px;" alt="${message(code: 'common.footer.gumcLogoAlt')}" />
+            <img src="${resource(dir:'images',file:'gumc.png', plugin:'gcore')}" style="float:right;width:200px;" alt="${message(code: 'common.footer.gumcLogoAlt')}" />
         </a>
     </div>
 </div>

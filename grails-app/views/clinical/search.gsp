@@ -1,14 +1,14 @@
 <html>
-    <head>
-        <meta name="layout" content="report" />
-        <title><g:message code="clinical.searchResults" /></title>      
-<g:javascript library="jquery" plugin="jquery"/>   
-    </head>
-    <body>
-		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
-		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
-		<g:jqgrid />
-	<g:javascript>
+<head>
+    <meta name="layout" content="report" />
+    <title><g:message code="clinical.searchResults" /></title>
+    <g:javascript library="jquery" plugin="jquery"/>
+</head>
+<body>
+<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
+<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+<g:jqgrid />
+<g:javascript>
 	$(document).ready( function () {
 		 // this is unfortunately needed due to a race condition in safari
 		 // limit the selector to only what you know will be buttons :)
@@ -19,32 +19,32 @@
 		$("span.bla").styledButton({
 			'orientation' : 'alone', // one of {alone, left, center, right} default is alone
 			<g:if test="${session.subgridModel != [:]}">
-				'dropdown' : { 'element' : 'ul' },
-				'role' : 'select', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
-			</g:if>
-			<g:else>
-				'role' : 'button', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
-			</g:else>
-			'defaultValue' : "foobar", // default value for select, doubles as default for checkboxValue.on if checkbox, default is empty
-			'name' : 'testButton', // name to use for hidden input field for checkbox and select so form can submit values
-			// enable a dropdown menu, default is none
-			'clear' : true // in firefox 2 the buttons have to be floated to work properly, set this to true to have them display in a new line
-		
-		});
-	} );
-	
-	function showSaveSpinner(show) {
-			if(show == true){
-				$("#saveSpinner").css("visibility","visible");
-				success();
-			}else{
-				$("#saveSpinner").css("visibility","hidden");
-				jQuery('#message').css("display","block");
-				success(); 
-			}
-	}
-	</g:javascript>
-	<g:javascript>
+    'dropdown' : { 'element' : 'ul' },
+    'role' : 'select', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
+</g:if>
+    <g:else>
+        'role' : 'button', // one of {button, checkbox, select}, default is button. Checkbox/select change some other defaults
+    </g:else>
+    'defaultValue' : "foobar", // default value for select, doubles as default for checkboxValue.on if checkbox, default is empty
+    'name' : 'testButton', // name to use for hidden input field for checkbox and select so form can submit values
+    // enable a dropdown menu, default is none
+    'clear' : true // in firefox 2 the buttons have to be floated to work properly, set this to true to have them display in a new line
+
+});
+} );
+
+function showSaveSpinner(show) {
+    if(show == true){
+        $("#saveSpinner").css("visibility","visible");
+        success();
+    }else{
+        $("#saveSpinner").css("visibility","hidden");
+        jQuery('#message').css("display","block");
+        success();
+    }
+}
+</g:javascript>
+<g:javascript>
 		var selectedParentIds = {};
 		var selectedChildIds = {};
 		var currPage = 1;
@@ -61,20 +61,20 @@
 				height: 350,
 				rowNum:25,
 				rowList:[25,50], 
-				pager: jQuery('#pager'), 
-				<g:if test="${session.subjectTypes.timepoints}">
-				sortname: 'timepoint', 
-				</g:if>
-				<g:else>
-				sortname: 'id', 
-				</g:else>
-				viewrecords: true, 
-				sortorder: "desc",
-				multiselect: true, 
-				beforeSelectRow: function() {
-					return false;
-				},
-				subGrid: ${session.subgridModel != [:]},
+				pager: jQuery('#pager'),
+<g:if test="${session.subjectTypes.timepoints}">
+    sortname: 'timepoint',
+</g:if>
+<g:else>
+    sortname: 'id',
+</g:else>
+viewrecords: true,
+sortorder: "desc",
+multiselect: true,
+beforeSelectRow: function() {
+    return false;
+},
+subGrid: ${session.subgridModel != [:]},
 				subGridUrl: 'biospecimen',
 				subGridModel: ${session.subgridModel},
 				caption: "Search Results",
@@ -110,14 +110,14 @@
 					selectedIds = {};
 				}
 			});
-			<g:if test="${session.subgridModel != [:]}">
-			jQuery("#listAdd li").click( function() { 			
-			</g:if>
-			<g:else>
-			jQuery("#listAdd").click( function() { 
-			</g:else>
-				var s = []; 
-				var author = '${session.userId}';
+<g:if test="${session.subgridModel != [:]}">
+    jQuery("#listAdd li").click( function() {
+</g:if>
+<g:else>
+    jQuery("#listAdd").click( function() {
+</g:else>
+var s = [];
+var author = '${session.userId}';
 
 				var selectedItem = this.title;
 				var itemType;
@@ -146,13 +146,13 @@
 					tags.push(itemType);
 					var listName = jQuery('#list_name').val();
 					listName = encodeURIComponent(listName);
-					${remoteFunction(action:'saveFromQuery',controller:'userList', update:'message', onLoading:'showSaveSpinner(true)', onComplete: 'showSaveSpinner(false)', params:'\'ids=\'+ s+\'&author.username=\'+author+\'&tags=\'+tags+\'&name=\'+listName')}
-				}
-			});
+${remoteFunction(action:'saveFromQuery',controller:'userList', update:'message', onLoading:'showSaveSpinner(true)', onComplete: 'showSaveSpinner(false)', params:'\'ids=\'+ s+\'&author.username=\'+author+\'&tags=\'+tags+\'&name=\'+listName')}
+}
+});
 
-			jQuery("#searchimages").click( function() {
-            				var s = [];
-            				var author = '${session.userId}';
+jQuery("#searchimages").click( function() {
+            var s = [];
+            var author = '${session.userId}';
 
             				var selectedItem = this.title;
             				var itemType;
@@ -184,13 +184,13 @@
 
 			jQuery("#searchResults").jqGrid('navGrid','#pager',{add:false,edit:false,del:false,search:false, refresh: false,position:'left'});
 			jQuery("#searchResults").jqGrid('navButtonAdd','#pager',{
-			       caption:"Export results", 
-			       onClickButton : function () { 
+			       caption:"Export results",
+			       onClickButton : function () {
 				       $('#download').submit();
 			       },
 				   position:"last"
 			});
-			
+
 			if($("#searchResults").width() < 900){
 				$("#searchResults").setGridWidth(900);
 			}
@@ -230,7 +230,7 @@
 			  jQuery('#message').empty().hide();
 			}, 10000);
 		}
-		
+
 		function bindCheckboxes() {
 			$('.cbox').unbind('click');
 			$('.cbox').bind('click', function(event) {
@@ -263,7 +263,7 @@
 						});
 						sub.find("tr").addClass("ui-state-highlight");
 					}
-				} else { 
+				} else {
 					$('#cb_searchResults').attr('checked', false);
 					selectAll = false;
 					if($(this).hasClass("subcbox")) {
@@ -291,7 +291,7 @@
 				}
 			});
 		}
-		
+
 		function toggleChildren() {
 			$(".cbox:checked").each(function() {
 				var parent = $(this).closest("tr");
@@ -302,7 +302,7 @@
 				}
 			});
 		}
-		
+
 		function selectSaved() {
 			jQuery("#searchResults").resetSelection();
 			$('#cb_searchResults').attr('checked', selectAll);
@@ -311,7 +311,7 @@
 				jQuery("#searchResults").setSelection(key);
 			})
 		}
-		
+
 		function addAllIds() {
 			$.each(allParentIds, function(key, value) {
 				selectedParentIds[key] = key;
@@ -320,7 +320,7 @@
 				selectedChildIds[key] = key;
 			})
 		}
-		
+
 		function getIdFromCheckboxId(cbox) {
 			return cbox.substring(cbox.lastIndexOf("_") + 1);
 		}
@@ -356,74 +356,75 @@
             				}
             		}
 
-	</g:javascript>
-	<br/>
-	<g:each in="${session.annotations}">
-		<g:if test="${it.value}">
-			<div id="${it.key.replace(' ', '_').replace('.', '')}" style="display: none;" align="left">
-				Cell Line Details:<br/>
-				<g:each in="${it.value.organizedData().sort { it.key }}" var="ann">
-					${ann.key}: ${ann.value}<br/>
-				</g:each>
-			</div>
-		</g:if>
-	</g:each>
-	<div class="welcome-title"><g:message code="clinical.searchResults" /></div>
-    <div class="desc1"><g:message code="gcore.currentStudy" />:
-            <g:if test="${!session.study}"><g:message code="gcore.noStudy" /></g:if>
-            ${session.study?.shortName}
-    </div>
-	<div id="centerContent">
+</g:javascript>
+<br/>
+<g:each in="${session.annotations}">
+    <g:if test="${it.value}">
+        <div id="${it.key.replace(' ', '_').replace('.', '')}" style="display: none;" align="left">
+            Cell Line Details:<br/>
+            <g:each in="${it.value.organizedData().sort { it.key }}" var="ann">
+                ${ann.key}: ${ann.value}<br/>
+            </g:each>
+        </div>
+    </g:if>
+</g:each>
+<div class="welcome-title"><g:message code="clinical.searchResults" /></div>
+<div class="desc1"><g:message code="gcore.currentStudy" />:
+<g:if test="${!session.study}"><g:message code="gcore.noStudy" /></g:if>
+${session.study?.shortName}
+</div>
+<div id="centerContent">
 
-			<g:if test="${!session.results}">
-				<g:message code="clinical.noResults" />
-			</g:if>
-			<g:else>
-				<g:if test="${session.userId}">
-				<g:if test="${session.study}">
-					<span id="Study" style="display:none">${session.study.schemaName}</span>
-				</g:if>
-				<g:form name="download" action="download">
-				</g:form>
+    <g:if test="${!session.results}">
+        <g:message code="clinical.noResults" />
+    </g:if>
+    <g:else>
+        <g:if test="${session.userId}">
+            <g:if test="${session.study}">
+                <span id="Study" style="display:none">${session.study.schemaName}</span>
+            </g:if>
+            <g:form name="download" action="download">
+            </g:form>
 
-				<g:clinicalView label="Genotype"/>
+            <g:clinicalView label="Genotype"/>
 
-				<div >
-                         <span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
-                                <g:textField name="list_name" size="15" maxlength="15"/>
-                            </span>
-                        <span class="bla" id="listAdd">
-                            <g:if test="${session.subgridModel != [:]}">
-                                <g:message code="clinical.listSave" /> ⇣
-                                <ul>
-                                    <li title="parent">${session.subjectTypes.parent}</li>
-                                    <li title="child">${session.subjectTypes.child}</li>
-                                </ul>
-                            </g:if>
-                            <g:else>
-                                <g:message code="clinical.listSave" />
-                            </g:else>
-                        </span><br />
+            <div>
+                <span style="vertical-align:5px"> <label for="list_name"><g:message code="clinical.listName" />:</label>
+                <g:textField name="list_name" size="15" maxlength="15"/>
+                </span>
+                <span class="bla" id="listAdd">
+                    <g:if test="${session.subgridModel != [:]}">
+                        <g:message code="clinical.listSave" /> ⇣
+                        <ul>
+                            <li title="parent">${session.subjectTypes.parent}</li>
+                            <li title="child">${session.subjectTypes.child}</li>
+                        </ul>
+                    </g:if>
+                    <g:else>
+                        <g:message code="clinical.listSave" />
+                    </g:else>
+                </span><br />
 
-                        <span id="message" style="display:none"></span>
-                        <span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
+                <span id="message" style="display:none"></span>
+                <span id="saveSpinner" style="visibility:hidden"><img src="${resource(dir: 'images', file: 'spinner.gif')}" alt='Wait'/></span>
 
-                        <g:if test="${session.study.hasImagingData()}"><br />This study has Imaging Data. Please select a Patient or a Group of Patients to explore their Imaging data.</br>
-                                        <span class="bla" id="searchimages"> View Images </span>
-                                        <span id="messageImaging" style="display:none"></span>
-                                        <g:form controller="Dicom" action="dicomsearch" >
-                                            <g:hiddenField name="userId1" id="q1" value=""/><g:hiddenField name="userId" id="q" /><g:hiddenField name="userId2" id="q2" /><g:hiddenField name="userId3" id="q3" /><g:hiddenField name="userId4" id="q4" /><g:hiddenField name="userId5" id="q5" />
-                                            <g:hiddenField name="userId6" id="q6" /><g:hiddenField name="userId7" id="q7" value="${session.study?.shortName}"/><g:submitButton name="search" id="searchImaging" value="View Images" onclick="GetSelectedIds()" style="visibility: hidden" />
-                                        </g:form>
-                          </g:if>
-                </div>
-				</g:if>
+                <g:if test="${session.study.hasImagingData()}"><br />This study has Imaging Data. Please select a Patient or a Group of Patients to explore their Imaging data.</br>
+                    <span class="bla" id="searchimages"> View Images </span>
+                    <span id="messageImaging" style="display:none"></span>
+                    <g:form controller="Dicom" action="index" >
+                        <g:hiddenField name="patid" id="q1" value=""/><g:hiddenField name="modality" id="modality" /><g:hiddenField name="gender" id="gender" /><g:hiddenField name="studyiuid" id="studyiuid" /><g:hiddenField name="age" id="age" />
+                        <g:submitButton name="search" id="searchImaging" value="View Images" onclick="GetSelectedIds()" style="visibility: hidden" />
+                    </g:form>
+                </g:if>
 
-				<table id="searchResults" class="scroll" cellpadding="0" cellspacing="0"></table>
-				<div id="pager" class="scroll" style="text-align:center;height: 45px"></div>
-			</g:else>
+            </div>
+        </g:if>
 
-	</div>
+        <table id="searchResults" class="scroll" cellpadding="0" cellspacing="0"></table>
+        <div id="pager" class="scroll" style="text-align:center;height: 45px"></div>
+    </g:else>
+
+</div>
 
 </body>
 </html>

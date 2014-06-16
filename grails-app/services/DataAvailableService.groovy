@@ -299,5 +299,17 @@ class DataAvailableService implements InitializingBean {
 		breakdowns["data"] = dataBreakdown
 		return breakdowns
 	}
-	
+
+   def getSubjectCount(Study)
+    {
+       /* def subjectCount= 0
+        def query = "select count(*) from " + study.schemaName + ".SUBJECT"
+        log.debug "the select statement is : "
+        log.debug query
+        subjectCount = jdbcTemplate.queryForList(query);
+        log.debug subjectCount
+        return subjectCount*/
+        return 1
+    }
+
 }

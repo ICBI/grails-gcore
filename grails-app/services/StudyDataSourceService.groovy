@@ -4,6 +4,7 @@ class StudyDataSourceService {
 
     boolean transactional = true
 	def htDataService;
+    def jdbcTemplate
 
     def create(data) {
 		def dataSource = new Study(data)
@@ -138,7 +139,26 @@ class StudyDataSourceService {
 		//log.debug(filtered.groupBy {it.disease})
 		return filtered.groupBy {it.disease}
 	}
-	
+
+    def getSubjectCount(Study study) {
+        def subjectCount= 0
+        def query = "select count(*) as count from " + study.schemaName + ".SUBJECT"
+         log.debug "The select statement is : " +query+""
+         subjectCount = jdbcTemplate.queryForInt(query);
+         log.debug "The count : " +subjectCount
+         return subjectCount
+    }
+
+    def getBiospecimenCount(Study study) {
+        def BiospecimenCount= 0
+        def query = "select count(*) as count from " + study.schemaName + ".BIOSPECIMEN"
+        log.debug "The select statement is : " +query
+        BiospecimenCount = jdbcTemplate.queryForInt(query);
+        log.debug "The count : " +BiospecimenCount
+        return BiospecimenCount
+    }
+
+
 	def findOperationsSupportedByStudy(Study study) {
 		
 		def operations = []
@@ -166,7 +186,7 @@ class StudyDataSourceService {
 		
 		return operations
 	}
-	
+
 	boolean doesStudySupportOperation(String intendedOperation, Study study) {
 		intendedOperation = intendedOperation.toLowerCase();
 		boolean result = true

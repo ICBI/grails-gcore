@@ -104,7 +104,7 @@
 		<div id="studyFieldset" style="display:none">
 		</g:else>
 		<!-- <fieldset class="studyPicker"><legend style="margin:8px"><g:message code="study.choose"/></legend>  -->
-		<div class="hero-unit" style="width: 900px">
+		<div class="hero-unit" style="width: 900px; height:100px;">
 			<g:formRemote name="setStudyForm" url="[controller:'studyDataSource',action:'setStudy']" update="label" onLoading="showSpinner();" onSuccess="reload();">
 		<%--g:message code="study.disease"/>:--%>
 		<g:select name="disease" class="selectpicker"

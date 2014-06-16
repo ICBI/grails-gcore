@@ -1013,6 +1013,7 @@ CSS style for RSS Feed
     color: rgb(0, 92, 167);
     line-height: 1.05;margin: 0px;
     padding-bottom:10px;
+    padding-top:25px;
 }
 .desc{
     font-family: 'Open Sans',sans-serif;
@@ -1130,7 +1131,40 @@ CSS style for RSS Feed
 .studies-tabs{
     padding-top:80px; margin-top:-80px;
 }
+/* ######## -  Medical Images Styles #########  */
+.q{
+    width: 80%;
+}
 
+/* ######## -  Genome Browser Styles #########  */
+#moveLeft {
+    width:40px;
+}
+#moveRight {
+    width:40px;
+}
+#bigZoomOut {
+    width:40px;
+}
+#zoomOut {
+    width:40px;
+}
+#zoomIn {
+    width:40px;
+}
+#bigZoomIn {
+    width:40px;
+}
+#location{
+    height:30px;
+}
+/*#q{
+    width: 150px;
+    height: 30px;
+}
+#search-button{
+    height: 30px;
+}*/
 
 
 
