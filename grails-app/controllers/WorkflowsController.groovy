@@ -79,6 +79,25 @@ class WorkflowsController {
 		 }
 	}
 
+    def checkNotifications() {
+        def analysis = savedAnalysisService.checkSavedAnalysis(session.userId)
+        def statusList = []
+        def today = new Date()
+        analysis.each{
+            def statusMap = [:]
+            if(!it[0])
+                return
+            if(today.minus(it[3]) < 2){
+                statusMap["id"] = it[0]
+                statusMap["type"] = it[1]
+                statusMap["status"] = it[2]
+                statusMap["dateCreated"] = it[3]
+                statusList << statusMap
+            }
+        }
+        def notifications = statusList.sort { it.dateCreated }.reverse()
+        return notifications
+    }
 	
 	def studySpecificTools() {
 
@@ -115,11 +134,11 @@ class WorkflowsController {
 	
     def index = {
 		if(springSecurityService.isLoggedIn()){
-		 
+
 		 def currentUser = springSecurityService.getPrincipal() 
 		 def thisUser = GDOCUser.findByUsername(currentUser.username)
 		 session.userId = currentUser.username
-
+         def notifications = checkNotifications();
         //Adding History
         def user = GDOCUser.findByUsername(session.userId)
         def historyStudyNames = History.findAllByUser(user)
@@ -218,7 +237,7 @@ class WorkflowsController {
 			redirect(uri:params.desiredPage)
 		}
 		
-		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"],myHistory:myHistory]
+		[inviteMessage:pendingInvites["inviteMessage"],requestMessage:pendingInvites["requestMessage"],myHistory:myHistory,notifications:notifications]
 	}
 	}
 	

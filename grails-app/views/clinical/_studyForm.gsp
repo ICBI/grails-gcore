@@ -170,7 +170,7 @@
 	</g:each>
 	<br/>
 	<br/>
-	<g:submitButton name="submit" value="${message(code: 'gcore.submit')}"/>
+	<g:submitButton  class="btn btn-primary" name="submit" value="${message(code: 'gcore.submit')}"/>
 </g:form>
 </g:if>
 

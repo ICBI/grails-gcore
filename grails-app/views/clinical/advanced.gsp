@@ -57,7 +57,7 @@
 			
 			
 		</g:javascript>
-	<p style="font-size:14pt"><g:message code="clinical.heading" /></p>
+	<div class="welcome-title"><g:message code="clinical.heading" /></div>
 		
 		<div id="studyPicker">
 			<g:render template="/studyDataSource/studyPicker" plugin="gcore"/>

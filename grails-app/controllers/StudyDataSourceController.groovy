@@ -296,7 +296,7 @@ class StudyDataSourceController {
 			log.debug "grab all studies that have data for $params.disease with type $params.subjectType"
 			myStudies = session.myStudies.findAll{it.disease == params.disease}
 			myStudies.each{
-				if(it.shortName!="DRUG"){
+				//if(it.shortName!="DRUG"){
 					def dataAvailability =  session['dataAvailability']
 					def hasSubjectMatter =dataAvailability['dataAvailability'].find{elm ->
 						if((elm["STUDY"] == it.shortName) && (elm["subjectType"] == params.subjectType) && studyDataSourceService.doesStudySupportOperation(operation, it)){
@@ -308,14 +308,14 @@ class StudyDataSourceController {
 							studiesJSON << studies
 						}
 					}
-				}
+			//	}
 			}
 		}
 		studiesJSON.sort { it.studyName }
 		render studiesJSON as JSON 
 	}
-	
-	
+
+
 	def show = {
 		def currStudy = Study.get(params.id)
 		def allowAccess = false

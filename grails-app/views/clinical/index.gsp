@@ -15,22 +15,23 @@
 		<link rel="stylesheet" href="${createLinkTo(dir:'css',file:'chosen.css')}" />
 		<g:javascript library="jquery" plugin="jquery"/>   
 		<g:javascript src="chosen.jquery.js" plugin="gcore"/>
+        <g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
+        <g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
+        <g:javascript src="jquery/jquery.blockUI.js" plugin="gcore"/>
+        <g:javascript src="jquery-contained-sticky-scroll.js" plugin="gcore"/>
+        <g:jqgrid />
     </head>
     <body>
-		<g:javascript src="jquery/jquery.ui.js" plugin="gcore"/>
-		<g:javascript src="jquery/jquery.styledButton.js" plugin="gcore"/>
-		<g:javascript src="jquery/jquery.blockUI.js" plugin="gcore"/>
-		<g:javascript src="jquery-contained-sticky-scroll.js" plugin="gcore"/>
-		<g:jqgrid />
+
 	<g:javascript>
 	$(document).ready(function (){
 		$("#user_switchAttribute").chosen();
 		$('.resultsStick').containedStickyScroll({
 		        duration: 300,
 		        unstick: true,
-		        closeChar: '' 
+		        closeChar: ''
 		});
-		
+
 	});
 	function showSaveSpinner(show) {
 			if(show == true){
@@ -39,7 +40,7 @@
 			}else{
 				$("#saveSpinner").css("visibility","hidden");
 				jQuery('#message').css("display","block");
-				success(); 
+				success();
 			}
 	}
 	</g:javascript>
@@ -47,16 +48,17 @@
 
     <div class="welcome-title">Explore Clinical Data and Create Groups</div>
 
-    <div id="studyPicker">
-        <g:render template="/studyDataSource/studyPicker" plugin="gcore"/>
-        <g:if test="${!session.study}">
-            <div class="filterInstructions">
-                Once you've selected a study above, use the filter panel that will appear here
-                to narrow your cohort selection based on subject attributes (categorical as well as continuous)
-            </div>
-            <br />
-        </g:if>
+    <div id="studyPicker" style="width:105%;">
+        <g:render template="/studyDataSource/studyPicker"/>
     </div>
+
+    <g:if test="${!session.study}">
+        <div class="filterInstructions">
+            Once you've selected a study above, use the filter panel that will appear here
+            to narrow your cohort selection based on subject attributes (categorical as well as continuous)
+        </div>
+        <br />
+    </g:if>
 
     <table>
         <td style="vertical-align:top;">

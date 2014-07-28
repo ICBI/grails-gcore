@@ -49,18 +49,18 @@
 					        // stick these new options in the existing select menu
 					        $("#study").html(options);
 					        $("#study").selectpicker('refresh');
-					        
+
 					        // now your select menu is rebuilt with dynamic info
 					  }
 				); // end getJSON
 			}
-			
+
 			function selectStudy(form) {
 				//alert($("#study").val());
 				//form.submit();
 				$("#studySelector").submit();
 			}
-		
+
 		</g:javascript>
 		
 		<STYLE type="text/css">
@@ -73,7 +73,7 @@
 		min-width: 90px;
 		max-width: 180px;
 		.workflowBox {
-			
+
 		}
 		 </STYLE>
     </head>
@@ -99,23 +99,23 @@
 					  	<option value="" selected>Select a disease</option>
 					  	<g:each name="disease" in="${diseases}"><option>${it}</option></g:each>
 					  </select>
-					</div>	
-					
+					</div>
+
 					<div class="btn-group">
-					  	
+
 					  <select class="selectpicker span2" id="type" name="type">
 					  	<option>Select subject matter</option>
 					  	<g:each name="disease" in="${availableSubjectTypes.entrySet()}"><option>${it.value}</option></g:each>
 					  </select>
-					</div>	
-					
-					<div class="btn-group">						  	
+					</div>
+
+					<div class="btn-group">
 					  <select class="selectpicker span2" id="study" name="study">
 					  	<option>First select disease and subject matter</option>
 					  </select>
-					</div>	
-													
-				
+					</div>
+
+
 				</div>
 				</g:if>
 				<g:else>
@@ -124,19 +124,19 @@
 					<select class="selectpicker" id="study" name="study">
 						<option value="">Please select a study</option>
 						<g:each in="${filteredStudies.keySet()}" var="disease">
-							
+
 							<optgroup label="${disease}">
 								<g:each in="${filteredStudies[disease]}" var="study">
 									<option value="${study.id}" title="${study.longName}">${study.shortName}&nbsp;&nbsp;(${study.longName.substring(0, 20)}......${study.longName.substring(study.longName.length() - 20)})
-								</g:each>											
+								</g:each>
 							</optgroup>
 						</g:each>
 					</select>
-										
+
 				</g:else>
 				<br><br>
-				<input type="submit" id="submit" class="btn btn-primary" style="display: none" value="Submit" />					
-			</g:form>					
+				<input type="submit" id="submit" class="btn btn-primary" style="display: none" value="Submit" />
+			</g:form>
 		</div>
 
     </body>

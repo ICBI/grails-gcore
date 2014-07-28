@@ -1,13 +1,13 @@
 function checkBrowser() {
 	var browser = ""
 	var browserPass = false;
-	if(BrowserDetect.browser == 'Explorer') {
+    /*if(BrowserDetect.browser == 'Explorer') {
 		if(jQuery.browser.version >= 8)
 			browserPass = true
 		else 
 			browserPass = false
 		browser = "Internet Explorer " + jQuery.browser.version;
-	} else if(BrowserDetect.browser == 'Firefox') {
+	} else */if(BrowserDetect.browser == 'Firefox') {
 		if(BrowserDetect.version >= 3.5) {
 			browserPass = true;
 		} else { 
@@ -39,13 +39,13 @@ function checkJava() {
 function checkBrowserPass() {
 	var browser = ""
 	var browserPass = false;
-	if(BrowserDetect.browser == 'Explorer') {
+	/*if(BrowserDetect.browser == 'Explorer') {
 		if(jQuery.browser.version >= 8)
 			browserPass = true
 		else
 			browserPass = false
 		browser = "Internet Explorer " + jQuery.browser.version;
-	} else if(BrowserDetect.browser == 'Firefox') {
+	} else */if(BrowserDetect.browser == 'Firefox') {
 		if(BrowserDetect.version >= 3.5) {
 			browserPass = true;
 		} else {

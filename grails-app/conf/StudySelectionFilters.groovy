@@ -13,7 +13,7 @@ class StudySelectionFilters {
 				}
 				else {
 					if(!studyDataSourceService.doesStudySupportOperation(controllerName, session.study)) {
-						flash.operationNotSupported = "*** This operation is not supported.***"
+						//flash.operationNotSupported = "*** This operation is not supported.***"
 						redirect(controller: 'workflows', action: 'studySpecificTools')
 						return false
 					} 

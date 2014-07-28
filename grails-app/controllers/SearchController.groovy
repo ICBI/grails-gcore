@@ -21,9 +21,9 @@ class SearchController {
             def searchResult = []
 			log.debug "search string = $params.q" + "*"
             log.debug "searchableService: "+searchableService
-
+            //searchableService.reindex()
 			if(!params.offset){
-
+                log.debug params.offset
                 log.debug "Searching :" +params.q
 
                // searchResult = searchableService.search(params.q+"*", [result:'searchResult',offset:0,max:10,order: "asc"])

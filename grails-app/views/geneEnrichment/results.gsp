@@ -19,7 +19,8 @@
 			   		{name:'pathway',index:'pathwayNames', width: '300'},
 			   		{name:'pvalue',index:'pvalues', width: '100'},
 					{name: 'overlaps', index: 'overlaps', width: '300', sortable: false }
-				], 
+				],
+				width: 920,
 				height: 400, 
 				rowNum:50, 
 				rowList:[25,50], 
@@ -56,13 +57,9 @@
 
     </head>
     <body>
-		
+        <div class="welcome-title"><g:message code="geneEnrichement.results" /></div>
 		<br/>
-		<br/>
-		<div id="centerContent" align="left">
-			<table id="searchResults" class="scroll" cellpadding="0" cellspacing="0"></table>
-			<div id="pager" class="scroll" style="text-align:center;height: 45px"></div>
-		</div>
+
 		<div id="centerContent">
 			<br/>
 			<table id="searchResults" class="scroll" cellpadding="0" cellspacing="0" style="position:absolute; z-index: 1000;"></table>

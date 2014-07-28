@@ -94,6 +94,12 @@ class Study {
 		}
 	}
 
+    def hasWgsForPopGenData() {
+        return content.find {
+            it.type == "WGS for POPGEN"
+        }
+    }
+
     def hasImagingData() {
         return content.find {
             it.type == "IMAGING"

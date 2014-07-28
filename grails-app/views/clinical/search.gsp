@@ -357,7 +357,6 @@ jQuery("#searchimages").click( function() {
             		}
 
 </g:javascript>
-<br/>
 <g:each in="${session.annotations}">
     <g:if test="${it.value}">
         <div id="${it.key.replace(' ', '_').replace('.', '')}" style="display: none;" align="left">

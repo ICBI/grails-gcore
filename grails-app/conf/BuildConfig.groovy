@@ -29,7 +29,8 @@ grails.project.dependency.resolution = {
 	
 	plugins {
 		compile ':recaptcha:0.5.2'
-		compile ':searchable:0.5.5'
+		//compile ':searchable:0.5.5'
+        compile ':searchable:0.6.4'
 		compile	':taggable:0.6.1'
 		compile	':mail:0.9'
 		compile ':quartz:0.4.1'

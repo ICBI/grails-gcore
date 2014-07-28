@@ -1,3 +1,4 @@
+if(!window.console) console = {log: function() {}};
 // Function copied from http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
 function eliminateDuplicates(arr) {
 	  var i,
@@ -111,7 +112,7 @@ function load_translational_research_studies(success_callback) {
 
 
 function get_html_for_study(study) {
-        var patients ='<b style="font-size: 14px;">'+ study.patients +'</b><br/>  <i>patients</i>';
+        var patients ='<b style="font-size: 14px;">'+ study.patients +'</b><br/>  <i>samples</i>';
         var biospecimen ='<b style="font-size: 14px;">'+ study.biospecimen + '</b> <br/><i>biospecimen</i>';
         var myString = study.abstract;
         var myTruncatedString = myString.substring(0,200);
@@ -178,13 +179,24 @@ function get_html_for_tools(tools) {
 		
 		// This block of code identifies what types exist given this set of tools
 		var types = [];
-		var i;
-		for (i = 0; i < tools.length; i++) {
-		
-			if (types.indexOf(tools[i].type) == -1) {
-				types.push(tools[i].type);
-			}
-		}
+		var i = 0;
+         // Fixing compatibility with IE8 and lower
+        if(!Array.prototype.indexOf){
+            for (i = 0; i < tools.length; i++) {
+                if ($.inArray(tools[i].type,types)) {
+                    types.push(tools[i].type);
+                }
+            }
+        }
+        else{
+            for (i = 0; i < tools.length; i++) {
+
+                if (types.indexOf(tools[i].type) == -1) {
+                    types.push(tools[i].type);
+                }
+            }
+        }
+
 		
 
 		var html = '<div>';
@@ -193,12 +205,12 @@ function get_html_for_tools(tools) {
 		// We now have all types specific to this set of tools
 		for (i = 0; i < types.length; i++) {
 			
-			html += '<div id="'+ types[i].toLowerCase() +'" style="float: left; width:33%; height: 200px; padding-left: 60px; font-size: 15px; font-weight: 200; line-height: 30px;"> <p style="font-size: 18px;">' + types[i] + '</p><ul>';
+			html += '<div id="'+ types[i].toLowerCase() +'" style="float: left; width:33%; height: 220px; padding-left: 60px; font-size: 15px; font-weight: 200; line-height: 30px;"> <p style="font-size: 18px;">' + types[i] + '</p><ul>';
 			
 			for (j = 0; j < tools.length; j++) {
 			
 				if (tools[j].type == types[i]) {
-					html += '<li><a id="element'+j+'" style="font-size: 18px; line-height: 30px;" data-toggle="popover" data-placement="right" data-content="'+ tools[j].description +'" data-trigger="hover" href="' + tools[j].link + '"><small>' + tools[j].name + '</small></a></li>';
+					html += '<li><a id="element'+j+'" style="font-size: 18px; line-height: 30px;"  data-toggle="popover" data-placement="right" data-content="'+ tools[j].description +'" data-trigger="hover" href="' + tools[j].link + '"><small>' + tools[j].name + '</small></a></li>';
 				}
 			}
 		
@@ -212,7 +224,7 @@ function get_html_for_tools(tools) {
 
 function get_html_for_data_type(data_type_name, study_count,patient_count,biospecimen_count) {
     var studies = '<b style="font-size: 14px;">'+study_count + '</b> <br/> <i>studies</i>';
-    var patients ='<b style="font-size: 14px;">'+ patient_count +'</b>  <br/> <i>patients</i>';
+    var patients ='<b style="font-size: 14px;">'+ patient_count +'</b>  <br/> <i>samples</i>';
     var biospecimen ='<b style="font-size: 14px;">'+ biospecimen_count + '</b> <br/> <i>biospecimen</i>';
 
     if (study_count < 2) {

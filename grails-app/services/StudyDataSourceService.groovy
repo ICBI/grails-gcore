@@ -60,7 +60,7 @@ class StudyDataSourceService {
 	}
 	
 	def getTranslationalResearchOperations() {
-		[Operation.PCA, Operation.KM, Operation.HEAT_MAP, Operation.KM_GENE_EXP, Operation.GENE_EXPRESSION, Operation.CLINICAL]
+		[Operation.PCA, Operation.KM, Operation.HEAT_MAP, Operation.KM_GENE_EXP, Operation.GENE_EXPRESSION, Operation.CLINICAL, Operation.GROUP_COMPARISON, Operation.CIN]
 	}
 	
 	def getPersonalizedMedicineOperations() {
@@ -168,22 +168,27 @@ class StudyDataSourceService {
 		def dataSetType = files.keySet()
 		
 		operations << Operation.GENOME_BROWSER
-		if(study.hasClinicalData()) operations << Operation.CLINICAL
-		operations << Operation.TARGET
-		if(study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) operations << Operation.GENE_EXPRESSION
-		if(study.hasImagingData()) operations << Operation.DICOM
-		if(study.hasWgsData()) {
-			operations << Operation.PHENOTYPE_SEARCH
-			operations << Operation.VARIANT_SEARCH
-		}
-		
-		if(study.hasCopyNumberData()) operations << Operation.CIN
-		if(files && (dataSetType.size() > 0)) operations << Operation.PCA
-		if(files && study.hasDynamicData()) operations << Operation.GROUP_COMPARISON
+        operations << Operation.TARGET
+        operations << Operation.FINDING
+
+        if(files && study.hasDynamicData()) operations << Operation.GROUP_COMPARISON
+        if(study.hasClinicalData()) operations << Operation.CLINICAL
+        if(study.hasImagingData()) operations << Operation.DICOM
+        if(study.hasWgsData()) 	operations << Operation.VARIANT_SEARCH
+        if(study.hasWgsForPopGenData()) operations << Operation.PHENOTYPE_SEARCH
+        if(study.hasCopyNumberData()) operations << Operation.CIN
+
+        if(endpoints != null && (endpoints.size() > 0)) operations << Operation.KM
+        if(endpoints && study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) operations << Operation.KM_GENE_EXP
+        if(study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) operations << Operation.GENE_EXPRESSION
+
+		if(files && (dataSetType.size() > 0))
+        {
+            if(dataSetType.size() != 1 || (!study.hasWgsData() && !study.hasWgsForPopGenData())) operations << Operation.PCA
+        }
+
 		if((study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) || (study.hasMicroRNAData() && dataSetType.contains('microRNA')) || (study.hasCopyNumberData() && dataSetType.contains('COPY_NUMBER')) || (study.hasMetabolomicsData() && dataSetType.contains('METABOLOMICS'))) operations << Operation.HEAT_MAP
-		if(endpoints != null && (endpoints.size() > 0)) operations << Operation.KM
-		if(endpoints && study.hasGenomicData() && dataSetType.contains('GENE EXPRESSION')) operations << Operation.KM_GENE_EXP
-		
+
 		return operations
 	}
 
@@ -209,7 +214,7 @@ class StudyDataSourceService {
 			result = study.hasWgsData()
 			
 		else if(intendedOperation == "phenotypesearch")
-			result = study.hasWgsData()
+			result = study.hasWgsForPopGenData()
 		
 		else if(intendedOperation == "dicom")
 			result = study.hasImagingData()

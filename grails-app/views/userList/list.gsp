@@ -29,18 +29,7 @@
         </script>
 
 
-        <!-- jQuery -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-        <!-- Demo stuff -->
-        <link class="ui-theme" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/cupertino/jquery-ui.css">
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-
-        <!--link rel="stylesheet" href="${createLinkTo(dir: 'css/grouping',  file: 'jq.css')}"/-->
-        <link rel="stylesheet" href="${createLinkTo(dir: 'css/grouping',  file: 'prettify.css')}"/>
-
-        <script type="text/javascript" src="${createLinkTo(dir: 'js/grouping', file: 'prettify.js')}"></script>
-        <script type="text/javascript" src="${createLinkTo(dir: 'js/grouping', file: 'docs.js')}"></script>
         <style id="css">/* extra css needed because there are 5 child rows */
 
         /* Grouping widget css */
@@ -116,6 +105,7 @@
         });
 
         $(document).ready( function () {
+
             $('.info').tooltip({showURL: false});
             $('#listFilter').change(function() {
                 if($('#listFilter').val() && $('#listFilter').val() == 'search') {

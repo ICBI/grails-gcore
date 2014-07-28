@@ -1,11 +1,17 @@
-			
+
 		<g:javascript library="jquery" plugin="jquery" />
 		<g:javascript dir="js/jquery" file="jquery.tooltip.js" plugin="gcore"/>
 		<g:javascript dir="js/jquery" file="jquery.ui.js" plugin="gcore"/>
 		<g:javascript>
 			$(document).ready(function (){
-				$(".selectpicker").selectpicker();
-				
+
+             /*   $(".selectpicker").selectpicker();
+                if(!window.location.pathname.indexOf('/clinical/'))
+                {
+                    $(".selectpicker1").selectpicker();
+                }*/
+
+
 				$("#type").change(function() {
 					if($("#type").val() && $("#disease").val()) {
 						queryForDisease();
@@ -28,10 +34,12 @@
 			jQuery.getJSON("/${appName()}/studyDataSource/findStudiesForDisease", { disease: $("#disease").val(), subjectType: $("#type").val(), operation: $("#operation").val() },
 				function(j) {
 				     // erase all OPTIONs from existing select menu on the page
+				     /*
 				    $("#study options").remove();
 					$("#study").bind('change', function() {
 						$("#update").removeAttr('disabled');
 					});
+					*/
 					// You will rebuild new options based on the JSON response...
 				     var options = "<option value=''>Select A Study ...</option>";
 				     // it is the array of key-value pairs to turn
@@ -39,14 +47,16 @@
 				     for (var i = 0; i < j.length; i++)
 				       {
 						//console.log("load " + j[i]);
-				        options += "<option value=" +
-				        j[i].studyId + ">" +
+						//alert(j[i].studyName);
+				        options += "<option value='" +
+				        j[i].studyId + "'>" +
 				        j[i].studyName +
 				        "</option>";
 				        }
 				        // stick these new options in the existing select menu
 				        $("#study").html(options);
-				        $("#study").selectpicker('refresh');
+				        //alert(options);
+				        //$("#study").selectpicker('refresh');
 				        // now your select menu is rebuilt with dynamic info
 				  }
 			); // end getJSON
@@ -82,7 +92,7 @@
 			$("#studyPageSpinner").css("visibility","visible");
 		}
 		</g:javascript>
-		
+
 		<div style="font-size:1em;padding-top:5px">
 			<span class="desc1">
 				<g:if test="${!session.study}"><br><g:message code="gcore.noStudy"/></g:if>
@@ -118,7 +128,7 @@
 		</g:select>
 		
 		<%--g:message code="study.study"/>:--%>
-		<g:select name="study" class="selectpicker"
+		<g:select name="study" class="selectpicker1"
 				noSelection="${['': message(code: 'study.selectStudy')]}" from="${[]}">
 				
 		</g:select>
@@ -131,8 +141,7 @@
 			</span>
 			<span id="studyPageSpinner" style="visibility:hidden;display:inline-table"><img src="${resource(dir: 'images', file: 'spinner.gif', plugin: 'gcore')}" alt='Wait'/></span>
 		</g:formRemote>
-		<p style="font-size:11px;">** This list will only show studies relevant to this workflow and hence may not be a complete list. To see a 
-		complete list go back to <a href="<g:createLink controller='workflows'/>" style="color: #03f" >home</a> page</p>
+		<p style="font-size:11px;">** To see a complete list of studies go back to <a href="<g:createLink controller='userList'/>" style="color: #03f" >Lists</a> page</p>
 		</div>
 		<!-- </fieldset> -->
 		</div>

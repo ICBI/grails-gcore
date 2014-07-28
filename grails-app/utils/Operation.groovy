@@ -13,7 +13,8 @@ public enum Operation {
 	GROUP_COMPARISON("Group Comparison", "Analyze", "groupComparison", "index", "Perform differential expression analysis with high throughput data between two groups of samples using T- test or Mann-Whitney test"),
 	HEAT_MAP("HeatMap Viewer", "Analyze", "heatMap", "index", "Perform heirarchical clustering using high throughput data and visualize as a heat map"),
 	KM("KM Clinical Plot", "Analyze", "km", "index", "Perform Kaplam Meier survival analysis using clinical data"),
-	KM_GENE_EXP("KM Gene Expression Plots", "Analyze", "kmGeneExp", "index", "Perform Kaplam Meier survival analysis using gene expression data")
+	KM_GENE_EXP("KM Gene Expression Plots", "Analyze", "kmGeneExp", "index", "Perform Kaplam Meier survival analysis using gene expression data"),
+    FINDING("Findings", "Search", "Finding", "index", "Findings")
 	
 	public Operation(String name, String type, String controller, String action, String description) {
 		this.name = name;

@@ -155,8 +155,11 @@
 
                     /* Adding Descirption Popovers for tools */
                     for (j = 0; j < tools.length; j++) {
-                        $('#element'+j+'').popover();
+                        $('#element'+j+'').popover({
+                            container: 'body'
+                        });
                     }
+
 				}
 				
 				
@@ -349,7 +352,7 @@
 			</ul>
 		</div>
 
-		<div id="carousel" class="carousel slide features" data-ride="carousel" style="min-height: 270px;">
+		<div id="carousel" class="carousel slide features" data-ride="carousel" style="min-height: 290px;">
 		  <!-- Wrapper for slides -->
 		  <div class="carousel-inner ">
 

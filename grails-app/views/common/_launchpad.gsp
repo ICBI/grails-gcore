@@ -115,9 +115,9 @@
 						<a href="/${appName()}/notification">Notifications</a>
 					</h3>
 					<div class="p">
-						<p>G-DOC Plus allows you to track your running Analyses</p>
-                        <g:if test="${session.notifications}">
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have running analysis. Click on View below to access it.
+						<p>G-DOC Plus allows you to track your running and recent Analyses</p>
+                        <g:if test="${notifications}">
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have ${notifications.size()} recent <g:if test="${notifications.size()=='1'}">analysis. </g:if><g:else>analyses</g:else>
                         </g:if>
                         <g:else>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<g:message code="notifications.none" />
@@ -137,7 +137,7 @@
 							</div>
 							<h2 >Notifications
 							    <span class="badge">
-                                    <g:if test="${session.notifications}">1</g:if>
+                                    <g:if test="${notifications}">${notifications.size()}</g:if>
                                     <g:else>0</g:else>
                                 </span>
 							</h2>

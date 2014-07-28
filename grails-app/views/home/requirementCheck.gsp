@@ -68,8 +68,7 @@
                 </td>
                 <td>
                     <a href="http://www.mozilla.com/firefox" target="_blank"><g:message code="home.firefox" /></a><br/>
-                    <a href="http://www.google.com/chrome/" target="_blank"><g:message code="home.chrome" /></a><br/>
-                    <a href="http://www.microsoft.com/windows/internet-explorer/default.aspx" target="_blank"><g:message code="home.ie" /></a>
+                    <a href="http://www.google.com/chrome/" target="_blank"><g:message code="home.chrome" /></a>
                 </td>
             </tr>
             <tr>

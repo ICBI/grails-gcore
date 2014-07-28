@@ -133,7 +133,9 @@
             $('#tools').html(html);
             /* Adding Descirption Popovers for tools */
             for (j = 0; j < tools.length; j++) {
-                $('#element'+j+'').popover();
+                $('#element'+j+'').popover({
+                    container: 'body'
+                });
             }
         }
 

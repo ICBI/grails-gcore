@@ -59,9 +59,9 @@
 		
 	</g:javascript>
 	<div class="welcome-title"><g:message code="notifications.heading" /></div>
-    <div class="desc">Below are your running analyses.</div>
+    <div class="desc">Below are your latest running analyses. Once completed, click on the Analysis name to see detailed results.</div>
 
-    <div class="features" style="min-height: 200px;">
+    <div id="notifications_content" class="features" style="min-height: 200px;">
         <g:render template="/notification/notificationTable"  plugin="gcore"/>
     </div>
 	<br/>
