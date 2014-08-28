@@ -291,10 +291,11 @@ class StudyDataSourceController {
 		def myStudies = []
 		def studiesJSON = []
 		def operation = params.operation ?: "none"
-		
+
 		if(params.disease && params.subjectType){
 			log.debug "grab all studies that have data for $params.disease with type $params.subjectType"
 			myStudies = session.myStudies.findAll{it.disease == params.disease}
+
 			myStudies.each{
 				//if(it.shortName!="DRUG"){
 					def dataAvailability =  session['dataAvailability']
@@ -311,6 +312,7 @@ class StudyDataSourceController {
 			//	}
 			}
 		}
+
 		studiesJSON.sort { it.studyName }
 		render studiesJSON as JSON 
 	}

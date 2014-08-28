@@ -28,6 +28,7 @@
 		 		});
 			});
 			function queryForDisease() {
+
 				jQuery.getJSON("/${appName()}/studyDataSource/findStudiesForDisease", { disease: $("#disease").val(), subjectType: $("#type").val() },
 					function(j) {
 					     // erase all OPTIONs from existing select menu on the page
@@ -105,7 +106,7 @@
 
 					  <select class="selectpicker span2" id="type" name="type">
 					  	<option>Select subject matter</option>
-					  	<g:each name="disease" in="${availableSubjectTypes.entrySet()}"><option>${it.value}</option></g:each>
+					  	<g:each name="disease" in="${availableSubjectTypes.entrySet()}"><option value="${it.key}">${it.value}</option></g:each>
 					  </select>
 					</div>
 
