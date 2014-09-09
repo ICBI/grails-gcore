@@ -317,7 +317,7 @@ class UserListController {
 
 	def getListItems = {
 		log.debug params
-		def userListInstance = UserList.get( params.id )
+		def userListInstance = UserList.findByName( params.listName )
 		def metadata = [:]
 		//REFACTOR and check if molecule-tatget plugin exists
 		if(userListInstance) {
@@ -328,7 +328,7 @@ class UserListController {
 			render(template:"/userList/userListDiv",model:[ userListInstance: userListInstance, listItems:listItems, metadata:metadata], plugin: "gcore")
         }
         else {
-            flash.message = message(code: "userList.notFound2", args: [params.id])
+            flash.message = message(code: "userList.notFound2", args: [params.listName])
 			redirect(action:"list")
         }
     }
