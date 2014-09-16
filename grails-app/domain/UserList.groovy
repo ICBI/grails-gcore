@@ -14,6 +14,7 @@ class UserList implements Taggable{
 	String description
 	
 	static searchable = {
+     supportUnmarshall false
 	    listItems component: true
 	}
 	static belongsTo = [author:GDOCUser]

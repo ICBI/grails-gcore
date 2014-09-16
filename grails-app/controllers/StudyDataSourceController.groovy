@@ -99,7 +99,7 @@ class StudyDataSourceController {
 			}
 		}
 	}
-
+/*
     def setStudyNoHistory = {
 
         if(params.study && session.myStudies){
@@ -127,7 +127,7 @@ class StudyDataSourceController {
 
             }
         }
-    }
+    }*/
 
 
 	

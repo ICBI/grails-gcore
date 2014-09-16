@@ -2,8 +2,9 @@ class Structure{
 	static mapping = {
 		table 'DRUG.STRUCTURE'
 	}
-	
+
 	static searchable = {
+     supportUnmarshall false
 		alias "structure"
 	    molecule component: true
 		protein component: true

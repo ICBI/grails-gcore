@@ -13,6 +13,7 @@ class Contact {
 
 
 	static searchable = {
+     supportUnmarshall false
 		mapping {
 				alias "contacts"
 		        firstName index: 'no'

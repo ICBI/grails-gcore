@@ -83,6 +83,11 @@
           </g:if>
       </div>
 
+
+
+
+
+
     <g:if test="${haveResults}">
       <div class="results features" style="padding:70px;">
         <g:each var="result" in="${searchResult.results}" status="index">
@@ -91,7 +96,7 @@
 				<g:if test="${className == 'Study'}">
 					<div>
 						<g:link style="font-size:1.2em" action="show" controller="studyDataSource" id="${result.id}">
-							${result.shortName}
+                            ${result.shortName}
 						</g:link> <g:message code="search.study"/>
 						<g:if test="${result.abstractText}">
 							<g:set var="desc" value="${result.abstractText}" />
@@ -106,41 +111,42 @@
 					</div>
                     <div class="line1"></div>
 				</g:if>
-            	<g:if test="${className == 'MoleculeTarget'}">
-					<div>
-						<g:link style="font-size:1.2em" action="show" id="${result.id}" controller="moleculeTarget">
-							<g:if test="${result.molecule.name}">
-								<g:set var="molDesc" value="${result.molecule.name}" />
-					            	<g:if test="${molDesc.size() > 20}">
-										<g:set var="molDesc" value="${molDesc[0..10] + '...'+ ' with ' + result}" />
-									</g:if>
-					            <div class="molDesc" style="float:left;"> ${molDesc.encodeAsHTML()}</div>
-							</g:if>
-							<g:else>
-                                <div style="float:left;"> ${result} </div>
-							</g:else>
-						</g:link>
-                       <div style="float:left;">&nbsp;<g:message code="search.target"/> <br/></div>
-                       <div class="desc2">
-                            <g:if test="${result.molecule.formula}">
-                                <g:set var="desc" value="${result.molecule.formula}" />
-                                    <g:if test="${desc.size() > 120}">
-                                        <g:set var="desc" value="${desc[0..120] + '...'}" />
-                                    </g:if>
-                                <%--div class="desc2">${desc.encodeAsHTML()}</div--%>
-                            </g:if>
-                            <g:else>
-                                <br/>
-                            <g:message code="search.noBinding"/>
-                            </g:else>
-                            <span><br/><g:message code="search.targets"/>:
-                            <span style="color:green;"><g:set var="target" value="${result.protein.gene?.geneAliases?.toArray().collect{it.symbol}}" />
-                                ${target.join(",")}</span>
-                            </span>
-                       </div>
-					</div>
-                    <div class="line1"></div>
-				</g:if>
+              <g:if test="${className == 'MoleculeTarget'}">
+                  <div>
+                      <g:link style="font-size:1.2em" action="show" id="${result.id}" controller="moleculeTarget">
+                          <g:if test="${result.molecule.name}">
+                              <g:set var="molDesc" value="${result.molecule.name}" />
+                              <g:if test="${molDesc.size() > 20}">
+                                  <g:set var="molDesc" value="${molDesc[0..10] + '...'+ ' with ' + result}" />
+                              </g:if>
+                              <div class="molDesc" style="float:left;"> ${molDesc.encodeAsHTML()}</div>
+                          </g:if>
+                          <g:else>
+                              <div style="float:left;"> ${result} </div>
+                          </g:else>
+                      </g:link>
+                      <div style="float:left;">&nbsp;<g:message code="search.target"/> <br/></div>
+                      <div class="desc2">
+                          <g:if test="${result.molecule.formula}">
+                              <g:set var="desc" value="${result.molecule.formula}" />
+                              <g:if test="${desc.size() > 120}">
+                                  <g:set var="desc" value="${desc[0..120] + '...'}" />
+                              </g:if>
+                          <%--div class="desc2">${desc.encodeAsHTML()}</div--%>
+                          </g:if>
+                          <g:else>
+                              <br/>
+                              <g:message code="search.noBinding"/>
+                          </g:else>
+                          <span><br/><g:message code="search.targets"/>:
+                              <span style="color:green;"><g:set var="target" value="${result.protein.gene?.geneAliases?.toArray().collect{it.symbol}}" />
+                                  ${target.join(",")}</span>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="line1"></div>
+              </g:if>
+
 				<g:if test="${className == 'Finding'}">
 					<div>
 						<g:link style="font-size:1.2em" action="show" id="${result.id}" controller="finding">${result.title}</g:link> <g:message code="search.finding"/>

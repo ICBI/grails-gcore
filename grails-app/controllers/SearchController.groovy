@@ -3,6 +3,7 @@ import org.springframework.util.ClassUtils
 import org.compass.core.engine.SearchEngineQueryParseException
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import java.util.Arrays
 
 class SearchController {
 	def searchableService
@@ -21,38 +22,64 @@ class SearchController {
             def searchResult = []
 			log.debug "search string = $params.q" + "*"
             log.debug "searchableService: "+searchableService
+           /* Study.reindex()
+            Finding.reindex()
+            MoleculeTarget.reindex()
+            Protein.reindex()
+            Molecule.reindex()
+            Structure.reindex()*/
+            //TargetRelationships.reindex()
             //searchableService.reindex()
 			if(!params.offset){
                 log.debug params.offset
                 log.debug "Searching :" +params.q
 
-               // searchResult = searchableService.search(params.q+"*", [result:'searchResult',offset:0,max:10,order: "asc"])
-                  searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"], {
-                    must({
-                        queryString(params.q+"*"+ " AND (alias: studies OR alias: targets OR alias: Finding)")
-                       })
-                 })
 
-                log.debug "Search done!"
+               // searchResult = searchableService.search(params.q+"*", [result:'searchResult',offset:0,max:10,order: "asc"])
+
+               searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:0,max:10,order: "asc"], {
+                    must({
+                      //  queryString(params.q+"*"+" AND (alias: studies OR alias: Finding)")
+                        queryString(params.q+"*"+" AND (alias: studies OR alias: targets OR alias: Finding)")
+                       })
+               })
 
 			}else{
+                log.debug params.offset
+                log.debug "Searching :" +params.q
 
               //  searchResult = searchableService.search(params.q+"*", [result:'searchResult',offset:params.offset,max:10,order: "asc"])
                 searchResult = searchableService.search([result:'searchResult',defaultOperator:"and",offset:params.offset,max:10,order: "asc"], {
                     must({
-                        queryString(params.q+"*"+ " AND (alias: studies OR alias: targets OR alias: Finding)")
+                       // queryString(params.q+"*"+" AND (alias: studies OR alias: Finding)")
+                        queryString(params.q+"*"+" AND (alias: studies OR alias: targets OR alias: Finding)")
                     })
                 })
-
             }
+                log.debug "got results with null targets=" + searchResult.results
 
-			log.debug "got results=" + searchResult
-			if(!searchResult.results){
-				suggs = gatherTermFreqs(params.q)
-				if(suggs.size()>=5){
-					suggs = suggs.getAt(0..5)
-				}
-			}
+
+                def array1 = searchResult.results.toArray();
+                log.debug "count =" + array1.length
+                for (int i = 0; i < array1.length; i++) {
+                    log.debug "i is: "+i+", object is: "+array1[i]+", id is: "+array1[i]
+                    if(array1[i].getClass() ==  MoleculeTarget) {
+                        array1[i] = array1[i].getClass().get(array1[i].id)
+                        log.debug "results =" +  array1[i]
+                        //log.debug i
+                    }
+                }
+                searchResult.results = Arrays.asList(array1);
+
+
+                log.debug "got results =" + searchResult.results
+                log.debug "Search done!"
+           if(!searchResult.results){
+                    suggs = gatherTermFreqs(params.q)
+                    if(suggs.size()>=5){
+                        suggs = suggs.getAt(0..5)
+                    }
+                }
 			return [searchResult:searchResult,suggs:suggs]
 		 }
          catch (SearchEngineQueryParseException ex) {
@@ -67,7 +94,7 @@ class SearchController {
 
 	
 	def relevantTerms = {
-		log.debug "relevantTerms: "+params
+	log.debug "relevantTerms: "+params
 		def searchResult = []
 		if (!params.q?.trim()) { 
 			render ""
@@ -107,29 +134,29 @@ class SearchController {
 		}
 		
 	}
-	
-	
-	def gatherTermFreqs(query){
-		def searchResult = []
-		try { 
-			def terms = []
-			terms << searchableService.termFreqs("longName")
-			terms << searchableService.termFreqs("shortName")
-			terms << searchableService.termFreqs("disease")
-			terms << searchableService.termFreqs("abstractText")
-			terms << GeneAlias.termFreqs("symbol",size:30000)
-			terms << searchableService.termFreqs("lastName")
-			terms << searchableService.termFreqs("title")
-			terms.flatten().each{
-				if(it.term.contains(query.trim()))
-					searchResult << it.term
-			}
-			//log.debug searchResult
-			return searchResult
-		 } catch (SearchEngineQueryParseException ex) { 
-			log.debug ex
-			return []
-		 }
-	}
+
+
+    def gatherTermFreqs(query){
+        def searchResult = []
+        try {
+            def terms = []
+            terms << searchableService.termFreqs("longName")
+            terms << searchableService.termFreqs("shortName")
+            terms << searchableService.termFreqs("disease")
+            terms << searchableService.termFreqs("abstractText")
+            terms << GeneAlias.termFreqs("symbol",size:30000)
+            terms << searchableService.termFreqs("lastName")
+            terms << searchableService.termFreqs("title")
+            terms.flatten().each{
+                if(it.term.contains(query.trim()))
+                    searchResult << it.term
+            }
+            //log.debug searchResult
+            return searchResult
+        } catch (SearchEngineQueryParseException ex) {
+            log.debug ex
+            return []
+        }
+    }
 
 }

@@ -152,7 +152,7 @@
     <span id="message" class="message" style="display:none"></span>
     <span style="display:none" class="ajaxController">userList</span>
 
-    <div class="features">
+    <div class="features" style="width: 730px;">
         <div class="desc1" style="margin-left:0px;margin-top: 0px;">
             You can use the filter below to search for a specific list. You can also use the tool Panel on the right to manipulate data in the saved lists.<br/>
         </div>

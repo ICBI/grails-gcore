@@ -52,7 +52,7 @@
                                     <div class="yui-u first"style="width:740px;">
                                         <g:layoutBody/>
                                     </div>
-                                    <div class="yui-u" style="width:260px;">
+                                    <div class="yui-u" style="width:250px;">
                                         <g:render template="/userList/lists_rightbar" plugin="gcore"/>
                                     </div>
                                 </div>

@@ -35,7 +35,7 @@
 
 </g:javascript>
 
-<div class="features">
+<div class="features" style="padding-left: 18px;">
     <p style="font-size:16px;font-weight:bold;margin-left: -20px;margin-top: -10px;">List Tools</p>
     <br/>
 	<g:if test="${toolsLists}">

@@ -14,7 +14,7 @@ target(main: "Load data into the DB from Excel file") {
 	// Load up grails contexts to be able to use GORM
 	loadApp()
 	configureApp()
-	println "Please specify a drug-containig file name:"
+	println "Please specify a drug-containing file name:"
 	def fileName = new InputStreamReader(System.in).readLine()
 	def drugFile = new File("dataImport/DRUGS/${fileName}")
 	if(!drugFile.exists()) {

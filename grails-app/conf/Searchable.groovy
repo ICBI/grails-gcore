@@ -47,7 +47,8 @@ searchable {
      * gives you an analyzer called "german" you can then use in mappings and queries, like
      *
      *    class Book {
-     *        static searchable = { content analyzer: 'german' }
+     *        static searchable = {
+     supportUnmarshall false content analyzer: 'german' }
      *        String content
      *    }
      *
@@ -165,7 +166,7 @@ environments {
 	devserver {
 		searchable {
 			bulkIndexOnStartup = false
-		}
+        }
 	}
 
 	demo {

@@ -4,8 +4,9 @@ class TargetRelationships {
 		version false
 		id column:'ID'
 	}
-	
+
 	static searchable = {
+     supportUnmarshall false
 		alias "targetRelationships"
 	    moleculeTarget component: true
 	}

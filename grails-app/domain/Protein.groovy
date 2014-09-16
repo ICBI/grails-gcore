@@ -6,6 +6,7 @@ class Protein {
 	}
 	
 	static searchable = {
+     supportUnmarshall false
 		alias "protein"
 	    bindings component: true
 		structures component: true

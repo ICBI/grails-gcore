@@ -7,6 +7,7 @@ class UserListItem {
 	}
 	
 	static searchable = {
+     supportUnmarshall false
 	    parentList reference: true
 	}
 

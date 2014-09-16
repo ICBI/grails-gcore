@@ -66,7 +66,7 @@
 	<div class="welcome-title"><g:message code="savedAnalysis.title"/></div>
     <div class="desc">Below is the list of G-DOC Plus saved Analyses. You can view, modify and share your saved analysis with other groups. You can use the filter below to search and filter the list.</div>
 
-    <div class="features">
+    <div class="features" style="padding-left: 40px;padding-right: 40px;">
         <div class="desc1" style="margin-left:0px;margin-top: 0px;">
             You can use the filter below to find a specific analysis.
         </div>

@@ -4,6 +4,7 @@ class StructureFile{
 	}
 	
 	static searchable = {
+     supportUnmarshall false
 		alias "structureFile"
 		structure reference: true
 	    fileType reference: true

@@ -4,6 +4,7 @@ class MoleculeTarget{
 	}
 	
 	static searchable = {
+     supportUnmarshall false
 		alias "targets"
 	    molecule component: true
 		protein component: true
@@ -45,5 +46,11 @@ class MoleculeTarget{
 			}	
 		}
 	}
+
+
+    /*public String toString() {
+        log.debug(this.@id)
+        return this.@id
+    }*/
 	
 }

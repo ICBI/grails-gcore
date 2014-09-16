@@ -16,6 +16,7 @@ class CollaborationGroup {
 	}
 	
 	static searchable = {
+     supportUnmarshall false
 		alias "collaborationGroup"
 	}
 	static transients = ['users']

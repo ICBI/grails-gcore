@@ -6,6 +6,7 @@ class GeneAlias {
 	}
 
 	static searchable = {
+     supportUnmarshall false
 		alias "alias"
 	    gene reference: true
 		official index: 'no'

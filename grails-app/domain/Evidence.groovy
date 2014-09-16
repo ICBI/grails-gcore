@@ -6,6 +6,7 @@ class Evidence {
 	}
 
 	static searchable = {
+     supportUnmarshall false
 		alias "evidence"
 	    finding component: true
 		userList component: true

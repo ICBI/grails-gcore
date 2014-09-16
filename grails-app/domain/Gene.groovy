@@ -6,6 +6,7 @@ class Gene {
 	}
 	
 	static searchable = {
+     supportUnmarshall false
 		alias "gene"
 	    geneAliases reference: true
 		proteins component: true

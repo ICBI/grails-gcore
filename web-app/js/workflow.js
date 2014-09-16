@@ -24,20 +24,20 @@ function set_study(study_id) {
 	$.ajax({
 				url: "/" + app_name + "/studyDataSource/justSetStudy",
 				dataType: 'json',
-				data: { 
+				data: {
 					study: study_id
 				},
-				success: function() {
-						
+				success: function(study_id) {
+                    success_callback(study_id);
 				},
 				error: function(request, status, error) {
-					console.log('function set_study(study_id) has failed. Here is the reason: ' + error);
+					//console.log('function set_study(study_id) has failed. Here is the reason: ' + error);
 				},
 				complete: function() {
 				}
 		});
 }
-
+/*
 function set_study_no_history(study_id) {
 
     console.log(study_id);
@@ -58,7 +58,7 @@ function set_study_no_history(study_id) {
         }
     });
 }
-
+*/
 
 
 function load_precision_medicine_studies(success_callback) {
@@ -67,7 +67,7 @@ function load_precision_medicine_studies(success_callback) {
 				url: "/" + app_name + "/studyDataSource/findStudiesForPersonalizedMedicine",
 				dataType: 'json',
 				success: function(data) {
-					success_callback(data);			
+					success_callback(data);
 				},
 				error: function(request, status, error) {
 					console.log(error)
