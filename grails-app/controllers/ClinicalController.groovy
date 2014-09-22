@@ -336,12 +336,16 @@ class ClinicalController {
 			session.query = request.JSON
 		}
 		else if(params.ids){
+			/*
 			params['ids'].tokenize(",").each{
 				it = it.replace('[','');
 				it = it.replace(']','');
 				if(!cleanedIds.contains(it.trim()))
 					cleanedIds << it.trim()
 			}
+			*/
+			cleanedIds = params.list("ids")
+			log.debug "cleanedIds: "+cleanedIds
 			idType = params['idType']
 			session.query = params
 			log.debug "flattened ids"+ cleanedIds

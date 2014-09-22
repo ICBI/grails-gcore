@@ -250,7 +250,7 @@ class ClinicalService {
 				pids.add(it)	
 			}
 		}else{
-			pids = patientIds
+			pids.addAll(patientIds)
 		}
 		def patients = []
 		def index = 0;
