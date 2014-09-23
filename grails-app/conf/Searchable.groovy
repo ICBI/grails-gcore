@@ -186,7 +186,7 @@ environments {
     }
 	stage {
 		searchable {
-			bulkIndexOnStartup = false
+			bulkIndexOnStartup = true
 			compassConnection = new File(
 		        "/opt/gdoc-data/searchable/gdoc-compassindex"
 		    ).absolutePath

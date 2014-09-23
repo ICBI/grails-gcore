@@ -93,8 +93,8 @@ class Molecule {
 	static searchable = {
      supportUnmarshall false
 		alias "molecule"
-	    bindings component: false
-		structures component: false
+	    bindings component: true
+		structures component: true
 		weight index: "not_analyzed", format: "000000000"
 		protectionGroup component: [prefix:'collaborationGroup',maxDepth:2]
 		dateCreated index: 'no'
