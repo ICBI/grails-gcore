@@ -336,15 +336,19 @@ class ClinicalController {
 			session.query = request.JSON
 		}
 		else if(params.ids){
-			/*
-			params['ids'].tokenize(",").each{
-				it = it.replace('[','');
-				it = it.replace(']','');
-				if(!cleanedIds.contains(it.trim()))
-					cleanedIds << it.trim()
+			if(params['ids'].indexOf(",") > 0) {
+				params['ids'].tokenize(",").each{
+					it = it.replace('[','');
+					it = it.replace(']','');
+					if(!cleanedIds.contains(it.trim()))
+						cleanedIds << it.trim()
+				}
 			}
-			*/
-			cleanedIds = params.list("ids")
+			
+			else {
+				cleanedIds = params.list("ids")
+			}
+			
 			log.debug "cleanedIds: "+cleanedIds
 			idType = params['idType']
 			session.query = params

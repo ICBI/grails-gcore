@@ -17,7 +17,14 @@
 		// $('[class*="rowspan_"]').each(function() {
 		// 			$(this).css("border-bottom","0px solid red").css("border-top","0px solid blue").html("");
 		// 		});
-		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click'});
+		$('.example5closeDOMWindow').closeDOMWindow({eventType:'click', functionCallOnClose : true, functionCallAfterClose : 
+			function() {
+				var form = $("#saveFromQuery");
+				$("#updateMe").html("");
+				form.find("input[name='name']").val("");
+				form.find("input[name='name']").focus();
+			}
+		});
 		$.unblockUI();
 		if($(".filterTable").width() > 900){
 			$("#doc3").css("width",$(".filterTable").width()+400);
@@ -247,6 +254,7 @@
 	<div id="saveForm">
 		<g:formRemote action="saveFromQuery" controller="userList" name="saveFromQuery" url="${[action:'saveFromQuery',controller:'userList']}" update="updateMe">
 		<p style="font-size:1.1em;display:inline-table">Save your list </p>
+		<div id="updateMe"></div>
 		<table class="studyTable" style="width:55%;background-color:#f2f2f2">
 			<g:if test="${tags}">
    			<tr>
@@ -267,6 +275,7 @@
 		</tr>
 		<tr>
 			<td colspan="2" style="text-align:right">
+				<button class="example5closeDOMWindow btn btn-link" style="float:right;display:inline-table;cursor:pointer;text-decoration:underline"><g:message code="userList.close"/></button>
 				<input type="button" class="example5closeDOMWindow" value="${message(code:'userList.cancel')}" style="padding-right:5px"/>
 				<g:submitButton name="submit" id="submitButton" value="${message(code: 'userList.save')}"/>
 			</td>
@@ -274,14 +283,9 @@
 	</table>
 	</g:formRemote><br />
 	
-	<div id="updateMe">
-		
-	</div>
-	
 	<div id="example8Null" align="left" style="display:none;text-align:left;">
 	 	<p class="errorDetail" style="font-size:1.2em"><g:message code="userList.venn"/></p><br />
 	  </div>
-	  <span class="example5closeDOMWindow" style="float:right;display:inline-table;cursor:pointer;text-decoration:underline"><g:message code="userList.close"/></span>
 	
   </div>
 	
