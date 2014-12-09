@@ -5,9 +5,9 @@ class Study {
 		version false
 		id column:'data_source_id', generator: 'native', params: [sequence: 'DATA_SOURCE_SEQUENCE']
 		abstractText column: 'abstract'
-		//isPrecisionMedicine column: 'is_precision_medicine', type: 'yes_no', defaultValue: false
-		//isTranslationalResearch column: 'is_translational_research', type: 'yes_no',  defaultValue: false
-		//isPopulationGenetics column: 'is_population_genetics', type: 'yes_no',  defaultValue: false
+		isPrecisionMedicine column: 'is_precision_medicine', type: 'yes_no', defaultValue: 'N'
+		isTranslationalResearch column: 'is_translational_research', type: 'yes_no',  defaultValue: 'N'
+		isPopulationGenetics column: 'is_population_genetics', type: 'yes_no',  defaultValue: 'N'
 		pis joinTable: [name:'data_source_pis', key:'data_source_id', column:'contact_id']
 		pocs joinTable: [name:'data_source_pocs', key:'data_source_id', column:'contact_id']
 	}
@@ -44,9 +44,9 @@ class Study {
 	String insertMethod
 	Boolean genomicData
 	Boolean dynamicData
-	//Boolean isPrecisionMedicine
-	//Boolean isTranslationalResearch
-	//Boolean isPopulationGenetics
+	Boolean isPrecisionMedicine
+	Boolean isTranslationalResearch
+	Boolean isPopulationGenetics
 	
 	def hasDynamicData() {
 		dynamicData = content.find {
