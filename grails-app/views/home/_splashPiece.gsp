@@ -20,9 +20,9 @@
     </div>
 
     <div class="accordion">
-        <div class="header">Welcome to GDOC Plus Beta!</div>
+        <div class="header">Welcome to GDOC!</div>
         <div class="content">
-            <p>The Georgetown Database of Cancer Plus other diseases (G-DOC Plus) is a precision medicine platform containing molecular and clinical data from thousands of patients and cell lines, along with tools for analysis and data visualization.  The platform enables the integrative analysis of multiple data types to understand disease mechanisms.  G-DOC Plus has three overlapping entry points for the user based on their interests:  1) Personalized Medicine, 2) Translational Research, and 3) Population Genetics.  Please leave us feedback on your experience!</p>
+            <p>The Georgetown Database of Cancer (G-DOC) is a precision medicine platform containing molecular and clinical data from thousands of patients and cell lines, along with tools for analysis and data visualization.  The platform enables the integrative analysis of multiple data types to understand disease mechanisms.  G-DOC has three overlapping entry points for the user based on their interests:  1) Personalized Medicine, 2) Translational Research, and 3) Population Genetics.  Please leave us feedback on your experience!</p>
         </div>
         <div class="header">Precision Medicine</div>
         <div class="content">

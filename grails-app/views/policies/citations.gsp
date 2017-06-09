@@ -6,10 +6,16 @@
 		
     </head>
     <body>
-    <div class="welcome-title">Publications using G-DOC</div>
+    <div class="welcome-title">Selected Publications using G-DOC</div>
     <div class="features" >
 
 
+        <p  class="desc1">Bhuvaneshwar K, Belouali A, Singh V, Johnson RM, Song L, Alaoui A, Harris MA, Clarke R2, Weiner LM2, Gusev Y, Madhavan S.
+            <b>G-DOC Plus - an integrative bioinformatics platform for precision medicine.</b>
+            <i>BMC Bioinformatics.</i> Apr, 2016.
+            <a href="http://www.ncbi.nlm.nih.gov/pubmed/24312117" target="_blank">PubMed</a>
+        </p>
+        <br/>
         <p  class="desc1">Madhavan S, Gusev Y, Natarajan T, Song L, Bhuvaneshwar K, Gauba R, Pandey A, Haddad B,  Goerlitz D, Cheema A, Juhl H, Kallakury B, Marshall J, Byers S, Weiner L.
            <b>Genome-wide multi-omics profiling of colorectal cancer identifies immune determinants strongly associated with relapse. </b>
             <i>Frontiers in Genetics.</i> Nov, 2013.
@@ -44,6 +50,13 @@
             <i>PLoS O ne,</i>2013 Oct 2;8(10):e76402
             <a href="http://www.ncbi.nlm.nih.gov/pubmed/24098490" target="_blank">PubMed</a>
         </p>
+
+        <br/>
+        <br/>
+        <p  class="desc1">To view a complete list of publications citing G-DOC, click <a href="https://www.ncbi.nlm.nih.gov/pubmed?linkname=pubmed_pubmed_citedin&from_uid=21969811" target="_blank">here</a>
+        </p>
+        <br/>
+
     </div>
 
 		

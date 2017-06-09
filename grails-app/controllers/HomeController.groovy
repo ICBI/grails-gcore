@@ -1,4 +1,5 @@
 import grails.converters.*
+import org.biomage.Array.Array
 
 import javax.servlet.http.HttpServletResponse
 
@@ -41,9 +42,11 @@ class HomeController implements ApplicationContextAware{
 		def da = dataAvailableService.getMyDataAvailability(studies)
 		def breakdowns = dataAvailableService.getBreakdowns(da)
 		log.debug "retrieved breakdowns"
+        log.debug "*************************Breakdowns here********************" + breakdowns["disease"].sort()
+
 		String postUrl = "${request.contextPath}${sconfig.apf.filterProcessesUrl}"
 		
-		[postUrl: postUrl,diseaseBreakdown:breakdowns["disease"], dataBreakdown:breakdowns["data"], newsFeedMap:newsFeedMap,pubFeedMap:pubFeedMap, findings:findings]
+		[postUrl: postUrl,diseaseBreakdown:breakdowns["disease"].sort(), dataBreakdown:breakdowns["data"], newsFeedMap:newsFeedMap,pubFeedMap:pubFeedMap, findings:findings]
 	}
 	
 	def workflows = {
@@ -60,5 +63,9 @@ class HomeController implements ApplicationContextAware{
 	}
 	def releaseNotes = {
 		
+	}
+
+	def tutorials = {
+
 	}
 }

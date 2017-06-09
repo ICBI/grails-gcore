@@ -81,7 +81,7 @@
 
     <div class="welcome-title"><g:message code="study.title"/></div>
     <div class="desc">
-        All data in G-DOC Plus derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clincal and/or biospecimen data.
+        All data in G-DOC derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clincal and/or biospecimen data.
     </div>
 
         <div class="features"  >
@@ -133,7 +133,7 @@
                 <div class="tab-pane" id="myhistory">
                         <div  class="" style="font-size: 12px;">
                             <div class="desc1">
-                                The list below is your G-DOC Plus studies history. The history shows the last 10 studies that you selected.
+                                The list below is your G-DOC studies history. The history shows the last 10 studies that you selected.
                                 <br/><br/><input type="search" class="light-table-filter" data-table="order-table1" placeholder="Filter" />
                             </div>
                             <g:if test="${myHistory}">

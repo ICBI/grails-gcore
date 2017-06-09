@@ -33,16 +33,12 @@
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'navBar.css')}"/>
 		<link rel="stylesheet" href="${createLinkTo(dir: 'css',  file: 'slidorion.css')}"/>
 
-
-
-
 		<g:javascript>
 			$(document).ready(function(){
-			            ShowHideReq("Req");
+			            //showHideReq("Req");
 						$("[class*='info']").each(function(index){
 							$(this).tooltip({showURL: false});
 						});
-
 
 
 						$("[class*='sel']").each(function(index){
@@ -90,6 +86,16 @@
 				});
 			});
 		</g:javascript>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-46400679-3', 'auto');
+            ga('send', 'pageview');
+
+        </script>
 
     </head>
     <body>
@@ -125,10 +131,10 @@
 
 
                 </br>
-                <h2>Understanding Data in G-DOC Plus</h2>
+                <h2>Understanding Data in G-DOC</h2>
                 <h4>It all begins with a study...</h4>
                 </br>
-                <p>All data in G-DOC Plus derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clinical and/or biospecimen data. Below is an overview of studies by topic. <sup>*</sup></p>
+                <p>All data in G-DOC derives from studies on topics such as breast cancer, wound healing, or even 1,000 Genomes. Each study may contain clinical and/or biospecimen data. Below is an overview of studies by topic. <sup>*</sup></p>
                 <p class="footprint">* private studies, ones which are uploaded and marked private, are not counted here</p>
                 </br>
                 <ul class="studytype">

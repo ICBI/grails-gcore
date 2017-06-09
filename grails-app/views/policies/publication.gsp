@@ -10,6 +10,13 @@
     <div class="features" >
 
         <p style="font-size:14pt" class="desc"><g:message code="policies.publication" args="${[appTitle()]}"/></p>
+
+        <p  class="desc1">Bhuvaneshwar K, Belouali A, Singh V, Johnson RM, Song L, Alaoui A, Harris MA, Clarke R2, Weiner LM2, Gusev Y, Madhavan S.
+            <b>G-DOC Plus - an integrative bioinformatics platform for precision medicine.</b>
+            <i>BMC Bioinformatics.</i> Apr, 2016.
+        </p>
+
+
         <br/>
         <p class="desc1"><g:message code="policies.results" args="${[appLongName(), appTitle()]}"/></p>
 

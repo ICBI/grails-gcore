@@ -1,7 +1,7 @@
 dataSource {
 	pooled = true
-	driverClassName = "oracle.jdbc.OracleDriver" 
-	dialect = org.hibernate.dialect.OracleDialect.class
+	driverClassName = "oracle.jdbc.OracleDriver"
+	dialect = "org.hibernate.dialect.Oracle10gDialect"
 }
 hibernate {
     cache.use_second_level_cache=true
@@ -51,8 +51,15 @@ environments {
 	}
 	stage {
 		dataSource {
-			jndiName="java:gdoc"
-			logSql = false
+			/*jndiName="java:gdoc"
+			logSql = false*/
+			//url = "jdbc:oracle:thin:@localhost:1521:gdoc"
+			url = "jdbc:oracle:thin:@//ohs-test-1.uis.georgetown.edu:1521/gdoct_portal.svcs.gu"
+			driverClassName = "oracle.jdbc.OracleDriver"
+			dialect="org.hibernate.dialect.Oracle10gDialect"
+			username = "guidoc"
+			password = "cur34c4nc3r"
+			logSql = true
 		}
 	}
 	stage_load {

@@ -22,14 +22,14 @@
 		 </g:javascript>
     </head>
     <body>
-    <div class="welcome-title">G-DOC Plus Launch Pad!</div>
+    <div class="welcome-title">G-DOC Launch Pad!</div>
     <g:if test="${flash.message}">
         <div class="alert alert-info">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             ${flash.message}
         </div>
     </g:if>
-    	<div class="desc"> Welcome! The G-DOC Plus Launch Pad is your one-stop resource for learning more about G-DOC and getting started on the platform.</div>
+    	<div class="desc"> Welcome! The G-DOC Launch Pad is your one-stop resource for learning more about G-DOC and getting started on the platform.</div>
 		<div class="content-wrap">
 	     	<div class="features">
 	     	    <g:render template="/common/launchpad"/>

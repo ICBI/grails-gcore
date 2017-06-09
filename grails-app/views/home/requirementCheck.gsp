@@ -17,18 +17,18 @@
 				var flashData = checkFlash();
 				passCheck($('#flashPass'), flashData[0]);
 				$('#flashVersion').text(flashData[1]);
-				var javaData = checkJava();
+				/*var javaData = checkJava();
 				passCheck($('#javaPass'), javaData[0]);
 				$('#javaVersion').text(javaData[1]);
 				$('#javaLink').click(function() {
 					deployJava.installLatestJRE();
 					return false;
-				});
+				});*/
 
                 //Warning message for Java 7 and Chrome on Mac OS X and Linux
                 var OSName  = detectOS();
                 var browser = get_browser();
-                var testJava = detectJava();
+               /* var testJava = detectJava();
                 if ((OSName == 'MacOS' || OSName == 'Linux' || OSName == 'UNIX') && browser == 'Chrome' && testJava[1] =='' )
                 {
                     document.getElementById("chrome-on-mac-warning").innerHTML='<div class="well desc">You have '+browser +' running on '+OSName +'. '+
@@ -36,7 +36,7 @@
                             +'For more info visit this link: <a href="http://www.java.com/en/download/faq/chrome.xml">Java Website FAQ</a></div> '
                     ;
                     document.getElementById("requirements").style.display = "none"
-                }
+                }*/
 			});
 
 			
@@ -96,15 +96,7 @@
                 </div></td>
                 <td><a href="http://get.adobe.com/flashplayer/" target="_blank"><g:message code="home.flash" /></a></td>
             </tr>
-            <tr>
-                <td><g:message code="home.javaVersion" /></td>
-                <td><div id="javaVersion"></div></td>
-                <td><div id="javaPass" align="center">
-                    <img src="${createLinkTo(dir: 'images', file: 'accept.png')}" alt="${message(code: 'home.passAlt')}" style="display:none" class="pass"/>
-                    <img src="${createLinkTo(dir: 'images', file: 'cancel.png')}" alt="${message(code: 'home.failAlt')}" class="fail"/>
-                </div></td>
-                <td><a href="#" id="javaLink" target="_blank"><g:message code="home.java" /></a></td>
-            </tr>
+
         </table>
     <br/>
 

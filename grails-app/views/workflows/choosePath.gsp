@@ -83,7 +83,7 @@
 
     <div class="welcome-title">What's your area of interest?</div>
     <div class="desc">
-        G-DOC Plus has three overlapping entry points for the user based on their interests. Choose your area of interest to launch the workflow. <br/>
+        G-DOC has three overlapping entry points for the user based on their interests. Choose your area of interest to launch the workflow. <br/>
     </div>
 
     <div style="display: none">

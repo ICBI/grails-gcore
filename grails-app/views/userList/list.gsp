@@ -147,7 +147,7 @@
     <body>
 
     <div class="welcome-title"><g:message code="userList.manage"/></div>
-    <div class="desc">Below are all G-DOC Plus saved Lists. You can view, modify, upload, export and share Lists with other groups.
+    <div class="desc">Below are all G-DOC saved Lists. You can view, modify, upload, export and share Lists with other groups.
     </div>
     <span id="message" class="message" style="display:none"></span>
     <span style="display:none" class="ajaxController">userList</span>

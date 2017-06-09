@@ -19,11 +19,7 @@
 </div><br />
 <div class="desc"><img src="${createLinkTo(dir: 'images',  file: 'info.png')}" border="0" alt="" />Website and other info</div>
 <div class="desc1">
-    Feel free to visit <a href="http://lombardi.georgetown.edu/gdoc" target="_blank">http://lombardi.georgetown.edu/gdoc</a>.
-We also would like to provide presentations and links that further keep our users informed of
-the latest developments and general information.
-    <ul>
-        <li style="list-style-type:square;margin-left:15px"><a href="${grailsApplication.config.documentsPath}/G-DOC.introduction.pdf">G-DOC Introduction</a></li>
-    </ul>
+    Please visit <a href="https://icbi.georgetown.edu/gdoc" target="_blank">https://icbi.georgetown.edu/gdoc</a> for more information.
+    You can learn more about G-DOC by visting the <g:link controller="home" action="tutorials">tutorials</g:link> page.
 </div>
 </div>

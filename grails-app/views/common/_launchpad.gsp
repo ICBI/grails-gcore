@@ -21,7 +21,7 @@
 						<a href="/${appName()}/studyDataSource/">Studies</a>
 					</h3>
 					<div class="p">
-						<p>All data in G-DOC Plus are organized in studies. Following are your latest selected studies: </p>
+						<p>All data in G-DOC are organized in studies. Following are your latest selected studies: </p>
 
                         <ul>
                             <g:if test="${myHistory}">
@@ -63,7 +63,7 @@
 						<a href="/${appName()}/collaborationGroups/">Groups</a>
 					</h3>
 					<div class="p">
-						<p>In G-DOC Plus you can create collaboration groups, invite users to access your groups and also request access to other user groups.</p>
+						<p>In G-DOC you can create collaboration groups, invite users to access your groups and also request access to other user groups.</p>
 					</div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-resource"> <!-- open-div -->
@@ -90,7 +90,7 @@
 						<a href="/${appName()}/userList/list">Lists</a>
 					</h3>
 					<div class="p">
-						<p>G-DOC Plus enables you to save your lists for future use and sharing. Lists may be composed of either genes or patients and exported into multiple formats, including Microsoft Excel.</p>
+						<p>G-DOC enables you to save your lists for future use and sharing. Lists may be composed of either genes or patients and exported into multiple formats, including Microsoft Excel.</p>
 					</div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-resource"> <!-- open-div -->
@@ -115,7 +115,7 @@
 						<a href="/${appName()}/notification">Notifications</a>
 					</h3>
 					<div class="p">
-						<p>G-DOC Plus allows you to track your running and recent Analyses</p>
+						<p>G-DOC allows you to track your running and recent Analyses</p>
                         <g:if test="${notifications}">
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You have ${notifications.size()} recent <g:if test="${notifications.size()=='1'}">analysis. </g:if><g:else>analyses</g:else>
                         </g:if>
@@ -153,7 +153,7 @@
 					<a href="/${appName()}/savedAnalysis/">Analyses</a>
 				</h3>
 								<div class="p">
-					<p>G-DOC Plus supports your research needs by saving your analyses for future use and sharing.</p></div>
+					<p>G-DOC supports your research needs by saving your analyses for future use and sharing.</p></div>
 					<div class="featured-customer-links">
 						<div class="short-title node node-resource"> <!-- open-div -->
 							<a href="/${appName()}/savedAnalysis/" class="link-parent colorbox-node resource-link init-colorbox-node-processed-processed">
